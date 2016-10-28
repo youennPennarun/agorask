@@ -21,20 +21,16 @@
   },
   "jest": {
     "preset": "jest-react-native",
+    "setupFiles": ["jest/setup.js"],
+    "automock": false,
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
     "moduleFileExtensions": [
       "js",
-      "jsx",
-      "ios.js"
-    ],
-    "automock": true,
-    "unmockedModulePathPatterns": [
-      "react",
-      "enzyme"
-    ],
-    "verbose": false
+      "ios.js",
+      "android.js"
+    ]
   },
   "devDependencies": {
     "babel-jest": "16.0.0",
