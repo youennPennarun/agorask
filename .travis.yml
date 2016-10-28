@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - "6.2.0"
+services: mongodb
 env:
-  - TEST_DIR=server
-  - TEST_DIR=mobile_app
+  matrix:
+    - TEST_DIR=server MONGO_URL=mongodb://localhost/agorask
+    - TEST_DIR=mobile_app
 script: cd $TEST_DIR && npm install && ENV=test npm test
