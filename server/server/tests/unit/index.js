@@ -2,13 +2,7 @@
 /* eslint-disable global-require */
 
 const requireTests = require('../../../scripts/requireTests');
-try {
-  // eslint-disable-next-line global-require
-  require('dotenv').config();
-} catch(e) {
-  console.log('unable to load .env file');
-}
-
+require('dotenv').config({silent: true});
 process.env.MONGO_URL = process.env.MONGO_URL_TEST || process.env.MONGO_URL;
 const connection = require('../../utils/mongo/connect');
 

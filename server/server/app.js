@@ -1,12 +1,9 @@
 const koa = require('koa');
 const router = require('koa-router')();
 const routes = require('./routes');
-try {
-  // eslint-disable-next-line global-require
-  require('dotenv').config();
-} catch(e) {
-  console.log('unable to load .env file');
-}
+
+require('dotenv').config({silent: true});
+
 const mongoose = require('mongoose');
 const mongooseConnection = require('./utils/mongo/connect');
 
