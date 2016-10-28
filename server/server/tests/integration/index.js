@@ -1,6 +1,11 @@
 /* global describe, before */
 /* eslint-disable global-require */
-require('dotenv').config();
+try {
+  // eslint-disable-next-line global-require
+  require('dotenv').config();
+} catch(e) {
+  console.log('unable to load .env file');
+}
 console.log(process.env.ENV)
 const requireTests = require('../../../scripts/requireTests');
 
