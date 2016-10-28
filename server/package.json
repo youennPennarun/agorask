@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "node ./server/app.js",
-    "test": "npm run test:unit",
+    "test": "npm run test:unit && npm run test:integration",
     "test:unit": "npm run setupTestDb && mocha ./server/tests/unit/index.js",
     "test:integration": "npm run setupTestDb && ENV=test mocha ./server/tests/integration/index.js",
     "setupTestDb": "node ./scripts/setupTestDb.js",
