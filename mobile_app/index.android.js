@@ -7,9 +7,9 @@ import {
 
 import App from './src/components/App';
 
-export default function crowdThingy(): Object {
+export default function agorask(): Object {
   return <App />;
 }
 
 
-AppRegistry.registerComponent('crowdThingy', (): string => crowdThingy);
+AppRegistry.registerComponent('agorask', (): string => agorask);
