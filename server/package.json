@@ -1,0 +1,35 @@
+{
+  "name": "agorask_server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "chai": "^3.5.0",
+    "co": "^4.6.0",
+    "dotenv": "^2.0.0",
+    "jsonwebtoken": "^7.1.9",
+    "koa": "^1.2.4",
+    "koa-body": "^1.6.0",
+    "koa-router": "^5.4.0",
+    "mocha-generators": "^1.2.0",
+    "mongoose": "^4.6.5",
+    "mongoose-types": "^1.0.3",
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2"
+  },
+  "scripts": {
+    "start": "node ./server/app.js",
+    "test": "npm run test:unit",
+    "test:unit": "npm run setupTestDb && mocha ./server/tests/unit/index.js",
+    "test:integration": "npm run setupTestDb && ENV=test mocha ./server/tests/integration/index.js",
+    "setupTestDb": "node ./scripts/setupTestDb.js",
+    "coverage": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha -- ./server/tests/unit/index.js ./server/tests/integration/index.js"
+  }
+}

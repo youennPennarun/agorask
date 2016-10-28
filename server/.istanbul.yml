@@ -1,0 +1,5 @@
+instrumentation:
+  root: .
+  default_excludes: true
+  excludes:
+    - scripts/*

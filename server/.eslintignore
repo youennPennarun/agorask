@@ -1,0 +1,7 @@
+.tmp/*
+android/*
+assets/*
+ios/*
+Resources/*
+scripts/*
+test/*
