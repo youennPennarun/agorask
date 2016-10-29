@@ -9,6 +9,7 @@ const connection = require('../../utils/mongo/connect');
 const testsFiles = [
   {name: 'auth', file: './AuthentificationTest'},
   {name: 'user', file: './userServiceTest'},
+  {name: 'task', file: './TaskTest'},
   ];
 
 
