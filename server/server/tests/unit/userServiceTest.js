@@ -5,6 +5,8 @@ const expect = require('chai').expect;
 const User = require('../../services/User');
 const co = require('co');
 
+const userData = require('../data/userData');
+
 describe('UserService', () => {
   describe('login', () => {
     it('Should throw an error if the user doesn\'t exists', () => {
@@ -17,7 +19,7 @@ describe('UserService', () => {
     });
 
     it('Should get a user and return a token', () => {
-      return co(User.logIn('dougalMcGuire', 'password'))
+      return co(User.logIn(userData[8].username, 'password'))
         .then(token => {
           expect(token).to.be.ok;
         }).catch(e => {
@@ -86,7 +88,7 @@ describe('UserService', () => {
     });
 
     it('Should throw an error if the username is already taken', () => {
-      return co(User.register('tedCrilly', 'password', 'email@server.com'))
+      return co(User.register(userData[5].username, 'password', 'email@server.com'))
         .then(() => {
           throw new Error('Should have thrown an error');
         }, e => {

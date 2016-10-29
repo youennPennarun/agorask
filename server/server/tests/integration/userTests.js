@@ -33,7 +33,7 @@ describe('User Tests', () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: 'dougalMcGuire',
+            username: User[2].username,
             password: 'password',
           }),
         });
