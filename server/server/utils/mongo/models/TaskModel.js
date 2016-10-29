@@ -2,17 +2,15 @@ const mongoose = require('mongoose');
 
 
 const shortUser = mongoose.Schema({
-  postedBy: {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    username: {
-      type: String,
-      required: true,
-    },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
   },
-});
+  username: {
+    type: String,
+    required: true,
+  },
+}, { _id: false });
 const answer = mongoose.Schema({
   answer: {
     type: String,
@@ -26,7 +24,7 @@ const answer = mongoose.Schema({
     type: mongoose.Schema.Types.Date,
     required: true,
   },
-});
+}, { _id: false });
 const task = mongoose.Schema({
   title: {
     type: String,
