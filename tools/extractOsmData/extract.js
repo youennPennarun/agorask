@@ -1,11 +1,14 @@
-const exec = require('child_process').exec;
+#!/usr/bin/env node
+const Parser = require('./parseToJson');
+const spawn = require('child_process').spawn;
 
 // osmosis --read-xml ireland-and-northern-ireland-latest.osm --bounding-box top=54.633661 left=-5.972443 right=-5.870819 bottom=54.554096 --tf accept-nodes amenity=restaurant --write-xml belfast_restaurant.osm
 
 console.log(process.argv[2]);
 
 const test1 = {
-  output: './out.osm',
+  output: './out.js',
+  parse: true,
   bbox: {
     top: 54.633661,
     left: -5.972443,
@@ -21,7 +24,7 @@ const test1 = {
 
 
 function buildCommand(config) {
-  let cmd = `osmosis --read-xml ${process.argv[2]} `;
+  let cmd = `--read-xml ${process.argv[2]} `;
   if (config.bbox) {
     cmd += `--bounding-box top=${config.bbox.top} left=${config.bbox.left} right=${config.bbox.right} bottom=${config.bbox.bottom} `;
   }
@@ -38,17 +41,41 @@ function buildCommand(config) {
     }).join(' ');
     
   }
-  cmd += `  --write-xml ${config.output}`;
+  if (config.parse) {
+    cmd += `  --write-xml -`;
+  } else {
+    cmd += `  --write-xml ${config.output}`;
+  }
   return cmd;
 }
 
-const cmd = buildCommand(test1);
-console.log(cmd);
-exec(cmd, (err, stdout, stderr) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log(stdout);
+const parameters = buildCommand(test1).split(" ").filter(param => param !== '');
+
+console.log(parameters.join(' '));
+const ls = spawn('osmosis', parameters);
+
+if (test1.parse) {
+  const parser = new Parser(test1.output);
+  parser.fromStream(ls.stdout);
+}
+ls.stderr.on('data', (data) => {
+  console.log(`stderr: ${data}`);
 });
 
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+
+/* Kill spawn process before beeing kill */
+function exitHandler() {
+    ls.stdin.pause();
+    ls.kill(); 
+    process.exit();
+}
+
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler);
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler);

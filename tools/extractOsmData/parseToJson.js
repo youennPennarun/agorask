@@ -15,6 +15,9 @@ class Parser {
     const input=fs.createReadStream(inputFile);
     this._start(input);
   }
+  fromStream(stream) {
+    this._start(stream);
+  }
   _start(input) {
     this.documentsParsed = 0;
     this.output.write("[\n");
