@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
-    "chai": "registry:dt/chai#3.4.0+20160601211834"
+    "chai": "registry:dt/chai#3.4.0+20160601211834",
+    "mongoose": "registry:dt/mongoose#4.5.9+20161010180758"
   }
 }
