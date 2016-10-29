@@ -1,5 +1,6 @@
 const parseNode = (node) => {
   const parsedNode = {
+    osmId: node.$.id,
     name: null,
     amenity: null,
     address: {
