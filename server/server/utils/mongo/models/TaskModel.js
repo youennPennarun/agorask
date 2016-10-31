@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const venueSubModels = require('./subModels/venueSubModels');
 
 
 const shortUser = mongoose.Schema({
@@ -25,6 +26,13 @@ const answer = mongoose.Schema({
     required: true,
   },
 }, { _id: false });
+
+const taskVenue = mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  name: String,
+  address: venueSubModels.address,
+}, { _id: false });
+
 const task = mongoose.Schema({
   title: {
     type: String,
@@ -39,9 +47,7 @@ const task = mongoose.Schema({
     type: mongoose.Schema.Types.Date,
     required: true,
   },
-  venue: {
-    type: String,
-  },
+  venue: taskVenue,
 });
 
 

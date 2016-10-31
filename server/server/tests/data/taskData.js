@@ -1,4 +1,5 @@
 const users = require('./userData');
+const venues = require('./venueData');
 
 module.exports = [
   {
@@ -19,7 +20,11 @@ module.exports = [
       },
     ],
     date: '2016-10-29T03:24:08.671Z',
-    venue: '',
+    venue: {
+      _id: venues[5]._id,
+      address: venues[5].address,
+      name: venues[5].name,
+    },
   },
   {
     _id: '581411784d79072f3b799aca',
@@ -55,7 +60,11 @@ module.exports = [
       },
     ],
     date: '2016-10-29T03:27:25.527Z',
-    venue: '',
+    venue: {
+      _id: venues[8]._id,
+      address: venues[8].address,
+      name: venues[8].name,
+    },
   },
   {
     _id: '581411784d79072f3b799acb',
@@ -75,7 +84,11 @@ module.exports = [
       },
     ],
     date: '2016-10-29T03:27:25.527Z',
-    venue: '',
+    venue: {
+      _id: venues[0]._id,
+      address: venues[0].address,
+      name: venues[0].name,
+    },
   },
   {
     _id: '581411d6b0fce75c59f74d6c',
@@ -86,7 +99,11 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-29T03:27:25.527Z',
-    venue: '',
+    venue: {
+      _id: venues[6]._id,
+      address: venues[6].address,
+      name: venues[6].name,
+    },
   },
   {
     _id: '581411e0b0fce75c59f74d6d',
@@ -97,26 +114,10 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-29T03:27:25.527Z',
-    venue: '',
-  },
-  {
-    _id: '581411eab0fce75c59f74d6e',
-    title: 'Question 5',
-    postedBy: {
-      userId: users[1]._id,
-      username: users[1].username,
+    venue: {
+      _id: venues[2]._id,
+      address: venues[2].address,
+      name: venues[2].name,
     },
-    answers: [
-      {
-        answer: 'Answer',
-        postedBy: {
-          userId: users[10]._id,
-          username: users[10].username,
-        },
-        date: '2016-10-29T03:27:25.527Z',
-      },
-    ],
-    date: '2016-10-29T03:27:25.527Z',
-    venue: '',
   },
 ];
