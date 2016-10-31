@@ -2,14 +2,9 @@ const mongoose = require('mongoose');
 
 const address = mongoose.Schema({
   location: {
-    latitude: {
-      type: Number,
-      required: true,
-    },
-    longitude: {
-      type: Number,
-      required: true,
-    },
+    type: [Number], // [longitude, latitude]
+    index: '2d',
+    required: true,
   },
   houseNumber: mongoose.Schema.Types.String,
   postcode: mongoose.Schema.Types.String,

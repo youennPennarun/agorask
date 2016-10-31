@@ -9,10 +9,7 @@ module.exports = [{
   },
   'name': 'The Apartment',
   'address': {
-    'location': {
-      'latitude': 54.5969638,
-      'longitude': -5.931764
-    },
+    'location': [-5.931764, 54.5969638],
     'houseNumber': '2',
     'postcode': 'BT1 6JA',
     'street': 'Donegall Square West'
@@ -27,10 +24,7 @@ module.exports = [{
   },
   'name': 'Tesco Metro',
   'address': {
-    'location': {
-      'latitude': 54.6003581,
-      'longitude': -5.8783357
-    }
+    'location': [-5.8783357, 54.6003581]
   },
   'shop': 'supermarket'
 }, {
@@ -42,10 +36,7 @@ module.exports = [{
   },
   'name': 'Four Winds',
   'address': {
-    'location': {
-      'latitude': 54.5558868,
-      'longitude': -5.893819
-    },
+    'location': [-5.893819, 54.5558868],
     'street': 'Newton Park',
     'postcode': 'BT8 6LX',
     'houseNumber': '111'
@@ -61,10 +52,7 @@ module.exports = [{
   },
   'name': 'Tesco',
   'address': {
-    'location': {
-      'latitude': 54.5555226,
-      'longitude': -5.9071303
-    }
+    'location': [-5.9071303, 54.5555226]
   },
   'shop': 'supermarket'
 }, {
@@ -76,10 +64,7 @@ module.exports = [{
   },
   'name': 'The Botanic Inn',
   'address': {
-    'location': {
-      'latitude': 54.5809886,
-      'longitude': -5.9385555
-    }
+    'location': [-5.9385555, 54.5809886]
   },
   'amenity': 'pub'
 }, {
@@ -91,10 +76,7 @@ module.exports = [{
   },
   'name': 'Ye Olde Eglantine Inn',
   'address': {
-    'location': {
-      'latitude': 54.5808509,
-      'longitude': -5.9380618
-    },
+    'location': [-5.9380618, 54.5808509],
     'houseNumber': '32',
     'postcode': 'BT9 5BQ',
     'street': 'Malone Road'
@@ -110,10 +92,7 @@ module.exports = [{
   },
   'name': 'Muriel\'s ',
   'address': {
-    'location': {
-      'latitude': 54.6000405,
-      'longitude': -5.9253326
-    },
+    'location': [-5.9253326, 54.6000405],
     'houseNumber': '12',
     'postcode': 'BT1 4QN',
     'street': 'Church Lane'
@@ -128,10 +107,7 @@ module.exports = [{
   },
   'name': 'Ten Square',
   'address': {
-    'location': {
-      'latitude': 54.5958878,
-      'longitude': -5.9301928
-    }
+    'location': [-5.9301928, 54.5958878]
   },
   'amenity': 'pub'
 }, {
@@ -143,10 +119,7 @@ module.exports = [{
   },
   'name': 'The Basement',
   'address': {
-    'location': {
-      'latitude': 54.5964173,
-      'longitude': -5.9283585
-    }
+    'location': [-5.9283585, 54.5964173]
   },
   'amenity': 'pub'
 }, {
@@ -158,10 +131,7 @@ module.exports = [{
   },
   'name': 'Limelight 1',
   'address': {
-    'location': {
-      'latitude': 54.5929274,
-      'longitude': -5.9290437
-    }
+    'location': [-5.9290437, 54.5929274]
   },
   'amenity': 'pub'
 }, {
@@ -173,10 +143,7 @@ module.exports = [{
   },
   'name': 'Limelight 2',
   'address': {
-    'location': {
-      'latitude': 54.5927931,
-      'longitude': -5.9283928
-    }
+    'location': [-5.9283928, 54.5927931]
   },
   'amenity': 'pub'
 }, {
@@ -188,10 +155,7 @@ module.exports = [{
   },
   'name': 'Tesco',
   'address': {
-    'location': {
-      'latitude': 54.5958159,
-      'longitude': -5.8714987
-    }
+    'location': [-5.8714987, 54.5958159]
   },
   'shop': 'supermarket'
 }, {
@@ -203,10 +167,7 @@ module.exports = [{
   },
   'name': 'the bar with no name',
   'address': {
-    'location': {
-      'latitude': 54.5915045,
-      'longitude': -5.9323268
-    },
+    'location': [-5.9323268, 54.5915045],
     'street': 'Dublin Road',
     'houseNumber': '44'
   },
