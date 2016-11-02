@@ -1,31 +1,6 @@
 const users = require('./userData');
-const venues = require('./venueData');
 
 module.exports = [
-  {
-    _id: '581411784d79072f3b799ac9',
-    title: 'At what time does it open',
-    postedBy: {
-      userId: users[0]._id,
-      username: users[0].username,
-    },
-    answers: [
-      {
-        answer: 'At 09:00am',
-        postedBy: {
-          userId: users[1]._id,
-          username: users[1].username,
-        },
-        date: '2016-10-29T03:27:25.527Z',
-      },
-    ],
-    date: '2016-10-29T03:24:08.671Z',
-    venue: {
-      _id: venues[5]._id,
-      address: venues[5].address,
-      name: venues[5].name,
-    },
-  },
   {
     _id: '581411784d79072f3b799aca',
     title: 'Question 2',
@@ -60,11 +35,7 @@ module.exports = [
       },
     ],
     date: '2016-10-29T03:27:25.527Z',
-    venue: {
-      _id: venues[8]._id,
-      address: venues[8].address,
-      name: venues[8].name,
-    },
+    venue: '581773476d568ac7723e1bae',
   },
   {
     _id: '581411784d79072f3b799acb',
@@ -84,11 +55,7 @@ module.exports = [
       },
     ],
     date: '2016-10-29T03:27:25.527Z',
-    venue: {
-      _id: venues[0]._id,
-      address: venues[0].address,
-      name: venues[0].name,
-    },
+    venue: '581773476d568ac7723e1bae',
   },
   {
     _id: '581411d6b0fce75c59f74d6c',
@@ -99,11 +66,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-29T03:27:25.527Z',
-    venue: {
-      _id: venues[6]._id,
-      address: venues[6].address,
-      name: venues[6].name,
-    },
+    venue: '5817738f6d568ac7723e1baf',
   },
   {
     _id: '581411e0b0fce75c59f74d6d',
@@ -114,10 +77,39 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-29T03:27:25.527Z',
-    venue: {
-      _id: venues[2]._id,
-      address: venues[2].address,
-      name: venues[2].name,
+    venue: '5817739f6d568ac7723e1bb2',
+  },
+  {
+    _id: '5819d362432c548620b9093b',
+    title: 'Question 6',
+    postedBy: {
+      userId: users[10]._id,
+      username: users[10].username,
     },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817739f6d568ac7723e1bb2',
+  },
+  {
+    _id: '5819d35c432c548620b9093a',
+    title: 'Question 7',
+    postedBy: {
+      userId: users[7]._id,
+      username: users[7].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
+  {
+    _id: '5819d357432c548620b90939',
+    title: 'Question 8',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
   },
 ];

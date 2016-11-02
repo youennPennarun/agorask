@@ -41,6 +41,7 @@ describe('User Tests', () => {
         const json = yield response.json();
         expect(json).to.have.property('token');
         expect(json.token).to.be.a('string').and.not.be.null;
+        console.log(json);
       });
     });
 

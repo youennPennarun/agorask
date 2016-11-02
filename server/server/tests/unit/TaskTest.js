@@ -26,6 +26,7 @@ describe('Tasks', () => {
     it('Should return 2 tasks skipping the three first', () => {
       return co(Task.getTasks(3, 2))
         .then(tasks => {
+          console.log(tasks)
           expect(tasks).to.be.an.Array;
           expect(tasks).to.have.length(2);
           const cleaned = cleanMongooseObject(tasks);
@@ -73,8 +74,5 @@ describe('Tasks', () => {
   });
 
   describe('Add a task', () => {
-    it ('Should work', () => {
-      throw new Error('not implemented yet');
-    });
   });
 });
