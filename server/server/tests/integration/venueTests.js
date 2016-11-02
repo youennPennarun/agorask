@@ -121,4 +121,29 @@ describe('Venue Tests', () => {
       });
     });
   });
+
+  describe('Searh tasks in circle with tasks', () => {
+    it('Should venues with tasks within 200 meter of [-5.9283928, 54.5927931] with a radius of 0.2 km', () => {
+        return co(function* () {
+        const response = yield fetch(`http://localhost:3000/venues/?token=${token}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            lat: 54.5927931,
+            lng: -5.9283928,
+            onlyWithTasks: true,
+          }),
+        });
+        expect(response.status).to.be.equal(200);
+        const venues = yield response.json();
+        venues.forEach(venue => {
+          expect(venue.tasks).to?have.length.above(1);
+        });
+      });
+    });
+  });
+
 });
