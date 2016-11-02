@@ -17,7 +17,8 @@ const test1 = {
   },
   accept: {
     nodes: {
-      amenity: ['pub', 'bar']
+      amenity: ['pub', 'bar'],
+      shop: '*',
     }
   }
 };
@@ -31,12 +32,12 @@ function buildCommand(config) {
   if (config.accept) {
     cmd += '--tf ';
     cmd += Object.keys(config.accept).map(type => {
-      return Object.keys(config.accept[type]).map(searchKey => {
+      return `accept-${type}` + Object.keys(config.accept[type]).map(searchKey => {
         let values = config.accept[type][searchKey];
         if (typeof values === 'array') {
           values = values.join(',');
         }
-        return `accept-${type} ${searchKey}=${values} `;
+        return ` ${searchKey}=${values} `;
       }).join(' ');
     }).join(' ');
     

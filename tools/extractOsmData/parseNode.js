@@ -1,13 +1,13 @@
 const parseNode = (node) => {
   const parsedNode = {
-    osmId: node.$.id,
+    source: {
+      name: 'osm',
+      osmId: node.$.id,
+      updated: node.$.timestamp,
+    },
     name: null,
-    amenity: null,
     address: {
-      location: {
-        latitude: parseFloat(node.$.lat),
-        longitude: parseFloat(node.$.lon),
-      },
+      location: [parseFloat(node.$.lon), parseFloat(node.$.lat)],
     },
   };
   node.$children.forEach(child => {
@@ -30,6 +30,9 @@ const parseNode = (node) => {
         break;
       case 'amenity':
         parsedNode.amenity = child.$.v;
+        break;
+      case 'shop':
+        parsedNode.shop = child.$.v;
         break;
       case 'name':
         parsedNode.name = child.$.v;
