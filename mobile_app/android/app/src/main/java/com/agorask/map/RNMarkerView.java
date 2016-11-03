@@ -43,8 +43,8 @@ public class RNMarkerView extends MapFeature {
 
     private MarkerOptions createOptions() {
         Log.d("RNMarkerView", "create marker options");
-        MarkerOptions options = new MarkerOptions().position(position);
-        
+        MarkerOptions options = new MarkerOptions()
+                .position(position);
         return options;
     }
 
@@ -53,5 +53,13 @@ public class RNMarkerView extends MapFeature {
             this.options = createOptions();
         }
         return this.options;
+    }
+
+    public LatLng getPosition() {
+        return position;
+    }
+
+    public Object getFeature() {
+        return this.marker;
     }
 }

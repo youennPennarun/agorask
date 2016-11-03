@@ -14,6 +14,8 @@ public abstract class MapFeature extends ReactViewGroup {
         super(context);
     }
 
+    public abstract Object getFeature();
+
     public abstract void add(GoogleMap map);
 
     public abstract void remove(GoogleMap map);

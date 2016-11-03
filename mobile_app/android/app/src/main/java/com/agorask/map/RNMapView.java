@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,15 +17,19 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RNMapView extends MapView
     implements OnMapReadyCallback {
 
 
     private final List<MapFeature> features = new ArrayList<>();
+    private final Map<Marker, RNMarkerView> markers = new HashMap<>();
     private final MapManager mapManager;
     private final ReactApplicationContext context;
     private GoogleMap map;
@@ -44,7 +49,21 @@ public class RNMapView extends MapView
     public void onMapReady(final GoogleMap map) {
         Log.i("RNMapView", "onMapReady");
         this.map = map;
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                RNMarkerView clickedMarker = markers.get(marker);
+                Log.i("RNMapView", "onMarkerClick");
 
+                if (clickedMarker != null){
+                    WritableMap event = new WritableNativeMap();
+                    Log.i("RNMapView", "Push 'onPress' event");
+                    mapManager.pushEvent(clickedMarker, "onPress", event);
+                    return true;
+                }
+                return false;
+            }
+        });
         mapManager.pushEvent(this, "onMapReady", new WritableNativeMap());
 
         map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -98,6 +117,7 @@ public class RNMapView extends MapView
             RNMarkerView marker = (RNMarkerView) child;
             marker.add(map);
             features.add(index, marker);
+            markers.put((Marker)marker.getFeature(), marker);
         } else {
             Log.e("RNMap", "Cannot add a child of class " + child.getClass());
         }
@@ -106,6 +126,9 @@ public class RNMapView extends MapView
         if (features.size() <= index)
             return;
         MapFeature feature = features.remove(index);
+        if (feature instanceof RNMarkerView) {
+            markers.remove(feature.getFeature());
+        }
         feature.remove(map);
     }
 }
