@@ -1,6 +1,8 @@
 const koa = require('koa');
 const router = require('koa-router')();
+const koaBunyanLogger = require('koa-bunyan-logger');
 const routes = require('./routes');
+
 
 require('dotenv').config({silent: true});
 
@@ -13,6 +15,9 @@ mongooseConnection.once('open', function() {
 });
 
 const app = koa();
+app.use(koaBunyanLogger());
+app.use(koaBunyanLogger.requestIdContext());
+app.use(koaBunyanLogger.requestLogger());
 
 routes(router);
 const port = process.env.SERVER_PORT || 3000;
