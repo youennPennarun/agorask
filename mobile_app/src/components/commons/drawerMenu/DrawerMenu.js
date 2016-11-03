@@ -26,7 +26,11 @@ class DrawerMenu extends Component {
   constructor(props: DrawerMenuPropsType) {
     super(props);
     this._panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: (): boolean => true,
+      onStartShouldSetPanResponder: () => false,
+      onStartShouldSetPanResponderCapture: () => false,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => (
+        gestureState.dx !== 0 && gestureState.dy !== 0
+      ),
       onPanResponderMove: (evt, gestureState) => {
         this._onPanResponderMove(evt, gestureState);
       },
@@ -44,7 +48,7 @@ class DrawerMenu extends Component {
 
   _onPanResponderMove(evt, gestureState) {
     const {dx} = gestureState;
-    if (dx <= 0) {
+    if (dx <= -2) {
       this.state.drawerRight.setValue(dx);
     }
   }
@@ -101,6 +105,18 @@ class DrawerMenu extends Component {
                   size={20}
                   color='white' />
                 <Text style={styles.label}>Settings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.item}
+                onPress={() => {
+                  console.log('!!!!!!!!!!!!!!');
+                  this.close();
+                  this.props.pushRoute({key: 'login'});
+                }} >
+                <Icon name='account-circle'
+                  style={styles.icon}
+                  size={20}
+                  color='white' />
+                <Text style={styles.label}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -175,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 0.8,
   },
   footer: {
-    flex: 0.2,
+    flex: 0.3,
   },
 });
 

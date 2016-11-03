@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
 
 import {login} from '../../../redux/actions/user';
-import {pushRoute} from '../../../redux/actions/router';
+import {popRoute} from '../../../redux/actions/router';
 
 
 const {width} = Dimensions.get('window');
@@ -115,7 +115,7 @@ const mapDispatchToProps = (dispatch) => ({
   doLogin: (username: string, password: string) => {
     dispatch(login(username, password));
   },
-  goToMap: (): null => dispatch(pushRoute('map')),
+  goToMap: (): null => dispatch(popRoute()),
 });
 
 

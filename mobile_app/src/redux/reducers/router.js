@@ -1,36 +1,32 @@
 import {PUSH, POP} from '../actions/router';
+import {NavigationExperimental} from 'react-native';
 
-const defaultState = {
-  currentRoute: {
-    name: 'map',
-    props: {},
-  },
-  history: [],
+const {
+ StateUtils: NavigationStateUtils,
+} = NavigationExperimental;
+
+const initialState = {
+  index: 0,
+  key: 'App',
+  routes: [
+    {
+      key: 'map',
+    },
+  ],
 };
-
-function router(state = defaultState, action) {
- switch (action.type) {
+function navigator (currentState = initialState, action) {
+  switch (action.type) {
     case PUSH:
-      return {
-        history: [
-          ...state.history,
-          state.currentRoute,
-        ],
-        currentRoute: action.nextRoute,
-      };
+      return NavigationStateUtils.push(currentState, action.route);
     case POP:
-      const nextRoute = state.history.pop();
-      return {
-        history: [
-          ...state.history,
-        ],
-        currentRoute: nextRoute,
-      };
+      return currentState.index > 0 ?
+        NavigationStateUtils.pop(currentState) :
+        currentState;
     default:
-      return state;
- }
+      return currentState;
+  }
 }
 
 export default {
-  router,
+  navigator,
 };

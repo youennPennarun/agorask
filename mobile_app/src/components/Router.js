@@ -1,11 +1,17 @@
 /* @flow */
 
-import React, {Component} from 'react';
-import { View } from 'react-native';
+import React, {Component, PropTypes} from 'react';
+import { View, NavigationExperimental, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
+import {popRoute} from '../redux/actions/router';
+
+const {
+  CardStack: NavigationCardStack,
+} = NavigationExperimental;
 
 import Map from './views/map/MapView';
 import LoginView from './views/login/LoginView';
+import VenueDetails from './views/venueDetails/VenueDetails';
 
 export class Router extends Component {
   static routes = {
@@ -15,35 +21,56 @@ export class Router extends Component {
     login: {
       component: LoginView,
     },
+    venueDetails: {
+      component: VenueDetails,
+    },
   }
 
-  _renderRoute(): Object {
-    const {currentRoute} = this.props;
-    const routeConfig = Router.routes[currentRoute.name];
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.props.navigator.routes.length > 1) {
+        this.props.back();
+        return true;
+      }
+      return false;
+    });
+  }
+
+  _renderScene({ scene }): Object {
+    const routeConfig = Router.routes[scene.route.key];
     if (routeConfig) {
       return React.createElement(routeConfig.component, {
-        ...currentRoute.props,
+        ...scene.route,
         openDrawer: this.props.openDrawer,
       });
     }
     return <View />;
   }
 
-  render(): Object {
+  render() {
+    const {navigator} = this.props;
     return (
-      <View style={{flex: 1}}>
-        {this._renderRoute()}
-      </View>
+      <NavigationCardStack style={{flex: 1}}
+        onNavigateBack={() => { this._onPopRoute(); }}
+        navigationState={navigator}
+        renderScene={(sceneProps) => this._renderScene(sceneProps)} />
     );
   }
 }
-Router.propTypes = {};
+Router.propTypes = {
+  openDrawer: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
-  currentRoute: state.router.currentRoute,
+  navigator: state.navigator,
 });
+const mapDispatchToProps = (dispatch) => ({
+  back: () => { dispatch(popRoute()); },
+});
+
 
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(Router);
