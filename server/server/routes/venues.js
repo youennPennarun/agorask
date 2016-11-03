@@ -8,7 +8,7 @@ module.exports = function(router) {
    * @params {ObjectId} id: Id of the venue to return
    * @return {Venue}
    */
-  router.get('/venues/:id', isLoggedIn, getVenue);
+  router.get('/venues/:id', getVenue);
 
-  router.post('/venues/', isLoggedIn, koaBody, getVenuesWithinRadius);
+  router.post('/venues/', koaBody, getVenuesWithinRadius);
 };
