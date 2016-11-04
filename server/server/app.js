@@ -20,7 +20,7 @@ app.use(koaBunyanLogger.requestIdContext());
 app.use(koaBunyanLogger.requestLogger());
 
 routes(router);
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.PORT || 3000;
 app
   .use(function* (next) {
     try {
