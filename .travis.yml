@@ -6,4 +6,4 @@ env:
   matrix:
     - TEST_DIR=server MONGO_URL=mongodb://localhost/agorask
     - TEST_DIR=mobile_app
-script: cd $TEST_DIR && npm install && ENV=test npm codecov
+script: cd $TEST_DIR && npm install && ENV=test npm run codecov
