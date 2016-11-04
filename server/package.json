@@ -24,6 +24,7 @@
     "node-fetch": "^1.6.3"
   },
   "devDependencies": {
+    "codecov": "^1.0.1",
     "eslint": "^3.8.1",
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.0.1",
@@ -36,6 +37,7 @@
     "test:unit": "npm run setupTestDb && mocha ./server/tests/unit/index.js",
     "test:integration": "npm run setupTestDb && ENV=test mocha ./server/tests/integration/index.js",
     "setupTestDb": "node ./scripts/setupTestDb.js",
-    "coverage": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha -- ./server/tests/unit/index.js ./server/tests/integration/index.js"
+    "coverage": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha -- ./server/tests/unit/index.js ./server/tests/integration/index.js",
+    "codecov": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha --report lcovonly -- -R spec -- ./server/tests/unit/index.js ./server/tests/integration/index.js  && codecov",
   }
 }

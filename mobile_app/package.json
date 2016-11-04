@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
     "test": "jest",
-    "flow": "flow"
+    "flow": "flow",
+    "codecov": "jest && codecov"
   },
   "dependencies": {
     "enzyme": "^2.5.1",
@@ -32,11 +33,14 @@
       "js",
       "ios.js",
       "android.js"
-    ]
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "devDependencies": {
     "babel-jest": "16.0.0",
     "babel-preset-react-native": "1.9.0",
+    "codecov": "^1.0.1",
     "enzyme-to-json": "^1.1.5",
     "eslint": "^3.8.1",
     "eslint-config-airbnb-base": "^9.0.0",
