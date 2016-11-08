@@ -18,3 +18,6 @@ For more information, check the official [React Native documentation](https://fa
 ```
 $- yarn start
 ```
+```
+$- react-native run-android
+```
