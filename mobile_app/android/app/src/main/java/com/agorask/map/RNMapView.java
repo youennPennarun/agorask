@@ -1,6 +1,7 @@
 package com.agorask.map;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RNMapView extends MapView
-    implements OnMapReadyCallback {
+    implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
 
     private final List<MapFeature> features = new ArrayList<>();
@@ -66,6 +67,7 @@ public class RNMapView extends MapView
         });
         mapManager.pushEvent(this, "onMapReady", new WritableNativeMap());
 
+        map.setOnMapLongClickListener(this);
         map.getUiSettings().setMyLocationButtonEnabled(true);
         map.setMyLocationEnabled(true);
         zoomOnUserLocation();
@@ -90,6 +92,18 @@ public class RNMapView extends MapView
         };
 
         context.addLifecycleEventListener(listener);
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        WritableMap event = new WritableNativeMap();
+        event.putDouble("lat", latLng.latitude);
+        event.putDouble("lng", latLng.longitude);
+        Point point = map.getProjection().toScreenLocation(latLng);
+        event.putDouble("x", point.x);
+        event.putDouble("y", point.y);
+        Log.i("RNMapView", "Push 'onLongPress' event");
+        mapManager.pushEvent(this, "onLongPress", event);
     }
 
     public void zoomOnUserLocation() {

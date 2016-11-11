@@ -37,7 +37,8 @@ public class MapManager extends ViewGroupManager<RNMapView> {
     @Nullable
     public Map getExportedCustomDirectEventTypeConstants() {
         Map<String, Map<String, String>> map = MapBuilder.of(
-                "onMapReady", MapBuilder.of("registrationName", "onMapReady")
+                "onMapReady", MapBuilder.of("registrationName", "onMapReady"),
+                "onLongPress", MapBuilder.of("registrationName", "onLongPress")
         );
 
         return map;

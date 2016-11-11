@@ -1,8 +1,9 @@
 /* @flow */
 
 import React, {Component, PropTypes} from 'react';
-import {View, requireNativeComponent} from 'react-native';
+import {View, requireNativeComponent, PixelRatio} from 'react-native';
 
+const ratio = PixelRatio.get();
 
 // eslint-disable-next-line react/prefer-es6-class
 class MapWrapper extends Component {
@@ -16,6 +17,12 @@ class MapWrapper extends Component {
     }
     this.setState({isMapReady: true});
   }
+  _onLongPress(event) {
+    const {x, y, lat, lng} = event.nativeEvent;
+    if (this.props.onLongPress) {
+      this.props.onLongPress(x / ratio, y / ratio, lat, lng);
+    }
+  }
 
   render(): Object {
     let props = {
@@ -26,6 +33,7 @@ class MapWrapper extends Component {
       props = {
         ...props,
         ...this.props,
+        onLongPress: (event) => { this._onLongPress(event); },
       };
     }
 
