@@ -25,7 +25,7 @@ describe('Venue Tests', () => {
       });
     });
   });
-  describe('Get venues close to a lat,lng ', () => {
+  describe('Get venues with tasks close to a lat,lng ', () => {
     it('get close venues', () => {
       return co(function* () {
         const response = yield fetch(`http://localhost:3000/venues/`, {
@@ -89,31 +89,6 @@ describe('Venue Tests', () => {
           }),
         });
         expect(response.statusText).to.be.equal('Bad Request');
-      });
-    });
-  });
-
-  describe('Searh tasks in circle with tasks', () => {
-    it('Should venues with tasks within 200 meter of [-5.9283928, 54.5927931] with a radius of 0.2 km', () => {
-        return co(function* () {
-        const response = yield fetch(`http://localhost:3000/venues/`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            lat: 54.5927931,
-            lng: -5.9283928,
-            radius: 10,
-            onlyWithTasks: true,
-          }),
-        });
-        expect(response.status).to.be.equal(200);
-        const venues = yield response.json();
-        venues.forEach(venue => {
-          expect(venue.tasks).to.have.length.above(0);
-        });
       });
     });
   });

@@ -21,6 +21,7 @@
     "mocha-generators": "^1.2.0",
     "mongoose": "^4.6.5",
     "mongoose-types": "^1.0.3",
+    "nock": "^9.0.2",
     "node-fetch": "^1.6.3"
   },
   "devDependencies": {

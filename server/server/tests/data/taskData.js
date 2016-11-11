@@ -112,4 +112,70 @@ module.exports = [
     date: '2016-10-29T03:27:25.527Z',
     venue: '5817745c6d568ac7723e1bb9',
   },
+  {
+    _id: '5826210e6740058d9be74889',
+    title: 'When does it open?',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
+  {
+    _id: '582621076740058d9be74888',
+    title: 'Is there food?',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
+  {
+    _id: '582621026740058d9be74887',
+    title: 'Are the people nice?',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
+  {
+    _id: '582620f96740058d9be74886',
+    title: 'Could you find a question to ask please?',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
+  {
+    _id: '582620f46740058d9be74885',
+    title: 'Is it cheap?',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
+  {
+    _id: '582620ed6740058d9be74884',
+    title: 'Is the food good?',
+    postedBy: {
+      userId: users[3]._id,
+      username: users[3].username,
+    },
+    answers: [],
+    date: '2016-10-29T03:27:25.527Z',
+    venue: '5817745c6d568ac7723e1bb9',
+  },
 ];

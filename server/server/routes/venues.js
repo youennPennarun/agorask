@@ -1,6 +1,6 @@
 const koaBody = require('koa-body')();
 const {isLoggedIn} = require('../middleware/users');
-const {getVenue, getVenuesWithinRadius} = require('../middleware/venues');
+const {getVenue, getVenuesWithTasks, getPicture} = require('../middleware/venues');
 
 
 module.exports = function(router) {
@@ -9,6 +9,7 @@ module.exports = function(router) {
    * @return {Venue}
    */
   router.get('/venues/:id', getVenue);
+  router.get('/venues/:id/image', getPicture);
 
-  router.post('/venues/', koaBody, getVenuesWithinRadius);
+  router.post('/venues/', koaBody, getVenuesWithTasks);
 };

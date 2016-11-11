@@ -16,16 +16,36 @@ const venueTaskSchema = mongoose.Schema({
   },
 }, {required: true});
 
+const categorySchema = mongoose.Schema({
+  name: String,
+  icon: String,
+}, {_id: false});
+
 const venue = mongoose.Schema({
     name: {
       type: String,
       required: true,
     },
+    foursquareId: String,
     source: mongoose.Schema.Types.Mixed,
+    contact: Object,
     address: {
       type: venueSubModels.address,
       required: true,
     },
+    website: String,
+    categories: [categorySchema],
+    hours: [{
+      days: String,
+      time: [String],
+      _id: false,
+    }],
+    pictures: {
+      prefix: String,
+      suffix: String,
+      width: Number,
+      height: Number,
+  },
     amenity: String,
     tasks: [venueTaskSchema],
 });

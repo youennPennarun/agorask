@@ -6,11 +6,8 @@ const address = mongoose.Schema({
     index: '2d',
     required: true,
   },
-  houseNumber: mongoose.Schema.Types.String,
-  postcode: mongoose.Schema.Types.String,
-  street: mongoose.Schema.Types.String,
+  formatted: [String],
 }, { _id: false });
-
 module.exports = {
   address,
 };

@@ -8,20 +8,23 @@ const getVenue = function* () {
   this.body = venue;
 };
 
-const getVenuesWithinRadius = function* () {
-  const {lat, lng, radius, onlyWithTasks} = this.request.body;
+const getVenuesWithTasks = function* () {
+  const {lat, lng, radius} = this.request.body;
   if (!lat || !lng || !radius) return this.throw('BadRequest', 400);
-  let venues = [];
-  if (onlyWithTasks) {
-    venues = yield Venue.getVenuesWithinRadiusWithTasks([lng, lat], radius);
-  } else {
-    venues = yield Venue.getVenuesWithinRadius([lng, lat], radius);
-  }
+  const venues = yield Venue.getVenuesWithinRadiusWithTasks([lng, lat], radius);
   this.body = venues;
+};
+
+const getPicture = function* () {
+  const {id} = this.params;
+  const venueUrl = yield Venue.getVenuePictureUrl(id);
+  if (!venueUrl) return this.throw('Unable to find the requested image', 404);
+  this.response.redirect(venueUrl);
 };
 
 
 module.exports = {
   getVenue,
-  getVenuesWithinRadius,
+  getVenuesWithTasks,
+  getPicture,
 };

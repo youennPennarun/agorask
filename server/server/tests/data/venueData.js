@@ -1,177 +1,268 @@
 /* eslint-disable quote-props, comma-dangle */
 const tasks = require('./taskData');
-console.log('venue data');
-module.exports = [
-  {
+
+function getTask(taskKey) {
+  return {
+    _id: tasks[taskKey]._id,
+    title: tasks[taskKey].title,
+    nbAnswers: tasks[taskKey].answers.length,
+  };
+}
+
+module.exports = [{
   '_id': '581773476d568ac7723e1bae',
-  'source': {
-    'name': 'osm',
-    'osmId': '86453022',
-    'updated': '2016-01-06T14:47:19Z'
+  'source': 'foursquare',
+  'name': 'The Limelight',
+  'foursquareId': '4b65d319f964a5203a022be3',
+  'contact': {
+    'phone': '02890325968',
+    'formattedPhone': '028 9032 5968'
   },
-  'name': 'The Apartment',
   'address': {
-    'location': [-5.931764, 54.5969638],
-    'houseNumber': '2',
-    'postcode': 'BT1 6JA',
-    'street': 'Donegall Square West'
+    'location': [-5.928990840911865,
+      54.592803881688155
+    ],
+    'formatted': [
+      '17 Ormeau Ave',
+      'Belfast',
+      'BT2 8HD'
+    ]
   },
-  'amenity': 'pub',
+  'categories': [{
+    'name': 'Nightclub',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/nightlife/nightclub_64.png'
+  }],
+  'website': 'http://www.limelightbelfast.com',
+  'hours': [{
+    'days': 'Mon',
+    'time': [
+      'Noon–1:00 AM'
+    ]
+  }, {
+    'days': 'Tue–Sat',
+    'time': [
+      'Noon–2:00 AM'
+    ]
+  }, {
+    'days': 'Sun',
+    'time': [
+      '3:00 PM–2:00 AM'
+    ]
+  }],
+  'pictures': {
+    'prefix': 'https://irs0.4sqi.net/img/general/',
+    'suffix': '/RZx73X91WBg_n-Vr9OGx76qwTx_4m6fII-KsAxTB0dM.jpg',
+    'width': 612,
+    'height': 612
+  },
   tasks: [
-    {
-      _id: tasks[0]._id,
-      title: tasks[0].title,
-      nbAnswers: tasks[0].answers.length,
-    },
-    {
-      _id: tasks[1]._id,
-      title: tasks[1].title,
-      nbAnswers: tasks[1].answers.length,
-    }
-  ],
+    getTask(0),
+    getTask(1)
+  ]
 }, {
   '_id': '5817738f6d568ac7723e1baf',
-  'source': {
-    'name': 'osm',
-    'osmId': '86461420',
-    'updated': '2007-11-29T23:46:04Z'
-  },
-  'name': 'Tesco Metro',
+  'source': 'foursquare',
+  'name': 'Ormeau Baths Gallery',
+  'foursquareId': '4beadc76a9900f47f9061740',
+  'contact': {},
   'address': {
-    'location': [-5.8783357, 54.6003581]
+    'location': [-5.929163411658459,
+      54.59263519737411
+    ]
   },
-  'shop': 'supermarket',
-  tasks: [
-    {
-      _id: tasks[2]._id,
-      title: tasks[2].title,
-      nbAnswers: tasks[2].answers.length,
-    }
-  ],
+  'categories': [{
+    'name': 'Art Gallery',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/artgallery_64.png'
+  }],
+  'website': '',
+  'hours': [],
+  'pictures': {
+    'prefix': 'https://irs3.4sqi.net/img/general/',
+    'suffix': '/47296435_a6m5HaWleEE72AfUh8uZL-h8JUFH7-CcUTU-z0P5CSU.jpg',
+    'width': 612,
+    'height': 612
+  },
+  tasks: [getTask(2)],
 }, {
   '_id': '5817739a6d568ac7723e1bb1',
-  'source': {
-    'name': 'osm',
-    'osmId': '197618958',
-    'updated': '2007-12-30T15:14:45Z'
+  'source': 'foursquare',
+  'name': 'Katy\'s Bar',
+  'foursquareId': '4b881043f964a520dfdc31e3',
+  'contact': {
+    'phone': '02890325968',
+    'formattedPhone': '028 9032 5968'
   },
-  'name': 'Tesco',
   'address': {
-    'location': [-5.9071303, 54.5555226]
+    'location': [-5.928924160916588,
+      54.59276808539911
+    ],
+    'formatted': [
+      '17 Ormeau Ave',
+      'Belfast',
+      'BT2 8HD'
+    ]
   },
-  'shop': 'supermarket',
-  tasks: [],
+  'categories': [{
+    'name': 'Pub',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/nightlife/pub_64.png'
+  }, {
+    'name': 'Music Venue',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/arts_entertainment/musicvenue_64.png'
+  }],
+  'website': '',
+  'hours': [],
+  'pictures': {
+    'prefix': 'https://irs2.4sqi.net/img/general/',
+    'suffix': '/52506820_LvHM3ZhBnTV9Dj-_M2asht54vhUa8yfRVySY_4oSByY.jpg',
+    'width': 640,
+    'height': 640
+  },
+  'tasks': [],
 }, {
   '_id': '5817739f6d568ac7723e1bb2',
-  'source': {
-    'name': 'osm',
-    'osmId': '364772574',
-    'updated': '2016-07-28T20:42:34Z'
-  },
-  'name': 'The Botanic Inn',
+  'source': 'foursquare',
+  'name': 'Belfast',
+  'foursquareId': '4c1b57c155e4c9b6af1f4923',
+  'contact': {},
   'address': {
-    'location': [-5.9385555, 54.5809886]
+    'location': [-5.929758781298715,
+      54.596740681562636
+    ],
+    'formatted': [
+      'Belfast'
+    ]
   },
-  'amenity': 'pub',
-  tasks: [
-    {
-      _id: tasks[3]._id,
-      title: tasks[3].title,
-      nbAnswers: tasks[3].answers.length,
-    },
-    {
-      _id: tasks[4]._id,
-      title: tasks[4].title,
-      nbAnswers: tasks[4].answers.length,
-    }],
+  'categories': [{
+    'name': 'City',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_64.png'
+  }],
+  'website': 'http://www.visit-belfast.com',
+  'hours': [],
+  'pictures': {
+    'prefix': 'https://irs2.4sqi.net/img/general/',
+    'suffix': '/20223769_baUq5b8yVh5NG35k1j9C6XjRQlwf0OyOQ_blzJfNrFs.jpg',
+    'width': 720,
+    'height': 720
+  },
+  'tasks': [
+    getTask(3),
+    getTask(4)
+  ],
 }, {
-    '_id': '581773b06d568ac7723e1bb5',
-  'source': {
-    'name': 'osm',
-    'osmId': '450146567',
-    'updated': '2015-06-12T09:51:26Z'
+  '_id': '58261f716740058d9be7487f',
+  'source': 'foursquare',
+  'name': 'Club Vitae',
+  'foursquareId': '4c49cbdbfbafc928356168db',
+  'contact': {
+    'phone': '+442890325454',
+    'formattedPhone': '+44 28 9032 5454',
+    'twitter': 'clubvitae_bel',
+    'facebook': '1632655840309548',
+    'facebookName': 'Club Vitae Belfast'
   },
-  'name': 'Ten Square',
   'address': {
-    'location': [-5.9301928, 54.5958878]
+    'location': [-5.9306833227175995, 54.59317433064174],
+    'formatted': ['Clayton Hotel (22 Ormeau Avenue)', 'Antrim', 'BT2 8HS', 'United Kingdom']
   },
-  'amenity': 'pub',
-  tasks: [],
+  'categories': [{
+    'name': 'Gym / Fitness',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/building/gym_64.png'
+  }],
+  'website': 'http://www.claytonhotelbelfast.com/leisure-centre/',
+  'hours': [],
+  'pictures': {
+    'prefix': 'https://irs1.4sqi.net/img/general/',
+    'suffix': '/36787200_1G1okicc8iHTleFJPhx4X6Uq_TUHHfME83XFougqIP4.jpg',
+    'width': 720,
+    'height': 960
+  }
 }, {
-    '_id': '581773b86d568ac7723e1bb6',
-  'source': {
-    'name': 'osm',
-    'osmId': '450146568',
-    'updated': '2011-05-26T19:03:30Z'
-  },
-  'name': 'The Basement',
-  'address': {
-    'location': [-5.9283585, 54.5964173]
-  },
-  'amenity': 'pub',
-  tasks: [],
-}, {
-    '_id': '581773be6d568ac7723e1bb7',
-  'source': {
-    'name': 'osm',
-    'osmId': '450146569',
-    'updated': '2014-05-21T15:04:09Z'
-  },
-  'name': 'Limelight 1',
-  'address': {
-    'location': [-5.9290437, 54.5929274]
-  },
-  'amenity': 'pub',
-  tasks: [],
-}, {
-    '_id': '581773cc6d568ac7723e1bb8',
-  'source': {
-    'name': 'osm',
-    'osmId': '450146571',
-    'updated': '2014-05-21T15:04:32Z'
-  },
+  '_id': '58261f8d6740058d9be74880',
+  'source': 'foursquare',
   'name': 'Limelight 2',
+  'foursquareId': '534042cc498ed9289907979b',
+  'contact': {},
   'address': {
-    'location': [-5.9283928, 54.5927931]
+    'location': [-5.928351, 54.592757],
+    'formatted': ['17 Ormeau ave', 'Belfast', 'United Kingdom']
   },
-  'amenity': 'pub',
-  tasks: [],
+  'categories': [{
+    'name': 'Nightclub',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/nightlife/nightclub_64.png'
+  }],
+  'website': '',
+  'hours': [],
+  'pictures': {}
 }, {
-    '_id': '5817745c6d568ac7723e1bb9',
-  'source': {
-    'name': 'osm',
-    'osmId': '469614989',
-    'updated': '2014-02-02T16:02:11Z'
-  },
-  'name': 'Tesco',
+  '_id': '58261f9d6740058d9be74881',
+  'source': 'foursquare',
+  'name': 'Independent Republic of Atari',
+  'foursquareId': '4d09e28ac370a35d1ea90d22',
+  'contact': {},
   'address': {
-    'location': [-5.8714987, 54.5958159]
+    'location': [-5.929182099999999, 54.592808014285716],
+    'formatted': ['21, Ormeau Avenue,', 'Belfast', 'BT2 8HD', 'United Kingdom']
   },
-  'shop': 'supermarket',
+  'categories': [{
+    'name': 'Tech Startup',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/shops/technology_64.png'
+  }],
+  'website': '',
+  'hours': [],
+  'pictures': {},
   tasks: [
-    {
-      _id: tasks[5]._id,
-      title: tasks[5].title,
-      nbAnswers: tasks[5].answers.length,
-    },
-    {
-      _id: tasks[6]._id,
-      title: tasks[6].title,
-      nbAnswers: tasks[6].answers.length,
-    },],
+    getTask(5),
+    getTask(6),
+    getTask(7),
+    getTask(8)
+  ],
 }, {
-    '_id': '581774636d568ac7723e1bba',
-  'source': {
-    'name': 'osm',
-    'osmId': '469621096',
-    'updated': '2014-08-06T03:19:11Z'
+  '_id': '58261fa76740058d9be74882',
+  'source': 'foursquare',
+  'name': 'Liberty IT',
+  'foursquareId': '4b680136f964a520a1632be3',
+  'contact': {
+    'twitter': 'liberty_it'
   },
-  'name': 'the bar with no name',
   'address': {
-    'location': [-5.9323268, 54.5915045],
-    'street': 'Dublin Road',
-    'houseNumber': '44'
+    'location': [-5.92810470975273, 54.59349306140133],
+    'formatted': ['24-26 Adelaide Street', 'Belfast', 'BT2 8GD', 'United Kingdom']
   },
-  'amenity': 'pub',
-  tasks: [],
+  'categories': [{
+    'name': 'Office',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/building/default_64.png'
+  }],
+  'website': 'http://liberty-it.co.uk',
+  'hours': [],
+  'pictures': {
+    'prefix': 'https://irs0.4sqi.net/img/general/',
+    'suffix': '/16105247_4pjvoyWrFZNMmEzEMNJS8gahcts1X9wD67yFiYp2Ydg.jpg',
+    'width': 1920,
+    'height': 1081
+  },
+  tasks: [
+    getTask(9),
+    getTask(10),
+    getTask(11)
+  ],
+}, {
+  '_id': '58261faf6740058d9be74883',
+  'source': 'foursquare',
+  'name': 'ShopKeep',
+  'foursquareId': '53161f34498efe0e844dacce',
+  'contact': {},
+  'address': {
+    'location': [-5.928296569207635, 54.592778369687416],
+    'formatted': ['United Kingdom']
+  },
+  'categories': [{
+    'name': 'Tech Startup',
+    'icon': 'https://ss3.4sqi.net/img/categories_v2/shops/technology_64.png'
+  }],
+  'website': '',
+  'hours': [],
+  'pictures': {},
+  tasks: [
+    getTask(12)
+  ],
 }];

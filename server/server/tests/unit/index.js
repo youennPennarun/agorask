@@ -11,6 +11,7 @@ const testsFiles = [
   {name: 'user', file: './userServiceTest'},
   {name: 'task', file: './TaskTest'},
   {name: 'venue', file: './VenueTest'},
+  {name: 'foursquare', file: './foursquareTest'},
   ];
 
 

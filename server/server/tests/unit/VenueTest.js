@@ -23,27 +23,6 @@ function expectDistanceToBeOk(venue, distanceMax) {
 }
 
 describe('Venues', () => {
-  describe('Searh tasks in circle', () => {
-    it('Should venues within 200 meter of [-5.9283928, 54.5927931] with a radius of 0.2 km', () => {
-      return co(Venue.getVenuesWithinRadius([-5.9283928, 54.5927931], 0.2))
-        .then(venues => {
-          expect(venues).to.be.an.Array;
-          venues.forEach(venue => {
-            expectDistanceToBeOk(venue, 200);
-          });
-        });
-    });
-    it('Should work even if the center is an object object', () => {
-      return co(Venue.getVenuesWithinRadius({lng: -5.9283928, lat: 54.5927931}, 0.2))
-        .then(venues => {
-          expect(venues).to.be.an.Array;
-          venues.forEach(venue => {
-            expectDistanceToBeOk(venue, 200);
-          });
-        });
-    });
-  });
-
   describe('Searh tasks in circle with tasks', () => {
     it('Should venues with tasks within 200 meter of [-5.9283928, 54.5927931] with a radius of 0.2 km', () => {
       return co(Venue.getVenuesWithinRadiusWithTasks([-5.9283928, 54.5927931], 0.2))
