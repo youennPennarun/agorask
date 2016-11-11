@@ -11,11 +11,12 @@ const {width, height} = Dimensions.get('window');
 
 export class VenueDetails extends Component {
   render() {
+    const imageUri = `http://192.168.0.10:3000/venues/${this.props.venue._id}/image`;
     return (
       <View style={styles.container}>
         <Image style={styles.coverImage}
           resizeMode='cover'
-          source={{uri: 'https://www.timeshighereducation.com/sites/default/files/Pictures/web/e/b/v/queens-university-belfast.jpg'}} />
+          source={{uri: imageUri}} />
         <VenueDescription venue={this.props.venue} />
         <Tasks tasks={this.props.venue.tasks} />
       </View>

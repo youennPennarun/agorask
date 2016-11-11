@@ -1,15 +1,24 @@
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Task from './Task';
+
+const {width} = Dimensions.get('window');
 
 class Tasks extends Component {
   _renderTask(task, key): any {
-    return <Task key={key} title={task.title} nbAnswers={task.nbAnswers} />;
+    return (
+      <View key={key} >
+        <Task title={task.title} nbAnswers={task.nbAnswers} />
+        <View style={styles.separator} />
+      </View>
+    );
+  }
+  _renderSeparator() {
   }
   render(): any {
     const {tasks} = this.props;
     return (
-      <View>
+      <View style={styles.container}>
         {tasks.map((task, key) => this._renderTask(task, key))}
       </View>
     );
@@ -18,8 +27,14 @@ class Tasks extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    marginTop: 5,
+    backgroundColor: 'white',
   },
+  separator: {
+    width,
+    height: 1,
+    backgroundColor: 'blue',
+  }
 });
 
 Tasks.propTypes = {

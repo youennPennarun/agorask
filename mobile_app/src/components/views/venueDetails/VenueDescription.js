@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import React, {PropTypes} from 'react';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const {width} = Dimensions.get('window');
@@ -8,24 +8,39 @@ function getIcon(amenity) {
   if (amenity === 'pub') return 'drink';
   return 'globe';
 }
-function getAddressString(address) {
-  const {houseNumber = '', street = '', postcode = ''} = address;
-  if (!street || !postcode) return '';
-  return `${houseNumber} ${street} - ${postcode}`;
+function renderAddress(formattedAddress) {
+  if (typeof formattedAddress === 'string') {
+    return (<Text>{formattedAddress}</Text>);
+  } else if (formattedAddress instanceof Array) {
+    return (
+      <View>{formattedAddress.map((line, key) => <Text key={key}>{line}</Text>)}</View>
+    );
+  }
+  return <View />;
 }
 
 export default function VenueDescription(props) {
-  const {name, address, amenity} = props.venue;
+  const {name, address, categories = [], website, contact = {formattedPhone: ''}} = props.venue;
+  const categoryName = (categories.length) ? categories[0].name : '';
   return (
     <View style={styles.block}>
       <View style={styles.titleContainer} >
-        <Icon name={getIcon(amenity)}
+        <Icon name={getIcon()}
           style={styles.icon}
           size={16}
           color='blue' />
         <Text style={styles.venueName}>{name}</Text>
       </View>
-      <Text style={{}}>{getAddressString(address)}</Text>
+      {renderAddress(address.formatted)}
+      <Text>{categoryName}</Text>
+      <Text>{website}</Text>
+      {(contact.formattedPhone) ? (
+        <Text><Icon name={'mobile'}
+          style={styles.icon}
+          size={16}
+          color='blue' />{contact.formattedPhone}
+        </Text>) : null
+      }
     </View>
   );
 }
