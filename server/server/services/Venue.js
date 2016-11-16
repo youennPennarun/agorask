@@ -3,8 +3,8 @@ const Foursquare = require('./foursquare/Foursquare');
 
 const storeVenue = function* (venueData) {
   const venue = new Venue(venueData);
-  yield venue.save().exec();
-  return venue();
+  yield venue.save();
+  return venue;
 };
 
 const getVenue = function* (id, source) {
@@ -61,9 +61,11 @@ const searchVenue = function* ({lat, lng}, query, radius) {
 
 const getVenuePictureUrl = function* (venueId, size) {
   const venue = yield getVenue(venueId);
-  if (!venue) return null;
-  if (!venue.pictures) return null;
+  const defaultImg = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
+  if (!venue) return defaultImg;
+  if (!venue.pictures) return defaultImg;
   if (venue.pictures.url) return venue.pictures.url;
+  if (!venue.pictures.prefix || !venue.pictures.suffix) return defaultImg;
   const sizeParam = (size) ? `${size.width}x${size.height}` : 'original';
   return `${venue.pictures.prefix}${sizeParam}${venue.pictures.suffix}`;
 };

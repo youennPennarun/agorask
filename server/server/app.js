@@ -1,10 +1,10 @@
+require('dotenv').config({silent: true});
 const koa = require('koa');
 const router = require('koa-router')();
 const koaBunyanLogger = require('koa-bunyan-logger');
 const routes = require('./routes');
 
 
-require('dotenv').config({silent: true});
 
 const mongoose = require('mongoose');
 const mongooseConnection = require('./utils/mongo/connect');

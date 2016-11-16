@@ -1,7 +1,7 @@
 const Venue = require('../services/Venue');
 
 const getVenue = function* () {
-  const venue = yield Venue.getVenue(this.params.id);
+  const venue = yield Venue.getVenue(this.params.id, this.query.source);
   if (!venue) {
     return this.throw(`No venue with id ${this.params.id}`, 404);
   }
@@ -12,6 +12,16 @@ const getVenuesWithTasks = function* () {
   const {lat, lng, radius} = this.request.body;
   if (!lat || !lng || !radius) return this.throw('BadRequest', 400);
   const venues = yield Venue.getVenuesWithinRadiusWithTasks([lng, lat], radius);
+  this.body = venues;
+};
+
+const searchVenue = function* () {
+  const {lat, lng, query, radius} = this.request.query;
+  if (!lat || !lng || !query) {
+    console.log({lat, lng, query, radius}, this.request.query);
+    return this.throw('BadRequest', 400);
+  }
+  const venues = yield Venue.searchVenue({lat, lng}, query, radius);
   this.body = venues;
 };
 
@@ -27,4 +37,5 @@ module.exports = {
   getVenue,
   getVenuesWithTasks,
   getPicture,
+  searchVenue,
 };
