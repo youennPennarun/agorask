@@ -6,9 +6,19 @@ export const LOGIN_FAIL = 'USER_LOGIN_FAIL';
 
 export const LOGOUT = 'USER_LOGIN';
 
+export const UPDATE_LOCATION = 'UPDATE_USER_LOCATION';
+
 const config = {
   API_URL: 'http://localhost:3000',
 };
+
+export function updateUserLocation(lat, lng) {
+  return {
+    type: UPDATE_LOCATION,
+    lat,
+    lng,
+  };
+}
 
 function loginRequested(): {type: string} {
   return {

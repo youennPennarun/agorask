@@ -50,6 +50,8 @@
     "jest-react-native": "^16.1.0",
     "react-dom": "^15.3.2",
     "react-native-mock": "^0.2.7",
-    "react-test-renderer": "15.3.2"
+    "react-test-renderer": "15.3.2",
+    "reactotron-react-native": "^1.5.0",
+    "reactotron-redux": "^1.5.0"
   }
 }

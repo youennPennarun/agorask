@@ -48,6 +48,12 @@ public class RNMarkerView extends MapFeature {
         return options;
     }
 
+    public void update() {
+        if (marker == null) {
+            return;
+        }
+    }
+
     public MarkerOptions getOptions() {
         if (this.options == null) {
             this.options = createOptions();

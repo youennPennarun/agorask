@@ -1,13 +1,33 @@
-import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL} from '../actions/user';
+import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, UPDATE_LOCATION} from '../actions/user';
 
-const defaultState = {
+const defaultLocationState = {
+  coords: null,
+  error: null,
+};
+
+const defaultUserState = {
   isFetching: false,
   hasFailed: false,
   message: null,
   token: null,
 };
 
-function user(state = defaultState, action) {
+function userLocation(state = defaultLocationState, action) {
+ switch (action.type) {
+    case UPDATE_LOCATION:
+      return {
+        ...state,
+        coords: {
+          lat: action.lat,
+          lng: action.lng,
+        },
+      };
+    default:
+      return state;
+ }
+}
+
+function user(state = defaultUserState, action) {
  switch (action.type) {
     case LOGIN:
       return {
@@ -37,5 +57,6 @@ function user(state = defaultState, action) {
 }
 
 export default {
+  userLocation,
   user,
 };

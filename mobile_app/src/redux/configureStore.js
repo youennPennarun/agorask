@@ -1,4 +1,4 @@
-/* global __DEV__ */
+/* global __DEV__, Reactotron */
 
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -10,11 +10,13 @@ const loggerMiddleware = createLogger();
 
 const middlewares = [thunkMiddleware];
 
+let _createStore = createStore;
 if (__DEV__) {
   middlewares.push(loggerMiddleware);
+  _createStore = Reactotron.createStore;
 }
 
-const store = createStore(reducers, {}, applyMiddleware(...middlewares));
+const store = _createStore(reducers, {}, applyMiddleware(...middlewares));
 
 if (module.hot) {
   module.hot.accept(() => {

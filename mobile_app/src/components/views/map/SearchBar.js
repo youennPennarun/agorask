@@ -1,7 +1,9 @@
 /* @flow */
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import {clear, updateQuery, searchVenue} from '../../../redux/actions/search';
 import {MKTextField} from 'react-native-material-kit';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -12,19 +14,25 @@ const Textfield = MKTextField.textfield()
   .withPlaceholder('Search')
   .build();
 
-class SearchBar extends Component {
+export class SearchBar extends Component {
   state = {
-    text: '',
   };
+  _tfRef: Object = null;
   _onChangeText(text: string) {
-    this.setState({text});
+    this.props.updateSearchQuery(text);
   }
 
+  _onSubmit() {
+    this.props.search();
+  }
+  _clear() {
+    this.props.clearSearch();
+  }
   _renderClearButton(): ?Object {
-    if (!this.state.text) return null;
+    if (!this.props.query) return null;
     return (
       <TouchableOpacity style={styles.rightIcon}
-        onPress={() => { this.setState({text: ''}); }}>
+        onPress={() => { this._clear(); }}>
         <Icon name='close'
           size={20}
           color='#212121' />
@@ -41,10 +49,12 @@ class SearchBar extends Component {
             color='#929292' />
         </TouchableOpacity>
         <Textfield style={styles.textInput}
+          ref={(tf) => { this._tfRef = tf; }}
           returnKeyType='search'
           placeholder='Search'
           blurOnSubmit
-          value={this.state.text}
+          onSubmitEditing={() => { this._onSubmit(); }}
+          value={this.props.query}
           onChangeText={(text: string) => { this._onChangeText(text); }} />
 
         {this._renderClearButton()}
@@ -54,7 +64,14 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onClear: PropTypes.func,
+};
+SearchBar.defaultProps = {
+  onChange: () => {},
+  onSubmit: () => {},
+  onClear: () => {},
 };
 
 const styles = StyleSheet.create({
@@ -91,4 +108,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchBar;
+const mapStateToProps = (state: Object): Object => ({
+  query: state.search.query,
+});
+const mapDispatchToProps = (dispatch: Function): Object => ({
+  clearSearch: () => {
+    dispatch(clear());
+  },
+  updateSearchQuery: (query) => {
+    dispatch(updateQuery(query));
+  },
+  search: () => {
+    dispatch(searchVenue());
+  },
+});
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchBar);
