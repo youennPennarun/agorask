@@ -30,10 +30,12 @@
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.0.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "nodemon": "^1.11.0"
   },
   "scripts": {
     "start": "node ./server/app.js",
+    "dev": "nodemon ./server/app.js | ./node_modules/.bin/bunyan",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "npm run setupTestDb && mocha ./server/tests/unit/index.js",
     "test:integration": "npm run setupTestDb && ENV=test mocha ./server/tests/integration/index.js",
