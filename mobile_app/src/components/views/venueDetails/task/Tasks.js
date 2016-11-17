@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet, Dimensions, Text} from 'react-native';
+import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
 import Task from './Task';
 import Icon from 'react-native-vector-icons/Entypo';
 
@@ -10,13 +10,11 @@ class Tasks extends Component {
     openTasksExtended: false,
     resolvedTasksExtended: false,
   }
-  _renderTask(task, key): any {
-    return (
-      <View key={key} >
-        <Task title={task.title} nbAnswers={task.nbAnswers} />
-        <View style={styles.separator} />
-      </View>
-    );
+  _getResolvedTasks() {
+    const {tasks} = this.props;
+    const {resolvedTasksExtended} = this.state;
+    const openTasks = tasks.filter(t => (t.nbAnswers > 0));
+    return (resolvedTasksExtended) ? openTasks : openTasks.slice(0, 3);
   }
   _getOpenTasks() {
     const {tasks} = this.props;
@@ -24,28 +22,43 @@ class Tasks extends Component {
     const openTasks = tasks.filter(t => (t.nbAnswers === 0));
     return (openTasksExtended) ? openTasks : openTasks.slice(0, 3);
   }
-  _getResolvedTasks() {
-    const {tasks} = this.props;
-    const {resolvedTasksExtended} = this.state;
-    const openTasks = tasks.filter(t => (t.nbAnswers > 0));
-    return (resolvedTasksExtended) ? openTasks : openTasks.slice(0, 3);
+  _renderTask(task, key): any {
+    return (
+      <TouchableOpacity key={key}
+        onPress={() => { this.props.goToTask(key); }} >
+        <Task title={task.title} nbAnswers={task.nbAnswers} />
+        <View style={styles.separator} />
+      </TouchableOpacity>
+    );
   }
   render(): any {
+    const resolved = this._getResolvedTasks();
+    const open = this._getOpenTasks();
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          <Icon name='chevron-thin-down'
-            style={styles.extendIcon}
-            size={20} />
-          Open Tasks
-        </Text>
-        <View style={styles.tasksContainer}>
-          {this._getOpenTasks().map((task, key) => this._renderTask(task, key))}
-        </View>
-        <Text style={styles.title}>Resolved Tasks</Text>
-        <View style={styles.tasksContainer}>
-          {this._getResolvedTasks().map((task, key) => this._renderTask(task, key))}
-        </View>
+        {
+          (open.length) ? (
+            <View>
+            <Text style={styles.title}>
+              <Icon name='chevron-thin-down'
+                style={styles.extendIcon}
+                size={20} />
+              Open Tasks
+            </Text>
+            <View style={styles.tasksContainer}>
+              {open.map((task, key) => this._renderTask(task, key))}
+            </View>
+          </View>
+        ) : null}
+        {
+          (resolved.length) ? (
+            <View>
+              <Text style={styles.title}>Resolved Tasks</Text>
+              <View style={styles.tasksContainer}>
+                {resolved.map((task, key) => this._renderTask(task, key))}
+              </View>
+            </View>
+          ) : null}
       </View>
     );
   }
@@ -79,6 +92,7 @@ const styles = StyleSheet.create({
 
 Tasks.propTypes = {
   tasks: PropTypes.array.isRequired,
+  goToTask: PropTypes.func.isRequired,
 };
 
 export default Tasks;

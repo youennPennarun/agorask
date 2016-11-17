@@ -12,6 +12,7 @@ const {
 import Map from './views/map/MapView';
 import LoginView from './views/login/LoginView';
 import VenueDetails from './views/venueDetails/VenueDetails';
+import TaskDetails from './views/taskDetails/TaskDetails';
 
 export class Router extends Component {
   static routes = {
@@ -23,6 +24,9 @@ export class Router extends Component {
     },
     venueDetails: {
       component: VenueDetails,
+    },
+    taskDetails: {
+      component: TaskDetails,
     },
   }
 

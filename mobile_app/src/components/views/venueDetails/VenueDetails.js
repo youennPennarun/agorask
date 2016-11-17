@@ -7,6 +7,7 @@ import VenueDescription from './VenueDescription';
 import Tasks from './task/Tasks';
 
 import {getSelectedVenue} from '../../../redux/actions/venue';
+import {pushRoute} from '../../../redux/actions/router';
 
 
 const {width, height} = Dimensions.get('window');
@@ -31,7 +32,8 @@ export class VenueDetails extends Component {
           source={{uri: imageUri}} />
         <ScrollView style={styles.scollView}>
           <VenueDescription venue={this.props.venue} />
-          <Tasks tasks={this.props.venue.tasks || []} />
+          <Tasks tasks={this.props.venue.tasks || []}
+            goToTask={key => { this.props.goToTaskDetails(key); }} />
         </ScrollView>
       </View>
     );
@@ -86,6 +88,12 @@ const mapDispatchToProps = (dispatch: Function, props): Object => ({
     } else {
       dispatch(getSelectedVenue(props.sourceId, props.source));
     }
+  },
+  goToTaskDetails: taskKey => {
+    dispatch(pushRoute({
+      key: 'taskDetails',
+      taskKey,
+    }));
   },
 });
 
