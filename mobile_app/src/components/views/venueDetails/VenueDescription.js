@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
+    elevation: 2,
   },
   icon: {
     marginRight: 15,
@@ -63,7 +64,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   venueName: {
-    fontSize: 20,
+    fontSize: 21,
+    color: '#212121',
   },
 });
 

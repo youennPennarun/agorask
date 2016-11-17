@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Image, StyleSheet, Dimensions} from 'react-native';
+import {View, Image, StyleSheet, Dimensions, ScrollView} from 'react-native';
 import { connect } from 'react-redux';
 
 
@@ -29,8 +29,10 @@ export class VenueDetails extends Component {
         <Image style={styles.coverImage}
           resizeMode='cover'
           source={{uri: imageUri}} />
-        <VenueDescription venue={this.props.venue} />
-        <Tasks tasks={this.props.venue.tasks || []} />
+        <ScrollView style={styles.scollView}>
+          <VenueDescription venue={this.props.venue} />
+          <Tasks tasks={this.props.venue.tasks || []} />
+        </ScrollView>
       </View>
     );
   }
@@ -44,6 +46,8 @@ const styles = StyleSheet.create({
   coverImage: {
     width: width,
     height: height * 0.3,
+  },
+  scollView: {
   },
   block: {
     backgroundColor: 'white',
