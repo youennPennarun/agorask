@@ -70,9 +70,23 @@ const getVenuePictureUrl = function* (venueId, size) {
   return `${venue.pictures.prefix}${sizeParam}${venue.pictures.suffix}`;
 };
 
+const reduce = function(venue) {
+  return {
+    _id: venue._id,
+    source: venue.source,
+    name: venue.name,
+    foursquareId: venue.id,
+    address: {
+      location: venue.address.location,
+    },
+    nbTasks: venue.tasks.length,
+  };
+};
+
 module.exports = {
   getVenue,
   getVenuesWithinRadiusWithTasks,
   searchVenue,
   getVenuePictureUrl,
+  reduce,
 };

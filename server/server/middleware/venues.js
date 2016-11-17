@@ -12,7 +12,7 @@ const getVenuesWithTasks = function* () {
   const {lat, lng, radius} = this.request.body;
   if (!lat || !lng || !radius) return this.throw('BadRequest', 400);
   const venues = yield Venue.getVenuesWithinRadiusWithTasks([lng, lat], radius);
-  this.body = venues;
+  this.body = venues.map(Venue.reduce);
 };
 
 const searchVenue = function* () {
@@ -22,7 +22,7 @@ const searchVenue = function* () {
     return this.throw('BadRequest', 400);
   }
   const venues = yield Venue.searchVenue({lat, lng}, query, radius);
-  this.body = venues;
+  this.body = venues.map(Venue.reduce);
 };
 
 const getPicture = function* () {
