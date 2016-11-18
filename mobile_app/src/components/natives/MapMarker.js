@@ -20,6 +20,7 @@ MarkerWrapper.propTypes = {
     longitude: PropTypes.number.isRequired,
   }).isRequired,
   onPress: PropTypes.func,
+  numberOfTasks: PropTypes.number,
 };
 
 const MapMarker = requireNativeComponent('RNMarker', MarkerWrapper);

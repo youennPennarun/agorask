@@ -52,7 +52,8 @@ export class MapView extends React.Component {
         }}
         onPress={() => {
           this._goToVenueDetails(venue);
-        }} />
+        }}
+        numberOfTasks={venue.nbTasks} />
     ));
   }
   render() {

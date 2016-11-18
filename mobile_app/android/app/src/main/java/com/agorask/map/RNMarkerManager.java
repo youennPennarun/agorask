@@ -34,6 +34,11 @@ public class RNMarkerManager extends ViewGroupManager<RNMarkerView> {
         view.setCoordinate(map);
     }
 
+    @ReactProp(name = "numberOfTasks")
+    public void setNumberOfTasks(RNMarkerView view, int numberOfTasks) {
+        view.setNumberOfTasks(numberOfTasks);
+    }
+
     @Override
     @Nullable
     public Map getExportedCustomDirectEventTypeConstants() {
