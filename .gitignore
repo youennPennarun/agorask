@@ -2,3 +2,7 @@ node_modules
 *.osm
 tmp
 out.js
+
+TRAVIS_BUILD_APP
+TRAVIS_BUILD_SERVER
+tools/travis/.tmp
