@@ -6,3 +6,4 @@ out.js
 TRAVIS_BUILD_APP
 TRAVIS_BUILD_SERVER
 tools/travis/.tmp
+npm-debug.log
