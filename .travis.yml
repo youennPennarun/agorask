@@ -13,10 +13,11 @@ services: mongodb
 matrix:
   include:
     - env: TEST_DIR=server MONGO_URL=mongodb://localhost/agorask SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_SERVER
-      script: cd server && && npm install && ENV=test npm run codecov
+      script: cd server && npm install && ENV=test npm run codecov
     - env: TEST_DIR=mobile_app SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_APP
       script: cd mobile_app && npm install && ENV=test npm run codecov
 before_install: node ./tools/travis/jobs_to_run.js
+script: exit 0;
 before_deploy: cd server
 deploy:
   api_key:
