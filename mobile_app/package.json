@@ -6,7 +6,9 @@
     "start": "node_modules/react-native/packager/packager.sh",
     "test": "jest",
     "flow": "flow",
-    "codecov": "jest && codecov"
+    "codecov": "jest && codecov",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src"
   },
   "dependencies": {
     "enzyme": "^2.5.1",
