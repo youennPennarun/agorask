@@ -26,6 +26,7 @@ matrix:
         components:
           - tools # to get the new `repository-11.xml`
           - tools # to install Android SDK tools 25.1.x
+          - build-tools-23.0.1
           - build-tools-23.0.3
           - android-23
           - android-24
