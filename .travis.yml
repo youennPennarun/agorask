@@ -20,7 +20,7 @@ matrix:
       script: cd mobile_app && npm install && ENV=test npm run codecov
 before_install: node ./tools/travis/jobs_to_run.js
 script: echo "Need to make integration tests (with the app connected to the server...)"
-before_deploy: cd server
+before_deploy: cd $TRAVIS_BUILD_DIR/server
 deploy:
   api_key:
     secure: Ur+KY9x/T++N60xOqyza9CqnGTTCD4Wv2gC+WzpCUP6VF+YV8FOWidyK2cHvaTO8kvW1SGY4OR0tx7uEALkAgcwrUoNlcPmbibFEGBbbq8jAp2Ba2GUlmFJDj5xQngzgcNReC5Mso8CNQ19IfbMfabq455i/Q6Fc9w2yOwiO401fz2Mgnnpz2p2kYrtBPOkOn7S5Wj96/vcIrbrG4wCsjuPPJScoCYQJZAYOt/CUMLKY+iCiYN/61fSkezd/CaYgyrVvlFJeh90R49mSDB3G80RfVBijiiTDHe5mG2XAXUt51WzbQMVAHuQ8yWjU0VXjeh1ZZoToMcPJU2wBpXSLzw3bZSBsBR/jzs8mcQW+fXEB0wQCYgzvTheJcTeURHyX/J/QS8RE9/JA4yxbRTcTYNhxqsArXzGnrfLWaxnCdZuOt2rEn4FXkuL5vtK2Ms8Zzs8Pz8GyOF9ORb5DlfPPzFgjNCkB5WmgO+PWCJV/8Y/rHv1iB8aFrrUl//5E+2UGZ3q2WGmqVZ8HMHm/NWAaTQwXER+rSNnQJUpuIpoHmBSC95/N8pM/PW5nH0a/euxwAvZUmoGieZ3aBkPkCHkdPQiPyxVc60LvjdVgiWMK0rx6szwGnlKFLZqNFGc924IkKeZGdOw9AcJSoZoUO0qpoZ74TjOJYlHqsDE/6cVfuCs=
