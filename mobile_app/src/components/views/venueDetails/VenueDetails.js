@@ -33,7 +33,7 @@ export class VenueDetails extends Component {
         <ScrollView style={styles.scollView}>
           <VenueDescription venue={this.props.venue} />
           <Tasks tasks={this.props.venue.tasks || []}
-            goToTask={key => { this.props.goToTaskDetails(key); }} />
+            goToTask={id => { this.props.goToTaskDetails(id); }} />
         </ScrollView>
       </View>
     );
@@ -89,10 +89,10 @@ const mapDispatchToProps = (dispatch: Function, props): Object => ({
       dispatch(getSelectedVenue(props.sourceId, props.source));
     }
   },
-  goToTaskDetails: taskKey => {
+  goToTaskDetails: id => {
     dispatch(pushRoute({
       key: 'taskDetails',
-      taskKey,
+      id,
     }));
   },
 });

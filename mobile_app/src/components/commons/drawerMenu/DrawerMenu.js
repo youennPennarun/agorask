@@ -108,7 +108,6 @@ class DrawerMenu extends Component {
               </TouchableOpacity>
               <TouchableOpacity style={styles.item}
                 onPress={() => {
-                  console.log('!!!!!!!!!!!!!!');
                   this.close();
                   this.props.pushRoute({key: 'login'});
                 }} >

@@ -25,7 +25,7 @@ class Tasks extends Component {
   _renderTask(task, key): any {
     return (
       <TouchableOpacity key={key}
-        onPress={() => { this.props.goToTask(key); }} >
+        onPress={() => { this.props.goToTask(task._id); }} >
         <Task title={task.title} nbAnswers={task.nbAnswers} />
         <View style={styles.separator} />
       </TouchableOpacity>
