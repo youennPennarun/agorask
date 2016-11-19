@@ -21,6 +21,8 @@ matrix:
     - env: TEST_DIR=mobile_app SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_APP
       language: android
       jdk: oraclejdk8
+      node_js:
+        - 6.1.0
       android:
         components:
           - tools # to get the new `repository-11.xml`
@@ -33,7 +35,7 @@ matrix:
           - extra-google-m2repository
           - extra-android-m2repository
           - extra-android-support
-      before_install: nvm install $TRAVIS_NODE_VERSION && nvm use $TRAVIS_NODE_VERSION
+      before_install: nvm install 6.1.0 && nvm use 6.1.0
       before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
       script: ENV=test npm run codecov
       # script: pwd && cd $TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleDebug
