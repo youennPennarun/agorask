@@ -33,7 +33,7 @@ const logIn = function* () {
   try {
     user = yield User.logIn(username, password);
   } catch (e) {
-    if (e === User.errors.INVALID_USER) return this.throw('BadRequest', 400);
+    if (e === User.errors.INVALID_USER) return this.throw('Unauthorized', 401);
     return this.throw('InternalServerError', 500);
   }
   const token = Auth.getToken({username: user.username});
