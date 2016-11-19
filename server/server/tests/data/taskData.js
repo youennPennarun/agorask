@@ -3,14 +3,14 @@ const users = require('./userData');
 module.exports = [
   {
     _id: '581411784d79072f3b799aca',
-    title: 'Question 2',
+    title: 'Do they have live music?',
     postedBy: {
       userId: users[9]._id,
       username: users[9].username,
     },
     answers: [
       {
-        answer: 'Answer 1',
+        answer: 'Yes, there is regularly lives show',
         postedBy: {
           userId: users[5]._id,
           username: users[5].username,
@@ -18,7 +18,7 @@ module.exports = [
         date: '2016-10-29T03:27:25.527Z',
       },
       {
-        answer: 'Answer 2',
+        answer: 'Yeah! There is sometimes live music in Limelight 1 and 2. Limelight 1 hosted live shows from THE BREEDERS, DISCLOSURE and STEVE EARLE & PRIMAL SCREAM, and in Limelight 2 had shows with THE STROKES, MANIC STREET PREACHERS, JOE STRUMMER, BLUR',
         postedBy: {
           userId: users[4]._id,
           username: users[4].username,
@@ -26,7 +26,7 @@ module.exports = [
         date: '2016-10-29T03:27:25.527Z',
       },
       {
-        answer: 'Answer 3',
+        answer: 'No sux so lame grumble grumble!',
         postedBy: {
           userId: users[10]._id,
           username: users[10].username,
