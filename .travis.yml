@@ -19,9 +19,7 @@ matrix:
           branch: master
           condition: "$TEST_DIR = server"
     - env: TEST_DIR=mobile_app SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_APP
-      language: node_js
-      script: cd mobile_app && npm install && ENV=test npm run codecov
-    - language: android
+      language: android
       jdk: oraclejdk8
       android:
         components:
@@ -35,8 +33,10 @@ matrix:
           - extra-google-m2repository
           - extra-android-m2repository
           - extra-android-support
-      before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
       before_install: nvm install $TRAVIS_NODE_VERSION && nvm use $TRAVIS_NODE_VERSION
-      script: pwd && cd $TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleDebug
+      before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
+      script: ENV=test npm run codecov
+      # script: pwd && cd $TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleDebug
 before_install: node -v && node $TRAVIS_BUILD_DIR/tools/travis/jobs_to_run.js
 script: echo "Need to make integration tests (with the app connected to the server...)"
+after_script: echo "after script"
