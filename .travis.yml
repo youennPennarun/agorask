@@ -28,9 +28,8 @@ matrix:
           - extra-google-m2repository
           - extra-android-m2repository
           - extra-android-support
-      node_js:
-        - 6.2.0
       before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
+      before_install: nvm use 6.2.0
       script: cd android && ./gradlew assembleRelease
 before_install: node -v && node $TRAVIS_BUILD_DIR/tools/travis/jobs_to_run.js
 script: echo "Need to make integration tests (with the app connected to the server...)"
