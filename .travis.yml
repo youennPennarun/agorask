@@ -31,7 +31,7 @@ matrix:
           - extra-android-m2repository
           - extra-android-support
       before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
-      before_install: - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION && node -v
+      before_install: rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION && node -v
       script: cd android && ./gradlew assembleRelease
 before_install: node -v && node $TRAVIS_BUILD_DIR/tools/travis/jobs_to_run.js
 script: echo "Need to make integration tests (with the app connected to the server...)"
