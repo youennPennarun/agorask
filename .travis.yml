@@ -32,6 +32,6 @@ matrix:
           - extra-android-support
       before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
       before_install: nvm install $TRAVIS_NODE_VERSION && nvm use $TRAVIS_NODE_VERSION
-      script: cd android && ./gradlew assembleRelease
+      script: pwd && cd TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleRelease
 before_install: node -v && node $TRAVIS_BUILD_DIR/tools/travis/jobs_to_run.js
 script: echo "Need to make integration tests (with the app connected to the server...)"
