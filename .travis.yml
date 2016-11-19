@@ -1,9 +1,9 @@
 language: node_js
 node_js:
-- 6.2.0
+- 6.1.0
 services: mongodb
 env:
-  - TRAVIS_NODE_VERSION: 6.0.2
+  - TRAVIS_NODE_VERSION: 6.1.0
 matrix:
   include:
     - env: TEST_DIR=server MONGO_URL=mongodb://localhost/agorask SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_SERVER
