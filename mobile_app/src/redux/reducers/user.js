@@ -1,4 +1,4 @@
-import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, UPDATE_LOCATION} from '../actions/user';
+import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, DISCONNECT, UPDATE_LOCATION} from '../actions/user';
 
 const defaultLocationState = {
   coords: null,
@@ -10,6 +10,7 @@ const defaultUserState = {
   hasFailed: false,
   message: null,
   token: null,
+  username: null,
 };
 
 function userLocation(state = defaultLocationState, action) {
@@ -43,6 +44,7 @@ function user(state = defaultUserState, action) {
         hasFailed: false,
         message: null,
         token: action.token,
+        username: action.username,
       };
     case LOGIN_FAIL:
       return {
@@ -50,6 +52,12 @@ function user(state = defaultUserState, action) {
         isFetching: false,
         hasFailed: true,
         message: action.message,
+      };
+    case DISCONNECT:
+      return {
+        ...state,
+        token: null,
+        username: null,
       };
     default:
       return state;

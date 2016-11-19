@@ -1,9 +1,11 @@
 /* @flow */
 /* global fetch */
+import {SERVER_URL} from '../../utils/config';
+
 export const FETCHING_TASK = 'FETCH_TASK';
 export const SUCCESS_FETCH_TASK = 'SUCCESS_FETCH_TASK';
 
-const API_URL = 'http://192.168.0.10:3000/tasks';
+const API_URL = `${SERVER_URL}/tasks`;
 
 export function getTask(id): Function {
   return dispatch => {
