@@ -1,6 +1,6 @@
 /* @flow */
 import {AsyncStorage} from 'react-native';
-import {SERVER_URL} from '../../utils/config';
+import {API_URL} from 'react-native-config';
 
 export const LOGIN = 'USER_LOGIN';
 export const LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
@@ -12,7 +12,7 @@ export const LOGOUT = 'USER_LOGIN';
 export const UPDATE_LOCATION = 'UPDATE_USER_LOCATION';
 
 const config = {
-  API_URL: SERVER_URL,
+  API_URL: API_URL,
 };
 
 export function updateUserLocation(lat, lng) {
