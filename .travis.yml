@@ -8,7 +8,7 @@ before_install: mkdir $TRAVIS_BUILD_DIR/tmp  && cd $TRAVIS_BUILD_DIR/tools/travi
 matrix:
   include:
     - env: TEST_DIR=server MONGO_URL=mongodb://localhost/agorask SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_SERVER
-      script: cd server && npm install && ENV=test npm run codecov
+      script: cd $TRAVIS_BUILD_DIR/server && npm install && ENV=test npm run codecov
       before_deploy: cd $TRAVIS_BUILD_DIR/server
       deploy:
         api_key:
