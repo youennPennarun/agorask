@@ -15,12 +15,3 @@ it('renders correctly', () => {
   );
   expect(shallowToJson(wrapper)).toMatchSnapshot();
 });
-/*
-it('Cannot press on login button if no username/password have been set', () => {
-  const wrapper = shallow(
-    <LoginView params={{repo: ''}} />
-  );
-  const forksButton = rendered.refs.forks;
-  expect(rendered.state.mode).toEqual('forks');
-});
-*/

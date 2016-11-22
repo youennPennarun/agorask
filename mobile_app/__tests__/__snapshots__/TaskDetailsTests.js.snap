@@ -1,0 +1,373 @@
+exports[`test fetching renders correctly 1`] = `
+<View
+  style={Object {}}>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#263238",
+        "flexDirection": "row",
+        "height": 50,
+        "paddingLeft": 15,
+      }
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Arrow back
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 26,
+        }
+      }>
+      Test Venue
+    </Text>
+  </View>
+  <IndeterminateProgress
+    style={Object {}} />
+  <ScrollView>
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "elevation": 6,
+          "marginBottom": 0,
+          "paddingBottom": 10,
+          "paddingLeft": 5,
+          "width": 375,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "marginLeft": 10,
+            "width": 355,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail">
+          22/11/16
+        </Text>
+      </View>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 23,
+            "marginLeft": 5,
+          }
+        }>
+        Help me!
+      </Text>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "marginBottom": 20,
+          },
+        ]
+      }>
+      <View
+        style={Object {}}>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }>
+          <Vote
+            score={-5} />
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexGrow": 1,
+                "marginLeft": 2,
+                "marginRight": 5,
+                "marginTop": 4,
+              }
+            }>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "color": "black",
+                  "flexGrow": 1,
+                  "fontSize": 16,
+                }
+              }>
+              No can do
+            </Text>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "marginTop": 4,
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                    "fontSize": 15,
+                  }
+                }>
+                Joe
+              </Text>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                  }
+                }>
+                22/11/16
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f0f0f0",
+              "height": 1,
+              "width": 375,
+            }
+          } />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "backgroundColor": "blue",
+          "height": 50,
+          "justifyContent": "center",
+          "marginBottom": 30,
+          "width": 145,
+        }
+      }>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 20,
+            "textAlign": "center",
+          }
+        }>
+        Add an answer
+      </Text>
+    </View>
+  </ScrollView>
+</View>
+`;
+
+exports[`test renders correctly 1`] = `
+<View
+  style={Object {}}>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#263238",
+        "flexDirection": "row",
+        "height": 50,
+        "paddingLeft": 15,
+      }
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Arrow back
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 26,
+        }
+      }>
+      Test Venue
+    </Text>
+  </View>
+  <ScrollView>
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "elevation": 6,
+          "marginBottom": 0,
+          "paddingBottom": 10,
+          "paddingLeft": 5,
+          "width": 375,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "marginLeft": 10,
+            "width": 355,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail">
+          22/11/16
+        </Text>
+      </View>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 23,
+            "marginLeft": 5,
+          }
+        }>
+        Help me!
+      </Text>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "marginBottom": 20,
+          },
+        ]
+      }>
+      <View
+        style={Object {}}>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }>
+          <Vote
+            score={-5} />
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexGrow": 1,
+                "marginLeft": 2,
+                "marginRight": 5,
+                "marginTop": 4,
+              }
+            }>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "color": "black",
+                  "flexGrow": 1,
+                  "fontSize": 16,
+                }
+              }>
+              No can do
+            </Text>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "marginTop": 4,
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                    "fontSize": 15,
+                  }
+                }>
+                Joe
+              </Text>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                  }
+                }>
+                22/11/16
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f0f0f0",
+              "height": 1,
+              "width": 375,
+            }
+          } />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignSelf": "center",
+          "backgroundColor": "blue",
+          "height": 50,
+          "justifyContent": "center",
+          "marginBottom": 30,
+          "width": 145,
+        }
+      }>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 20,
+            "textAlign": "center",
+          }
+        }>
+        Add an answer
+      </Text>
+    </View>
+  </ScrollView>
+</View>
+`;

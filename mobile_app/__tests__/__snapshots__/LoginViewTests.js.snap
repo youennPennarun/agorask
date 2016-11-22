@@ -20,31 +20,31 @@ exports[`test renders correctly 1`] = `
     floatingLabelEnabled={true}
     highlightColor="#CDDC39"
     onChangeText={[Function]}
+    onSubmitEditing={[Function]}
     placeholder="Username"
     style={
       Object {
-        "alignItems": "center",
-        "alignSelf": "center",
-        "height": 50,
-        "justifyContent": "center",
+        "height": 45,
+        "marginBottom": 15,
         "width": 275,
       }
     }
     underlineEnabled={true}
-    value="Hello" />
+    value="" />
   <BuiltTextfield
     blurOnSubmit={true}
     floatingLabelEnabled={true}
     highlightColor="#CDDC39"
     onChangeText={[Function]}
+    onSubmitEditing={[Function]}
+    password={true}
     placeholder="Password"
     secureTextEntry={true}
+    selectTextOnFocus={true}
     style={
       Object {
-        "alignItems": "center",
-        "alignSelf": "center",
-        "height": 50,
-        "justifyContent": "center",
+        "height": 45,
+        "marginBottom": 15,
         "width": 275,
       }
     }
