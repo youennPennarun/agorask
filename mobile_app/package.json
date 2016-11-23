@@ -11,13 +11,9 @@
     "lint:fix": "eslint --fix src"
   },
   "dependencies": {
-    "enzyme": "^2.5.1",
-    "enzyme-to-json": "^1.1.5",
     "eslint": "^3.8.1",
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.0.1",
-    "jest": "^16.0.2",
-    "jest-react-native": "^16.1.0",
     "moment": "^2.16.0",
     "react": "15.3.2",
     "react-native": "0.36.0",
@@ -32,6 +28,24 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0"
+  },
+  "devDependencies": {
+    "babel-jest": "16.0.0",
+    "babel-preset-react-native": "1.9.0",
+    "codecov": "^1.0.1",
+    "enzyme": "2.6.0",
+    "enzyme-to-json": "1.3.0",
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.0.1",
+    "flow-bin": "0.33.0",
+    "jest": "17.0.3",
+    "jest-react-native": "17.0.3",
+    "react-dom": "^15.3.2",
+    "react-native-mock": "^0.2.7",
+    "react-test-renderer": "15.3.2",
+    "reactotron-react-native": "^1.5.0",
+    "reactotron-redux": "^1.5.0"
   },
   "jest": {
     "preset": "jest-react-native",
@@ -49,22 +63,5 @@
     ],
     "coverageDirectory": "./coverage/",
     "collectCoverage": true
-  },
-  "devDependencies": {
-    "babel-jest": "16.0.0",
-    "babel-preset-react-native": "1.9.0",
-    "codecov": "^1.0.1",
-    "enzyme-to-json": "^1.1.5",
-    "eslint": "^3.8.1",
-    "eslint-config-airbnb-base": "^9.0.0",
-    "eslint-plugin-import": "^2.0.1",
-    "flow-bin": "0.33.0",
-    "jest": "^16.0.2",
-    "jest-react-native": "^16.1.0",
-    "react-dom": "^15.3.2",
-    "react-native-mock": "^0.2.7",
-    "react-test-renderer": "15.3.2",
-    "reactotron-react-native": "^1.5.0",
-    "reactotron-redux": "^1.5.0"
   }
 }
