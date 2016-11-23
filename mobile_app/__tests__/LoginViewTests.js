@@ -15,3 +15,12 @@ it('renders correctly', () => {
   );
   expect(shallowToJson(wrapper)).toMatchSnapshot();
 });
+
+
+it('Button enable if usrname and password are filled', () => {
+  const wrapper = shallow(
+    <LoginView />
+  );
+  wrapper.setState({username: 'mrMeeseeks', password: 'Look at me'});
+  expect(shallowToJson(wrapper)).toMatchSnapshot();
+});

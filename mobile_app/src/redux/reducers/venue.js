@@ -1,14 +1,14 @@
 import {FETCHING_LIST, SUCCESS_LIST, FAILURE_LIST, FETCHING_VENUE, UPDATE_SELECTED_VENUE} from '../actions/venue';
 import {FETCHING_TASK, SUCCESS_FETCH_TASK} from '../actions/task';
 
-const venuesDefaultState = {
+export const venuesDefaultState = {
   version: 0,
   isFetching: false,
   error: null,
   venues: [],
 };
 
-const selectedVenueDefaultState = {
+export const selectedVenueDefaultState = {
   isFetching: false,
   _id: null,
   source: null,
@@ -18,7 +18,7 @@ const selectedVenueDefaultState = {
   },
 };
 
-const defaultTaskState = {
+export const defaultTaskState = {
   isFetching: false,
   error: null,
   _id: null,

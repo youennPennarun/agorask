@@ -8,7 +8,6 @@ import {TaskDetails} from '../src/components/views/taskDetails/TaskDetails';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-
 it('renders correctly', () => {
   const wrapper = shallow(
     <TaskDetails id='5834b73cb5cb2c65d95f7ceb'
@@ -21,7 +20,7 @@ it('renders correctly', () => {
           postedBy: {
             username: 'Joe',
           },
-          date: new Date(1479850507654),
+          date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
         },
       ]} />
   );
