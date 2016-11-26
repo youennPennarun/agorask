@@ -5,16 +5,12 @@ module.exports = {
     "development": {
       gradleCommand: 'assembleDev',
       envFile: ".env.dev",
-      env: {
-        ...DEFAULT_ENV,
-      }
+      env: Object.assign({}, DEFAULT_ENV, {}),
     },
     "master": {
       gradleCommand: 'assembleRelease',
       envFile: ".env.production",
-      env: {
-        ...DEFAULT_ENV,
-      }
+      env: Object.assign({}, DEFAULT_ENV, {}),
     }
   }
 }

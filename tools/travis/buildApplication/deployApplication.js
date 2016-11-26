@@ -11,9 +11,7 @@ const COMMIT_RANGE = process.env.TRAVIS_COMMIT_RANGE || 'HEAD 165c4f25d77c';
 
 
 function getEnvOptions() {
-  return {
-    API_URL: process.env.MOBILE_APP_API_URL,
-  };
+  return {};
 }
 
 function* nativeChanged() {
@@ -35,8 +33,10 @@ const build = co(function* () {
 })
 
 const config = configs.branches[process.env.TRAVIS_BRANCH];
-if (!configs) {
+console.log(config)
+if (!config) {
   console.log(`${colors.cyan('No build defined for branch')} ${process.env.TRAVIS_BRANCH} ${colors.blue('Skipping build')}`)
+  process.exit();
 }
 
 build.then(console.log)

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const colors = require('colors');
 const configs = require('./config');
 
 const config = configs.branches[process.env.TRAVIS_BRANCH];
@@ -41,6 +42,7 @@ function writeNewFile(data) {
   return new Promise((resolve, reject) => {
     fs.writeFile(ENV_FILE, data, (err) => {
       if (err) return reject(err);
+    console.log(`${colors.green('env file successfully written')}`);
       resolve();
     });
   });
@@ -48,10 +50,8 @@ function writeNewFile(data) {
 
 
 module.exports = function createEnvFile(options={}) {
-  options = {
-    ...config.env,
-    options,
-  }
+  console.log(config.env, options);
+  options = Object.assign({}, configs.env, options);
   console.log(`${colors.green('Creating env file with options')}`, options);
   return new Promise((resolve, reject) => {
     let RELEASE_DATE = Date.now();

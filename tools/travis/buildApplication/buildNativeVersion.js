@@ -27,7 +27,7 @@ function* getVersion(ANDROID_PATH, buildType) {
 function* uploadRelease(ANDROID_PATH, releaseDate) {
   const version = yield getVersion(ANDROID_PATH, 'release');
   var form = new FormData();
-  console.log(`Uploading version ${version}...`.green)
+  console.log(`Uploading version ${version} on ${process.env.SERVER_URL}/application/${releaseDate}?version=${version}...`.green)
   form.append('app', fs.createReadStream(`${ANDROID_PATH}/app/build/outputs/apk/app-release.apk`));
   try {
     const response = yield fetch(`${process.env.SERVER_URL}/application/${releaseDate}?version=${version}&token=${token}`, { method: 'POST', body: form });
@@ -46,12 +46,12 @@ function* uploadRelease(ANDROID_PATH, releaseDate) {
 
 function buildRelease(ANDROID_PATH, releaseDate) {
   return new Promise((resolve, reject) => {
+    const env = Object.assign({}, process.env, {
+      'ENVFILE': config.envFile,
+    })
     const options = {
       cwd: `${ANDROID_PATH}`,
-      env: {
-        ...process.env,
-        'ENVFILE': config.envFile,
-      }
+      env: env
     }
     const p = spawn('./gradlew', [config.gradleCommand], options);
     p.childProcess.stdout.on('data', (data) => {
@@ -61,7 +61,7 @@ function buildRelease(ANDROID_PATH, releaseDate) {
       console.log(data.toString())
     });
     p.then(() => {
-      co(uploadRelease(ANDROID_PATH)).then(resolve).catch(reject);
+      co(uploadRelease(ANDROID_PATH, releaseDate)).then(resolve).catch(reject);
     }).catch(e => {
       console.log('error', e);
       reject();
