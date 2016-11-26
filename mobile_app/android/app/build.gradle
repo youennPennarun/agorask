@@ -100,11 +100,20 @@ android {
         }
     }
     signingConfigs {
-        release {
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        if (System.getenv("TRAVIS")) {
+            release {
+                storeFile rootProject.file('release.keystore')
+                storePassword System.getenv("MYAPP_RELEASE_STORE_PASSWORD")
+                keyAlias System.getenv("MYAPP_RELEASE_KEY_ALIAS")
+                keyPassword System.getenv("MYAPP_RELEASE_KEY_PASSWORD")
+            }
+        } else {
+            release {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
