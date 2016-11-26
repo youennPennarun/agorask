@@ -1,6 +1,7 @@
 const exec = require('child-process-promise').exec;
 const co = require('co');
 const colors = require('colors');
+const configs = require('./config');
 
 const createEnvFile = require('./createEnvFile');
 const buildNativeVersion = require('./buildNativeVersion');
@@ -22,6 +23,7 @@ function* nativeChanged() {
   return nativeChanged;
 }
 const build = co(function* () {
+  console.log(`${colors.blue('Start releasing')}`);
   const nativeHasChanged = yield nativeChanged();
   if (nativeHasChanged) {
     console.log(`${'Native files have changed'.blue}: ${'Rebuilding app'.green}`)
@@ -31,6 +33,11 @@ const build = co(function* () {
   const releaseDate = yield createEnvFile(getEnvOptions());
   yield buildNativeVersion(ANDROID_PATH, releaseDate);
 })
+
+const config = configs.branches[process.env.TRAVIS_BRANCH];
+if (!configs) {
+  console.log(`${colors.cyan('No build defined for branch')} ${process.env.TRAVIS_BRANCH} ${colors.blue('Skipping build')}`)
+}
 
 build.then(console.log)
   .catch(console.log)

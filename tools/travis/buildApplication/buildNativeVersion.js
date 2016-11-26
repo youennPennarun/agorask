@@ -5,9 +5,14 @@ const co = require('co');
 const fs = require('fs');
 const colors = require('colors');
 
+const configs = require('./config.js');
+const config = configs.branches[process.env.TRAVIS_BRANCH];
+
+
 const token = process.env.ADMIN_TOKEN;
 
 function* getVersion(ANDROID_PATH, buildType) {
+  console.log(`${colors.blue('getting current version')}`);
   const reGetVersion = /android {[\s\S]*defaultConfig {[\s\S]*versionName "(.*)"/;
   const reGetSuffix = new RegExp(`buildTypes {[\\s\\S]*${buildType} {[\\s\\S]*versionNameSuffix "(.*)"`)
   const gradleConfig = fs.readFileSync(`${ANDROID_PATH}/app/build.gradle`).toString();
@@ -15,6 +20,7 @@ function* getVersion(ANDROID_PATH, buildType) {
   const suffixMatched = gradleConfig.match(reGetSuffix);
   const versionName = (versionMatched) ? versionMatched[1] : '0.0.0';
   const suffix = (suffixMatched) ? suffixMatched[1] : '';
+  console.log(`${colors.white('Got version')} ${colors.green(`${versionName}${suffix}`)}`);
   return `${versionName}${suffix}`
 }
 
@@ -34,6 +40,7 @@ function* uploadRelease(ANDROID_PATH, releaseDate) {
     }
   } catch (e) {
     console.log(e);
+    throw e;
   }
 }
 
@@ -41,8 +48,12 @@ function buildRelease(ANDROID_PATH, releaseDate) {
   return new Promise((resolve, reject) => {
     const options = {
       cwd: `${ANDROID_PATH}`,
+      env: {
+        ...process.env,
+        'ENVFILE': config.envFile,
+      }
     }
-    const p = spawn('./gradlew', ['assembleDebug'], options);
+    const p = spawn('./gradlew', [config.gradleCommand], options);
     p.childProcess.stdout.on('data', (data) => {
       console.log(data.toString())
     });

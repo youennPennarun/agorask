@@ -1,7 +1,11 @@
 const fs = require('fs');
+const configs = require('./config');
+
+const config = configs.branches[process.env.TRAVIS_BRANCH];
+
 const SOURCES_PATH = `${process.env.TRAVIS_BUILD_DIR}/mobile_app`;
 
-const ENV_FILE = `${SOURCES_PATH}/.env`;
+const ENV_FILE = `${SOURCES_PATH}/${config.envFile}`;
 
 function getNewEnvFile(data = "", options = {}) {
   console.log(`Reading env file in ${ENV_FILE}`);
@@ -44,6 +48,11 @@ function writeNewFile(data) {
 
 
 module.exports = function createEnvFile(options={}) {
+  options = {
+    ...config.env,
+    options,
+  }
+  console.log(`${colors.green('Creating env file with options')}`, options);
   return new Promise((resolve, reject) => {
     let RELEASE_DATE = Date.now();
     if (!options.RELEASE_DATE) {

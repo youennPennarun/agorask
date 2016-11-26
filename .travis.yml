@@ -49,9 +49,8 @@ matrix:
       before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
       script: ENV=test npm run codecov
       before_deploy: cd $TRAVIS_BUILD_DIR/tools/travis/deployApplication && npm install
-      #deploy:
-      #  provider: script
-      #  script: node deployApplication.js
-      # script: pwd && cd $TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleDebug
+      deploy:
+        provider: script
+        script: node deployApplication.js
 script: echo "Need to make integration tests (with the app connected to the server...)"
 after_script: echo "after script"
