@@ -1,6 +1,7 @@
 const DEFAULT_ENV = {}
 
 module.exports = {
+  deployTo: "https://agorask.herokuapp.com",
   branches: {
     "development": {
       gradleCommand: 'assembleRelease',
