@@ -11,7 +11,7 @@ env:
   - secure: R0ylSkGmysmkbyzGPZnJ/3O0cJq1ipt4WvA2BbB6Ie35/LjM9dSy/UgBTsCS0zBB9JdkcXtyU8EcBQvnMS6Cck/reByqKVfyOgKyoGRW8ZAWOfoZUZ2oPv4j1e5NBf9t3wYZsr4sFOObPaHu+G/PS8CkbTOdL4JPfwHPDcASNojLpCDLXLOY1Sg3r9sNMQnNv/jykHG9qcxjb7z7lfi4CQTxf/nYfflzcoGejggrErDT2tGHqHK1x3pd9Nh+24K/1aAuLJkyYR1JjE+aGJy84rWHDFdxFbTbMsQSx1KZfhospa5ckHisoi3+twTy7EpqKOKE6IW48c3whf9Q/QYdmqsSw8htapH09xv1+EqGl50DAzura5nhhqesCFAV70yZf35llLiuH3Ioy6B4Omi++OHDb26uby1+d51L+F7bzxTlB7IPq+DaJlh0rosPUCo9gQisMr2ZYUfKdb3zZJZL1V5gAXk3R3/UtdolUL9GECE3JRCZparxy0nnLQRlt4ScrOvXApy8nmE8jc7m2eJzCifBVCM/fAXzqaeAHKAazG4nGiivU0EhT0ssrXNGu2+3W6ppE2ytGpJADt2dxvXxTF0brdeZBYlU0grlbsps91mbzo169UkM3GQgyQx6egwaeERMFyFOYMEoW7W7y0d2aRetrJMK92Bof0MCoJHejnU=
 before_install:
 - openssl aes-256-cbc -K $encrypted_a1054c89f061_key -iv $encrypted_a1054c89f061_iv
-  -in release.keystore.enc -out mobile_app/release.keystore -d
+  -in mobile_app/release.keystore.enc -out mobile_app/release.keystore -d
 - mkdir $TRAVIS_BUILD_DIR/tmp  && cd $TRAVIS_BUILD_DIR/tools/travis/ && npm install
 matrix:
   include:
