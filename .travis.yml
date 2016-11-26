@@ -73,7 +73,7 @@ matrix:
     - provider: script
       skip_cleanup: true
       sudo: required
-      script: cd $TRAVIS_BUILD_DIR/mobile_app/android && echo "ls android" && ls && echo "ls app" && ls app && ./gradlew assembleRelease --stacktrace --info
+      script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
       on:
         branch: development
 script: echo "Need to make integration tests (with the app connected to the server...)"
