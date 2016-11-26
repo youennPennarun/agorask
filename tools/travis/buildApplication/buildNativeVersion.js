@@ -26,11 +26,12 @@ function* getVersion(ANDROID_PATH, buildType) {
 
 function* uploadRelease(ANDROID_PATH, releaseDate) {
   const version = yield getVersion(ANDROID_PATH, 'release');
-  var form = new FormData();
-  console.log(`Uploading version ${version} on ${configs.deployTo}/application/${releaseDate}?version=${version}...`.green)
+  const url = `${configs.deployTo}/application/${releaseDate}?version=${version}`;
+  console.log(`Uploading version ${version} on ${url}...`.green)
+  const form = new FormData();
   form.append('app', fs.createReadStream(`${ANDROID_PATH}/app/build/outputs/apk/${config.out}`));
   try {
-    const response = yield fetch(`${configs.deployTo}/application/${releaseDate}?version=${version}&token=${token}`, { method: 'POST', body: form });
+    const response = yield fetch(`${url}&token=${token}`, { method: 'POST', body: form });
     if (response.status === 200) {
       console.log('Application successfully uploaded'.green);
     } else {
