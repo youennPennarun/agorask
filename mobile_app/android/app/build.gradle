@@ -102,7 +102,7 @@ android {
     signingConfigs {
         if (System.getenv("TRAVIS")) {
             release {
-                storeFile 'release.keystore'
+                storeFile file('release.keystore')
                 storePassword System.getenv("MYAPP_RELEASE_STORE_PASSWORD")
                 keyAlias System.getenv("MYAPP_RELEASE_KEY_ALIAS")
                 keyPassword System.getenv("MYAPP_RELEASE_KEY_PASSWORD")
