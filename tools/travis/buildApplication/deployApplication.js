@@ -40,5 +40,8 @@ if (!config) {
 }
 
 build.then(console.log)
-  .catch(console.log)
+  .catch((e) => {
+    console.log(e);
+    process.exit(1);
+  })
    

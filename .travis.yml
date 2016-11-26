@@ -2,6 +2,13 @@ language: node_js
 node_js:
 - 6.2.0
 services: mongodb
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 env:
   matrix:
   - TRAVIS_NODE_VERSION: 6.1.0
@@ -68,3 +75,6 @@ matrix:
         branch: development
 script: echo "Need to make integration tests (with the app connected to the server...)"
 after_script: echo "after script"
+notifications:
+  email:
+  - youenn.pennarun@gmail.com
