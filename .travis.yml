@@ -19,7 +19,7 @@ env:
   - secure: M5TU4Cb5R+6s7QOQQef4aAUXO8Cqii0pfsOkyE8EsDXOyIb5dv3w4DDPY/3Euqy0CqFXo7KnlS0oA0yUTGQGthChBxvOIwZLWgQ1diASXt3YxqJWQyKHGxXrkaWmCiM906YgvSN6g9VpRnpl6IOXHpKblbHLz0VMI44SxKfTwJkm6fvb9RoU+Khaxn8fTZspgnBdF/IQ87Mvp939fl1EQnHDyanDsDApHgj4lxoDLoLaXQCQ6TFk5jO1WM1U5Ih9OLOiOvFUydT9DHgD0IfgdGjj2D3vevqxozxjNDXdRO5TDg0Bfc7kHoLMdc3kiA5Y+tVoYR5ezQUH1VeDRetgUwfA6Q/elhGaNC60N1BzzQ1HD8IogQRO7IMnaqxBXUJzNI1ykilTE3bAVL82SCgX+0qEXjkmVi83b7HmIabuZdhFRJvGvw/JqodRj76/N5D3WXr5DLPOD5d6+JNtZuhbEvypJz76ixrHenAC4GuT7yfNq8HnTXBPJMj18ln+ZxKIrlpVm6rHch5eqsgnlbKVKthc9ohVuRKvf5wurhQ21REN14/lgSc6AwW/41ZAisLHrPyMejPENl7erWDVKr0t3iUjApTHgK66xLvHaZn8HPGj1bYF+TpKEL6+c7VaLUtrelXFSDnoRei8BXC6bk8d8gIgLiC7NEgZ7wIte/7+SHE=
 before_install:
 - openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv
-  -in release.keystore.enc -out mobile_app/android/release.keystore -d
+  -in release.keystore.enc -out mobile_app/android/app/release.keystore -d
 - mkdir $TRAVIS_BUILD_DIR/tmp  && cd $TRAVIS_BUILD_DIR/tools/travis/ && npm install
 matrix:
   include:
@@ -72,8 +72,7 @@ matrix:
     - provider: script
       skip_cleanup: true
       sudo: required
-      script: cd $TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleRelease
-        --stacktrace --info
+      script: cd $TRAVIS_BUILD_DIR/mobile_app/android && ./gradlew assembleRelease --stacktrace --info
       on:
         branch: development
 script: echo "Need to make integration tests (with the app connected to the server...)"
