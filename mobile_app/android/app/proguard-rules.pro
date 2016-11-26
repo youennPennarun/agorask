@@ -64,3 +64,8 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# react-native-config
+-keep class com.agorask.BuildConfig { *; }
+-keep class com.agorask.debug.BuildConfig { *; }
+-keep class com.agorask.dev.BuildConfig { *; }

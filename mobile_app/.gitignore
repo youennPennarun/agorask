@@ -49,3 +49,6 @@ jsconfig.json
 
 coverage
 my-release-key.keystore
+.yarnclean
+yarn-error.log
+

@@ -4735,10 +4735,6 @@ ramda@^0.22.1:
   version "0.22.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.22.1.tgz#031da0c3df417c5b33c96234757eb37033f36a0e"
 
-ramda@~0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.21.0.tgz#a001abedb3ff61077d4ff1d577d44de77e8d0a35"
-
 ramdasauce@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ramdasauce/-/ramdasauce-1.1.1.tgz#6fb278b4db19b9b51ac96f4664694691eb09d138"
@@ -4825,12 +4821,6 @@ react-native-code-push:
 react-native-config:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.1.2.tgz#cf6e3e312845f411fe9ef42f3ea283c576078681"
-
-react-native-material-kit:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/react-native-material-kit/-/react-native-material-kit-0.3.3.tgz#5471c7171c40a2d27cf03cb3d1bdacd54b69e00a"
-  dependencies:
-    ramda "~0.21.0"
 
 react-native-mock:
   version "0.2.7"
