@@ -53,7 +53,7 @@ function buildRelease(ANDROID_PATH, releaseDate) {
       cwd: `${ANDROID_PATH}`,
       env: env
     }
-    const p = spawn('./gradlew', [config.gradleCommand], options);
+    const p = spawn('./gradlew', [config.gradleCommand, "--stacktrace", "--debug"], options);
     p.childProcess.stdout.on('data', (data) => {
       console.log(data.toString())
     });
