@@ -1,7 +1,8 @@
 /* @flow */
 /* global fetch */
 import Logger from '../../utils/Logger';
-import {API_URL} from 'react-native-config';
+import Config from 'react-native-config';
+const API_URL = Config.API_URL;
 
 export const FETCHING_LIST = 'FETCHING_LIST_VENUES';
 export const SUCCESS_LIST = 'SUCCESS_LIST_VENUES';
