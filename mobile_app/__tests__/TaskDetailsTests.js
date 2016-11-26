@@ -14,6 +14,7 @@ it('renders correctly', () => {
       name='Test Venue'
       isFetching={false}
       title='Help me!'
+      date={new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)')}
       answers={[
         {
           answer: 'No can do',
@@ -33,13 +34,14 @@ it('fetching renders correctly', () => {
       name='Test Venue'
       isFetching
       title='Help me!'
+      date={new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)')}
       answers={[
         {
           answer: 'No can do',
           postedBy: {
             username: 'Joe',
           },
-          date: new Date(1479850507654),
+          date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
         },
       ]} />
   );
