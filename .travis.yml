@@ -18,6 +18,8 @@ env:
   - secure: ZxRCwfXRf64aCy4IeqGPs2Las/mggIFRubSlzj8vRAIwhDh6LGZNG0BWas6DAiMM3MIsrOgKiPzdjhb0pG4KlpKj6oDtWGlCzEup3NNz06KGs7GblfKQIaZ9MyU3YFACkeNMOobLvDuxBASO3UUWUkW7sH8IY5lqK5aa4Ppv2WyzC06sqYC2yazTYFcVSpNIxk6emIUuEsr1drXnOkJ0sU0BixojpNuC5FeC+HCHMLUxhmx+Ru7E4kZJ/EmbrADVNrLVV3d/jNBX2nrlQZ4JV3RDv0ZAIecQvM60JAz5/x4AjrI7nBCVPfkoQjCkvvyd2A2wJ5170ccvC8Px6eFEW7TmgraR46DcGyvh4K0EDwGQjEUnlJcBdGtXNjCyKsFazcJDThYnsOR96ofOWogpWaMEK9uCWR87C0/fzOq5MK28+WXfAqkJrQn2CVMxYJ7EQsyqQGoi3lbAbE65pb+es8QzLCMZPUaamXpxL8mtJrDRBQfG4KaC0t+ZW07lury40EUvinmATAbGzpewsPRaMDvV/e8Rvn/5olwX/sf/xTlylWhX4QJqHKHltnV5Zg3KPP6tAa0MzHzUBtm1RJbNSXKfwZ34g3s6zwcYheZfuyI8zxKyrGb6ZNBmwZLsIHVxBoZFcEG5QfgZj2qo3POPsiDKxiISdVbEQFWCC/bMRTo=
   - secure: M5TU4Cb5R+6s7QOQQef4aAUXO8Cqii0pfsOkyE8EsDXOyIb5dv3w4DDPY/3Euqy0CqFXo7KnlS0oA0yUTGQGthChBxvOIwZLWgQ1diASXt3YxqJWQyKHGxXrkaWmCiM906YgvSN6g9VpRnpl6IOXHpKblbHLz0VMI44SxKfTwJkm6fvb9RoU+Khaxn8fTZspgnBdF/IQ87Mvp939fl1EQnHDyanDsDApHgj4lxoDLoLaXQCQ6TFk5jO1WM1U5Ih9OLOiOvFUydT9DHgD0IfgdGjj2D3vevqxozxjNDXdRO5TDg0Bfc7kHoLMdc3kiA5Y+tVoYR5ezQUH1VeDRetgUwfA6Q/elhGaNC60N1BzzQ1HD8IogQRO7IMnaqxBXUJzNI1ykilTE3bAVL82SCgX+0qEXjkmVi83b7HmIabuZdhFRJvGvw/JqodRj76/N5D3WXr5DLPOD5d6+JNtZuhbEvypJz76ixrHenAC4GuT7yfNq8HnTXBPJMj18ln+ZxKIrlpVm6rHch5eqsgnlbKVKthc9ohVuRKvf5wurhQ21REN14/lgSc6AwW/41ZAisLHrPyMejPENl7erWDVKr0t3iUjApTHgK66xLvHaZn8HPGj1bYF+TpKEL6+c7VaLUtrelXFSDnoRei8BXC6bk8d8gIgLiC7NEgZ7wIte/7+SHE=
 before_install:
+- openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv
+  -in release.keystore.enc -out mobile_app/android/app/release.keystore -d
 - mkdir $TRAVIS_BUILD_DIR/tmp  && cd $TRAVIS_BUILD_DIR/tools/travis/ && npm install
 matrix:
   include:
@@ -42,6 +44,7 @@ matrix:
     after_build: touch $TRAVIS_BUILD_DIR/SERVER_DEPLOYED
   - env: TEST_DIR=mobile_app SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_APP
     language: android
+    skip_cleanup: true
     jdk: oraclejdk8
     node_js:
     - 6.1.0
@@ -60,9 +63,6 @@ matrix:
     before_install: nvm install 6.1.0 && nvm use 6.1.0
     before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
     sudo: required
-    before_install:
-    - openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv
-      -in release.keystore.enc -out mobile_app/android/app/release.keystore -d
     before_deploy: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
     deploy:
     - provider: script
