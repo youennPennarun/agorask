@@ -52,4 +52,4 @@ my-release-key.keystore
 .yarnclean
 yarn-error.log
 
-release.keystore
+android/release.keystore
