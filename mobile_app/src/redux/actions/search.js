@@ -1,14 +1,12 @@
 /* @flow */
 /* global fetch */
+import {API_URL} from 'react-native-config';
 
 export const UPDATE_QUERY = 'UPDATE_QUERY_SEARCH_VENUES';
 export const CLEAR = 'CLEAR_SEARCH_VENUES';
 export const FETCHING_LIST = 'FETCHING_LIST_SEARCH_VENUES';
 export const SUCCESS_LIST = 'SUCCESS_LIST_SEARCH_VENUES';
 export const FAILURE_LIST = 'FAILURE_LISTE_SEARCH_VENUES';
-
-const API_URL = 'http://192.168.0.10:3000/venues/search';
-// const API_URL = 'https://agorask.herokuapp.com/venues';
 
 export function updateQuery(query) {
   return {

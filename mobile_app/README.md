@@ -3,7 +3,7 @@
 ### installation
 (All yarn commands can use npm instead)  
 ```
-$- yarn install -g react-native cli
+$- yarn install -g react-native-cli
 $- yarn
 ```
 Install android-sdk and define ANDROID_HOME environment variable, then install android SDK packages.

@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -66,6 +67,7 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -92,8 +94,43 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        resValue "string", "build_config_package", "com.agorask"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        if (System.getenv("TRAVIS")) {
+            release {
+                storeFile file('release.keystore')
+                storePassword System.getenv("MYAPP_RELEASE_STORE_PASSWORD")
+                keyAlias System.getenv("MYAPP_RELEASE_KEY_ALIAS")
+                keyPassword System.getenv("MYAPP_RELEASE_KEY_PASSWORD")
+            }
+        } else {
+            release {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+        debug {
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            versionName android.defaultConfig.versionName + "-dev"
         }
     }
     splits {
@@ -126,6 +163,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-code-push')
+    compile project(':react-native-config')
     compile project(':react-native-svg')
     compile project(':react-native-material-kit')
     compile project(':react-native-vector-icons')

@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/Entypo';
 const {width} = Dimensions.get('window');
 
 function getIcon(amenity) {
-  if (amenity === 'pub') return 'drink';
   return 'globe';
 }
 function renderAddress(formattedAddress) {

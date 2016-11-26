@@ -1,24 +1,26 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import {View, NavigationExperimental} from 'react-native';
+import {View} from 'react-native';
 import { Provider } from 'react-redux';
 import store from '../redux/configureStore';
 import {pushRoute} from '../redux/actions/router';
+import {loadTokenFromStorage} from '../redux/actions/user';
 
 import Router from './Router';
 import DrawerMenu from './commons/drawerMenu/DrawerMenu';
 
-const {
-  StateUtils: NavigationStateUtils,
-} = NavigationExperimental;
 
 class App extends Component {
   state = {
   };
-
+  componentWillMount() {
+    store.dispatch(loadTokenFromStorage());
+  }
   componentDidMount() {
-    store.dispatch(pushRoute({key: 'login'}));
+    if (!store.getState().user.token) {
+      store.dispatch(pushRoute({key: 'login'}));
+    }
   }
 
   drawerRef = null;
@@ -28,12 +30,11 @@ class App extends Component {
   }
 
   render(): any {
-    console.log(store);
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
           <Router openDrawer={this._openDrawer} />
-          <DrawerMenu ref={ref => { this.drawerRef = ref; }}
+          <DrawerMenu onRef={ref => { this.drawerRef = ref; }}
             pushRoute={(route) => { store.dispatch(pushRoute(route)); }} />
         </View>
       </Provider>

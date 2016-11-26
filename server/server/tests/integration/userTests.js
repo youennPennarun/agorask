@@ -45,7 +45,7 @@ describe('User Tests', () => {
       });
     });
 
-    it('Should throw a 403 error if the password is invalid', () => {
+    it('Should throw a 401 error if the password is invalid', () => {
       return co(function* () {
         const response = yield fetch('http://localhost:3000/users/login', {
           method: 'POST',
@@ -58,8 +58,8 @@ describe('User Tests', () => {
             password: 'ohCrapThisIsTheWrongPassword',
           }),
         });
-        expect(response.status).to.be.equal(400);
-        expect(response.statusText).to.be.equal('Bad Request');
+        expect(response.status).to.be.equal(401);
+        expect(response.statusText).to.be.equal('Unauthorized');
       });
     });
   });

@@ -20,6 +20,14 @@ const user = mongoose.Schema({
         validate: [validateEmail, 'email is invalid'],
         required: true,
     },
+    isAdmin: mongoose.SchemaTypes.Boolean,
+    externals: {
+        box: {
+            accessToken: String,
+            refreshToken: String,
+            expireThe: Date,
+        },
+    },
 });
 
 module.exports = {

@@ -10,6 +10,13 @@ const isLoggedIn = function* (next) {
   yield next;
 };
 
+function* isAdmin(next) {
+  if (!this.request.tokenPayload || !this.request.tokenPayload.isAdmin) {
+    this.throw('Unauthorized', 401);
+  }
+  yield next;
+}
+
 const register = function* () {
   const {username, password, email} = this.request.body;
   if (!username || !password || !email) {
@@ -33,10 +40,10 @@ const logIn = function* () {
   try {
     user = yield User.logIn(username, password);
   } catch (e) {
-    if (e === User.errors.INVALID_USER) return this.throw('BadRequest', 400);
+    if (e === User.errors.INVALID_USER) return this.throw('Unauthorized', 401);
     return this.throw('InternalServerError', 500);
   }
-  const token = Auth.getToken({username: user.username});
+  const token = Auth.getToken({id: user._id, username: user.username, isAdmin: !!user.isAdmin});
   this.body = { token };
 };
 
@@ -44,6 +51,7 @@ const logIn = function* () {
 
 module.exports = {
   isLoggedIn,
+  isAdmin,
   register,
   logIn,
 };

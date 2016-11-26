@@ -1,6 +1,7 @@
 package com.agorask;
 
 import com.facebook.react.ReactActivity;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 public class MainActivity extends ReactActivity {

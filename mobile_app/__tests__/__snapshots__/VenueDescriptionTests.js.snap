@@ -1,0 +1,239 @@
+exports[`test Test with address as a single string 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "elevation": 2,
+      "marginTop": 5,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "width": 375,
+    }
+  }>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }>
+    <Icon
+      allowFontScaling={false}
+      color="blue"
+      name="globe"
+      size={16}
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      } />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#212121",
+          "fontSize": 21,
+        }
+      }>
+      Test venue
+    </Text>
+  </View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail">
+    2 univ street 5200 Belfast UK
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail" />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail" />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail">
+    <Icon
+      allowFontScaling={false}
+      color="blue"
+      name="mobile"
+      size={16}
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      } />
+    (060) 25-65
+  </Text>
+</View>
+`;
+
+exports[`test Test with formatted address 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "elevation": 2,
+      "marginTop": 5,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "width": 375,
+    }
+  }>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }>
+    <Icon
+      allowFontScaling={false}
+      color="blue"
+      name="globe"
+      size={16}
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      } />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#212121",
+          "fontSize": 21,
+        }
+      }>
+      Test venue
+    </Text>
+  </View>
+  <View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      2 univ street
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      5200 Belfast
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      UK
+    </Text>
+  </View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail" />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail" />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail">
+    <Icon
+      allowFontScaling={false}
+      color="blue"
+      name="mobile"
+      size={16}
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      } />
+    (060) 25-65
+  </Text>
+</View>
+`;
+
+exports[`test Test without address 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "elevation": 2,
+      "marginTop": 5,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "width": 375,
+    }
+  }>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }>
+    <Icon
+      allowFontScaling={false}
+      color="blue"
+      name="globe"
+      size={16}
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      } />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#212121",
+          "fontSize": 21,
+        }
+      }>
+      Test venue
+    </Text>
+  </View>
+  <View />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail" />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail" />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail">
+    <Icon
+      allowFontScaling={false}
+      color="blue"
+      name="mobile"
+      size={16}
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      } />
+    (060) 25-65
+  </Text>
+</View>
+`;

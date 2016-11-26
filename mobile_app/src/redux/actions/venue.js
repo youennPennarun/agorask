@@ -1,6 +1,8 @@
 /* @flow */
 /* global fetch */
 import Logger from '../../utils/Logger';
+import Config from 'react-native-config';
+const API_URL = Config.API_URL;
 
 export const FETCHING_LIST = 'FETCHING_LIST_VENUES';
 export const SUCCESS_LIST = 'SUCCESS_LIST_VENUES';
@@ -9,7 +11,7 @@ export const FAILURE_LIST = 'FAILURE_LISTE_VENUES';
 export const UPDATE_SELECTED_VENUE = 'UPDATE_SELECTED_VENUE';
 export const FETCHING_VENUE = 'FETCHING_VENUE';
 
-const API_URL = 'http://192.168.0.10:3000/venues';
+const VENUE_API_URL = `${API_URL}/venues`;
 // const API_URL = 'https://agorask.herokuapp.com/venues';
 
 export function getVenuesWithTasksNearPosition(location: {latitude: number, longitude: number}, radius = 0.5) {
@@ -17,7 +19,7 @@ export function getVenuesWithTasksNearPosition(location: {latitude: number, long
     dispatch({
       type: FETCHING_LIST,
     });
-    fetch(API_URL, {
+    fetch(VENUE_API_URL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -61,7 +63,7 @@ export function getSelectedVenue(id, source) {
     if (source) {
       param += `?source=${source}`;
     }
-    fetch(`${API_URL}/${param}`)
+    fetch(`${VENUE_API_URL}/${param}`)
       .then(response => {
         Logger.log('response status' + response.status);
         return response.json();

@@ -15,12 +15,12 @@ it('renders correctly', () => {
   );
   expect(shallowToJson(wrapper)).toMatchSnapshot();
 });
-/*
-it('Cannot press on login button if no username/password have been set', () => {
+
+
+it('Button enable if usrname and password are filled', () => {
   const wrapper = shallow(
-    <LoginView params={{repo: ''}} />
+    <LoginView />
   );
-  const forksButton = rendered.refs.forks;
-  expect(rendered.state.mode).toEqual('forks');
+  wrapper.setState({username: 'mrMeeseeks', password: 'Look at me'});
+  expect(shallowToJson(wrapper)).toMatchSnapshot();
 });
-*/

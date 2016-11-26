@@ -13,7 +13,7 @@ import {getTask} from '../../../redux/actions/task';
 
 const {width} = Dimensions.get('window');
 
-class TaskDetails extends Component {
+export class TaskDetails extends Component {
   componentWillMount() {
     InteractionManager.runAfterInteractions(() => {
       this.props.getTask();

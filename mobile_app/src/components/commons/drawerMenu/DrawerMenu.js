@@ -11,8 +11,10 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import {disconnect} from '../../../redux/actions/user';
 import Badge from './Badge';
 
 const {width, height} = Dimensions.get('window');
@@ -77,6 +79,48 @@ class DrawerMenu extends Component {
     ).start(() => { this.setState({isOpen: false}); });
   }
 
+  _renderLoginItem() {
+    return (
+      <TouchableOpacity style={styles.item}
+        onPress={() => {
+          this.close();
+          this.props.pushRoute({key: 'login'});
+        }} >
+          <Icon name='account-circle'
+            style={styles.icon}
+            size={20}
+            color='white' />
+          <Text style={styles.label}>Login</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  _renderDisconnectItem() {
+    return (
+      <TouchableOpacity style={styles.item}
+        onPress={() => {
+          this.props.disconnect();
+        }} >
+          <Icon name='account-circle'
+            style={styles.icon}
+            size={20}
+            color='white' />
+          <Text style={styles.label}>Logout</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  componentDidMount() {
+    if (this.props.onRef) {
+      this.props.onRef(this);
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.onRef) {
+      this.props.onRef(null);
+    }
+  }
+
   render(): ?Object {
     if (!this.state.isOpen) return null;
     return (
@@ -87,7 +131,7 @@ class DrawerMenu extends Component {
           {...this._panResponder.panHandlers} >
           <View style={styles.userContainer}>
             <View style={styles.userPic} />
-            <Text style={styles.username}>Username</Text>
+            <Text style={styles.username}>{this.props.username}</Text>
           </View>
           <View style={styles.mainMenu} >
             <View style={styles.menuItems} >
@@ -106,17 +150,7 @@ class DrawerMenu extends Component {
                   color='white' />
                 <Text style={styles.label}>Settings</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.item}
-                onPress={() => {
-                  this.close();
-                  this.props.pushRoute({key: 'login'});
-                }} >
-                <Icon name='account-circle'
-                  style={styles.icon}
-                  size={20}
-                  color='white' />
-                <Text style={styles.label}>Login</Text>
-              </TouchableOpacity>
+              {(this.props.token) ? this._renderDisconnectItem() : this._renderLoginItem()}
             </View>
           </View>
         </Animated.View>
@@ -193,5 +227,19 @@ const styles = StyleSheet.create({
     flex: 0.3,
   },
 });
+const mapStateToProps = state => ({
+  ...state.user,
+});
 
-export default DrawerMenu;
+const mapDispatchToProps = (dispatch) => ({
+  disconnect: () => {
+    dispatch(disconnect());
+  },
+});
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DrawerMenu);
+

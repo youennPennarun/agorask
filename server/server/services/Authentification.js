@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt-nodejs');
 
-const secret = "veryVerySecret";
+const secret = 'veryVerySecret';
 
 const getToken = function(payload) {
   return jwt.sign(payload, secret);

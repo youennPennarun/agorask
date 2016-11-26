@@ -13,9 +13,11 @@ const {width} = Dimensions.get('window');
 
 export class LoginView extends Component {
   state = {
-    username: 'Hello',
+    username: '',
     password: '',
   }
+  usernameRef = null;
+  passwordRef = null;
   login() {
     const {username, password} = this.state;
     const {doLogin} = this.props;
@@ -29,6 +31,27 @@ export class LoginView extends Component {
       this.state.username !== '' &&
       this.state.password !== ''
     );
+  }
+
+  _onSubmitUsername() {
+    this.passwordRef.focus();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.token) {
+      this.props.goToMap();
+    }
+  }
+
+  _onSubmitPassword() {
+    const {username, password} = this.state;
+    if (!username) {
+      this.usernameRef.focus();
+      return;
+    }
+    if (password) {
+      this.props.doLogin(username, password);
+    }
   }
 
   _renderErrorMessage(): ?Object {
@@ -47,15 +70,21 @@ export class LoginView extends Component {
       <View style={styles.container}>
         <View style={styles.logo} />
           {this._renderErrorMessage()}
-          <Textfield style={styles.textInput}
+          <Textfield ref={r => { this.usernameRef = r; }}
+            style={styles.textInput}
             placeholder='Username'
             blurOnSubmit
+            onSubmitEditing={() => { this._onSubmitUsername(); }}
             value={this.state.username}
             onChangeText={(text: string) => { this.setState({username: text}); }} />
-          <Textfield style={styles.textInput}
+          <Textfield ref={r => { this.passwordRef = r; }}
+            style={styles.textInput}
             placeholder='Password'
             secureTextEntry
             blurOnSubmit
+            selectTextOnFocus
+            password
+            onSubmitEditing={() => { this._onSubmitPassword(); }}
             value={this.state.password}
             onChangeText={(text: string) => { this.setState({password: text}); }} />
 
@@ -86,11 +115,9 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   textInput: {
-    height: 50,
+    height: 45,
     width: width - 100,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginBottom: 15,
   },
   goToMapButton: {
     marginTop: 10,
