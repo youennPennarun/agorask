@@ -3,7 +3,7 @@ const DEFAULT_ENV = {}
 module.exports = {
   branches: {
     "development": {
-      gradleCommand: 'assembleDev',
+      gradleCommand: 'assembleRelease',
       envFile: ".env.dev",
       env: Object.assign({}, DEFAULT_ENV, {}),
     },
