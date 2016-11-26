@@ -55,10 +55,10 @@ function buildRelease(ANDROID_PATH, releaseDate) {
     }
     const p = spawn('./gradlew', [config.gradleCommand, "--stacktrace", "--info"], options);
     p.childProcess.stdout.on('data', (data) => {
-      console.log(data.toString())
+      process.stdout.write(data.toString());
     });
     p.childProcess.stderr.on('data', (data) => {
-      console.log(data.toString())
+      process.stdout.write(data.toString())
     });
     p.then(() => {
       co(uploadRelease(ANDROID_PATH, releaseDate)).then(resolve).catch(reject);
