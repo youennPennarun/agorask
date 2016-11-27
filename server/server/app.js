@@ -12,8 +12,6 @@ if (!fs.existsSync(path.join(__dirname, '../tmp'))) {
 
 const routes = require('./routes');
 
-
-
 const mongoose = require('mongoose');
 const mongooseConnection = require('./utils/mongo/connect');
 
@@ -36,7 +34,13 @@ app
       yield next;
     } catch (e) {
       // TODO error logging, handling...
-      throw e;
+      if (e.errorData) {
+        this.status = e.status || 500;
+        this.message = e.message;
+        this.body = e.errorData || e.message;
+      } else {
+        throw e;
+      }
     }
   })
   .use(router.routes())

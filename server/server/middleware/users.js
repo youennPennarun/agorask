@@ -4,7 +4,7 @@ const User = require('../services/User');
 const isLoggedIn = function* (next) {
   const payload = Auth.isTokenValid(this.request.query.token);
   if (!payload) {
-    return this.throw('Unauthorized', 401);
+    return this.throw('Unauthorized', 401, {errorData: {error: 'invalid token'}});
   }
   this.request.tokenPayload = payload;
   yield next;
@@ -12,7 +12,7 @@ const isLoggedIn = function* (next) {
 
 function* isAdmin(next) {
   if (!this.request.tokenPayload || !this.request.tokenPayload.isAdmin) {
-    this.throw('Unauthorized', 401);
+    this.throw('Unauthorized', 401, {errorData: {error: 'Require admin privileges'}});
   }
   yield next;
 }
