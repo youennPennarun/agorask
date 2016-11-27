@@ -18,7 +18,7 @@ function* newRelease () {
     checkFile,
     autoFields: true,
   });
-  if (!this.params.releaseDate || !this.params.type) return this.throw('BadRequest', 400);
+  if (!this.params.releaseDate || !this.query.type) return this.throw('BadRequest', 400);
   const version = this.query.version || this.params.releaseDate;
   const dest = path.join(
     __dirname,
@@ -31,7 +31,7 @@ function* newRelease () {
     part.pipe(stream);
     console.log('uploading %s -> %s', part.filename, stream.path);
   }
-  const app = yield Application.newRelease(this.request.tokenPayload, this.params.releaseDate, version, this.params.type, dest);
+  const app = yield Application.newRelease(this.request.tokenPayload, this.params.releaseDate, version, this.query.type, dest);
   this.body = {app};
 }
 
