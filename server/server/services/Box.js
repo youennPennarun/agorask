@@ -161,6 +161,7 @@ function* getDownloadLink(type, version) {
     query.version = version;
   }
   const app = yield Application.findOne(query)
+                .sort({releaseDate: -1})
                 .select('downloadUrl')
                 .exec();
   if (!app || !app.downloadUrl) return null;
