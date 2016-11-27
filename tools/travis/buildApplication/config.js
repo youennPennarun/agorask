@@ -4,10 +4,10 @@ module.exports = {
   deployTo: "https://agorask.herokuapp.com",
   branches: {
     "development": {
-      gradleCommand: 'assembleRelease',
+      gradleCommand: 'assembleDev',
       envFile: ".env.dev",
       env: Object.assign({}, DEFAULT_ENV, {}),
-      out: "app-dev-release.apk"
+      out: "app-dev.apk"
     },
     "master": {
       gradleCommand: 'assembleRelease',
