@@ -16,8 +16,9 @@ function* newRelease (user, releaseDate, version, tmpPath) {
   const tokens = yield Box.getUserToken(user.id);
   const fileName = `agorask_${version}`;
   const boxData = yield Box.upload(tokens, tmpPath, fileName);
+
   const app = new Application({
-    releaseDate: new Date(releaseDate),
+    releaseDate: new Date(parseInt(releaseDate)),
     version,
     boxId: boxData.boxId,
     fileName: boxData.name,

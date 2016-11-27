@@ -82,6 +82,7 @@ function upload(userTokens, filePath, fileName) {
     co(deleteFileIfExists(fileName, userTokens.accessToken))
       .then(() => {
         box.files.upload(filePath, fileName, FOLDER_ID, function (err, body) {
+          console.log(err);
           if (err) return reject(err);
           const {id, name} = body.entries[0];
           co(share(id, userTokens.accessToken))
@@ -125,7 +126,7 @@ function* fileExists(fileName, accessToken, limit = 1000, offset = 0) {
     },
   });
 
-  const data = response.json();
+  const data = yield response.json();
   if (data.error) throw new Error(data.error);
   let file = data.entries.find(f => f.name === fileName);
   if (!file && data.total_count > limit + offset) {
@@ -136,7 +137,7 @@ function* fileExists(fileName, accessToken, limit = 1000, offset = 0) {
 
 function* deleteFile(fileId, accessToken) {
   const response = yield fetch(`https://api.box.com/2.0/files/${fileId}`, {
-    method: 'GET',
+    method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -147,6 +148,7 @@ function* deleteFile(fileId, accessToken) {
 function* deleteFileIfExists(fileName, accessToken) {
     const file = yield fileExists(fileName, accessToken);
     if (file) {
+      console.log("file exists, let's delete it!!");
       yield deleteFile(file.id, accessToken);
     }
 }
