@@ -14,7 +14,7 @@ function versionExists() {
 
 function* newRelease (user, releaseDate, version, tmpPath) {
   const tokens = yield Box.getUserToken(user.id);
-  const fileName = `agorask_${version}`;
+  const fileName = `agorask_${version}.apk`;
   const boxData = yield Box.upload(tokens, tmpPath, fileName);
 
   const app = new Application({
