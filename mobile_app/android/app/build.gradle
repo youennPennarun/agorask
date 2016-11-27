@@ -121,16 +121,15 @@ android {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
         }
-        debug {
-        }
         release {
             signingConfig signingConfigs.release
         }
-    }
-    productFlavors {
+
+        dev.initWith(buildTypes.release)
+
         dev {
             applicationIdSuffix ".dev"
-            versionName android.defaultConfig.versionName + "-dev"
+            versionNameSuffix "-dev"
         }
     }
     splits {
