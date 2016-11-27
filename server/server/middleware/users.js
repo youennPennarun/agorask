@@ -11,6 +11,7 @@ const isLoggedIn = function* (next) {
 };
 
 function* isAdmin(next) {
+  console.log(this.request.tokenPayload);
   if (!this.request.tokenPayload || !this.request.tokenPayload.isAdmin) {
     this.throw('Unauthorized', 401, {errorData: {error: 'Require admin privileges'}});
   }
