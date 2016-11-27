@@ -26,7 +26,7 @@ function* getVersion(ANDROID_PATH, buildType) {
 
 function* uploadRelease(ANDROID_PATH, releaseDate) {
   const version = yield getVersion(ANDROID_PATH, config.buildType);
-  const url = `${configs.deployTo}/application/${releaseDate}?version=${version}`;
+  const url = `${configs.deployTo}/application/${releaseDate}?version=${version}?type=${config.buildType}`;
   console.log(`Uploading version ${version} on ${url}...`.green)
   const form = new FormData();
   form.append('app', fs.createReadStream(`${ANDROID_PATH}/app/build/outputs/apk/${config.out}`));

@@ -13,6 +13,10 @@ const application = mongoose.Schema({
         type: Date,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
     boxId: {
         type: String,
         required: true,

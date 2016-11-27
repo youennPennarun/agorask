@@ -148,21 +148,23 @@ function* deleteFile(fileId, accessToken) {
 function* deleteFileIfExists(fileName, accessToken) {
     const file = yield fileExists(fileName, accessToken);
     if (file) {
-      console.log("file exists, let's delete it!!");
       yield deleteFile(file.id, accessToken);
     }
 }
 
-function* getDownloadLink(versionId) {
-  const app = yield Application.findOne({_id: versionId})
+function* getDownloadLink(type, version) {
+  const query = {};
+  if (type) {
+    query.type = type;
+  }
+  if (version) {
+    query.version = version;
+  }
+  const app = yield Application.findOne(query)
                 .select('downloadUrl')
                 .exec();
-  console.log(app);
   if (!app || !app.downloadUrl) return null;
   return app.downloadUrl;
-  /*
-  curl -L https://api.box.com/2.0/files/FILE_ID/content
--H "Authorization: Bearer ACCESS_TOKEN"*/
 }
 
 module.exports = {

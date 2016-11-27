@@ -4,7 +4,7 @@ const {newRelease, download, getAvailableVersions} = require('../middleware/appl
 
 module.exports = function(router) {
   router.get('/application/versions', getAvailableVersions);
-  router.get('/application/download', download);
+  router.get('/application/download/:type?', download);
 
   router.post('/application/:releaseDate', isLoggedIn, isAdmin, newRelease);
 };
