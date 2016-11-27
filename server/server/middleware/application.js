@@ -42,7 +42,7 @@ function* getApplicationVersion () {
 
 function* download () {
   const version = this.query.version;
-  const type = this.params.type;
+  const type = this.params.type || 'release';
   const downloadLink = yield Application.getDownloadLink(type, version);
   if (!downloadLink) return this.throw('Not Found', 404);
   console.log('link ', downloadLink);
