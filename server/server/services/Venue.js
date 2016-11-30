@@ -79,7 +79,7 @@ const reduce = function(venue) {
     address: {
       location: venue.address.location,
     },
-    nbTasks: venue.tasks.length,
+    nbTasks: (venue.tasks) ? venue.tasks.length : 0,
   };
 };
 
