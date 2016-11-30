@@ -1,6 +1,6 @@
 const koaBody = require('koa-body')();
 const {isLoggedIn} = require('../middleware/users');
-const {getTask} = require('../middleware/tasks');
+const {getTask, addTask} = require('../middleware/tasks');
 
 
 module.exports = function(router) {
@@ -9,4 +9,6 @@ module.exports = function(router) {
    * @return {Venue}
    */
   router.get('/tasks/:id', getTask);
+
+  router.post('/tasks', isLoggedIn, koaBody, addTask);
 };

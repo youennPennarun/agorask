@@ -11,7 +11,7 @@ const isTokenValid = function(token) {
   let payload;
   try {
     payload = jwt.verify(token, secret);
-  } catch (e){
+  } catch (e) {
     return false;
   }
   return payload;

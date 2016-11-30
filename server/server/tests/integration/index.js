@@ -11,6 +11,7 @@ const app = require('../../app');
 const testsFiles = [
   {name: 'user', file: './userTests'},
   {name: 'venue', file: './venueTests'},
+  {name: 'task', file: './taskTests'},
   ];
 
 

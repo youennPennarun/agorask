@@ -22,10 +22,27 @@ const getUserTasks = function* (username, offset = 0, limit = 10) {
   return tasks;
 };
 
-const addTask = function* () {
+const addTask = function* (title, venueId, {_id: userId, username}, date) {
+  if (!title) throw new Error('invalid title');
+  if (!venueId) throw new Error('invalid venueId');
+  if (!userId) throw new Error('invalid user._id');
+  if (!username) throw new Error('invalid user.username');
 
-}
-
+  if (!date) {
+    date = new Date();
+  }
+  const taskData = new Task({
+    title,
+    venue: venueId,
+    postedBy: {
+      userId,
+      username,
+    },
+    date,
+  });
+  const task = yield taskData.save();
+  return task;
+};
 
 module.exports = {
   getTasks,
