@@ -5,10 +5,10 @@ module.exports = {
   branches: {
     "development": {
       buildType: "dev",
-      gradleCommand: 'assembleDev',
+      gradleCommand: 'assembleDevRelease',
       envFile: ".env.dev",
       env: Object.assign({}, DEFAULT_ENV, {}),
-      out: "app-dev.apk"
+      out: "app-devRelease.apk"
     },
     "master": {
       buildType: "release",

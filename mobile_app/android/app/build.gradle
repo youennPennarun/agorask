@@ -125,9 +125,9 @@ android {
             signingConfig signingConfigs.release
         }
 
-        dev.initWith(buildTypes.release)
+        devRelease.initWith(buildTypes.release)
 
-        dev {
+        devRelease {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
         }
