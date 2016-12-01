@@ -23,9 +23,7 @@ function* newRelease (user, releaseDate, version, tmpPath) {
     fileName: boxData.name,
     downloadUrl: boxData.downloadUrl,
   });
-  console.log(app);
   yield app.save();
-  console.log('saved');
   return app;
 }
 
@@ -36,16 +34,37 @@ function* getApplicationVersion () {
   return app.version;
 }
 
-function* getDownloadLink(version) {
-  const url = yield Box.getDownloadLink(version);
-  if (!url) throw new Error('404');
-  return url;
+function* getDownloadLink(type, version) {
+  const query = {};
+  if (type) {
+    query.type = type;
+  }
+  if (version) {
+    query.version = version;
+  }
+  const app = yield Application.findOne(query)
+                .sort({releaseDate: -1})
+                .select('downloadUrl')
+                .exec();
+  if (!app || !app.downloadUrl) return null;
+  return app.downloadUrl;
 }
 
 function* getAvailableVersions() {
   const versions = yield Application.find({})
                       .select({ releaseDate: 1, version: 1 });
   return versions;
+}
+
+function* checkForUpdates(releaseDate, type) {
+  const version = yield Application.findOne({
+                  releaseDate: {$gt: new Date(releaseDate)},
+                  type: type,
+                })
+                .sort({releaseDate: -1})
+                .select('downloadUrl')
+                .exec();
+  return version;
 }
 
 module.exports = {
@@ -55,4 +74,5 @@ module.exports = {
   getApplicationFullName,
   versionExists,
   getAvailableVersions,
+  checkForUpdates,
 };

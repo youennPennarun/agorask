@@ -155,14 +155,8 @@ function* getDownloadLink(versionId) {
   const app = yield Application.findOne({_id: versionId})
                 .select('downloadUrl')
                 .exec();
-  console.log(app);
-  if (!app || !app.downloadUrl) return null;
-  return app.downloadUrl;
-  /*
-  curl -L https://api.box.com/2.0/files/FILE_ID/content
--H "Authorization: Bearer ACCESS_TOKEN"*/
+  return app;
 }
-
 module.exports = {
   storeToken,
   getAuthorizeUrl,
