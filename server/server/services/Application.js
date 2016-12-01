@@ -12,13 +12,15 @@ function versionExists() {
   throw new Error('Not implemented yet');
 }
 
-function* newRelease (user, releaseDate, version, tmpPath) {
+function* newRelease (user, releaseDate, version, type, tmpPath) {
   const tokens = yield Box.getUserToken(user.id);
-  const fileName = `agorask_${version}`;
+  const fileName = `agorask_${version}.apk`;
   const boxData = yield Box.upload(tokens, tmpPath, fileName);
+
   const app = new Application({
-    releaseDate: new Date(releaseDate),
+    releaseDate: new Date(parseInt(releaseDate)),
     version,
+    type,
     boxId: boxData.boxId,
     fileName: boxData.name,
     downloadUrl: boxData.downloadUrl,

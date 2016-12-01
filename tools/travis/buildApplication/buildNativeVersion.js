@@ -14,7 +14,7 @@ const token = process.env.ADMIN_TOKEN;
 function* getVersion(ANDROID_PATH, buildType) {
   console.log(`${colors.blue('getting current version')}`);
   const reGetVersion = /android {[\s\S]*defaultConfig {[\s\S]*versionName "(.*)"/;
-  const reGetSuffix = new RegExp(`buildTypes {[\\s\\S]*${buildType} {[\\s\\S]*versionNameSuffix "(.*)"`)
+  const reGetSuffix = new RegExp(`buildTypes {[\\s\\S]*${buildType} {[^}]*versionNameSuffix "(.*)"[^}]*}`)
   const gradleConfig = fs.readFileSync(`${ANDROID_PATH}/app/build.gradle`).toString();
   const versionMatched = gradleConfig.match(reGetVersion);
   const suffixMatched = gradleConfig.match(reGetSuffix);
@@ -25,8 +25,8 @@ function* getVersion(ANDROID_PATH, buildType) {
 }
 
 function* uploadRelease(ANDROID_PATH, releaseDate) {
-  const version = yield getVersion(ANDROID_PATH, 'release');
-  const url = `${configs.deployTo}/application/${releaseDate}?version=${version}`;
+  const version = yield getVersion(ANDROID_PATH, config.buildType);
+  const url = `${configs.deployTo}/application/${releaseDate}?version=${version}&type=${config.buildType}`;
   console.log(`Uploading version ${version} on ${url}...`.green)
   const form = new FormData();
   form.append('app', fs.createReadStream(`${ANDROID_PATH}/app/build/outputs/apk/${config.out}`));

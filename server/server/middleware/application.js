@@ -18,7 +18,7 @@ function* newRelease () {
     checkFile,
     autoFields: true,
   });
-  if (!this.params.releaseDate) return this.throw('BadRequest', 400);
+  if (!this.params.releaseDate || !this.query.type) return this.throw('BadRequest', 400);
   const version = this.query.version || this.params.releaseDate;
   const dest = path.join(
     __dirname,
@@ -31,7 +31,7 @@ function* newRelease () {
     part.pipe(stream);
     console.log('uploading %s -> %s', part.filename, stream.path);
   }
-  const app = yield Application.newRelease(this.request.tokenPayload, this.params.releaseDate, version, dest);
+  const app = yield Application.newRelease(this.request.tokenPayload, this.params.releaseDate, version, this.query.type, dest);
   this.body = {app};
 }
 
@@ -41,8 +41,10 @@ function* getApplicationVersion () {
 }
 
 function* download () {
-  const version = this.params.version;
-  const downloadLink = yield Application.getDownloadLink(version);
+  const version = this.query.version;
+  const type = this.params.type || 'release';
+  const downloadLink = yield Application.getDownloadLink(type, version);
+  if (!downloadLink) return this.throw('Not Found', 404);
   console.log('link ', downloadLink);
   this.response.redirect(downloadLink);
 }

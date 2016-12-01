@@ -9,7 +9,7 @@ const {
 
 module.exports = function(router) {
   router.get('/application/versions', getAvailableVersions);
-  router.get('/application/versions/check/:releaseDate', checkForUpdates);
+  router.get('/application/download/:type?', download);
 
   router.get('/application/download/:type?', download);
 

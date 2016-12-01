@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 6.2.0
+- 6.1.0
 services: mongodb
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
