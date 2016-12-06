@@ -1,11 +1,11 @@
 /* @flow */
 /* global fetch */
-import {API_URL} from 'react-native-config';
+import Config from 'react-native-config';
 
 export const FETCHING_TASK = 'FETCH_TASK';
 export const SUCCESS_FETCH_TASK = 'SUCCESS_FETCH_TASK';
 
-const TASKS_API_URL = `${API_URL}/tasks`;
+const TASKS_API_URL = `${Config.API_URL}/tasks`;
 
 export function getTask(id): Function {
   return dispatch => {

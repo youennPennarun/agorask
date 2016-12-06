@@ -1,6 +1,6 @@
 /* @flow */
 /* global fetch */
-import {API_URL} from 'react-native-config';
+import Config from 'react-native-config';
 
 export const UPDATE_QUERY = 'UPDATE_QUERY_SEARCH_VENUES';
 export const CLEAR = 'CLEAR_SEARCH_VENUES';
@@ -30,14 +30,20 @@ export function searchVenue(radius = 3000) {
     dispatch({
       type: FETCHING_LIST,
     });
-    fetch(API_URL + queryParams, {
+    fetch(`${Config.API_URL}/venues/search${queryParams}`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     })
-    .then((response): Promise<*> => response.json())
+    .then((response): Promise<*> => {
+      console.log(response);
+      response.json();
+    })
     .then((venues: Array) => {
+      console.log("=========================");
+      console.log(venues);
+      console.log("=========================");
       dispatch({
         type: SUCCESS_LIST,
         venues,
