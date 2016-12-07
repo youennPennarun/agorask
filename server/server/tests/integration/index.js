@@ -21,5 +21,6 @@ describe('Integration Tests', () => {
     done();
   });
 
+  // Run a specific test with npm run test:integration -- --tests test1[,test2,test3,...]
   requireTests(testsFiles, __dirname);
 });

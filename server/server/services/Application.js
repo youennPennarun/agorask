@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const {Application} = require('../utils/mongo/models');
 const Box = require('./Box');
 
@@ -14,6 +13,9 @@ function versionExists() {
 
 function* newRelease (user, releaseDate, version, type, tmpPath) {
   const tokens = yield Box.getUserToken(user.id);
+  if (!tokens) {
+    throw new Error('No Box tokens for this user');
+  }
   const fileName = `agorask_${version}_${type}.apk`;
   const boxData = yield Box.upload(tokens, tmpPath, fileName);
 

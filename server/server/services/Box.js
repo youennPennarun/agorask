@@ -77,12 +77,11 @@ function upload(userTokens, filePath, fileName) {
   return new Promise((resolve, reject) => {
     const box = new Box({
       access_token: userTokens.accessToken,
-      refreh_token: userTokens.refreshToken,
+      refresh_token: userTokens.refreshToken,
     });
     co(deleteFileIfExists(fileName, userTokens.accessToken))
       .then(() => {
-        box.files.upload(filePath, fileName, FOLDER_ID, function (err, body) {
-          console.log(err);
+        box.files.upload(filePath, fileName, FOLDER_ID, (err, body) => {
           if (err) return reject(err);
           const {id, name} = body.entries[0];
           co(share(id, userTokens.accessToken))

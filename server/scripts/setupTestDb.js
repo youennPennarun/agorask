@@ -15,6 +15,7 @@ connection.once('open', () =>
   co(function* () {
     try {
       for(const model in data) {
+        console.log('Inserting data for ', model)
         yield mongoose.models[model].remove().exec()
         yield mongoose.models[model].insertMany(data[model]);
       }

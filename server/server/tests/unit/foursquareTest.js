@@ -10,7 +10,7 @@ const Foursquare = require('../../services/foursquare/Foursquare');
 
 const {FOURSQUARE_CLIENT_ID, FOURSQUARE_CLIENT_SECRET} = process.env;
 
-describe('Venues', () => {
+describe('Foursquare', () => {
   before(function() {
     Object.keys(venueResponses).forEach(function(key) {
       nock('https://api.foursquare.com/v2/venues')

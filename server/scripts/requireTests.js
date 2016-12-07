@@ -16,6 +16,7 @@ module.exports = function(tests=null, testsDirectory = null) {
       process.exit(1);
     }
   } else {
+    console.log('Run all tests')
     testsToRun = tests;
   }
   testsToRun.map(({file}) => {

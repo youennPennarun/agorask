@@ -64,5 +64,12 @@ module.exports = [
     username: 'unity',
     password: '$2a$10$14JXvqJyr3J300Cr32F/RO2TCAgZ.DE2pOrxqc05OLVOCpebM2Sa.',
     email: 'unity@unity.uni',
+    isAdmin: true,
+    externals: {
+      box: {
+        accessToken: 'access_token',
+        refreshToken: 'refresh_token',
+      },
+    },
   },
 ];

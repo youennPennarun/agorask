@@ -12,6 +12,7 @@ const testsFiles = [
   {name: 'task', file: './TaskTest'},
   {name: 'venue', file: './VenueTest'},
   {name: 'foursquare', file: './foursquareTest'},
+  {name: 'application', file: './applicationTest'},
   ];
 
 
@@ -25,6 +26,6 @@ describe('Unit Tests', () => {
       done();
     });
   });
-
+  // Run a specific test with npm run test:unit -- --tests test1[,test2,test3,...]
   requireTests(testsFiles, __dirname);
 });
