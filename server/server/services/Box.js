@@ -27,7 +27,9 @@ function* storeToken(userId, {accessToken, refreshToken}) {
 function* getUserToken(userId) {
   const user = yield User.findOne({_id: userId})
                 .exec();
-  if (!user || !user.externals || !user.externals.box) return null;
+  if (!user || !user.externals || !user.externals.box || !user.externals.box.accessToken) {
+    return null;
+  }
   let {accessToken, refreshToken} = user.externals.box;
   console.log(user.externals.box.expireThe, (new Date()), (user.externals.box.expireThe < (new Date())));
   if (!user.externals.box.expireThe || user.externals.box.expireThe < (new Date())) {

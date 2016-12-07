@@ -14,33 +14,15 @@ const createShareLinkResponse = {
     etag: '1',
     sha1: '8bd844fdbcd3e143d88eaff977bb211120501e07',
     name: 'Metadata blog image.png',
-    description: '',
+    description: 'agorask.apk',
     size: 86680,
-    path_collection: {
-        total_count: 2,
-        entries: [
-            {
-                type: 'folder',
-                id: '0',
-                sequence_id: null,
-                etag: null,
-                name: 'All Files',
-            },
-            {
-                type: 'folder',
-                id: '848123342',
-                sequence_id: '0',
-                etag: '0',
-                name: 'Test',
-            },
-        ],
-    },
-    created_at: '2013-09-22T22:59:19-07:00',
-    modified_at: '2013-09-22T22:59:20-07:00',
+    path_collection: {},
+    created_at: new Date(),
+    modified_at: new Date(),
     trashed_at: null,
     purged_at: null,
-    content_created_at: '2013-09-22T22:59:19-07:00',
-    content_modified_at: '2013-09-22T22:59:19-07:00',
+    content_created_at: new Date(),
+    content_modified_at: new Date(),
     created_by: {
         type: 'user',
         id: '10523870',
@@ -60,8 +42,7 @@ const createShareLinkResponse = {
         login: 'ted+demo@box.com',
     },
     shared_link: {
-        url: 'https://blosserdemoaccount.box.com/s/7mcmdlavtye5o5i0ue8xmtwh2sx5bv8p',
-        download_url: 'https://blosserdemoaccount.box.com/shared/static/7mcmdlavtye5o5i0ue8xmtwh2sx5bv8p.png',
+        url: 'https://test.box.com/s/linkToNewVersion',
         vanity_url: null,
         effective_access: 'open',
         is_password_enabled: true,
@@ -212,5 +193,8 @@ function mock() {
 }
 
 module.exports = {
+  createShareLinkResponse,
+  uploadSuccessfull,
+  folderItems,
   mock,
 };
