@@ -56,11 +56,11 @@ function* getAvailableVersions () {
 
 function* checkForUpdates() {
   const releaseDate = this.params.releaseDate;
-  const type = this.query.type;
+  const type = this.query.type || 'release';
   if (!releaseDate || isNaN(releaseDate)) return this.throw('BadRequest', 400, {errorData: {error: 'Invalid release date parameter'}});
   if (!type) return this.throw('BadRequest', 400, {errorData: {error: 'Invalid query parameter "type"'}});
   const version = yield Application.checkForUpdates(parseInt(releaseDate), type);
-  this.body = version || {};
+  this.body = version || {uptodate: true};
 }
 
 module.exports = {

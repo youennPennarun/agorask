@@ -1,11 +1,13 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, PermissionsAndroid} from 'react-native';
 import { Provider } from 'react-redux';
 import store from '../redux/configureStore';
 import {pushRoute} from '../redux/actions/router';
 import {loadTokenFromStorage} from '../redux/actions/user';
+
+import {checkForUpdate, showUpdateModal} from '../utils/Version';
 
 import Router from './Router';
 import DrawerMenu from './commons/drawerMenu/DrawerMenu';
@@ -16,6 +18,11 @@ class App extends Component {
   };
   componentWillMount() {
     store.dispatch(loadTokenFromStorage());
+    checkForUpdate().then(downloadUrl => {
+      if (downloadUrl) {
+        showUpdateModal(downloadUrl);
+      }
+    });
   }
   componentDidMount() {
     if (!store.getState().user.token) {

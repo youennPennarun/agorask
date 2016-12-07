@@ -11,7 +11,7 @@ module.exports = function(router) {
   router.get('/application/versions', getAvailableVersions);
   router.get('/application/download/:type?', download);
 
-  router.get('/application/download/:type?', download);
+  router.get('/application/check/:releaseDate', checkForUpdates);
 
   router.post('/application/:releaseDate', isLoggedIn, isAdmin, newRelease);
 };
