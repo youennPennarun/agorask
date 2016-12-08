@@ -2,10 +2,9 @@ const fs = require('fs');
 const colors = require('colors');
 const configs = require('./config');
 
-const config = configs.branches[process.env.TRAVIS_BRANCH];
+const config = configs.branches[process.env.TRAVIS_BRANCH] || {};
 
 const SOURCES_PATH = `${process.env.TRAVIS_BUILD_DIR}/mobile_app`;
-
 const ENV_FILE = `${SOURCES_PATH}/${config.envFile}`;
 
 function getNewEnvFile(data = "", options = {}) {
