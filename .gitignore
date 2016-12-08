@@ -8,3 +8,5 @@ TRAVIS_BUILD_SERVER
 tools/travis/.tmp
 npm-debug.log
 mobile_app/release.keystore
+mobile_app/.env
+mobile_app/.env.*
