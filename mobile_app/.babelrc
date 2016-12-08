@@ -1,4 +1,3 @@
 {
-"presets": ["react-native"],
-"sourceMaps": true // must be true react-native/packager/transformer using with node-module-debug
+"presets": ["react-native"]
 }
