@@ -9,7 +9,7 @@ exports[`test Test with address as a single string 1`] = `
       "paddingLeft": 10,
       "paddingRight": 10,
       "paddingTop": 10,
-      "width": 375,
+      "width": 750,
     }
   }>
   <View
@@ -86,7 +86,7 @@ exports[`test Test with formatted address 1`] = `
       "paddingLeft": 10,
       "paddingRight": 10,
       "paddingTop": 10,
-      "width": 375,
+      "width": 750,
     }
   }>
   <View
@@ -177,7 +177,7 @@ exports[`test Test without address 1`] = `
       "paddingLeft": 10,
       "paddingRight": 10,
       "paddingTop": 10,
-      "width": 375,
+      "width": 750,
     }
   }>
   <View

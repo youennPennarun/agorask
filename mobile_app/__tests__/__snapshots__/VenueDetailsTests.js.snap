@@ -15,8 +15,8 @@ exports[`test renders correctly 1`] = `
     }
     style={
       Object {
-        "height": 200.1,
-        "width": 375,
+        "height": 400.2,
+        "width": 750,
       }
     } />
   <ScrollView

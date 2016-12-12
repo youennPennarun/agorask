@@ -4717,6 +4717,10 @@ react-addons-test-utils@=15.1.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.1.0.tgz#ed9ab2a99ecf04acc99eeea10b308105eb3b183c"
 
+react-addons-test-utils@^15.4.1:
+  version "15.4.1"
+  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.4.1.tgz#1e4caab151bf27cce26df5f9cb714f4fd8359ae1"
+
 react-addons-update@=15.1.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/react-addons-update/-/react-addons-update-15.1.0.tgz#86d7361e9b2cbb71cd64f19cd63e85c0b615e99a"

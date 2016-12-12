@@ -43,6 +43,7 @@
     "flow-bin": "0.36.0",
     "jest": "17.0.3",
     "jest-react-native": "17.1.0",
+    "react-addons-test-utils": "^15.4.1",
     "react-dom": "15.4.1",
     "react-native-mock": "^0.2.7",
     "react-test-renderer": "15.3.2",
