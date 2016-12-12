@@ -4789,9 +4789,9 @@ react-native-mock:
     react-timer-mixin "=0.13.3"
     warning "=2.1.0"
 
-react-native-svg:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-4.3.1.tgz#87da61e815091308c0abd5164767b494f0012c1d"
+react-native-svg@4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-4.4.1.tgz#8c0f27c0236344b8c8a45ed3f6461dd89233be81"
   dependencies:
     color "^0.11.1"
     lodash "^4.0.0"

@@ -23,7 +23,7 @@
     "react-native-code-push": "^1.16.0-beta",
     "react-native-config": "^0.1.2",
     "react-native-material-kit": "git://github.com/youennPennarun/react-native-material-kit#cc9ac25",
-    "react-native-svg": "^4.3.1",
+    "react-native-svg": "4.4.1",
     "react-native-vector-icons": "3.0.0",
     "react-redux": "4.4.6",
     "redux": "^3.6.0",

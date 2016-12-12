@@ -1,4 +1,4 @@
-const {Task} = require('../utils/mongo/models');
+const {Task, Venue} = require('../utils/mongo/models');
 
 const getTasks = function* (offset = 0, limit = 5) {
   const tasks = yield Task.find({})
@@ -43,6 +43,9 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
   if (!date) {
     date = new Date();
   }
+  const venue = yield Venue.findOne({_id: venueId}).exec();
+  if (!venue) throw new Error(`unknown venue with id ${venueId}`);
+  console.log('Venue = ', venue);
   const taskData = new Task({
     title,
     venue: venueId,
@@ -53,6 +56,12 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
     date,
   });
   const task = yield taskData.save();
+  venue.tasks.push({
+    _id: task._id,
+    title: task.title,
+    nbAnswers: 0,
+  });
+  yield venue.save();
   return task;
 };
 

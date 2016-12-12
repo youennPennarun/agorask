@@ -212,7 +212,7 @@ const TaskDetailsQuery = gql`
   }
 `;
 
-const AddTaskMutation = gql`
+const AddAnswerMutation = gql`
   mutation answer($taskId: ID!, $answer: AnswerInput!, $token: String!) {
     answer(taskId: $taskId, answer: $answer, token: $token) {
       answer
@@ -224,7 +224,7 @@ const AddTaskMutation = gql`
   }
 `;
 
-export default graphql(AddTaskMutation, {
+export default graphql(AddAnswerMutation, {
   props: ({ownProps, mutate}) => ({
       addAnswer: (taskId, answer, token) => mutate({
         variables: {taskId, answer, token},

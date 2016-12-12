@@ -1,6 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {View, Image, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
 
+import {connect} from 'react-redux';
+
+import Icon from 'react-native-vector-icons/EvilIcons';
+import update from 'immutability-helper';
+
+import RoundButton from '../../commons/RoundButton';
+
+import AddTask from './task/AddTask';
+
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -11,25 +20,26 @@ import Tasks from './task/Tasks';
 
 const {width, height} = Dimensions.get('window');
 
-
 function renderFetchingState() {
   return <View />;
 }
 
 function renderError(error) {
-  console.log('{{{{{{{{{{{{{{{{{{Error}}}}}}}}}}}}}}}}}}}');
   console.log(error);
-  console.log('{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}');
   return (
     <View>
-      <Text>Error</Text>
+      <Text>Error: {error}</Text>
     </View>
   )
 }
 
 export class VenueDetails extends Component {
+  state = {
+    showAddTask: false,
+  }
 
-  componentWillMount() {
+  addTask(task) {
+    this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
   render() {
@@ -42,14 +52,30 @@ export class VenueDetails extends Component {
     }
     return (
       <View style={styles.container}>
-        <Image style={styles.coverImage}
-          resizeMode='cover'
-          source={{uri: imageUri}} />
         <ScrollView style={styles.scollView}>
+          <Image style={styles.coverImage}
+            resizeMode='cover'
+            source={{uri: imageUri}} />
           <VenueDescription venue={venue} />
           <Tasks tasks={venue.tasks || []}
             goToTask={(id, task) => { this.props.navigator.taskDetails(id, task); }} />
         </ScrollView>
+        <AddTask style={styles.addTask}
+          visible={this.state.showAddTask}
+          addTask={task => { this.addTask(task); }} />
+
+        <RoundButton style={styles.addTaskBtn}
+          size={50}
+          initialState={{
+            color: 'green',
+            renderIcon: () => <Icon name='plus' size={42} color='white' />,
+            callback: () => this.setState({showAddTask: true}),
+          }}
+          activatedState={{
+            color: 'red',
+            renderIcon: () => <Icon name='close' size={42} color='white' />,
+            callback: () => this.setState({showAddTask: false}),
+          }} />
       </View>
     );
   }
@@ -65,6 +91,7 @@ const styles = StyleSheet.create({
     height: height * 0.3,
   },
   scollView: {
+    height,
   },
   block: {
     backgroundColor: 'white',
@@ -81,6 +108,23 @@ const styles = StyleSheet.create({
   venueName: {
     fontSize: 20,
   },
+  addTaskBtn: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+    elevation: 20,
+  },
+  addTaskBtnLabel: {
+    fontSize: 22,
+    color: 'white',
+  },
+  addTask: {
+  }
 });
 
 VenueDetails.propTypes = {
@@ -117,7 +161,58 @@ const VenueDetailsQuery = gql`
   ${Tasks.fragments.venue}
 `;
 
-export default graphql(VenueDetailsQuery, {
+
+const AddTaskMutation = gql`
+  mutation task($taskId: ID!, $task: TaskInput!, $token: String!) {
+    task(venueId: $taskId, task: $task, token: $token) {
+      title
+      nbAnswers
+    }
+  }
+`;
+
+function mapStateToProps(state) {
+  return {
+    ...state.user,
+  };
+}
+
+const VenueDetailsConnected = connect(mapStateToProps)(VenueDetails);
+
+export default graphql(AddTaskMutation, {
+  props: ({ownProps, mutate}) => ({
+      addTask: (taskId, task, token) => mutate({
+        variables: {taskId, task, token},
+        optimisticResponse: {
+          __typename: 'Mutation',
+          task: {
+            __typename: 'Task',
+            task: task,
+            date: new Date(),
+            postedBy: {
+              username: '',
+            },
+          },
+        },
+        updateQueries: {
+          VenueDetails: (prev, { mutationResult }) => {
+            const newTask = mutationResult.data.task;
+            const existing = null; // prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
+            /*
+            if (existing) {
+              return prev;
+            }
+            */
+            return update(prev, {
+              venue: {
+                tasks: { $push: [newTask] },
+              },
+            });
+          },
+        },
+      }),
+  }),
+})(graphql(VenueDetailsQuery, {
   options: ({ _id, sourceId, source }) => {
     const variables = {};
     if (_id) {
@@ -140,4 +235,4 @@ export default graphql(VenueDetailsQuery, {
       navigator: ownProps.navigator,
     };
   },
-})(VenueDetails);
+})(VenueDetailsConnected));

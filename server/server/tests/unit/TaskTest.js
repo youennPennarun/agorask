@@ -133,7 +133,7 @@ describe('Tasks', function () {
           expect(e).to.have.property('message', 'invalid title');
         });
     });
-    it('Should throw an error if the ven  ue id is missing', function () {
+    it('Should throw an error if the venue id is missing', function () {
       const user = {
         _id: userData[5]._id,
         username: userData[5].username,

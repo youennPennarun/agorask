@@ -7,48 +7,48 @@ const {
 
 const co = require('co');
 
-const TaskType = require('../../types/tasks');
+const AnswerType = require('../../types/answer');
 const TaskService = require('../../../services/Task');
 const Auth = require('../../../services/Authentification');
 
-const TaskInputType = new GraphQLInputObjectType({
-  name: 'TaskInput',
+const AnswerInputType = new GraphQLInputObjectType({
+  name: 'AnswerInput',
   fields: () => ({
-    title: {
+    answer: {
       type: new GraphQLNonNull(GraphQLString),
-      description: 'the question',
+      description: 'the answer',
     },
   }),
 });
 
-const task = {
-  type: TaskType,
+const answer = {
+  type: AnswerType,
   name: 'Answer',
   description: 'Add an answer',
   args: {
-    venueId: {
+    taskId: {
       type: new GraphQLNonNull(GraphQLID),
       description: 'The id of the task that the answer should be added',
     },
-    task: {
-      type: new GraphQLNonNull(TaskInputType),
+    answer: {
+      type: new GraphQLNonNull(AnswerInputType),
     },
     token: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'Authentification token',
     },
   },
-  resolve: function (root, {venueId, task: {title}, token}, options, fields) {
+  resolve: function (root, {taskId, answer: answerData, token}, options, fields) {
     const payload = Auth.isTokenValid(token);
     if (payload === false) {
       throw new Error('Unauthorized');
     }
-    const user = {
-      _id: payload.id,
+    answerData.postedBy = {
+      userId: payload.id,
       username: payload.username,
     };
-    return co(TaskService.addTask(title, venueId, user, new Date()));
+    return co(TaskService.addAnswer(taskId, answerData));
   },
 };
 
-module.exports = task;
+module.exports = answer;

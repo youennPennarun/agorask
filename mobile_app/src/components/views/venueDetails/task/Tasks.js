@@ -69,7 +69,7 @@ class Tasks extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: 15,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   tasksContainer: {
     marginTop: 5,
