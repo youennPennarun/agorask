@@ -4,6 +4,7 @@ const getTasks = function* (offset = 0, limit = 5) {
   const tasks = yield Task.find({})
           .skip(offset)
           .limit(limit)
+          .sort({date: -1})
           .exec();
   return tasks;
 };
