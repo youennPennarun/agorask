@@ -1,4 +1,4 @@
-exports[`Get venues within circle`] = `
+exports[`undefined`] = `
 Object {
   "data": Object {
     "venuesWithinRadius": Array [
@@ -110,12 +110,12 @@ Object {
         "tasks": Array [
           Object {
             "_id": "581411784d79072f3b799aca",
-            "nbAnswers": 0,
+            "nbAnswers": 3,
             "title": "Do they have live music?"
           },
           Object {
             "_id": "581411784d79072f3b799acb",
-            "nbAnswers": 0,
+            "nbAnswers": 1,
             "title": "Question 3"
           }
         ],
@@ -201,56 +201,6 @@ Object {
         "website": "http://liberty-it.co.uk"
       }
     ]
-  }
-}
-`;
-
-exports[`Should return a complete venue`] = `
-Object {
-  "data": Object {
-    "venue": Object {
-      "_id": "581773476d568ac7723e1bae",
-      "address": Object {
-        "formatted": Array [
-          "17 Ormeau Ave",
-          "Belfast",
-          "BT2 8HD"
-        ],
-        "location": Array [
-          -5.928990840911865,
-          54.592803881688155
-        ]
-      },
-      "categories": Array [
-        Object {
-          "icon": "https://ss3.4sqi.net/img/categories_v2/nightlife/nightclub_64.png",
-          "name": "Nightclub"
-        }
-      ],
-      "contact": Object {
-        "facebook": null,
-        "facebookName": null,
-        "formattedPhone": "028 9032 5968",
-        "phone": "02890325968",
-        "twitter": null
-      },
-      "foursquareId": "4b65d319f964a5203a022be3",
-      "name": "The Limelight",
-      "picture": "https://irs0.4sqi.net/img/general/undefinedxundefined/RZx73X91WBg_n-Vr9OGx76qwTx_4m6fII-KsAxTB0dM.jpg",
-      "tasks": Array [
-        Object {
-          "_id": "581411784d79072f3b799aca",
-          "nbAnswers": 0,
-          "title": "Do they have live music?"
-        },
-        Object {
-          "_id": "581411784d79072f3b799acb",
-          "nbAnswers": 0,
-          "title": "Question 3"
-        }
-      ],
-      "website": "http://www.limelightbelfast.com"
-    }
   }
 }
 `;

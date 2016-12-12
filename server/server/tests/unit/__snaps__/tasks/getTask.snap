@@ -1,0 +1,14 @@
+exports[`Should return the task corresponding to the ID 581411d6b0fce75c59f74d6c if it exist`] = `
+Object {
+  "__v": 0,
+  "_id": "581411d6b0fce75c59f74d6c",
+  "answers": Array [],
+  "date": 2016-12-25T06:27:25.527Z,
+  "postedBy": Object {
+    "userId": "581407d8b0fce75c59f74d65",
+    "username": "jerry"
+  },
+  "title": "Question 4",
+  "venue": "5817738f6d568ac7723e1baf"
+}
+`;

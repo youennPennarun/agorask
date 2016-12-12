@@ -1,80 +1,78 @@
 /* global describe it */
 /* eslint-disable no-unused-expressions */
 
-const expect = require('chai').expect;
+const chai = require('chai');
 const co = require('co');
+const path = require('path');
 const taskData = require('../data').Task;
 const userData = require('../data').User;
 const venueData = require('../data').Venue;
 const Task = require('../../services/Task');
 
+const snapshot = require('chai-jest-snapshot');
+
+const expect = chai.expect;
+chai.use(snapshot);
+
 const cleanMongooseObject = require('../cleanMongooseObject');
 
-describe('Tasks', () => {
-  describe('Get tasks', () => {
-    it('Should return 3 tasks', () => {
+describe('Tasks', function () {
+  describe('Get tasks', function() {
+    const snapshotPath = path.join(__dirname, '/__snaps__/tasks/getTasks.snap');
+
+    it('Should return 3 tasks', function() {
       return co(Task.getTasks(0, 3))
         .then(tasks => {
-          expect(tasks).to.be.an.Array;
-          expect(tasks).to.have.length(3);
-          const cleaned = cleanMongooseObject(tasks);
-          expect(cleaned).to.deep.equal(taskData.slice(0, 3));
+          expect(tasks).to.matchSnapshot(snapshotPath, this.test.title);
         }).catch(e => {
           throw e;
         });
     });
 
-    it('Should return 2 tasks skipping the three first', () => {
+    it('Should return 2 tasks skipping the three first', function () {
       return co(Task.getTasks(3, 2))
         .then(tasks => {
-          expect(tasks).to.be.an.Array;
-          expect(tasks).to.have.length(2);
-          const cleaned = cleanMongooseObject(tasks);
-          expect(cleaned).to.deep.equal(taskData.slice(3, 5));
+          expect(tasks).to.matchSnapshot(snapshotPath, this.test.title);
         }).catch(e => {
           throw e;
         });
     });
   });
-  describe('Get task by Id', () => {
-    it('Should return the task corresponded to the given ID if it exist', () => {
+  describe('Get task by Id', function () {
+    const snapshotPath = path.join(__dirname, '/__snaps__/tasks/getTask.snap');
+    it(`Should return the task corresponding to the ID ${taskData[2]._id} if it exist`, function () {
       return co(Task.getTask(taskData[2]._id))
         .then(task => {
-          const cleaned = cleanMongooseObject(task);
-          expect(cleaned).to.deep.equal(taskData[2]);
+          expect(task).to.matchSnapshot(snapshotPath, this.test.title);
         }).catch(e => {
           throw e;
         });
     });
   });
-  describe('Get user tasks', () => {
-    it('Should return a user tasks - test 1', () => {
+  describe('Get user tasks', function () {
+    const snapshotPath = path.join(__dirname, '/__snaps__/tasks/getUserTasks.js');
+    it('Should return a user tasks - test 1', function () {
       return co(Task.getUserTasks(userData[0].username))
         .then(tasks => {
-          const cleaned = cleanMongooseObject(tasks);
-          expect(cleaned).to.deep.equal(
-            taskData.filter(task => task.postedBy.username === userData[0].username)
-          );
+          expect(tasks).to.matchSnapshot(snapshotPath, this.test.title);
         }).catch(e => {
           throw e;
         });
     });
 
-    it('Should return a user tasks - test 2', () => {
+    it('Should return a user tasks - test 2', function () {
       return co(Task.getUserTasks(userData[5].username))
         .then(tasks => {
-          const cleaned = cleanMongooseObject(tasks);
-          expect(cleaned).to.deep.equal(
-            taskData.filter(task => task.postedBy.username === userData[5].username)
-          );
+          expect(tasks).to.matchSnapshot(snapshotPath, this.test.title);
         }).catch(e => {
           throw e;
         });
     });
   });
 
-  describe('Add a task', () => {
-    it('Should add a task', () => {
+  describe('Add a task', function () {
+    const snapshotPath = path.join(__dirname, '/__snaps__/tasks/addTask.snap');
+    it('Should add a task', function () {
       const user = {
         _id: userData[5]._id,
         username: userData[5].username,
@@ -84,23 +82,15 @@ describe('Tasks', () => {
       const date = new Date();
       return co(Task.addTask(title, venueId, user, date))
         .then(task => {
-          const cleaned = cleanMongooseObject(task);
+          task = task.toObject();
+          expect(task).to.have.property('date');
           expect(task).to.have.property('_id');
-          cleaned.date = new Date(cleaned.date);
-          delete cleaned._id;
-          expect(cleaned).to.deep.equal({
-            title,
-            postedBy: {
-              userId: user._id,
-              username: user.username,
-            },
-            answers: [],
-            date: date,
-            venue: venueId,
-          });
+          task._id = '[some id]';
+          task.date = '[dome date]';
+          expect(task).to.matchSnapshot(snapshotPath, this.test.title);
         });
     });
-    it('Should throw an error if the user is missing the id', () => {
+    it('Should throw an error if the user is missing the id', function () {
       const user = {
         username: userData[5].username,
       };
@@ -111,10 +101,10 @@ describe('Tasks', () => {
         .then(() => {
           throw new Error('Should have thrown an error');
         }).catch(e => {
-          expect(e).to.have.property('message', 'invalid user._id');
+          expect(e).to.matchSnapshot(snapshotPath, this.test.title);
         });
     });
-    it('Should throw an error if the user is missing the username', () => {
+    it('Should throw an error if the user is missing the username', function () {
       const user = {
         _id: userData[5]._id,
       };
@@ -125,10 +115,10 @@ describe('Tasks', () => {
         .then(() => {
           throw new Error('Should have thrown an error');
         }).catch(e => {
-          expect(e).to.have.property('message', 'invalid user.username');
+          expect(e).to.matchSnapshot(snapshotPath, this.test.title);
         });
     });
-    it('Should throw an error if the title is missing', () => {
+    it('Should throw an error if the title is missing', function () {
       const user = {
         _id: userData[5]._id,
         username: userData[5].username,
@@ -143,7 +133,7 @@ describe('Tasks', () => {
           expect(e).to.have.property('message', 'invalid title');
         });
     });
-    it('Should throw an error if the ven  ue id is missing', () => {
+    it('Should throw an error if the ven  ue id is missing', function () {
       const user = {
         _id: userData[5]._id,
         username: userData[5].username,

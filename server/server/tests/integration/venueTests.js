@@ -12,21 +12,21 @@ chai.use(snapshot);
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1bW1lciIsImlhdCI6MTQ3ODA5MjAxNn0.Tcy-ZLrEv5mhbk5JcTsWXxAvjzjlUEwxR-RwGY4Ork8';
 
 describe('Venue Tests', () => {
-  describe('get a venue by Id', () => {
-    it('Should return a complete venue', () => {
+  describe('get a venue by Id', function () {
+    const snapshotPath = path.join(__dirname, '/__snaps__/venue/getVenueByID.snap');
+    it('Should return a complete venue', function () {
       return co(function* () {
-        const response = yield fetchQL(getVenueById, {id: '581773476d568ac7723e1bae'})
+        const response = yield fetchQL(getVenueById, {id: '581773476d568ac7723e1bae'});
         expect(response.status).to.be.equal(200);
         return response.json();
       }).then(json => {
-        const snapshotPath = path.join(__dirname, 'venue.snap');
-        const snapshotName = 'Should return a complete venue';
-        expect(json).to.matchSnapshot(snapshotPath, snapshotName);
+        expect(json).to.matchSnapshot(snapshotPath, this.test.name);
       });
     });
   });
-  describe('Get venues with tasks close to a lat,lng ', () => {
-    it('get close venues', () => {
+  describe('Get venues with tasks close to a lat,lng ', function () {
+    const snapshotPath = path.join(__dirname, '/__snaps__/venue/getVenueByLatLng.snap');
+    it('get close venues', function () {
       return co(function* () {
         const response = yield fetchQL(getVenuesInRadius, {
           lng: -5.9283928,
@@ -36,9 +36,7 @@ describe('Venue Tests', () => {
         expect(response.status).to.be.equal(200);
         return response.json();
       }).then(json => {
-        const snapshotPath = path.join(__dirname, 'venue.snap');
-        const snapshotName = 'Get venues within circle';
-        expect(json).to.matchSnapshot(snapshotPath, snapshotName);
+        expect(json).to.matchSnapshot(snapshotPath, this.test.name);
       });
     });
   });

@@ -1,0 +1,94 @@
+exports[`Should return 2 tasks skipping the three first`] = `
+Array [
+  Object {
+    "__v": 0,
+    "_id": "582621076740058d9be74888",
+    "answers": Array [],
+    "date": 2016-11-05T08:20:20.507Z,
+    "postedBy": Object {
+      "userId": "581407c2b0fce75c59f74d63",
+      "username": "summer"
+    },
+    "title": "Is there food?",
+    "venue": "5817745c6d568ac7723e1bb9"
+  },
+  Object {
+    "__v": 0,
+    "_id": "581411784d79072f3b799aca",
+    "answers": Array [
+      Object {
+        "answer": "Yes, there is regularly lives show",
+        "date": 2016-10-29T03:27:25.527Z,
+        "postedBy": Object {
+          "userId": "581407deb0fce75c59f74d66",
+          "username": "jessica"
+        }
+      },
+      Object {
+        "answer": "Yeah! There is sometimes live music in Limelight 1 and 2. Limelight 1 hosted live shows from THE BREEDERS, DISCLOSURE and STEVE EARLE & PRIMAL SCREAM, and in Limelight 2 had shows with THE STROKES, MANIC STREET PREACHERS, JOE STRUMMER, BLUR",
+        "date": 2016-10-29T03:27:25.527Z,
+        "postedBy": Object {
+          "userId": "581407d8b0fce75c59f74d65",
+          "username": "jerry"
+        }
+      },
+      Object {
+        "answer": "No sux so lame grumble grumble!",
+        "date": 2016-10-29T03:27:25.527Z,
+        "postedBy": Object {
+          "userId": "581407fab0fce75c59f74d6b",
+          "username": "unity"
+        }
+      }
+    ],
+    "date": 2016-10-29T03:27:25.527Z,
+    "postedBy": Object {
+      "userId": "581407f4b0fce75c59f74d6a",
+      "username": "squanchy"
+    },
+    "title": "Do they have live music?",
+    "venue": "581773476d568ac7723e1bae"
+  }
+]
+`;
+
+exports[`Should return 3 tasks`] = `
+Array [
+  Object {
+    "__v": 0,
+    "_id": "582621026740058d9be74887",
+    "answers": Array [],
+    "date": 2016-12-30T05:20:12.527Z,
+    "postedBy": Object {
+      "userId": "581407c2b0fce75c59f74d63",
+      "username": "summer"
+    },
+    "title": "Are the people nice?",
+    "venue": "5817745c6d568ac7723e1bb9"
+  },
+  Object {
+    "__v": 0,
+    "_id": "581411d6b0fce75c59f74d6c",
+    "answers": Array [],
+    "date": 2016-12-25T06:27:25.527Z,
+    "postedBy": Object {
+      "userId": "581407d8b0fce75c59f74d65",
+      "username": "jerry"
+    },
+    "title": "Question 4",
+    "venue": "5817738f6d568ac7723e1baf"
+  },
+  Object {
+    "__v": 0,
+    "_id": "582620ed6740058d9be74884",
+    "answers": Array [],
+    "date": 2016-12-20T01:07:06.527Z,
+    "postedBy": Object {
+      "userId": "581407ccb0fce75c59f74d64",
+      "username": "beth"
+    },
+    "title": "Is the food good?",
+    "venue": "5817745c6d568ac7723e1bb9"
+  }
+]
+`;
