@@ -3,13 +3,18 @@ const koa = require('koa');
 const serve = require('koa-static');
 const router = require('koa-router')();
 const koaBunyanLogger = require('koa-bunyan-logger');
+
+/* graphql */
+const mount = require('koa-mount');
+const graphqlHTTP = require('koa-graphql');
+/*---------*/
+
 const path = require('path');
 const fs = require('fs');
 
 if (!fs.existsSync(path.join(__dirname, '../tmp'))) {
     fs.mkdirSync(path.join(__dirname, '../tmp'));
 }
-
 const routes = require('./routes');
 
 const mongoose = require('mongoose');
@@ -20,11 +25,18 @@ mongooseConnection.once('open', () => {
   console.log('connected');
 });
 
+const GraphQLSchemas = require('./graphql/schemas');
+
 const app = koa();
 app.use(serve(path.join(__dirname, '../public')));
 app.use(koaBunyanLogger());
 app.use(koaBunyanLogger.requestIdContext());
 app.use(koaBunyanLogger.requestLogger());
+
+app.use(mount('/graphql', graphqlHTTP({
+  schema: GraphQLSchemas,
+  graphiql: true,
+})));
 
 routes(router);
 const port = process.env.PORT || 3000;
@@ -49,5 +61,6 @@ app
   })
   .use(router.routes())
   .use(router.allowedMethods());
+
+
 app.listen(port);
-console.log(`listening on port ${port}`);

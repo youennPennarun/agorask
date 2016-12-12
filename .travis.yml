@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 6.1.0
+- 7.2.0
 services: mongodb
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -11,7 +11,7 @@ cache:
   - $HOME/.gradle/wrapper/
 env:
   matrix:
-  - TRAVIS_NODE_VERSION: 6.1.0
+  - TRAVIS_NODE_VERSION: 7.2.0
   global:
   - MALLOC_ARENA_MAX=2
   - secure: i6V6Ibes9jthI/QpymfqH3pWEqAVOwT7xohKL/ttL/CXpBnigPmvoUSe4mhblfcylLLPsukcfpQVwezMNeUV/VSyy3JQbimINmwuztnnMDtM4Sjz6DfNy8S60uqUB2yu1V8m5WCYeeXwXFuIe6iur3iqrpSRjpwbAGwOeVP/0B+NLe5ppIzZLSIjIRv0bQUl9lXmXE3Hcw8qmWP4wwRMHMfB9bPNc2UPa5BS5lUxzAI53c4/P/p9QpzRbY5D3T2EPWBnteYZxJH1IhWooU2wHSVpl0glw8YpvlTCb9K8b78JgKRone0HMG6YmRk8qDwIanJV/2AQKrcOyRccAPkxZ1OHNvaMtgLbzlmDLZ8+NJssuGLMOwxOtBnh9jSyrERruRp/GFgoyL8YW+ZEmPY5WlGg3MKYSMkawat30m/+9J1hw8rD5DrpVXTSclMTV2XzluSIst5DBk5Ewsk1QLbt5NVqL6Iz6/MJTVIluvPinNAWWW6LsTE87KjsNUV3rxyozCw5P0tUv3KciSUKU/+skC4h6FDKqDOp2yDLSPtXTxQfbaS6Tp6Wptw0yaxLtS0ExY1jz2BOoCL2LNsOptfiG7nglo2BwnIqJBkhzMoEwCRuKM6z1DSU4gLhpgL+JGxaPcjqZWuzI8Ynn1aZCZNCy2PAAJsSoWrybRUutYb9ryI=
@@ -45,7 +45,7 @@ matrix:
     skip_cleanup: true
     jdk: oraclejdk8
     node_js:
-    - 6.1.0
+    - 7.2.0
     android:
       components:
       - tools
@@ -58,7 +58,7 @@ matrix:
       - extra-google-m2repository
       - extra-android-m2repository
       - extra-android-support
-    before_install: nvm install 6.1.0 && nvm use 6.1.0
+    before_install: nvm install 7.2.0 && nvm use 7.2.0
     before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
     sudo: required
     before_deploy:

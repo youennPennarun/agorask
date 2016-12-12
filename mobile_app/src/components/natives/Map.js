@@ -55,4 +55,6 @@ const Map = requireNativeComponent('RNMap', MapWrapper, {
   },
 });
 
+
+
 module.exports = MapWrapper;

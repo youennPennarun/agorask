@@ -91,14 +91,7 @@ export function login(username: string, password: string): Function {
       dispatch(success(username, token));
       return AsyncStorage.setItem('agorask:user', JSON.stringify({username, token}));
     })
-    .then((a,b,c,d,e) => {
-      console.log("==============================")
-      console.log({a,b,c,d,e});
-      console.log("==============================")
-      console.log("==============================")
-      console.log("==============================")
-      console.log("==============================")
-      console.log("==============================")
+    .then(() => {
     })
     .catch(e => {
       dispatch(failed(e.message));

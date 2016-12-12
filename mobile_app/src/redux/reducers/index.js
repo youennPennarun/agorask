@@ -1,15 +1,13 @@
-import { combineReducers } from 'redux';
-
 import router from './router';
 import user from './user';
 import venue from './venue';
 import search from './search';
 
-const rootReducer = combineReducers({
+const reducers = {
   ...router,
   ...user,
   ...venue,
   ...search,
-});
+};
 
-export default rootReducer;
+export default reducers;

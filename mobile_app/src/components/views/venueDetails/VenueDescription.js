@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import gql from 'graphql-tag';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
@@ -18,8 +19,9 @@ function renderAddress(formattedAddress) {
   return <View />;
 }
 
-export default function VenueDescription(props) {
-  const {name, address, categories = [], website, contact = {formattedPhone: ''}} = props.venue;
+function VenueDescription(props) {
+  console.log(props);
+  const {name, address, categories = [], website, contact = {}} = props.venue;
   const categoryName = (categories.length) ? categories[0].name : '';
   return (
     <View style={styles.block}>
@@ -33,7 +35,7 @@ export default function VenueDescription(props) {
       {renderAddress(address.formatted)}
       <Text>{categoryName}</Text>
       <Text>{website}</Text>
-      {(contact.formattedPhone) ? (
+      {(contact && contact.formattedPhone) ? (
         <Text><Icon name={'mobile'}
           style={styles.icon}
           size={16}
@@ -71,3 +73,23 @@ const styles = StyleSheet.create({
 VenueDescription.propTypes = {
   venue: PropTypes.object.isRequired,
 };
+
+VenueDescription.fragments = {
+  venue: gql`
+    fragment VenueDescription on Venue {
+      name,
+      address {
+        formatted
+      }
+      categories {
+        name 
+      }
+      website,
+      contact {
+        formattedPhone
+      }
+    }
+  `,
+};
+
+export default VenueDescription;

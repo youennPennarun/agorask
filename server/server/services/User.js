@@ -16,6 +16,14 @@ const getUser = function* (username, email) {
   });
 };
 
+const getUserById = function* (id, fields) {
+  const query = User.findOne({_id: id});
+  if (fields) {
+    query.selected(fields);
+  }
+  return yield query.exec();
+};
+
 const register = function* (username, password, email) {
   let encryptedPassword;
 
@@ -48,4 +56,5 @@ module.exports = {
   register,
   logIn,
   errors,
+  getUserById,
 };

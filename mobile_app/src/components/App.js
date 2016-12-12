@@ -1,10 +1,17 @@
 /* @flow */
-
 import React, {Component} from 'react';
+
 import {View, PermissionsAndroid} from 'react-native';
 import { Provider } from 'react-redux';
-import store from '../redux/configureStore';
+
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
+
+import Config from 'react-native-config';
+
+import configureStore from '../redux/configureStore';
 import {pushRoute} from '../redux/actions/router';
+
 import {loadTokenFromStorage} from '../redux/actions/user';
 
 import {checkForUpdate, showUpdateModal} from '../utils/Version';
@@ -12,6 +19,29 @@ import {checkForUpdate, showUpdateModal} from '../utils/Version';
 import Router from './Router';
 import DrawerMenu from './commons/drawerMenu/DrawerMenu';
 
+
+const clientQL = new ApolloClient({
+  networkInterface: createNetworkInterface({ uri: `${Config.API_URL}/graphql` }),
+});
+const store = configureStore(clientQL);
+
+class Wrapper extends Component {
+
+  drawerRef = null;
+  _openDrawer = () => {
+    if (!this.drawerRef) return;
+    this.drawerRef.open();
+  }
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <Router openDrawer={this._openDrawer} />
+        <DrawerMenu onRef={ref => { this.drawerRef = ref; }}
+          pushRoute={(route) => { store.dispatch(pushRoute(route)); }} />
+      </View>
+    );
+  }
+}
 
 class App extends Component {
   state = {
@@ -29,22 +59,11 @@ class App extends Component {
       store.dispatch(pushRoute({key: 'login'}));
     }
   }
-
-  drawerRef = null;
-  _openDrawer = () => {
-    if (!this.drawerRef) return;
-    this.drawerRef.open();
-  }
-
   render(): any {
     return (
-      <Provider store={store}>
-        <View style={{flex: 1}}>
-          <Router openDrawer={this._openDrawer} />
-          <DrawerMenu onRef={ref => { this.drawerRef = ref; }}
-            pushRoute={(route) => { store.dispatch(pushRoute(route)); }} />
-        </View>
-      </Provider>
+      <ApolloProvider store={store} client={clientQL}>
+        <Wrapper />
+      </ApolloProvider>
     );
   }
 }

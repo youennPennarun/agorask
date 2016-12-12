@@ -38,8 +38,8 @@ export class LoginView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.token) {
-      this.props.goToMap();
+    if (!this.props.token && nextProps.token) {
+      this.props.navigator.back();
     }
   }
 
@@ -92,7 +92,7 @@ export class LoginView extends Component {
             onPress={() => { this.login(); }} />
 
           <TouchableOpacity style={styles.goToMapButton}
-            onPress={() => { goToMap(); }}>
+            onPress={() => { this.props.navigator.back(); }}>
             <Text>Not Now</Text>
           </TouchableOpacity>
       </View>

@@ -1,0 +1,119 @@
+type address {
+  location: [Float]!
+  formatted: [String]!
+}
+
+type Answer {
+  # the answer
+  answer: String!
+
+  # The user who posted the answer
+  postedBy: User!
+
+  # When the task was posted
+  date: Date!
+}
+
+type category {
+  name: String!
+  icon: String
+}
+
+type contact {
+  facebookName: String
+  facebook: String
+  twitter: String
+  formattedPhone: String
+  phone: String
+}
+
+scalar Date
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  venue(id: ID!, source: String): Venue
+  searchVenues(lat: Float!, lng: Float!, radius: Float, query: String!): [Venue]
+  venuesWithinRadius(lat: Float!, lng: Float!, radius: Float): [Venue]
+  task(id: ID!): Task
+  user(id: ID!): User
+}
+
+type Task {
+  # task's id
+  _id: String!
+
+  # task title id
+  title: String!
+
+  # The user who posted the task
+  postedBy: User!
+
+  # When the task was posted
+  date: Date
+
+  # The list of answers posted for this task
+  answers: [Answer]
+
+  # The list of answers posted for this task
+  nbAnswers: Int
+}
+
+# A connection to a list of items.
+type TaskConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [TaskEdge]
+}
+
+# An edge in a connection.
+type TaskEdge {
+  # The item at the end of the edge
+  node: Task
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+type User {
+  # user id
+  _id: String
+
+  # user id
+  userId: String
+
+  # username
+  username: String!
+}
+
+type Venue {
+  # venue's id
+  _id: String!
+
+  # venue's name
+  name: String!
+
+  # venues id from foursquare api
+  foursquareId: String
+  contact: contact
+  address: address
+  website: String
+  categories: [category]
+  tasks: [TaskConnection]
+  picture(size: Float): String
+}

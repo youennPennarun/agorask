@@ -7,12 +7,13 @@ const storeVenue = function* (venueData) {
   return venue;
 };
 
-const getVenue = function* (id, source) {
+const getVenueFromExternalSource = function* (id, source, fields) {
   let venue;
-  if (!source) {
-    venue = yield Venue.findOne({_id: id}).exec();
-  } else if (source === 'foursquare') {
-    venue = yield Venue.findOne({foursquareId: id}).exec();
+  let query;
+  if (source === 'foursquare') {
+    query = Venue.findOne({foursquareId: id});
+    if (fields) query.select(fields);
+    venue = yield query.exec();
     if (!venue) {
       const venueData = yield Foursquare.getVenueById(id);
       venue = yield storeVenue(venueData);
@@ -23,7 +24,20 @@ const getVenue = function* (id, source) {
   return venue;
 };
 
-const getVenuesWithinRadiusWithTasks = function* (center, radius) {
+const getVenue = function* (id, source, fields) {
+  let venue;
+  let query;
+  if (!source) {
+    query = Venue.findOne({_id: id});
+    if (fields) query.select(fields);
+    venue = yield query.exec();
+  } else {
+    venue = yield getVenueFromExternalSource(id, source, fields)
+  }
+  return venue;
+};
+
+const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
   const radiusInRad = radius / 6378.1;
   if (!Array.isArray(center)) {
     if ((center.lat && center.lng) || (center.latitude && center.longitude)) {
@@ -32,7 +46,7 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius) {
       throw new Error(`Invalid parameters center. it should be an array [lng, lat] or an object {lat, lng} but got ${JSON.stringify(center)}`);
     }
   }
-  const venues = yield Venue.find({
+  const query = Venue.find({
     $and: [
       {
         'address.location': {
@@ -49,8 +63,11 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius) {
         },
       },
     ],
-  })
-  .exec();
+  });
+  if (fields) {
+    query.select(fields);
+  }
+  const venues = yield query.exec();
   return venues;
 };
 
@@ -59,15 +76,20 @@ const searchVenue = function* ({lat, lng}, query, radius) {
   return venues;
 };
 
-const getVenuePictureUrl = function* (venueId, size) {
-  const venue = yield getVenue(venueId);
+const getVenuePicture = function(venue, size) {
   const defaultImg = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
+  console.log(venue)
   if (!venue) return defaultImg;
   if (!venue.pictures) return defaultImg;
   if (venue.pictures.url) return venue.pictures.url;
   if (!venue.pictures.prefix || !venue.pictures.suffix) return defaultImg;
   const sizeParam = (size) ? `${size.width}x${size.height}` : 'original';
   return `${venue.pictures.prefix}${sizeParam}${venue.pictures.suffix}`;
+};
+
+const getVenuePictureUrlFromVenueId = function* (venueId, size) {
+  const venue = yield getVenue(venueId);
+  return getVenuePicture(venue, size);
 };
 
 const reduce = function(venue) {
@@ -87,6 +109,7 @@ module.exports = {
   getVenue,
   getVenuesWithinRadiusWithTasks,
   searchVenue,
-  getVenuePictureUrl,
+  getVenuePicture,
+  getVenuePictureUrlFromVenueId,
   reduce,
 };

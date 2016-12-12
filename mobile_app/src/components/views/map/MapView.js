@@ -85,6 +85,7 @@ const mapDispatchToProps = (dispatch: Function): Object => ({
     dispatch(pushRoute({
       key: 'venueDetails',
       _id: venue._id,
+      id: venue._id,
       sourceId: venue.foursquareId,
       source: 'foursquare',
     }));
@@ -97,7 +98,9 @@ const mapDispatchToProps = (dispatch: Function): Object => ({
   },
 });
 
-export default connect(
+const Wrapped = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MapView);
+)(MapView); 
+
+export default Wrapped;

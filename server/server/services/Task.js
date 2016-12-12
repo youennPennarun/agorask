@@ -13,6 +13,16 @@ const getTask = function* (id) {
           .exec();
   return task;
 };
+const getTasksByIds = function* (ids, fields) {
+  const query = Task.find({
+    _id: { $in: ids},
+  });
+  if (fields) {
+    query.select(fields);
+  }
+  const tasks = yield query.exec();
+  return tasks;
+};
 
 const getUserTasks = function* (username, offset = 0, limit = 10) {
   const tasks = yield Task.find({'postedBy.username': username})
@@ -44,9 +54,27 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
   return task;
 };
 
+const addAnswer = function* (taskId, answer, fields) {
+  answer.date = new Date();
+  const query = Task.findByIdAndUpdate(
+    taskId,
+    {$push: {answers: answer}},
+    {new: true});
+  if (fields) {
+    query.select(fields);
+  }
+  const response = yield query.exec();
+  if (response) {
+    return answer;
+  }
+  return null;
+}
+
 module.exports = {
   getTasks,
   getTask,
   getUserTasks,
   addTask,
-}
+  getTasksByIds,
+  addAnswer,
+};

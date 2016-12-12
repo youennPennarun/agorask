@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import gql from 'graphql-tag';
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
-import Task from './Task';
 import Icon from 'react-native-vector-icons/Entypo';
+
+import Task from './Task';
 
 const {width} = Dimensions.get('window');
 
@@ -25,7 +27,7 @@ class Tasks extends Component {
   _renderTask(task, key): any {
     return (
       <TouchableOpacity key={key}
-        onPress={() => { this.props.goToTask(task._id); }} >
+        onPress={() => { this.props.goToTask(task._id, task); }} >
         <Task title={task.title} nbAnswers={task.nbAnswers} />
         <View style={styles.separator} />
       </TouchableOpacity>
@@ -93,6 +95,18 @@ const styles = StyleSheet.create({
 Tasks.propTypes = {
   tasks: PropTypes.array.isRequired,
   goToTask: PropTypes.func.isRequired,
+};
+
+Tasks.fragments = {
+  venue: gql`
+    fragment Tasks on Venue {
+      tasks {
+        _id
+        title,
+        nbAnswers
+      }
+    }
+  `,
 };
 
 export default Tasks;

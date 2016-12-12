@@ -4,21 +4,25 @@ import {
   MKProgress,
   MKSpinner,
 } from 'react-native-material-kit';
-import { connect } from 'react-redux';
+import update from 'immutability-helper';
+
+
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import moment from 'moment';
 
 import Vote from './Vote';
+import AddAnswer from './AddAnswer';
 
-import {getTask} from '../../../redux/actions/task';
 
 const {width} = Dimensions.get('window');
 
 export class TaskDetails extends Component {
-  componentWillMount() {
-    InteractionManager.runAfterInteractions(() => {
-      this.props.getTask();
-    });
+
+  addAnswer(answer, token) {
+    this.props.addAnswer(this.props.task._id, answer, token);
   }
+
   _renderAnswer({answer, postedBy: {username}, date}, key): any {
     return (
       <View key={key} style={styles.answerContainer}>
@@ -37,17 +41,19 @@ export class TaskDetails extends Component {
     );
   }
   _renderProgressBar(): any {
-    const {isFetching, answers = []} = this.props;
-    if (!isFetching || !answers.length) return null;
+    const {loading, task} = this.props;
+    const {answers = []} = task;
+    if (!loading || !answers.length) return null;
     return <MKProgress.Indeterminate style={styles.progress} />;
   }
   _renderSpinner(): any {
-    const {isFetching, answers = []} = this.props;
-    if (!isFetching || answers.length) return null;
+    const {loading, task} = this.props;
+    const {answers = []} = task;
+    if (!loading || answers.length) return null;
     return <MKSpinner style={styles.spinner} />;
   }
   render(): any {
-    const {name, title, date, answers = []} = this.props;
+    const {name, title, date, answers = []} = this.props.task;
     return (
       <View style={styles.container} >
         <View style={styles.header} >
@@ -66,13 +72,12 @@ export class TaskDetails extends Component {
           <View style={[styles.answersContainer]} >
             {
               answers.map((answer: Object, key: number): any =>
-                this._renderAnswer(answer, key)
+                this._renderAnswer(answer, key),
               )
             }
           </View>
-          <View style={styles.addAnswer} >
-            <Text style={styles.addAnswerLabel}>Add an answer</Text>
-          </View>
+          <AddAnswer addAnswer={(answer, token) => this.addAnswer(answer, token)} />
+          
         </ScrollView>
       </View>
     );
@@ -171,7 +176,10 @@ const styles = StyleSheet.create({
 TaskDetails.propTypes = {
   id: PropTypes.string.isRequired,
 };
-
+TaskDetails.defaultProps = {
+  task: {},
+};
+/*
 const mapStateToProps = (state, props) => {
   const {name, isFetching, tasks} = state.selectedVenue.venue;
   return {
@@ -185,9 +193,82 @@ const mapDispatchToProps = (dispatch: Function, props): Object => ({
   getTask: () => {
     dispatch(getTask(props.id));
   },
-});
+});*/
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskDetails);
+const TaskDetailsQuery = gql`
+  query TaskDetails($id: ID!) {
+    task(id: $id) {
+      _id,
+      title,
+      date,
+      answers {
+        answer,
+        postedBy {
+          username
+        }
+        date
+      }
+    }
+  }
+`;
+
+const AddTaskMutation = gql`
+  mutation answer($taskId: ID!, $answer: AnswerInput!, $token: String!) {
+    answer(taskId: $taskId, answer: $answer, token: $token) {
+      answer
+      date
+      postedBy {
+        username
+      }
+    }
+  }
+`;
+
+export default graphql(AddTaskMutation, {
+  props: ({ownProps, mutate}) => ({
+      addAnswer: (taskId, answer, token) => mutate({
+        variables: {taskId, answer, token},
+        optimisticResponse: {
+          __typename: 'Mutation',
+          answer: {
+            __typename: 'Answer',
+            answer: answer,
+            date: new Date(),
+            postedBy: {
+              username: '',
+            },
+          },
+        },
+        updateQueries: {
+          TaskDetails: (prev, { mutationResult }) => {
+            const newAnswer = mutationResult.data.answer;
+            const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
+            /*
+            if (existing) {
+              return prev;
+            }
+            */
+            return update(prev, {
+              task: {
+                answers: {
+                  $push: [newAnswer],
+                },
+              },
+            });
+          },
+        },
+      }),
+  }),
+})(graphql(TaskDetailsQuery, {
+  options: ({ id }) => ({
+    variables: {id},
+  }),
+  props: ({ ownProps, data: { loading, error, task } }) => {
+    return {
+      loading,
+      task: task || ownProps.task,
+      error,
+    };
+  },
+})(TaskDetails));
+
