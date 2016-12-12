@@ -63,7 +63,7 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
         },
       },
     ],
-  });
+  }).sort({_id: -1});
   if (fields) {
     query.select(fields);
   }
@@ -78,7 +78,6 @@ const searchVenue = function* ({lat, lng}, query, radius) {
 
 const getVenuePicture = function(venue, size) {
   const defaultImg = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
-  console.log(venue)
   if (!venue) return defaultImg;
   if (!venue.pictures) return defaultImg;
   if (venue.pictures.url) return venue.pictures.url;

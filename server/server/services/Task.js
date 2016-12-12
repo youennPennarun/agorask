@@ -29,6 +29,7 @@ const getUserTasks = function* (username, offset = 0, limit = 10) {
   const tasks = yield Task.find({'postedBy.username': username})
           .skip(offset)
           .limit(limit)
+          .sort({_id: -1})
           .exec();
   return tasks;
 };
