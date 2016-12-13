@@ -17,7 +17,8 @@ export function showUpdateModal(url) {
 export function checkForUpdate() {
   return new Promise((resolve, reject) => {
     // const url = `${Config.API_URL}/application/check/${Config.RELEASE_DATE}?type=${Config.BUILD_TYPE}`;
-    const url = `${Config.API_URL}/application/check/${Config.RELEASE_DATE}?type=release`;
+    const api_url = Config.VERSIONING_API_URL || Config.API_URL;
+    const url = `${Capi_url}/application/check/${Config.RELEASE_DATE}?type=${Config.BUILD_TYPE}`;
     console.log(url)
     fetch(url)
       .then((response: Object) => response.json())
