@@ -39,8 +39,7 @@ export class VenueDetails extends Component {
   }
 
   addTask(task) {
-
-    this.props.addTask(this.props.venue._id, task, this.props.token);
+    return this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
   render() {
@@ -223,7 +222,6 @@ export default graphql(AddTaskMutation, {
                 },
               },
             });
-            console.log("updated = ", updated)
             return updated;
           },
         },
@@ -239,8 +237,6 @@ export default graphql(AddTaskMutation, {
       variables.id = sourceId;
       variables.source = source;
     }
-    console.log("vars = ", variables);
-    
     return {variables};
   },
   props: ({ownProps, data: { loading, error, venue } }) => {

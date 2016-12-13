@@ -62,7 +62,6 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
     nbAnswers: 0,
   });
   yield venue.save();
-  console.log('Then => venue ', venue)
   return task;
 };
 

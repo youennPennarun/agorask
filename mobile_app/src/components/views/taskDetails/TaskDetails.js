@@ -20,7 +20,7 @@ const {width} = Dimensions.get('window');
 export class TaskDetails extends Component {
 
   addAnswer(answer, token) {
-    this.props.addAnswer(this.props.task._id, answer, token);
+    return this.props.addAnswer(this.props.task._id, answer, token);
   }
 
   _renderAnswer({answer, postedBy: {username}, date}, key): any {
@@ -257,6 +257,27 @@ export default graphql(AddAnswerMutation, {
               },
             });
           },
+          Venue: (prev, { mutationResult }) => {
+            const newAnswer = mutationResult.data.answer;
+            console.log('new answer ', newAnswer)
+            const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}) => _id === ownProps.task._id);
+            if (taskInVenueIndex <= -1) return prev;
+            console.log(prev)
+            return {
+              ...prev,
+              venue: {
+                ...prev.venue,
+                tasks: [
+                  ...prev.venue.tasks.slice(0, taskInVenueIndex),
+                  {
+                    ...prev.venue.tasks[taskInVenueIndex],
+                    nbAnswers: prev.venue.tasks[taskInVenueIndex].nbAnswers + 1,
+                  },
+                  ...prev.venue.tasks.slice(taskInVenueIndex + 1),
+                ]
+              }
+            }
+          }
         },
       }),
   }),

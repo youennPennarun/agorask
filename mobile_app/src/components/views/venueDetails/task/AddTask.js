@@ -51,7 +51,12 @@ class AddTask extends Component {
   }
   submit() {
     const {title} = this.state;
-    this.props.addTask({title});
+    console.log(this.props.addTask({title}));
+    /*
+      .then(() => {
+        this.setState({title: ''});
+        this.close();
+      }).catch(e => console.log(e));*/
   }
 
   render() {
@@ -67,6 +72,7 @@ class AddTask extends Component {
           <Text style={styles.title}>Add a task</Text>
           <MKTextField style={[styles.answerInput, {height: Math.max(35, this.state.answerHeight)}]}
             multiline
+            value={this.state.title}
             onTextChange={text => this.setState({title: text})}
             onChange={({nativeEvent: {contentSize}}) => { this.updateFieldHeight(contentSize); }}
             onContentSizeChange={({nativeEvent: {contentSize}}) => { this.updateFieldHeight(contentSize); }}

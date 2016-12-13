@@ -9,6 +9,7 @@ import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
 class AddAnswer extends Component {
   state = {
     answerHeight: 0,
+    loading: false,
     answer: '',
   }
   updateAnswerFieldHeight({height}) {
@@ -28,7 +29,15 @@ class AddAnswer extends Component {
 
   submit() {
     const {answer} = this.state;
-    this.props.addAnswer({answer: answer}, this.props.token);
+    this.setState({loading: true});
+    this.props.addAnswer({answer: answer}, this.props.token)
+      .then(() => {
+          this.setState({loading: false, answer: ''});
+      })
+      .catch(e => {
+        console.log('error ', e);
+        this.setState({loading: false});
+      });
   }
 
   render() {
@@ -37,12 +46,13 @@ class AddAnswer extends Component {
       <View style={styles.container} >
         <MKTextField style={[styles.answerInput, {height: Math.max(35, this.state.answerHeight)}]}
           multiline
+          value={this.state.answer}
           onTextChange={text => this.setState({answer: text})}
           onChange={({nativeEvent: {contentSize}}) => { this.updateAnswerFieldHeight(contentSize); }}
           onContentSizeChange={({nativeEvent: {contentSize}}) => { this.updateAnswerFieldHeight(contentSize); }}
           placeholder='answer' />
 
-        <AddAnswerBtn onPress={() => { this.submit(); }} />
+        <AddAnswerBtn enabled={!this.state.loading} onPress={() => { this.submit(); }} />
       </View>
 
     );
