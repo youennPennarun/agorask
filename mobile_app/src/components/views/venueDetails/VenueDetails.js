@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Image, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid} from 'react-native';
 
 import {connect} from 'react-redux';
 
@@ -208,9 +208,11 @@ export default graphql(AddTaskMutation, {
             if (mutationResult.errors) {
               // TODO error handling
               console.log('ERROR: ', mutationResult.errors);
+              if (mutationResult.errors.length) {
+                ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
+              }
               return prev;
             }
-            console.log('PREV = ', prev)
             if (!prev.venue) return prev;
             const newTask = mutationResult.data.task;
 
