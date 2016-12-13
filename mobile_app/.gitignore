@@ -55,5 +55,3 @@ yarn-error.log
 
 android/release.keystore
 *.keystore
-.env
-.env.*
