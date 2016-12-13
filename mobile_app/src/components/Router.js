@@ -56,6 +56,7 @@ export class Router extends Component {
     if (routeConfig.navigator) {
       props.navigator = routeConfig.navigator(this.props.dispatch);
     }
+    console.log(props);
     return React.createElement(routeConfig.component, props);
   }
 

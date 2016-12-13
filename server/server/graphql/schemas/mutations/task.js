@@ -23,8 +23,8 @@ const TaskInputType = new GraphQLInputObjectType({
 
 const task = {
   type: TaskType,
-  name: 'Answer',
-  description: 'Add an answer',
+  name: 'Task',
+  description: 'Add a task',
   args: {
     venueId: {
       type: new GraphQLNonNull(GraphQLID),

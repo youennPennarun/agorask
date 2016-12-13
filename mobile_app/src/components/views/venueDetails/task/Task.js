@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import gql from 'graphql-tag';
 
 class Task extends Component {
   render() {
@@ -41,6 +42,15 @@ const styles = StyleSheet.create({
 Task.propTypes = {
   title: PropTypes.string.isRequired,
   nbAnswers: PropTypes.number.isRequired,
+};
+Task.fragments = {
+  task: gql`
+    fragment Task on Task {
+      _id
+        title,
+        nbAnswers
+    }
+  `,
 };
 
 export default Task;

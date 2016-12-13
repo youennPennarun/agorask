@@ -20,7 +20,6 @@ function renderAddress(formattedAddress) {
 }
 
 function VenueDescription(props) {
-  console.log(props);
   const {name, address = {}, categories = [], website, contact = {}} = props.venue;
   const categoryName = (categories.length) ? categories[0].name : '';
   return (

@@ -39,6 +39,7 @@ export class VenueDetails extends Component {
   }
 
   addTask(task) {
+
     this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
@@ -50,6 +51,7 @@ export class VenueDetails extends Component {
     if (venue._id) {
       imageUri = `http://192.168.0.10:3000/venues/${venue._id}/image`;
     }
+    console.log(venue);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scollView}>
@@ -132,6 +134,14 @@ VenueDetails.propTypes = {
   sourceId: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,
 };
+
+VenueDetails.fragments = {
+  venue: gql`
+    fragment VenueDetails on Venue {
+      _id,
+    }
+  `,
+};
 /*
 const mapStateToProps = state => ({});
 
@@ -151,20 +161,21 @@ const VenueConnected = connect(
 */
 
 const VenueDetailsQuery = gql`
-  query VenueDetails($id: ID!, $source: String) {
+  query Venue($id: ID!, $source: String) {
     venue(id: $id, source: $source) {
+      _id,
       ...VenueDescription
       ...Tasks
     }
   }
   ${VenueDescription.fragments.venue}
-  ${Tasks.fragments.venue}
+  ${Tasks.fragments.tasks}
 `;
 
 
 const AddTaskMutation = gql`
-  mutation task($taskId: ID!, $task: TaskInput!, $token: String!) {
-    task(venueId: $taskId, task: $task, token: $token) {
+  mutation addTask($venueId: ID!, $task: TaskInput!, $token: String!) {
+    task(venueId: $venueId, task: $task, token: $token) {
       title
       nbAnswers
     }
@@ -181,33 +192,37 @@ const VenueDetailsConnected = connect(mapStateToProps)(VenueDetails);
 
 export default graphql(AddTaskMutation, {
   props: ({ownProps, mutate}) => ({
-      addTask: (taskId, task, token) => mutate({
-        variables: {taskId, task, token},
+      addTask: (venueId, task, token) => mutate({
+        variables: {venueId, task, token},
         optimisticResponse: {
           __typename: 'Mutation',
           task: {
             __typename: 'Task',
-            task: task,
-            date: new Date(),
-            postedBy: {
-              username: '',
-            },
+            _id: null,
+            title: task.title,
+            nbAnswers: 0,
           },
         },
         updateQueries: {
-          VenueDetails: (prev, { mutationResult }) => {
-            const newTask = mutationResult.data.task;
-            const existing = null; // prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
-            /*
-            if (existing) {
+          Venue: (prev, { mutationResult }) => {
+            if (mutationResult.errors) {
+              // TODO error handling
+              console.log('ERROR: ', mutationResult.errors);
               return prev;
             }
-            */
-            return update(prev, {
+            console.log('PREV = ', prev)
+            if (!prev.venue) return prev;
+            const newTask = mutationResult.data.task;
+
+            const updated = update(prev, {
               venue: {
-                tasks: { $push: [newTask] },
+                tasks: {
+                  $unshift: [newTask],
+                },
               },
             });
+            console.log("updated = ", updated)
+            return updated;
           },
         },
       }),
@@ -220,8 +235,10 @@ export default graphql(AddTaskMutation, {
       variables.source = null;
     } else {
       variables.id = sourceId;
-      variables.id = source;
+      variables.source = source;
     }
+    console.log("vars = ", variables);
+    
     return {variables};
   },
   props: ({ownProps, data: { loading, error, venue } }) => {

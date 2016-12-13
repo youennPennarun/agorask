@@ -34,6 +34,7 @@ class Tasks extends Component {
     );
   }
   render(): any {
+    console.log("TASKS ======>", this.props);
     const resolved = this._getResolvedTasks();
     const open = this._getOpenTasks();
     return (
@@ -98,14 +99,13 @@ Tasks.propTypes = {
 };
 
 Tasks.fragments = {
-  venue: gql`
+  tasks: gql`
     fragment Tasks on Venue {
       tasks {
-        _id
-        title,
-        nbAnswers
+        ...Task
       }
     }
+    ${Task.fragments.task}
   `,
 };
 

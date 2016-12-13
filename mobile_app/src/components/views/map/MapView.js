@@ -44,17 +44,22 @@ export class MapView extends React.Component {
     goToVenueDetails(venue);
   }
   _renderMarkers(venues) {
-    return venues.map((venue, key) => (
-      <MapMarker key={`${venue.address.location[1]}.${venue.address.location[0]}.${key}`}
-        coordinate={{
-          latitude: venue.address.location[1],
-          longitude: venue.address.location[0],
-        }}
-        onPress={() => {
-          this._goToVenueDetails(venue);
-        }}
-        numberOfTasks={venue.nbTasks} />
-    ));
+    console.log(venues)
+    return venues.map((venue, key) => {
+      const cKey = `${venue.source || 'bd'}_${venue._id || venue.foursquareId}_${key}`;
+      console.log(cKey)
+      return (
+        <MapMarker key={cKey}
+          coordinate={{
+            latitude: venue.address.location[1],
+            longitude: venue.address.location[0],
+          }}
+          onPress={() => {
+            this._goToVenueDetails(venue);
+          }}
+          numberOfTasks={venue.nbTasks} />
+      )
+    });
   }
   render() {
     const {venues, searchResults} = this.props;
@@ -81,7 +86,7 @@ const mapStateToProps = (state: Object): Object => ({
 });
 const mapDispatchToProps = (dispatch: Function): Object => ({
   goToVenueDetails: (venue) => {
-    dispatch(setSelectedVenue(venue));
+    // dispatch(setSelectedVenue(venue));
     dispatch(pushRoute({
       key: 'venueDetails',
       _id: venue._id,

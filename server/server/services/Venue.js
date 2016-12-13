@@ -3,6 +3,7 @@ const Foursquare = require('./foursquare/Foursquare');
 
 const storeVenue = function* (venueData) {
   const venue = new Venue(venueData);
+  if (!venue.tasks) venue.tasks = [];
   yield venue.save();
   return venue;
 };
@@ -11,12 +12,17 @@ const getVenueFromExternalSource = function* (id, source, fields) {
   let venue;
   let query;
   if (source === 'foursquare') {
+    console.log("GET venue from foursquareID with fields ", fields)
     query = Venue.findOne({foursquareId: id});
     if (fields) query.select(fields);
     venue = yield query.exec();
     if (!venue) {
+      console.log('venue from foursquare')
       const venueData = yield Foursquare.getVenueById(id);
+
+      console.log('storing it')
       venue = yield storeVenue(venueData);
+      console.log(venue);
     }
   } else {
     throw new Error(`Unknow source ${source}`);
@@ -73,6 +79,7 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
 
 const searchVenue = function* ({lat, lng}, query, radius) {
   const venues = yield Foursquare.searchVenue({lat, lng}, query, radius);
+  console.log(venues);
   return venues;
 };
 
@@ -96,7 +103,7 @@ const reduce = function(venue) {
     _id: venue._id,
     source: venue.source,
     name: venue.name,
-    foursquareId: venue.id,
+    foursquareId: venue.id || venue.foursquareId,
     address: {
       location: venue.address.location,
     },

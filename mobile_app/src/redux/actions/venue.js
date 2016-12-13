@@ -14,7 +14,7 @@ export const FETCHING_VENUE = 'FETCHING_VENUE';
 const VENUE_API_URL = `${API_URL}/venues`;
 // const API_URL = 'https://agorask.herokuapp.com/venues';
 
-export function getVenuesWithTasksNearPosition(location: {latitude: number, longitude: number}, radius = 0.5) {
+export function getVenuesWithTasksNearPosition(location: {latitude: number, longitude: number}, radius = 25) {
   return dispatch => {
     dispatch({
       type: FETCHING_LIST,

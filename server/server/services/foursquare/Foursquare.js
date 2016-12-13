@@ -24,7 +24,6 @@ const searchVenue = function* ({lat, lng}, query, radius = 1000) {
     return handleFailedRequest(response);
   }
   const json = yield response.json();
-  console.log(json);
   return json.response.venues.map(venue => parseVenue(venue));
 };
 

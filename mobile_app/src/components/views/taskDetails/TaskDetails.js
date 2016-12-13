@@ -242,6 +242,7 @@ export default graphql(AddAnswerMutation, {
         updateQueries: {
           TaskDetails: (prev, { mutationResult }) => {
             const newAnswer = mutationResult.data.answer;
+            console.log('new answer ', newAnswer)
             const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
             /*
             if (existing) {

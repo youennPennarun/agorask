@@ -25,6 +25,7 @@ const parseHours = function({timeframes = []}) {
 
 const parseVenue = function(foursquareData) {
   const {id, name, contact, location, categories, url = '', hours = {timeframes: []}, bestPhoto = {}} = foursquareData;
+
   const venue = {
     source: 'foursquare',
     name,
