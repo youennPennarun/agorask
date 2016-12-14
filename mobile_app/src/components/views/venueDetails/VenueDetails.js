@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid} from 'react-native';
 
+import Config from 'react-native-config';
+
 import {connect} from 'react-redux';
 import {pushVenue} from '../../../redux/actions/venue';
 
@@ -53,7 +55,7 @@ export class VenueDetails extends Component {
     if (error) return renderError(error);
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
-      imageUri = `http://192.168.0.10:3000/venues/${venue._id}/image`;
+      imageUri = `http://${Config.API_URL}:3000/venues/${venue._id}/image`;
     }
     return (
       <View style={styles.container}>
