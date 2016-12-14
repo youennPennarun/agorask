@@ -51,12 +51,12 @@ class AddTask extends Component {
   }
   submit() {
     const {title} = this.state;
-    console.log(this.props.addTask({title}));
-    /*
+    this.props.addTask({title})
       .then(() => {
         this.setState({title: ''});
         this.close();
-      }).catch(e => console.log(e));*/
+        this.props.onClose();
+      }).catch(e => console.log(e));
   }
 
   render() {
@@ -121,8 +121,8 @@ const SubmitBtn = MKButton.coloredButton()
   .build();
 
 AddTask.defaultProps = {
-  close: () => null,
   addTask: () => null,
+  onClose: () => null,
 };
 
 export default AddTask;

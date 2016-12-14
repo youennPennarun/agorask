@@ -40,8 +40,9 @@ export class VenueDetails extends Component {
   state = {
     showAddTask: false,
   }
+  roundButtonRef = null;
 
-  addTask(task) {
+  addTask(task): Promise<*> {
     const {_id, foursquareId, name, address, tasks = []} = this.props.venue;
 
     this.props.pushVenueToMap({_id, foursquareId, name, address, nbTasks: tasks.length + 1});
@@ -50,12 +51,13 @@ export class VenueDetails extends Component {
 
   render() {
     const {venue, isFetching, error} = this.props;
-    
+
     if (isFetching) return renderFetchingState();
     if (error) return renderError(error);
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
-      imageUri = `http://${Config.API_URL}:3000/venues/${venue._id}/image`;
+      imageUri = `${Config.API_URL}/venues/${venue._id}/image`;
+      console.log('img = ', imageUri)
     }
     return (
       <View style={styles.container}>
@@ -69,9 +71,11 @@ export class VenueDetails extends Component {
         </ScrollView>
         <AddTask style={styles.addTask}
           visible={this.state.showAddTask}
-          addTask={task => { this.addTask(task); }} />
+          onClose={() => { if (this.roundButtonRef) this.roundButtonRef.setActive(false); }}
+          addTask={(task): Promise<*> => this.addTask(task)} />
 
-        <RoundButton style={styles.addTaskBtn}
+        <RoundButton ref={ref => { this.roundButtonRef = ref; }}
+          style={styles.addTaskBtn}
           size={50}
           initialState={{
             color: 'green',

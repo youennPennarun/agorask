@@ -16,6 +16,13 @@ class RoundButton extends Component {
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this._handleBackButton);
   }
+
+  setActive(active) {
+    if (active !== this.state.active) {
+      this.switch();
+    }
+  }
+
   _handleBackButton = () => {
     if (this.state.active) {
       this.switch();
