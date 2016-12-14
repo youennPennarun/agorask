@@ -265,4 +265,44 @@ module.exports = [{
   tasks: [
     getTask(12)
   ],
+}, {
+  '_id': '5851328c0c894f08a7d2d38d',
+  'source': 'foursquare',
+  'name': 'ShopKeep',
+  'foursquareId': '4b490739f964a520b36226e3',
+  'contact': {},
+  'address': {
+    'location': [
+      -5.938351252496953,
+      54.58106284226866
+    ],
+    'formatted': [
+      '23-27 Malone Rd',
+      'Belfast',
+      'BT9 6RU',
+      'United Kingdom'
+    ]
+  },
+  'website': '',
+  'hours': [],
+  'pictures': {
+    'prefix': 'https://irs3.4sqi.net/img/general/',
+    'suffix': '/42970375_J8QbnKE2-2rCc3L_G06D0fIqqGUL2c1513jHBaiBnno.jpg',
+    'width': 1386,
+    'height': 1920
+  },
+  'categories': [
+    {
+      'name': 'Bar',
+      'icon': 'https://ss3.4sqi.net/img/categories_v2/nightlife/pub_64.png'
+    },
+    {
+      'name': 'Nightclub',
+      'icon': 'https://ss3.4sqi.net/img/categories_v2/nightlife/nightclub_64.png'
+    }
+  ],
+
+  tasks: [
+    getTask(12)
+  ],
 }];
