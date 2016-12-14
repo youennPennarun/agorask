@@ -53,6 +53,14 @@ public class MapManager extends ViewGroupManager<RNMapView> {
     public void removeViewAt(RNMapView parent, int index) {
         parent.removeFeatureAt(index);
     }
+    @Override
+    public int getChildCount(RNMapView view) {
+        return view.getFeatureCount();
+    }
+    @Override
+    public View getChildAt(RNMapView view, int index) {
+        return view.getFeatureAt(index);
+    }
 
     void pushEvent(View view, String name, WritableMap data) {
         reactContext.getJSModule(RCTEventEmitter.class)

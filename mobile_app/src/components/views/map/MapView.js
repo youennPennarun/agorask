@@ -9,7 +9,7 @@ import SearchBar from './SearchBar';
 import Map from '../../natives/Map';
 import MapMarker from '../../natives/MapMarker';
 import {updateUserLocation} from '../../../redux/actions/user';
-import {getVenuesWithTasksNearPosition, setSelectedVenue} from '../../../redux/actions/venue';
+import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
 export class MapView extends React.Component {
@@ -44,12 +44,10 @@ export class MapView extends React.Component {
     goToVenueDetails(venue);
   }
   _renderMarkers(venues) {
-    console.log(venues)
     return venues.map((venue, key) => {
-      const cKey = `${venue.source || 'bd'}_${venue._id || venue.foursquareId}_${key}`;
-      console.log(cKey)
+      const cKey = `${venue.source || 'bd'}_${venue._id || venue.foursquareId}`;
       return (
-        <MapMarker key={cKey}
+        <MapMarker key={key}
           coordinate={{
             latitude: venue.address.location[1],
             longitude: venue.address.location[0],

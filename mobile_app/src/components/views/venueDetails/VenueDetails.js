@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid} from 'react-native';
 
 import {connect} from 'react-redux';
+import {pushVenue} from '../../../redux/actions/venue';
 
 import Icon from 'react-native-vector-icons/EvilIcons';
 import update from 'immutability-helper';
@@ -39,18 +40,21 @@ export class VenueDetails extends Component {
   }
 
   addTask(task) {
+    const {_id, foursquareId, name, address, tasks = []} = this.props.venue;
+
+    this.props.pushVenueToMap({_id, foursquareId, name, address, nbTasks: tasks.length + 1});
     return this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
   render() {
     const {venue, isFetching, error} = this.props;
+    
     if (isFetching) return renderFetchingState();
     if (error) return renderError(error);
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
       imageUri = `http://192.168.0.10:3000/venues/${venue._id}/image`;
     }
-    console.log(venue);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scollView}>
@@ -138,37 +142,26 @@ VenueDetails.fragments = {
   venue: gql`
     fragment VenueDetails on Venue {
       _id,
+      foursquareId,
+      name,
+      address {
+        location,
+      },
+      ...VenueDescription
+      ...Tasks
     }
+    ${VenueDescription.fragments.venue}
+    ${Tasks.fragments.tasks}
   `,
 };
-/*
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = (dispatch: Function, props): Object => ({
-  goToTaskDetails: id => {
-    dispatch(pushRoute({
-      key: 'taskDetails',
-      id,
-    }));
-  },
-});
-
-const VenueConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VenueDetails);
-*/
 
 const VenueDetailsQuery = gql`
   query Venue($id: ID!, $source: String) {
     venue(id: $id, source: $source) {
-      _id,
-      ...VenueDescription
-      ...Tasks
+      ...VenueDetails
     }
   }
-  ${VenueDescription.fragments.venue}
-  ${Tasks.fragments.tasks}
+  ${VenueDetails.fragments.venue}
 `;
 
 
@@ -187,7 +180,14 @@ function mapStateToProps(state) {
   };
 }
 
-const VenueDetailsConnected = connect(mapStateToProps)(VenueDetails);
+const mapDispatchToProps = (dispatch: Function, props): Object => ({
+  pushVenueToMap: venue => {
+    dispatch(pushVenue(venue));
+  },
+});
+
+
+const VenueDetailsConnected = connect(mapStateToProps, mapDispatchToProps)(VenueDetails);
 
 export default graphql(AddTaskMutation, {
   props: ({ownProps, mutate}) => ({

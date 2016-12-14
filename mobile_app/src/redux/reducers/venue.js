@@ -1,4 +1,4 @@
-import {FETCHING_LIST, SUCCESS_LIST, FAILURE_LIST, FETCHING_VENUE, UPDATE_SELECTED_VENUE} from '../actions/venue';
+import {FETCHING_LIST, SUCCESS_LIST, FAILURE_LIST, FETCHING_VENUE, UPDATE_SELECTED_VENUE, PUSH} from '../actions/venue';
 import {FETCHING_TASK, SUCCESS_FETCH_TASK} from '../actions/task';
 
 export const venuesDefaultState = {
@@ -108,6 +108,27 @@ function venues(state = venuesDefaultState, action) {
         error: null,
         venues: action.venues,
       };
+    case PUSH: {
+      const existingVenueIndex = state.venues.findIndex(venue => 
+                    (venue._id === action.venue._id || venue.foursquareId === action.venue.foursquareId));
+      let newVenues = [];
+      if (existingVenueIndex > -1) {
+        newVenues = [
+          ...state.venues.slice(0, existingVenueIndex),
+          action.venue,
+          ...state.venues.slice(existingVenueIndex + 1),
+        ];
+      } else {
+        newVenues = [
+          ...state.venues,
+          action.venue,
+        ];
+      }
+      return {
+        ...state,
+        venues: newVenues,
+      };
+    }
     default:
       return state;
   }

@@ -138,13 +138,18 @@ public class RNMapView extends MapView
     }
     public void removeFeatureAt(int index) {
         Log.i("RNMapView", "removeFeatureAt " + index);
-        if (index <= features.size()) {
-            return;
-        }
         MapFeature feature = features.remove(index);
         if (feature instanceof RNMarkerView) {
             markers.remove(feature.getFeature());
         }
         feature.remove(map);
+    }
+
+    public int getFeatureCount() {
+        return features.size();
+    }
+
+    public View getFeatureAt(int index) {
+        return features.get(index);
     }
 }

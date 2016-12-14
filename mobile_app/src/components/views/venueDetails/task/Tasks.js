@@ -34,20 +34,22 @@ class Tasks extends Component {
     );
   }
   render(): any {
-    console.log("TASKS ======>", this.props);
     const resolved = this._getResolvedTasks();
     const open = this._getOpenTasks();
+    const {openTasksExtended, resolvedTasksExtended} = this.state;
     return (
       <View style={styles.container}>
         {
           (open.length) ? (
             <View>
-            <Text style={styles.title}>
-              <Icon name='chevron-thin-down'
+            <TouchableOpacity onPress={() => { this.setState({openTasksExtended: !openTasksExtended}); }}>
+              <Text style={styles.title}>
+              <Icon name={openTasksExtended ? 'chevron-thin-up' : 'chevron-thin-down'}
                 style={styles.extendIcon}
                 size={20} />
               Open Tasks
-            </Text>
+              </Text>
+            </TouchableOpacity>
             <View style={styles.tasksContainer}>
               {open.map((task, key) => this._renderTask(task, key))}
             </View>
@@ -56,7 +58,14 @@ class Tasks extends Component {
         {
           (resolved.length) ? (
             <View>
-              <Text style={styles.title}>Resolved Tasks</Text>
+            <TouchableOpacity onPress={() => { this.setState({resolvedTasksExtended: !resolvedTasksExtended}); }}>
+              <Text style={styles.title}>
+              <Icon name={resolvedTasksExtended ? 'chevron-thin-up' : 'chevron-thin-down'}
+                style={styles.extendIcon}
+                size={20} />
+              Resolved Tasks
+              </Text>
+            </TouchableOpacity>
               <View style={styles.tasksContainer}>
                 {resolved.map((task, key) => this._renderTask(task, key))}
               </View>
