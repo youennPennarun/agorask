@@ -11,6 +11,8 @@ const {
 
 import Map from './views/map/MapView';
 import LoginView from './views/login/LoginView';
+import SignInView from './views/signIn/SignInView';
+
 import VenueDetails from './views/venueDetails/VenueDetails';
 import TaskDetails from './views/taskDetails/TaskDetails';
 
@@ -22,6 +24,13 @@ export class Router extends Component {
     },
     login: {
       component: LoginView,
+      navigator: dispatch => ({
+        back: () => dispatch(popRoute()),
+        signIn: () => dispatch(pushRoute({key: 'signIn'})),
+      }),
+    },
+    signIn: {
+      component: SignInView,
       navigator: dispatch => ({
         back: () => dispatch(popRoute()),
       }),

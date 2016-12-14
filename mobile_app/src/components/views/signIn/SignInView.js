@@ -5,8 +5,7 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-nati
 import { connect } from 'react-redux';
 import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
 
-import {login} from '../../../redux/actions/user';
-import {popRoute} from '../../../redux/actions/router';
+import {doSignIn} from '../../../redux/actions/user';
 
 
 const {width} = Dimensions.get('window');
@@ -14,17 +13,14 @@ const {width} = Dimensions.get('window');
 export class LoginView extends Component {
   state = {
     username: '',
+    email: '',
     password: '',
+    confirmPassword: '',
   }
   usernameRef = null;
+  emailRef = null;
   passwordRef = null;
-  login() {
-    const {username, password} = this.state;
-    const {doLogin} = this.props;
-    if (username && password) {
-      doLogin(username, password);
-    }
-  }
+  confirmPasswordRef = null;
 
   isFormValid(): boolean {
     return (
@@ -33,24 +29,38 @@ export class LoginView extends Component {
     );
   }
 
-  _onSubmitUsername() {
-    this.passwordRef.focus();
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!this.props.token && nextProps.token) {
       this.props.navigator.back();
     }
   }
 
-  _onSubmitPassword() {
-    const {username, password} = this.state;
+  _focusOnMissingField() {
+    const {username, email, password, confirmPassword} = this.state;
+    console.log({username, email, password, confirmPassword})
     if (!username) {
       this.usernameRef.focus();
-      return;
+      return true;
+    } else if (!email) {
+      this.emailRef.focus();
+      return true;
+    } else if (!password) {
+      this.passwordRef.focus();
+      return true;
+    } else if (!confirmPassword) {
+      this.confirmPasswordRef.focus();
+      return true;
+    } else if (password !== confirmPassword) {
+      this.confirmPasswordRef.focus();
+      return true;
     }
-    if (password) {
-      this.props.doLogin(username, password);
+    return false;
+  }
+
+  _onSubmit() {
+    const {username, email, password} = this.state;
+    if (!this._focusOnMissingField()) {
+      this.props.doSignIn(username, email, password);
     }
   }
 
@@ -65,7 +75,6 @@ export class LoginView extends Component {
   }
 
   render(): Object {
-    const {goToMap} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.logo} />
@@ -74,9 +83,16 @@ export class LoginView extends Component {
             style={styles.textInput}
             placeholder='Username'
             blurOnSubmit
-            onSubmitEditing={() => { this._onSubmitUsername(); }}
+            onSubmitEditing={() => { this._onSubmit(); }}
             value={this.state.username}
             onChangeText={(text: string) => { this.setState({username: text}); }} />
+          <Textfield ref={r => { this.emailRef = r; }}
+            style={styles.textInput}
+            placeholder='Email'
+            blurOnSubmit
+            onSubmitEditing={() => { this._onSubmit(); }}
+            value={this.state.email}
+            onChangeText={(text: string) => { this.setState({email: text}); }} />
           <Textfield ref={r => { this.passwordRef = r; }}
             style={styles.textInput}
             placeholder='Password'
@@ -84,18 +100,26 @@ export class LoginView extends Component {
             blurOnSubmit
             selectTextOnFocus
             password
-            onSubmitEditing={() => { this._onSubmitPassword(); }}
+            onSubmitEditing={() => { this._onSubmit(); }}
             value={this.state.password}
             onChangeText={(text: string) => { this.setState({password: text}); }} />
+          <Textfield ref={r => { this.confirmPasswordRef = r; }}
+            style={styles.textInput}
+            placeholder='Confirm password'
+            secureTextEntry
+            blurOnSubmit
+            selectTextOnFocus
+            password
+            onSubmitEditing={() => { this._onSubmit(); }}
+            value={this.state.confirmPassword}
+            onChangeText={(text: string) => { this.setState({confirmPassword: text}); }} />
 
-          <LoginButton enabled={this.isFormValid()}
-            onPress={() => { this.login(); }} />
-
-          <RegisterButton onPress={() => this.props.navigator.signIn()}/>
+          <RegisterButton enabled={this.isFormValid()}
+            onPress={() => { this._onSubmit(); }} />
 
           <TouchableOpacity style={styles.goToMapButton}
             onPress={() => { this.props.navigator.back(); }}>
-            <Text>Not Now</Text>
+            <Text>Cancel</Text>
           </TouchableOpacity>
       </View>
     );
@@ -128,10 +152,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-const LoginButton = MKButton.coloredButton()
-  .withText('Login')
-  .withStyle(styles.button)
-  .build();
 
 const RegisterButton = MKButton.coloredButton()
   .withText('Sign in')
@@ -139,9 +159,8 @@ const RegisterButton = MKButton.coloredButton()
   .build();
 
 const Textfield = MKTextField.textfieldWithFloatingLabel()
-  .withPlaceholder('Search')
   .withUnderlineEnabled(true)
-  .withHighlightColor(MKColor.Lime)
+  .withHighlightColor(MKColor.Green)
   .build();
 
 
@@ -150,10 +169,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doLogin: (username: string, password: string) => {
-    dispatch(login(username, password));
+  doSignIn: (username: string, email: String, password: string) => {
+    dispatch(doSignIn(username, email, password));
   },
-  goToMap: (): null => dispatch(popRoute()),
 });
 
 

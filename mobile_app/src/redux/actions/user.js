@@ -98,3 +98,31 @@ export function login(username: string, password: string): Function {
     });
   };
 }
+
+export function doSignIn(username, email, password) {
+  return dispatch => {
+    return fetch(`${config.API_URL}/users/register`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+        email,
+      }),
+    })
+    .then((response: Object): Object => response.json())
+    .then(({token}) => {
+      dispatch(success(username, token));
+      return AsyncStorage.setItem('agorask:user', JSON.stringify({username, token}));
+    })
+    .then(() => {
+    })
+    .catch(e => {
+      dispatch(failed(e.message));
+    });
+  }
+
+}
