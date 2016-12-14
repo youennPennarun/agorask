@@ -189,4 +189,81 @@ module.exports = [
     date: '2016-10-24T01:05:54.527Z',
     venue: '5851328c0c894f08a7d2d38d',
   },
+  {
+    _id: '5851556ad7a242a6d57bb017',
+    title: 'Do they sell burgers?',
+    postedBy: {
+      userId: users[2]._id,
+      username: users[2].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:55.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
+  {
+    _id: '58515571d7a242a6d57bb018',
+    title: 'Do they have wine?',
+    postedBy: {
+      userId: users[1]._id,
+      username: users[1].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:56.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
+  {
+    _id: '58515578d7a242a6d57bb019',
+    title: 'Is it usually crowded?',
+    postedBy: {
+      userId: users[1]._id,
+      username: users[1].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:57.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
+  {
+    _id: '58515582d7a242a6d57bb01a',
+    title: 'Is there live music?',
+    postedBy: {
+      userId: users[3]._id,
+      username: users[3].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:58.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
+  {
+    _id: '58515588d7a242a6d57bb01b',
+    title: 'Is it open on sunday?',
+    postedBy: {
+      userId: users[4]._id,
+      username: users[4].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:59.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
+  {
+    _id: '58515588d7a242a6d57bb01c',
+    title: 'At what time does it closes?',
+    postedBy: {
+      userId: users[4]._id,
+      username: users[4].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:50.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
+  {
+    _id: '58515588d7a242a6d57bb01d',
+    title: 'Do they take reservations?',
+    postedBy: {
+      userId: users[3]._id,
+      username: users[3].username,
+    },
+    answers: [],
+    date: '2016-10-24T01:05:51.527Z',
+    venue: '5851328c0c894f08a7d2d38d',
+  },
 ];

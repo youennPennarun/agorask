@@ -302,6 +302,14 @@ module.exports = [{
     }
   ],
   tasks: [
-    getTask(12)
+    getTask(12),
+    getTask(13),
+    getTask(14),
+    getTask(15),
+    getTask(16),
+    getTask(17),
+    getTask(18),
+    getTask(19),
+    getTask(20)
   ],
 }];
