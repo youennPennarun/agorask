@@ -63,23 +63,28 @@ class AddTask extends Component {
     const containerStyle = this.props.style || {};
     const animatedOverlayStyle = {opacity: this.state.overlayOpacity};
     const contentAnimation = {top: this.state.containerTop};
-
     return (
       <View style={[styles.container, containerStyle]}
         pointerEvents={(this.props.visible) ? 'auto' : 'none'}>
         <Animated.View style={[styles.overlay, animatedOverlayStyle]} />
         <Animated.View style={[styles.content, contentAnimation]} >
           <Text style={styles.title}>Add a task</Text>
-          <MKTextField style={[styles.answerInput, {height: Math.max(35, this.state.answerHeight)}]}
-            multiline
-            value={this.state.title}
-            onTextChange={text => this.setState({title: text})}
-            onChange={({nativeEvent: {contentSize}}) => { this.updateFieldHeight(contentSize); }}
-            onContentSizeChange={({nativeEvent: {contentSize}}) => { this.updateFieldHeight(contentSize); }}
-            placeholder='task description' />
+          {(this.props.isLoggedIn) ? (
+            <View>
+              <MKTextField style={[styles.answerInput, {height: Math.max(35, this.state.answerHeight)}]}
+                multiline
+                value={this.state.title}
+                onTextChange={text => this.setState({title: text})}
+                onChange={({nativeEvent: {contentSize}}) => { this.updateFieldHeight(contentSize); }}
+                onContentSizeChange={({nativeEvent: {contentSize}}) => { this.updateFieldHeight(contentSize); }}
+                placeholder='task description' />
 
-          <SubmitBtn enabled={this.props.loading}
-            onPress={() => { this.submit(); }} />
+              <SubmitBtn enabled={this.props.loading}
+                onPress={() => { this.submit(); }} />
+            </View>
+            ): (
+              <Text>You must be logged in to add a task</Text>
+          )}
           
         </Animated.View>
       </View>

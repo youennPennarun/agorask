@@ -70,6 +70,7 @@ export class VenueDetails extends Component {
             goToTask={(id, task) => { this.props.navigator.taskDetails(id, task); }} />
         </ScrollView>
         <AddTask style={styles.addTask}
+          isLoggedIn={(!!this.props.token)}
           visible={this.state.showAddTask}
           onClose={() => { if (this.roundButtonRef) this.roundButtonRef.setActive(false); }}
           addTask={(task): Promise<*> => this.addTask(task)} />
