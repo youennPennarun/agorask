@@ -7,22 +7,51 @@ import Task from './Task';
 
 const {width} = Dimensions.get('window');
 
+const NB_TASK_TO_SHOW = 3;
+
 class Tasks extends Component {
   state = {
     openTasksExtended: false,
     resolvedTasksExtended: false,
   }
-  _getResolvedTasks() {
+  _getResolvedTasks(skipSlice) {
     const {tasks} = this.props;
     const {resolvedTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers > 0));
-    return (resolvedTasksExtended) ? openTasks : openTasks.slice(0, 3);
+    return (resolvedTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
   }
-  _getOpenTasks() {
+  _getOpenTasks(skipSlice) {
     const {tasks} = this.props;
     const {openTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers === 0));
-    return (openTasksExtended) ? openTasks : openTasks.slice(0, 3);
+    return (openTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
+  }
+  _renderShowMoreButton(type) {
+    let tasks;
+    let nextState = {};
+    let label = '';
+    if (type === 'open') {
+      tasks = this._getOpenTasks(true);
+      nextState = {openTasksExtended: !this.state.openTasksExtended};
+      label = (this.state.openTasksExtended) ? 'LESS' : 'MORE';
+    } else if (type === 'resolved') {
+      tasks = this._getResolvedTasks(true);
+      nextState = {resolvedTasksExtended: !this.state.resolvedTasksExtended};
+      label = (this.state.resolvedTasksExtended) ? 'LESS' : 'MORE';
+    } else {
+      return null;
+    }
+    if (tasks.length <= NB_TASK_TO_SHOW) {
+      return null;
+    }
+
+    return (
+      <TouchableOpacity onPress={() => { this.setState(nextState); }}>
+        <View style={styles.showMorebutton}>
+          <Text style={styles.showMoreButtonLabel} >{label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
   _renderTask(task, key): any {
     return (
@@ -36,36 +65,31 @@ class Tasks extends Component {
   render(): any {
     const resolved = this._getResolvedTasks();
     const open = this._getOpenTasks();
-    const {openTasksExtended, resolvedTasksExtended} = this.state;
     return (
       <View style={styles.container}>
         {
           (open.length) ? (
             <View>
-            <TouchableOpacity onPress={() => { this.setState({openTasksExtended: !openTasksExtended}); }}>
-              <Text style={styles.title}>
-              <Icon name={openTasksExtended ? 'chevron-thin-up' : 'chevron-thin-down'}
-                style={styles.extendIcon}
-                size={20} />
-              Open Tasks
-              </Text>
-            </TouchableOpacity>
-            <View style={styles.tasksContainer}>
-              {open.map((task, key) => this._renderTask(task, key))}
+              <View style={styles.blockHeader}>
+                <Text style={styles.title}>
+                  Open Tasks
+                </Text>
+              {this._renderShowMoreButton('open')}
+              </View>
+              <View style={styles.tasksContainer}>
+                {open.map((task, key) => this._renderTask(task, key))}
+              </View>
             </View>
-          </View>
         ) : null}
         {
           (resolved.length) ? (
             <View>
-            <TouchableOpacity onPress={() => { this.setState({resolvedTasksExtended: !resolvedTasksExtended}); }}>
-              <Text style={styles.title}>
-              <Icon name={resolvedTasksExtended ? 'chevron-thin-up' : 'chevron-thin-down'}
-                style={styles.extendIcon}
-                size={20} />
-              Resolved Tasks
-              </Text>
-            </TouchableOpacity>
+              <View style={styles.blockHeader}>
+                <Text style={styles.title}>
+                  Resolved Tasks
+                </Text>
+              {this._renderShowMoreButton('resolved')}
+              </View>
               <View style={styles.tasksContainer}>
                 {resolved.map((task, key) => this._renderTask(task, key))}
               </View>
@@ -90,6 +114,11 @@ const styles = StyleSheet.create({
   extendIcon: {
     marginRight: 15,
   },
+  blockHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   title: {
     marginLeft: 15,
     fontSize: 25,
@@ -99,6 +128,15 @@ const styles = StyleSheet.create({
     width,
     height: 1,
     backgroundColor: '#f0f0f0',
+  },
+  showMorebutton: {
+    marginRight: 10,
+    justifyContent: 'center',
+  },
+  showMoreButtonLabel: {
+    fontWeight: '900',
+    fontSize: 16,
+    color: '#8BC34A',
   },
 });
 

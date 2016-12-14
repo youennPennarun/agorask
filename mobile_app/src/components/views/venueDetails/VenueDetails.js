@@ -22,6 +22,7 @@ import Tasks from './task/Tasks';
 
 
 const {width, height} = Dimensions.get('window');
+const COVER_IMAGE_HEIGHT = height * 0.3;
 
 function renderFetchingState() {
   return <View />;
@@ -61,13 +62,16 @@ export class VenueDetails extends Component {
     }
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.scollView}>
           <Image style={styles.coverImage}
             resizeMode='cover'
             source={{uri: imageUri}} />
-          <VenueDescription venue={venue} />
-          <Tasks tasks={venue.tasks || []}
-            goToTask={(id, task) => { this.props.navigator.taskDetails(id, task); }} />
+        <ScrollView style={styles.scollView}
+          contentContainerStyle={styles.scrollViewContentContainer} >
+          <View style={styles.scrollViewContent} >
+            <VenueDescription venue={venue} />
+            <Tasks tasks={venue.tasks || []}
+              goToTask={(id, task) => { this.props.navigator.taskDetails(id, task); }} />
+          </View>
         </ScrollView>
         <AddTask style={styles.addTask}
           isLoggedIn={(!!this.props.token)}
@@ -100,10 +104,18 @@ const styles = StyleSheet.create({
   },
   coverImage: {
     width: width,
-    height: height * 0.3,
+    height: COVER_IMAGE_HEIGHT,
   },
   scollView: {
+    position: 'absolute',
+    top: 0,
     height,
+  },
+  scrollViewContentContainer: {
+    paddingTop: COVER_IMAGE_HEIGHT,
+  },
+  scrollViewContent: {
+    backgroundColor: '#e9e9e9',    
   },
   block: {
     backgroundColor: 'white',

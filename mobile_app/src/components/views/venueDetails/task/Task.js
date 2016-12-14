@@ -16,9 +16,10 @@ class Task extends Component {
   }
 }
 
+Task.HEIGHT = 65;
 const styles = StyleSheet.create({
   container: {
-    height: 65,
+    height: Task.HEIGHT,
     justifyContent: 'center',
     marginLeft: 5,
   },
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
     color: '#BDBDBD',
   },
 });
+
 
 Task.propTypes = {
   title: PropTypes.string.isRequired,
