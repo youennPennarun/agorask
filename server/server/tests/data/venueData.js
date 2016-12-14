@@ -268,7 +268,7 @@ module.exports = [{
 }, {
   '_id': '5851328c0c894f08a7d2d38d',
   'source': 'foursquare',
-  'name': 'ShopKeep',
+  'name': 'The Botanic Inn',
   'foursquareId': '4b490739f964a520b36226e3',
   'contact': {},
   'address': {
@@ -301,7 +301,6 @@ module.exports = [{
       'icon': 'https://ss3.4sqi.net/img/categories_v2/nightlife/nightclub_64.png'
     }
   ],
-
   tasks: [
     getTask(12)
   ],
