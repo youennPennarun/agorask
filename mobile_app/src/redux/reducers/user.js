@@ -1,5 +1,12 @@
 import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, DISCONNECT, UPDATE_LOCATION} from '../actions/user';
 
+type UserLocationType = {
+  coords: {
+    lat: Number,
+    lng: Number,
+  }
+}
+
 const defaultLocationState = {
   coords: null,
   error: null,
@@ -13,7 +20,7 @@ const defaultUserState = {
   username: null,
 };
 
-function userLocation(state = defaultLocationState, action) {
+function userLocation(state = defaultLocationState, action): UserLocationType {
  switch (action.type) {
     case UPDATE_LOCATION:
       return {

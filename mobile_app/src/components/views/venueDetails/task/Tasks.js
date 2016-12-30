@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 import Task from './Task';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const NB_TASK_TO_SHOW = 3;
 
@@ -69,7 +69,7 @@ class Tasks extends Component {
       <View style={styles.container}>
         {
           (open.length) ? (
-            <View>
+            <View style={(this.state.openTasksExtended) ? styles.taskListExtended : undefined} >
               <View style={styles.blockHeader}>
                 <Text style={styles.title}>
                   Open Tasks
@@ -104,6 +104,9 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 15,
     marginBottom: 30,
+  },
+  taskListExtended: {
+    minHeight: height,
   },
   tasksContainer: {
     marginTop: 5,

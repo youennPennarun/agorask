@@ -274,8 +274,8 @@ export default graphql(AddAnswerMutation, {
                     nbAnswers: prev.venue.tasks[taskInVenueIndex].nbAnswers + 1,
                   },
                   ...prev.venue.tasks.slice(taskInVenueIndex + 1),
-                ]
-              }
+                ],
+              },
             }
           }
         },

@@ -15,7 +15,7 @@ const config = {
   API_URL: Config.API_URL,
 };
 
-export function updateUserLocation(lat, lng) {
+export function updateUserLocation(lat: Number, lng: Number): Object {
   return {
     type: UPDATE_LOCATION,
     lat,
@@ -43,7 +43,7 @@ function failed(message: string): {type: string, message: string} {
   };
 }
 
-export function loadTokenFromStorage() {
+export function loadTokenFromStorage(): Function {
   return dispatch => {
     AsyncStorage.getItem('agorask:user')
       .then(userStr => {
@@ -60,7 +60,7 @@ export function loadTokenFromStorage() {
   };
 }
 
-export function disconnect() {
+export function disconnect(): Function {
   return dispatch => {
     AsyncStorage.removeItem('agorask:user')
       .then(() => {
@@ -73,7 +73,7 @@ export function disconnect() {
 
 
 export function login(username: string, password: string): Function {
-  return (dispatch: Function): Promise<*> => {
+  return (dispatch: Function): Promise => {
     dispatch(loginRequested());
     return fetch(`${config.API_URL}/users/login`, {
       method: 'POST',
@@ -99,8 +99,8 @@ export function login(username: string, password: string): Function {
   };
 }
 
-export function doSignIn(username, email, password) {
-  return dispatch => {
+export function doSignIn(username: string, email: string, password: string): Function {
+  return (dispatch: Function): Promise => {
     return fetch(`${config.API_URL}/users/register`, {
       method: 'POST',
       headers: {
@@ -114,7 +114,7 @@ export function doSignIn(username, email, password) {
       }),
     })
     .then((response: Object): Object => response.json())
-    .then(({token}) => {
+    .then(({token}): Promise => {
       dispatch(success(username, token));
       return AsyncStorage.setItem('agorask:user', JSON.stringify({username, token}));
     })
@@ -123,6 +123,5 @@ export function doSignIn(username, email, password) {
     .catch(e => {
       dispatch(failed(e.message));
     });
-  }
-
+  };
 }
