@@ -31,11 +31,14 @@ describe('Venue Tests', () => {
         const response = yield fetchQL(getVenuesInRadius, {
           lng: -5.9283928,
           lat: 54.5927931,
-          radius: 0.200,
+          radius: 60,
         });
         expect(response.status).to.be.equal(200);
         return response.json();
       }).then(json => {
+        console.log('==================================');
+        console.log(json);
+        console.log('==================================');
         expect(json).to.matchSnapshot(snapshotPath, this.test.name);
       });
     });

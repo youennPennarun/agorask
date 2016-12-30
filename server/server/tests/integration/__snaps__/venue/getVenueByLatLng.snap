@@ -33,55 +33,6 @@ Object {
         "website": ""
       },
       Object {
-        "_id": "58261fa76740058d9be74882",
-        "address": Object {
-          "formatted": Array [
-            "24-26 Adelaide Street",
-            "Belfast",
-            "BT2 8GD",
-            "United Kingdom"
-          ],
-          "location": Array [
-            -5.92810470975273,
-            54.59349306140133
-          ]
-        },
-        "categories": Array [
-          Object {
-            "icon": "https://ss3.4sqi.net/img/categories_v2/building/default_64.png",
-            "name": "Office"
-          }
-        ],
-        "contact": Object {
-          "facebook": null,
-          "facebookName": null,
-          "formattedPhone": null,
-          "phone": null,
-          "twitter": "liberty_it"
-        },
-        "foursquareId": "4b680136f964a520a1632be3",
-        "name": "Liberty IT",
-        "picture": "https://irs0.4sqi.net/img/general/undefinedxundefined/16105247_4pjvoyWrFZNMmEzEMNJS8gahcts1X9wD67yFiYp2Ydg.jpg",
-        "tasks": Array [
-          Object {
-            "_id": "582621026740058d9be74887",
-            "nbAnswers": 0,
-            "title": "Are the people nice?"
-          },
-          Object {
-            "_id": "582620f96740058d9be74886",
-            "nbAnswers": 0,
-            "title": "Could you find a question to ask please?"
-          },
-          Object {
-            "_id": "582620f46740058d9be74885",
-            "nbAnswers": 0,
-            "title": "Is it cheap?"
-          }
-        ],
-        "website": "http://liberty-it.co.uk"
-      },
-      Object {
         "_id": "58261f9d6740058d9be74881",
         "address": Object {
           "formatted": Array [
