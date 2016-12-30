@@ -45,9 +45,10 @@ const venue = mongoose.Schema({
       suffix: String,
       width: Number,
       height: Number,
-  },
+    },
     amenity: String,
     tasks: [venueTaskSchema],
+    nbTasks: Number,
 });
 
 module.exports = {

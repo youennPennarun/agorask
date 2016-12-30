@@ -38,13 +38,13 @@ const getVenue = function* (id, source, fields) {
     if (fields) query.select(fields);
     venue = yield query.exec();
   } else {
-    venue = yield getVenueFromExternalSource(id, source, fields)
+    venue = yield getVenueFromExternalSource(id, source, fields);
   }
   return venue;
 };
 
 const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
-  const radiusInRad = radius / 6378.1;
+  const radiusInRad = (radius / 1000) / 6378.1;
   if (!Array.isArray(center)) {
     if ((center.lat && center.lng) || (center.latitude && center.longitude)) {
       center = [center.lng, center.lat];

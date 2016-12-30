@@ -1,6 +1,7 @@
 const {
   GraphQLList,
   GraphQLObjectType,
+  GraphQLInt,
   GraphQLFloat,
   GraphQLString,
   GraphQLNonNull,
@@ -63,12 +64,15 @@ const VenueType = new GraphQLObjectType({
   name: 'Venue',
   fields: () => ({
     _id: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
       description: 'venue\'s id',
     },
     name: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'venue\'s name',
+    },
+    source: {
+      type: GraphQLString,
     },
     foursquareId: {
       type: GraphQLString,
@@ -93,14 +97,15 @@ const VenueType = new GraphQLObjectType({
       type: new GraphQLList(TaskType),
       resolve: (parent, params, source, fields) => {
         const fieldsNames = getFields(fields, Object);
-        console.log("get tasks with fields ", fieldsNames, " for venue ", parent)
         if (needMoreFields(fieldsNames, parent.tasks)) {
           const ids = parent.tasks.map(task => task._id);
           return co(TaskService.getTasksByIds(ids, fieldsNames));
         }
-        console.log('return ', parent.tasks)
         return parent.tasks;
       },
+    },
+    nbTasks: {
+      type: GraphQLInt,
     },
     picture: {
       type: GraphQLString,

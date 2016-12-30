@@ -26,6 +26,7 @@ const venuesWithinRadius = {
     radius: {
       name: 'radius',
       type: GraphQLFloat,
+      description: 'Limit results to venues within this many meters.',
     },
   },
   resolve: function (root, {lat, lng, radius}, options, fields) {
@@ -46,6 +47,7 @@ const searchVenues = {
     radius: {
       name: 'radius',
       type: GraphQLFloat,
+      description: 'Limit results to venues within this many meters.',
     },
     query: {
       type: new GraphQLNonNull(GraphQLString)

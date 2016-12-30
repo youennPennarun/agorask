@@ -61,6 +61,7 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
     title: task.title,
     nbAnswers: 0,
   });
+  venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
   yield venue.save();
   return task;
 };
@@ -79,7 +80,7 @@ const addAnswer = function* (taskId, answer, fields) {
     return answer;
   }
   return null;
-}
+};
 
 module.exports = {
   getTasks,
