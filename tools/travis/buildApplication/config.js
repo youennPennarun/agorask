@@ -4,7 +4,7 @@ module.exports = {
   deployTo: "https://agorask.herokuapp.com",
   branches: {
     "development": {
-      buildType: "dev",
+      buildType: "devRelease",
       gradleCommand: 'assembleDevRelease',
       envFile: ".env.dev",
       env: Object.assign({}, DEFAULT_ENV, {}),
