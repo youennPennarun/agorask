@@ -67,10 +67,11 @@ export class LoginView extends Component {
   render(): Object {
     const {goToMap} = this.props;
     return (
-      <View style={styles.container}>
+      <View style={styles.container} accessibilityLabel='Login View'>
         <View style={styles.logo} />
           {this._renderErrorMessage()}
           <Textfield ref={r => { this.usernameRef = r; }}
+            accessibilityLabel='Username Input'
             style={styles.textInput}
             placeholder='Username'
             blurOnSubmit
@@ -78,6 +79,7 @@ export class LoginView extends Component {
             value={this.state.username}
             onChangeText={(text: string) => { this.setState({username: text}); }} />
           <Textfield ref={r => { this.passwordRef = r; }}
+            accessibilityLabel='Password Input'
             style={styles.textInput}
             placeholder='Password'
             secureTextEntry
@@ -91,9 +93,10 @@ export class LoginView extends Component {
           <LoginButton enabled={this.isFormValid()}
             onPress={() => { this.login(); }} />
 
-          <RegisterButton onPress={() => this.props.navigator.signIn()}/>
+          <RegisterButton onPress={() => this.props.navigator.signIn()} />
 
-          <TouchableOpacity style={styles.goToMapButton}
+          <TouchableOpacity accessibilityLabel='Skip login'
+            style={styles.goToMapButton}
             onPress={() => { this.props.navigator.back(); }}>
             <Text>Not Now</Text>
           </TouchableOpacity>
