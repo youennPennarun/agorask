@@ -26,7 +26,7 @@ export class MapView extends React.Component {
     navigator.geolocation.getCurrentPosition((position) => {
         this._onGetPosition(position);
       },
-      (error) => alert(JSON.stringify(error)),
+      (error) => console.log(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
     this.watchID = navigator.geolocation.watchPosition(position => {
