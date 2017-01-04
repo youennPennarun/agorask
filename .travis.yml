@@ -1,4 +1,4 @@
-language: node_js
+language: android
 node_js:
 - 6.1.0
 jdk: oraclejdk8
@@ -34,7 +34,6 @@ env:
 before_deploy:
 - cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
 - cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
-- export ANDROID_HOME=$PWD/android-sdk-linux
 deploy:
 - provider: heroku
   before_deploy: cd $TRAVIS_BUILD_DIR/server
