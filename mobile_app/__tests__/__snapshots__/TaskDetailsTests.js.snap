@@ -52,7 +52,7 @@ exports[`test fetching renders correctly 1`] = `
           accessible={true}
           allowFontScaling={true}
           ellipsizeMode="tail">
-          12/12/16
+          04/01/17
         </Text>
       </View>
       <Text
@@ -135,7 +135,7 @@ exports[`test renders correctly 1`] = `
           accessible={true}
           allowFontScaling={true}
           ellipsizeMode="tail">
-          12/12/16
+          04/01/17
         </Text>
       </View>
       <Text

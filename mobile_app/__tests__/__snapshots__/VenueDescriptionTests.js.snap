@@ -4,7 +4,6 @@ exports[`test Test with address as a single string 1`] = `
     Object {
       "backgroundColor": "white",
       "elevation": 2,
-      "marginTop": 5,
       "paddingBottom": 10,
       "paddingLeft": 10,
       "paddingRight": 10,
@@ -81,7 +80,6 @@ exports[`test Test with formatted address 1`] = `
     Object {
       "backgroundColor": "white",
       "elevation": 2,
-      "marginTop": 5,
       "paddingBottom": 10,
       "paddingLeft": 10,
       "paddingRight": 10,
@@ -172,7 +170,6 @@ exports[`test Test without address 1`] = `
     Object {
       "backgroundColor": "white",
       "elevation": 2,
-      "marginTop": 5,
       "paddingBottom": 10,
       "paddingLeft": 10,
       "paddingRight": 10,

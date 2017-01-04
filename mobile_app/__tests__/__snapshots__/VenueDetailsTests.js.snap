@@ -10,7 +10,7 @@ exports[`test renders correctly 1`] = `
     resizeMode="cover"
     source={
       Object {
-        "uri": "http://192.168.0.10:3000/venues/5834b73cb5cb2c65d95f7cea/image",
+        "uri": "localhost:3000/venues/5834b73cb5cb2c65d95f7cea/image",
       }
     }
     style={
@@ -20,28 +20,81 @@ exports[`test renders correctly 1`] = `
       }
     } />
   <ScrollView
-    style={Object {}}>
-    <VenueDescription
-      venue={
+    contentContainerStyle={
+      Object {
+        "paddingTop": 400.2,
+      }
+    }
+    style={
+      Object {
+        "height": 1334,
+        "position": "absolute",
+        "top": 0,
+      }
+    }>
+    <View
+      style={
         Object {
-          "_id": "5834b73cb5cb2c65d95f7cea",
-          "address": Object {
-            "formatted": Array [
-              "2 univ street",
-              "5200 Belfast",
-              "UK",
-            ],
-          },
-          "categories": Array [],
-          "contact": Object {
-            "formattedPhone": "(060) 25-65",
-          },
-          "name": "Test venue",
+          "backgroundColor": "#e9e9e9",
         }
-      } />
-    <Tasks
-      goToTask={[Function]}
-      tasks={Array []} />
+      }>
+      <VenueDescription
+        venue={
+          Object {
+            "_id": "5834b73cb5cb2c65d95f7cea",
+            "address": Object {
+              "formatted": Array [
+                "2 univ street",
+                "5200 Belfast",
+                "UK",
+              ],
+            },
+            "categories": Array [],
+            "contact": Object {
+              "formattedPhone": "(060) 25-65",
+            },
+            "name": "Test venue",
+          }
+        } />
+      <Tasks
+        goToTask={[Function]}
+        tasks={Array []} />
+    </View>
   </ScrollView>
+  <AddTask
+    addTask={[Function]}
+    isLoggedIn={false}
+    onClose={[Function]}
+    style={Object {}}
+    visible={false} />
+  <RoundButton
+    activatedState={
+      Object {
+        "callback": [Function],
+        "color": "red",
+        "renderIcon": [Function],
+      }
+    }
+    initialState={
+      Object {
+        "callback": [Function],
+        "color": "green",
+        "renderIcon": [Function],
+      }
+    }
+    size={50}
+    style={
+      Object {
+        "alignItems": "center",
+        "borderRadius": 25,
+        "bottom": 5,
+        "elevation": 20,
+        "height": 50,
+        "justifyContent": "center",
+        "position": "absolute",
+        "right": 5,
+        "width": 50,
+      }
+    } />
 </View>
 `;

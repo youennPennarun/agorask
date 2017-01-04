@@ -1,5 +1,6 @@
 exports[`test Button enable if usrname and password are filled 1`] = `
 <View
+  accessibilityLabel="Login View"
   style={
     Object {
       "alignItems": "center",
@@ -16,6 +17,7 @@ exports[`test Button enable if usrname and password are filled 1`] = `
       }
     } />
   <MKTextField
+    accessibilityLabel="Username Input"
     blurOnSubmit={true}
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
@@ -29,6 +31,7 @@ exports[`test Button enable if usrname and password are filled 1`] = `
     }
     value="mrMeeseeks" />
   <MKTextField
+    accessibilityLabel="Password Input"
     blurOnSubmit={true}
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
@@ -47,7 +50,10 @@ exports[`test Button enable if usrname and password are filled 1`] = `
   <MKButton
     enabled={true}
     onPress={[Function]} />
+  <MKButton
+    onPress={[Function]} />
   <TouchableOpacity
+    accessibilityLabel="Skip login"
     activeOpacity={0.2}
     onPress={[Function]}
     style={
@@ -67,6 +73,7 @@ exports[`test Button enable if usrname and password are filled 1`] = `
 
 exports[`test renders correctly 1`] = `
 <View
+  accessibilityLabel="Login View"
   style={
     Object {
       "alignItems": "center",
@@ -83,6 +90,7 @@ exports[`test renders correctly 1`] = `
       }
     } />
   <MKTextField
+    accessibilityLabel="Username Input"
     blurOnSubmit={true}
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
@@ -96,6 +104,7 @@ exports[`test renders correctly 1`] = `
     }
     value="" />
   <MKTextField
+    accessibilityLabel="Password Input"
     blurOnSubmit={true}
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
@@ -114,7 +123,10 @@ exports[`test renders correctly 1`] = `
   <MKButton
     enabled={false}
     onPress={[Function]} />
+  <MKButton
+    onPress={[Function]} />
   <TouchableOpacity
+    accessibilityLabel="Skip login"
     activeOpacity={0.2}
     onPress={[Function]}
     style={
