@@ -2,7 +2,7 @@
   "name": "agorask",
   "version": "0.0.1",
   "scripts": {
-    "install": "cd ./server && yarn install && cd ../mobile_app && yarn install",
-    "test": "cd ./server && yarn test && cd ../mobile_app && yarn test"
+    "install": "cd ./server && npm install && cd ../mobile_app && npm install",
+    "test": "cd ./server && npm test && cd ../mobile_app && npm test"
   }
 }
