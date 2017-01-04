@@ -1,6 +1,19 @@
 language: node_js
 node_js:
 - 6.1.0
+jdk: oraclejdk8
+android:
+  components:
+  - tools
+  - tools
+  - build-tools-23.0.1
+  - build-tools-23.0.3
+  - android-23
+  - android-24
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - extra-android-support
 services: mongodb
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -13,69 +26,45 @@ env:
   matrix:
   - TRAVIS_NODE_VERSION: 6.1.0
   global:
+  - MONGO_URL=mongodb://localhost/agorask
   - MALLOC_ARENA_MAX=2
   - secure: i6V6Ibes9jthI/QpymfqH3pWEqAVOwT7xohKL/ttL/CXpBnigPmvoUSe4mhblfcylLLPsukcfpQVwezMNeUV/VSyy3JQbimINmwuztnnMDtM4Sjz6DfNy8S60uqUB2yu1V8m5WCYeeXwXFuIe6iur3iqrpSRjpwbAGwOeVP/0B+NLe5ppIzZLSIjIRv0bQUl9lXmXE3Hcw8qmWP4wwRMHMfB9bPNc2UPa5BS5lUxzAI53c4/P/p9QpzRbY5D3T2EPWBnteYZxJH1IhWooU2wHSVpl0glw8YpvlTCb9K8b78JgKRone0HMG6YmRk8qDwIanJV/2AQKrcOyRccAPkxZ1OHNvaMtgLbzlmDLZ8+NJssuGLMOwxOtBnh9jSyrERruRp/GFgoyL8YW+ZEmPY5WlGg3MKYSMkawat30m/+9J1hw8rD5DrpVXTSclMTV2XzluSIst5DBk5Ewsk1QLbt5NVqL6Iz6/MJTVIluvPinNAWWW6LsTE87KjsNUV3rxyozCw5P0tUv3KciSUKU/+skC4h6FDKqDOp2yDLSPtXTxQfbaS6Tp6Wptw0yaxLtS0ExY1jz2BOoCL2LNsOptfiG7nglo2BwnIqJBkhzMoEwCRuKM6z1DSU4gLhpgL+JGxaPcjqZWuzI8Ynn1aZCZNCy2PAAJsSoWrybRUutYb9ryI=
   - secure: ZxRCwfXRf64aCy4IeqGPs2Las/mggIFRubSlzj8vRAIwhDh6LGZNG0BWas6DAiMM3MIsrOgKiPzdjhb0pG4KlpKj6oDtWGlCzEup3NNz06KGs7GblfKQIaZ9MyU3YFACkeNMOobLvDuxBASO3UUWUkW7sH8IY5lqK5aa4Ppv2WyzC06sqYC2yazTYFcVSpNIxk6emIUuEsr1drXnOkJ0sU0BixojpNuC5FeC+HCHMLUxhmx+Ru7E4kZJ/EmbrADVNrLVV3d/jNBX2nrlQZ4JV3RDv0ZAIecQvM60JAz5/x4AjrI7nBCVPfkoQjCkvvyd2A2wJ5170ccvC8Px6eFEW7TmgraR46DcGyvh4K0EDwGQjEUnlJcBdGtXNjCyKsFazcJDThYnsOR96ofOWogpWaMEK9uCWR87C0/fzOq5MK28+WXfAqkJrQn2CVMxYJ7EQsyqQGoi3lbAbE65pb+es8QzLCMZPUaamXpxL8mtJrDRBQfG4KaC0t+ZW07lury40EUvinmATAbGzpewsPRaMDvV/e8Rvn/5olwX/sf/xTlylWhX4QJqHKHltnV5Zg3KPP6tAa0MzHzUBtm1RJbNSXKfwZ34g3s6zwcYheZfuyI8zxKyrGb6ZNBmwZLsIHVxBoZFcEG5QfgZj2qo3POPsiDKxiISdVbEQFWCC/bMRTo=
   - secure: M5TU4Cb5R+6s7QOQQef4aAUXO8Cqii0pfsOkyE8EsDXOyIb5dv3w4DDPY/3Euqy0CqFXo7KnlS0oA0yUTGQGthChBxvOIwZLWgQ1diASXt3YxqJWQyKHGxXrkaWmCiM906YgvSN6g9VpRnpl6IOXHpKblbHLz0VMI44SxKfTwJkm6fvb9RoU+Khaxn8fTZspgnBdF/IQ87Mvp939fl1EQnHDyanDsDApHgj4lxoDLoLaXQCQ6TFk5jO1WM1U5Ih9OLOiOvFUydT9DHgD0IfgdGjj2D3vevqxozxjNDXdRO5TDg0Bfc7kHoLMdc3kiA5Y+tVoYR5ezQUH1VeDRetgUwfA6Q/elhGaNC60N1BzzQ1HD8IogQRO7IMnaqxBXUJzNI1ykilTE3bAVL82SCgX+0qEXjkmVi83b7HmIabuZdhFRJvGvw/JqodRj76/N5D3WXr5DLPOD5d6+JNtZuhbEvypJz76ixrHenAC4GuT7yfNq8HnTXBPJMj18ln+ZxKIrlpVm6rHch5eqsgnlbKVKthc9ohVuRKvf5wurhQ21REN14/lgSc6AwW/41ZAisLHrPyMejPENl7erWDVKr0t3iUjApTHgK66xLvHaZn8HPGj1bYF+TpKEL6+c7VaLUtrelXFSDnoRei8BXC6bk8d8gIgLiC7NEgZ7wIte/7+SHE=
 before_install:
 - mkdir $TRAVIS_BUILD_DIR/tmp  && cd $TRAVIS_BUILD_DIR/tools/travis/ && npm install
-matrix:
-  include:
-  - env: TEST_DIR=server MONGO_URL=mongodb://localhost/agorask SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_SERVER
-    script: cd $TRAVIS_BUILD_DIR/server && npm install && ENV=test npm run codecov
-    before_deploy: cd $TRAVIS_BUILD_DIR/server
-    deploy:
-    - provider: heroku
-      api_key:
-        secure: Ur+KY9x/T++N60xOqyza9CqnGTTCD4Wv2gC+WzpCUP6VF+YV8FOWidyK2cHvaTO8kvW1SGY4OR0tx7uEALkAgcwrUoNlcPmbibFEGBbbq8jAp2Ba2GUlmFJDj5xQngzgcNReC5Mso8CNQ19IfbMfabq455i/Q6Fc9w2yOwiO401fz2Mgnnpz2p2kYrtBPOkOn7S5Wj96/vcIrbrG4wCsjuPPJScoCYQJZAYOt/CUMLKY+iCiYN/61fSkezd/CaYgyrVvlFJeh90R49mSDB3G80RfVBijiiTDHe5mG2XAXUt51WzbQMVAHuQ8yWjU0VXjeh1ZZoToMcPJU2wBpXSLzw3bZSBsBR/jzs8mcQW+fXEB0wQCYgzvTheJcTeURHyX/J/QS8RE9/JA4yxbRTcTYNhxqsArXzGnrfLWaxnCdZuOt2rEn4FXkuL5vtK2Ms8Zzs8Pz8GyOF9ORb5DlfPPzFgjNCkB5WmgO+PWCJV/8Y/rHv1iB8aFrrUl//5E+2UGZ3q2WGmqVZ8HMHm/NWAaTQwXER+rSNnQJUpuIpoHmBSC95/N8pM/PW5nH0a/euxwAvZUmoGieZ3aBkPkCHkdPQiPyxVc60LvjdVgiWMK0rx6szwGnlKFLZqNFGc924IkKeZGdOw9AcJSoZoUO0qpoZ74TjOJYlHqsDE/6cVfuCs=
-      app: agorask
-      on:
-        branch: master
-        condition: $TEST_DIR = server
-    - provider: heroku
-      api_key:
-        secure: Ur+KY9x/T++N60xOqyza9CqnGTTCD4Wv2gC+WzpCUP6VF+YV8FOWidyK2cHvaTO8kvW1SGY4OR0tx7uEALkAgcwrUoNlcPmbibFEGBbbq8jAp2Ba2GUlmFJDj5xQngzgcNReC5Mso8CNQ19IfbMfabq455i/Q6Fc9w2yOwiO401fz2Mgnnpz2p2kYrtBPOkOn7S5Wj96/vcIrbrG4wCsjuPPJScoCYQJZAYOt/CUMLKY+iCiYN/61fSkezd/CaYgyrVvlFJeh90R49mSDB3G80RfVBijiiTDHe5mG2XAXUt51WzbQMVAHuQ8yWjU0VXjeh1ZZoToMcPJU2wBpXSLzw3bZSBsBR/jzs8mcQW+fXEB0wQCYgzvTheJcTeURHyX/J/QS8RE9/JA4yxbRTcTYNhxqsArXzGnrfLWaxnCdZuOt2rEn4FXkuL5vtK2Ms8Zzs8Pz8GyOF9ORb5DlfPPzFgjNCkB5WmgO+PWCJV/8Y/rHv1iB8aFrrUl//5E+2UGZ3q2WGmqVZ8HMHm/NWAaTQwXER+rSNnQJUpuIpoHmBSC95/N8pM/PW5nH0a/euxwAvZUmoGieZ3aBkPkCHkdPQiPyxVc60LvjdVgiWMK0rx6szwGnlKFLZqNFGc924IkKeZGdOw9AcJSoZoUO0qpoZ74TjOJYlHqsDE/6cVfuCs=
-      app: agorask-dev
-      on:
-        branch: development
-        condition: $TEST_DIR = server
-    after_build: touch $TRAVIS_BUILD_DIR/SERVER_DEPLOYED
-  - env: TEST_DIR=mobile_app SHOULD_BUILD_IF_EXISTS=TRAVIS_BUILD_APP
-    language: android
-    skip_cleanup: true
-    jdk: oraclejdk8
-    node_js:
-    - 6.1.0
-    android:
-      components:
-      - tools
-      - tools
-      - build-tools-23.0.1
-      - build-tools-23.0.3
-      - android-23
-      - android-24
-      - extra-google-google_play_services
-      - extra-google-m2repository
-      - extra-android-m2repository
-      - extra-android-support
-    before_install: nvm install 6.1.0 && nvm use 6.1.0
-    before_script: cd $TRAVIS_BUILD_DIR/mobile_app && npm install
-    sudo: required
-    before_deploy:
-      - cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
-      - cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
-    deploy:
-    - provider: script
-      skip_cleanup: true
-      script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
-      on:
-        branch: master
-    - provider: script
-      skip_cleanup: true
-      sudo: required
-      script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
-      on:
-        branch: development
+before_deploy:
+- cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
+- cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
+deploy:
+- provider: heroku
+  before_deploy: cd $TRAVIS_BUILD_DIR/server
+  api_key:
+    secure: Ur+KY9x/T++N60xOqyza9CqnGTTCD4Wv2gC+WzpCUP6VF+YV8FOWidyK2cHvaTO8kvW1SGY4OR0tx7uEALkAgcwrUoNlcPmbibFEGBbbq8jAp2Ba2GUlmFJDj5xQngzgcNReC5Mso8CNQ19IfbMfabq455i/Q6Fc9w2yOwiO401fz2Mgnnpz2p2kYrtBPOkOn7S5Wj96/vcIrbrG4wCsjuPPJScoCYQJZAYOt/CUMLKY+iCiYN/61fSkezd/CaYgyrVvlFJeh90R49mSDB3G80RfVBijiiTDHe5mG2XAXUt51WzbQMVAHuQ8yWjU0VXjeh1ZZoToMcPJU2wBpXSLzw3bZSBsBR/jzs8mcQW+fXEB0wQCYgzvTheJcTeURHyX/J/QS8RE9/JA4yxbRTcTYNhxqsArXzGnrfLWaxnCdZuOt2rEn4FXkuL5vtK2Ms8Zzs8Pz8GyOF9ORb5DlfPPzFgjNCkB5WmgO+PWCJV/8Y/rHv1iB8aFrrUl//5E+2UGZ3q2WGmqVZ8HMHm/NWAaTQwXER+rSNnQJUpuIpoHmBSC95/N8pM/PW5nH0a/euxwAvZUmoGieZ3aBkPkCHkdPQiPyxVc60LvjdVgiWMK0rx6szwGnlKFLZqNFGc924IkKeZGdOw9AcJSoZoUO0qpoZ74TjOJYlHqsDE/6cVfuCs=
+  app: agorask
+  on:
+    branch: master
+    condiftion: cd $TRAVIS_BUILD_DIR/server
+- provider: heroku
+  before_deploy: cd $TRAVIS_BUILD_DIR/server
+  api_key:
+    secure: Ur+KY9x/T++N60xOqyza9CqnGTTCD4Wv2gC+WzpCUP6VF+YV8FOWidyK2cHvaTO8kvW1SGY4OR0tx7uEALkAgcwrUoNlcPmbibFEGBbbq8jAp2Ba2GUlmFJDj5xQngzgcNReC5Mso8CNQ19IfbMfabq455i/Q6Fc9w2yOwiO401fz2Mgnnpz2p2kYrtBPOkOn7S5Wj96/vcIrbrG4wCsjuPPJScoCYQJZAYOt/CUMLKY+iCiYN/61fSkezd/CaYgyrVvlFJeh90R49mSDB3G80RfVBijiiTDHe5mG2XAXUt51WzbQMVAHuQ8yWjU0VXjeh1ZZoToMcPJU2wBpXSLzw3bZSBsBR/jzs8mcQW+fXEB0wQCYgzvTheJcTeURHyX/J/QS8RE9/JA4yxbRTcTYNhxqsArXzGnrfLWaxnCdZuOt2rEn4FXkuL5vtK2Ms8Zzs8Pz8GyOF9ORb5DlfPPzFgjNCkB5WmgO+PWCJV/8Y/rHv1iB8aFrrUl//5E+2UGZ3q2WGmqVZ8HMHm/NWAaTQwXER+rSNnQJUpuIpoHmBSC95/N8pM/PW5nH0a/euxwAvZUmoGieZ3aBkPkCHkdPQiPyxVc60LvjdVgiWMK0rx6szwGnlKFLZqNFGc924IkKeZGdOw9AcJSoZoUO0qpoZ74TjOJYlHqsDE/6cVfuCs=
+  app: agorask-dev
+  on:
+    branch: development
+    condiftion: cd $TRAVIS_BUILD_DIR/server
+- provider: script
+  skip_cleanup: true
+  script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
+  on:
+    branch: master
+- provider: script
+  skip_cleanup: true
+  sudo: required
+  script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
+  on:
+    branch: development
+
 script: echo "Need to make integration tests (with the app connected to the server...)"
 after_script: echo "after script"
 notifications:
