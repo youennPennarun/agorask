@@ -53,7 +53,7 @@
   "jest": {
     "preset": "jest-react-native",
     "setupFiles": [
-      "jest/setup.js"
+      "./jest/setup.js"
     ],
     "automock": false,
     "testPathIgnorePatterns": [
