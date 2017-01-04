@@ -64,9 +64,6 @@ deploy:
   script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
   on:
     branch: development
-
-script: echo "Need to make integration tests (with the app connected to the server...)"
-after_script: echo "after script"
 notifications:
   email:
   - youenn.pennarun@gmail.com
