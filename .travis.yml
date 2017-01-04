@@ -1,6 +1,7 @@
 language: android
-node_js:
-- 6.1.0
+before_install:
+- nvm install 6.1.0
+- node --version
 jdk: oraclejdk8
 android:
   components:
