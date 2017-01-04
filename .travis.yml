@@ -34,6 +34,7 @@ env:
 before_deploy:
 - cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
 - cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
+- export ANDROID_HOME=$PWD/android-sdk-linux
 deploy:
 - provider: heroku
   before_deploy: cd $TRAVIS_BUILD_DIR/server
@@ -42,7 +43,7 @@ deploy:
   app: agorask
   on:
     branch: master
-    condiftion: cd $TRAVIS_BUILD_DIR/server
+    condition: cd $TRAVIS_BUILD_DIR/server
 - provider: heroku
   before_deploy: cd $TRAVIS_BUILD_DIR/server
   api_key:
@@ -50,7 +51,7 @@ deploy:
   app: agorask-dev
   on:
     branch: development
-    condiftion: cd $TRAVIS_BUILD_DIR/server
+    condition: cd $TRAVIS_BUILD_DIR/server
 - provider: script
   skip_cleanup: true
   script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
@@ -59,7 +60,7 @@ deploy:
 - provider: script
   skip_cleanup: true
   sudo: required
-  script: echo $(pwd); cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
+  script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
   on:
     branch: development
 notifications:
