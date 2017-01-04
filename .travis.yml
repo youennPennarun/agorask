@@ -59,7 +59,7 @@ deploy:
 - provider: script
   skip_cleanup: true
   sudo: required
-  script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
+  script: echo $(pwd); cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
   on:
     branch: development
 notifications:
