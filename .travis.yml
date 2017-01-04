@@ -43,7 +43,6 @@ deploy:
   app: agorask
   on:
     branch: master
-    condition: cd $TRAVIS_BUILD_DIR/server
 - provider: heroku
   before_deploy: cd $TRAVIS_BUILD_DIR/server
   api_key:
@@ -51,7 +50,6 @@ deploy:
   app: agorask-dev
   on:
     branch: development
-    condition: cd $TRAVIS_BUILD_DIR/server
 - provider: script
   skip_cleanup: true
   script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
