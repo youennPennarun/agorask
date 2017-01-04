@@ -35,9 +35,7 @@ env:
 script:
 - npm install
 - npm test
-before_deploy:
-- cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
-- cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
+
 deploy:
 - provider: heroku
   before_deploy: cd $TRAVIS_BUILD_DIR/server
@@ -58,11 +56,16 @@ deploy:
     condition: "cd $TRAVIS_BUILD_DIR/server && pwd"
 - provider: script
   skip_cleanup: true
-  script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
+  before_deploy:
+  - cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
+  - cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
   on:
     branch: master
 - provider: script
   skip_cleanup: true
+  before_deploy:
+  - cd $TRAVIS_BUILD_DIR && openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d && echo "ls app" && ls mobile_app/android/app 
+  - cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication && npm install
   sudo: required
   script: cd $TRAVIS_BUILD_DIR/tools/travis/buildApplication/ && node deployApplication.js
   on:
