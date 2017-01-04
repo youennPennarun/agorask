@@ -44,7 +44,6 @@ deploy:
   app: agorask
   on:
     branch: master
-    condition: "cd $TRAVIS_BUILD_DIR/server && pwd"
     
 - provider: heroku
   before_deploy: cd $TRAVIS_BUILD_DIR/server
@@ -53,7 +52,6 @@ deploy:
   app: agorask-dev
   on:
     branch: development
-    condition: "cd $TRAVIS_BUILD_DIR/server && pwd"
 - provider: script
   skip_cleanup: true
   before_deploy:
