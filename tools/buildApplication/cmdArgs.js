@@ -13,7 +13,6 @@ console.log('args=> ', args)
 if (!args['commit-range'] && args['compare-url']) {
   const re = /compare\/([0-9a-z]+)\.\.\.([0-9a-z]+)$/;
   const matches = args['compare-url'].match(re);
-  console.log(matches)
   if (matches.length === 3) {
     args['commit-range'] = `${matches[1]}...${matches[2]}`;
   }
