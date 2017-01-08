@@ -108,7 +108,7 @@ android {
         }
     }
     signingConfigs {
-        if (System.getenv("TRAVIS")) {
+        if (System.getenv("TRAVIS") || System.getenv("CIRCLECI")) {
             release {
                 storeFile file('release.keystore')
                 storePassword System.getenv("MYAPP_RELEASE_STORE_PASSWORD")
