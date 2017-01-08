@@ -26,7 +26,9 @@ exports[`test fetching renders correctly 1`] = `
           "color": "white",
           "fontSize": 26,
         }
-      } />
+      }>
+      Test Venue
+    </Text>
   </View>
   <ScrollView>
     <View
@@ -52,7 +54,7 @@ exports[`test fetching renders correctly 1`] = `
           accessible={true}
           allowFontScaling={true}
           ellipsizeMode="tail">
-          04/01/17
+          23/11/16
         </Text>
       </View>
       <Text
@@ -64,7 +66,9 @@ exports[`test fetching renders correctly 1`] = `
             "fontSize": 23,
             "marginLeft": 5,
           }
-        } />
+        }>
+        Help me!
+      </Text>
     </View>
     <View
       style={
@@ -74,7 +78,84 @@ exports[`test fetching renders correctly 1`] = `
             "marginBottom": 20,
           },
         ]
-      } />
+      }>
+      <View
+        style={Object {}}>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }>
+          <Vote
+            score={-5} />
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexGrow": 1,
+                "marginLeft": 2,
+                "marginRight": 5,
+                "marginTop": 4,
+              }
+            }>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "color": "black",
+                  "flexGrow": 1,
+                  "fontSize": 16,
+                }
+              }>
+              No can do
+            </Text>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "marginTop": 4,
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                    "fontSize": 15,
+                  }
+                }>
+                Joe
+              </Text>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                  }
+                }>
+                23/11/16
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f0f0f0",
+              "height": 1,
+              "width": 750,
+            }
+          } />
+      </View>
+    </View>
     <Connect(AddAnswer)
       addAnswer={[Function]} />
   </ScrollView>
@@ -109,7 +190,9 @@ exports[`test renders correctly 1`] = `
           "color": "white",
           "fontSize": 26,
         }
-      } />
+      }>
+      Test Venue
+    </Text>
   </View>
   <ScrollView>
     <View
@@ -135,7 +218,7 @@ exports[`test renders correctly 1`] = `
           accessible={true}
           allowFontScaling={true}
           ellipsizeMode="tail">
-          04/01/17
+          23/11/16
         </Text>
       </View>
       <Text
@@ -147,7 +230,9 @@ exports[`test renders correctly 1`] = `
             "fontSize": 23,
             "marginLeft": 5,
           }
-        } />
+        }>
+        Help me!
+      </Text>
     </View>
     <View
       style={
@@ -157,7 +242,84 @@ exports[`test renders correctly 1`] = `
             "marginBottom": 20,
           },
         ]
-      } />
+      }>
+      <View
+        style={Object {}}>
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }>
+          <Vote
+            score={-5} />
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexGrow": 1,
+                "marginLeft": 2,
+                "marginRight": 5,
+                "marginTop": 4,
+              }
+            }>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "color": "black",
+                  "flexGrow": 1,
+                  "fontSize": 16,
+                }
+              }>
+              No can do
+            </Text>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "marginTop": 4,
+                }
+              }>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                    "fontSize": 15,
+                  }
+                }>
+                Joe
+              </Text>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "color": "#BDBDBD",
+                  }
+                }>
+                23/11/16
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f0f0f0",
+              "height": 1,
+              "width": 750,
+            }
+          } />
+      </View>
+    </View>
     <Connect(AddAnswer)
       addAnswer={[Function]} />
   </ScrollView>
