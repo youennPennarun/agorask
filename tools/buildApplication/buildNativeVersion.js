@@ -5,8 +5,10 @@ const co = require('co');
 const fs = require('fs');
 const colors = require('colors');
 
+const args = require('./cmdArgs');
+
 const configs = require('./config.js');
-const config = configs.branches[process.env.TRAVIS_BRANCH];
+const config = configs.branches[args['branch']];
 
 
 const token = process.env.ADMIN_TOKEN;

@@ -1,13 +1,16 @@
 const exec = require('child-process-promise').exec;
 const co = require('co');
 const colors = require('colors');
+
+const args = require('./cmdArgs');
+
 const configs = require('./config');
 
 const createEnvFile = require('./createEnvFile');
 const buildNativeVersion = require('./buildNativeVersion');
 
-const ANDROID_PATH = `${process.env.TRAVIS_BUILD_DIR}/mobile_app/android`;
-const COMMIT_RANGE = process.env.TRAVIS_COMMIT_RANGE || 'HEAD 165c4f25d77c';
+const ANDROID_PATH = `${args['build-dir']}/mobile_app/android`;
+const COMMIT_RANGE = args['commit-range'];
 
 
 function getEnvOptions() {
@@ -32,10 +35,10 @@ const build = co(function* () {
   yield buildNativeVersion(ANDROID_PATH, releaseDate);
 })
 
-const config = configs.branches[process.env.TRAVIS_BRANCH];
+const config = configs.branches[args['branch']];
 console.log(config)
 if (!config) {
-  console.log(`${colors.cyan('No build defined for branch')} ${process.env.TRAVIS_BRANCH} ${colors.blue('Skipping build')}`)
+  console.log(`${colors.cyan('No build defined for branch')} ${args['branch]} ${colors.blue('Skipping build')}`)
   process.exit();
 }
 
