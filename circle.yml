@@ -7,7 +7,8 @@ deployment:
   development:
     branch: development
     commands:
-      - git subtree push --prefix server git@heroku.com:agorask-dev.git heroku master
+      - git remote add heroku git@heroku.com:agorask-dev.git
+      - git subtree push --prefix server heroku master
       - heroku run rake db:migrate --app agorask-dev
   production:
     branch: master
