@@ -12,6 +12,7 @@ dependencies:
 deployment:
   development:
     branch: development
+    timeout: 1800
     commands:
       - git remote add heroku git@heroku.com:agorask-dev.git
       - git subtree push --prefix server heroku master
@@ -19,6 +20,7 @@ deployment:
       - cd tools/buildApplication && npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL
   production:
     branch: master
+    timeout: 1800
     commands:
     commands:
       - git remote add heroku git@heroku.com:agorask.git
