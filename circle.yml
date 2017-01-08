@@ -17,7 +17,7 @@ deployment:
       - git subtree push --prefix server heroku master
       - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
       - cd tools/buildApplication && npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
-        timeout: 1800
+          timeout: 1800
   production:
     branch: master
     commands:
@@ -25,4 +25,4 @@ deployment:
       - git subtree push --prefix server heroku master
       - openssl aes-256-cbc -K $KEYSTORE_ENCR_1 -iv $KEYSTORE_ENCR_1 -in release.keystore.enc -out mobile_app/android/app/release.keystore -d
       - cd tools/buildApplication && npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
-        timeout: 1800
+          timeout: 1800
