@@ -12,7 +12,6 @@ deployment:
     commands:
       - git remote add heroku git@heroku.com:agorask-dev.git
       - git subtree push --prefix server heroku master
-      - heroku run rake db:migrate --app agorask-dev
       - openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d
       - cd tools/travis/buildApplication && npm install && node deployApplication.js
   production:
@@ -21,4 +20,5 @@ deployment:
     commands:
       - git remote add heroku git@heroku.com:agorask.git
       - git subtree push --prefix server heroku master
-      - heroku run rake db:migrate --app agorask
+      - openssl aes-256-cbc -K $encrypted_95f6ce8b3da2_key -iv $encrypted_95f6ce8b3da2_iv -in release.keystore.enc -out mobile_app/android/app/release.keystore -d
+      - cd tools/travis/buildApplication && npm install && node deployApplication.js
