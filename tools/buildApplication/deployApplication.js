@@ -38,7 +38,7 @@ const build = co(function* () {
 const config = configs.branches[args['branch']];
 console.log(config)
 if (!config) {
-  console.log(`${colors.cyan('No build defined for branch')} ${args['branch]} ${colors.blue('Skipping build')}`)
+  console.log(`${colors.cyan('No build defined for branch')} ${args['branch']} ${colors.blue('Skipping build')}`)
   process.exit();
 }
 
