@@ -9,7 +9,7 @@ const optionDefinitions = [
 ];
 
 const args = commandLineArgs(optionDefinitions);
-
+console.log('args=> ', args)
 if (!args['commit-range'] && args['compare-url']) {
   const re = /compare\/([0-9a-z]+)\.\.\.([0-9a-z]+)$/;
   const matches = args['compare-url'].match(re);
