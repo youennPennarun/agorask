@@ -3,6 +3,9 @@ machine:
     version: 6.1.0
   environment:
     MONGO_URL: mongodb://localhost/agorask
+dependencies:
+  pre: 
+    - echo y | android update sdk --no-ui --all --filter tools,build-tools-23.0.1,build-tools-23.0.3,android-23,android-24,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,extra-android-support
 deployment:
   development:
     branch: development
