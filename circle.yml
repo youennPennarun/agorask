@@ -1,3 +1,5 @@
 machine:
   node:
     version: 6.1.0
+  environment:
+    MONGO_URL: mongodb://localhost/agorask
