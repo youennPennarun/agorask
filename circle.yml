@@ -3,3 +3,14 @@ machine:
     version: 6.1.0
   environment:
     MONGO_URL: mongodb://localhost/agorask
+deployment:
+  development:
+    branch: development
+    commands:
+      - git subtree push --prefix server git@heroku.com:agorask-dev.git $CIRCLE_SHA1:master
+      - heroku run rake db:migrate --app agorask-dev
+  production:
+    branch: master
+    commands:
+      - git subtree push --prefix server git@heroku.com:agorask.git $CIRCLE_SHA1:master
+      - heroku run rake db:migrate --app agorask
