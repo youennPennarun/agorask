@@ -7,7 +7,7 @@ deployment:
   development:
     branch: development
     commands:
-      - git subtree push --prefix server git@heroku.com:agorask-dev.git $CIRCLE_SHA1:development
+      - git subtree push --prefix server git@heroku.com:agorask-dev.git heroku master
       - heroku run rake db:migrate --app agorask-dev
   production:
     branch: master
