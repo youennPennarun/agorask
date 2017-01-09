@@ -12,7 +12,7 @@ const optionDefinitions = [
 const args = commandLineArgs(optionDefinitions);
 
 if (!process.env.ADMIN_TOKEN) {
-  console.log(`${colors.red('ERROR: Missing Environment Variable \'Admin_TOKEN\' ')}`);
+  console.log(`${colors.red('ERROR: Missing Environment Variable \'ADMIN_TOKEN\' ')}`);
   process.exit(1);
 }
 

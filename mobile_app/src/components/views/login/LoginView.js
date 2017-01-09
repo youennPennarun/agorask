@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
 
@@ -68,30 +68,32 @@ export class LoginView extends Component {
     const {goToMap} = this.props;
     return (
       <View style={styles.container} accessibilityLabel='Login View'>
-        <View style={styles.logo} />
-          {this._renderErrorMessage()}
-          <Textfield ref={r => { this.usernameRef = r; }}
-            accessibilityLabel='Username Input'
-            style={styles.textInput}
-            placeholder='Username'
-            blurOnSubmit
-            onSubmitEditing={() => { this._onSubmitUsername(); }}
-            value={this.state.username}
-            onChangeText={(text: string) => { this.setState({username: text}); }} />
-          <Textfield ref={r => { this.passwordRef = r; }}
-            accessibilityLabel='Password Input'
-            style={styles.textInput}
-            placeholder='Password'
-            secureTextEntry
-            blurOnSubmit
-            selectTextOnFocus
-            password
-            onSubmitEditing={() => { this._onSubmitPassword(); }}
-            value={this.state.password}
-            onChangeText={(text: string) => { this.setState({password: text}); }} />
+        <Image style={styles.logo}
+          source={require('../../../assets/logo.png')}
+          resizeMode='contain' />
+        {this._renderErrorMessage()}
+        <Textfield ref={r => { this.usernameRef = r; }}
+          accessibilityLabel='Username Input'
+          style={styles.textInput}
+          placeholder='Username'
+          blurOnSubmit
+          onSubmitEditing={() => { this._onSubmitUsername(); }}
+          value={this.state.username}
+          onChangeText={(text: string) => { this.setState({username: text}); }} />
+        <Textfield ref={r => { this.passwordRef = r; }}
+          accessibilityLabel='Password Input'
+          style={styles.textInput}
+          placeholder='Password'
+          secureTextEntry
+          blurOnSubmit
+          selectTextOnFocus
+          password
+          onSubmitEditing={() => { this._onSubmitPassword(); }}
+          value={this.state.password}
+          onChangeText={(text: string) => { this.setState({password: text}); }} />
 
-          <LoginButton enabled={this.isFormValid()}
-            onPress={() => { this.login(); }} />
+        <LoginButton enabled={this.isFormValid()}
+          onPress={() => { this.login(); }} />
 
           <RegisterButton onPress={() => this.props.navigator.signIn()} />
 
@@ -114,7 +116,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: width - 200,
     height: 150,
-    backgroundColor: 'red',
   },
   errorMessage: {
     color: 'red',
