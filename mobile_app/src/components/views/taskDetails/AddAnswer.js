@@ -6,7 +6,7 @@ import {login} from '../../../redux/actions/router';
 import {View, Text, StyleSheet} from 'react-native';
 import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
 
-class AddAnswer extends Component {
+export class AddAnswer extends Component {
   state = {
     answerHeight: 0,
     loading: false,

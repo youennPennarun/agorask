@@ -89,16 +89,3 @@ it('Call add answer', () => {
   wrapper.find('Connect(AddAnswer)').at(0).props().addAnswer();
   expect(addAnswer.mock.calls.length).toBe(1);
 });
-
-it('fetching renders correctly if there is no answers', () => {
-  const wrapper = mount(
-    <TaskDetails loading
-      id='5834b73cb5cb2c65d95f7ceb'
-      task={{
-        name: 'Test Venue',
-        title: 'Help me!',
-        date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
-      }} />
-  );
-  expect(shallowToJson(wrapper)).toMatchSnapshot();
-});

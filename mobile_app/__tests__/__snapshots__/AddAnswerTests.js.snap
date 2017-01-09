@@ -1,0 +1,68 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail">
+    You need to be logged in to add an answer
+  </Text>
+  <BuiltButton
+    backgroundColor="#3F51B5"
+    enabled={true}
+    maskBorderRadius={2}
+    maskColor="rgba(255,255,255,0.15)"
+    maskDuration={200}
+    maskEnabled={true}
+    onPress={[Function]}
+    pointerEvents="box-only"
+    rippleColor="rgba(255,255,255,0.2)"
+    rippleDuration={200}
+    rippleLocation="tapLocation"
+    shadowAniEnabled={true}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "padding": 8,
+        },
+        Object {
+          "backgroundColor": "#3F51B5",
+        },
+        Object {
+          "borderRadius": 2,
+          "elevation": 4,
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 0.5,
+            "width": 0,
+          },
+          "shadowOpacity": 0.7,
+          "shadowRadius": 1,
+        },
+        Object {
+          "alignSelf": "center",
+          "marginVertical": 10,
+          "width": 150,
+        },
+      ]
+    }
+    text="Login"
+    textStyle={
+      Array [
+        Object {
+          "fontSize": 14,
+        },
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+        },
+      ]
+    } />
+</View>
+`;
