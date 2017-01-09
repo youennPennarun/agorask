@@ -1,4 +1,5 @@
 const path = require('path');
+const colors = require('colors');
 
 const commandLineArgs = require('command-line-args');
 const optionDefinitions = [
@@ -9,7 +10,12 @@ const optionDefinitions = [
 ];
 
 const args = commandLineArgs(optionDefinitions);
-console.log('args=> ', args)
+
+if (!process.env.ADMIN_TOKEN) {
+  console.log(`${colors.red('ERROR: Missing Environment Variable \'Admin_TOKEN\' ')}`);
+  process.exit(1);
+}
+
 if (!args['commit-range'] && args['compare-url']) {
   const re = /compare\/([0-9a-z]+)\.\.\.([0-9a-z]+)$/;
   const matches = args['compare-url'].match(re);
