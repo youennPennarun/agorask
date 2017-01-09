@@ -7,10 +7,11 @@ exports[`test Button enable if usrname and password are filled 1`] = `
       "flex": 1,
     }
   }>
-  <View
+  <Image
+    resizeMode="contain"
+    source={1}
     style={
       Object {
-        "backgroundColor": "red",
         "height": 150,
         "marginTop": 15,
         "width": 550,
@@ -80,10 +81,11 @@ exports[`test renders correctly 1`] = `
       "flex": 1,
     }
   }>
-  <View
+  <Image
+    resizeMode="contain"
+    source={1}
     style={
       Object {
-        "backgroundColor": "red",
         "height": 150,
         "marginTop": 15,
         "width": 550,

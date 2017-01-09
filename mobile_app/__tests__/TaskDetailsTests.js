@@ -11,8 +11,8 @@ import { shallowToJson } from 'enzyme-to-json';
 it('renders correctly', () => {
   const wrapper = shallow(
     <TaskDetails isFetching={false}
+      id='5834b73cb5cb2c65d95f7ceb'
       task={{
-        id: '5834b73cb5cb2c65d95f7ceb',
         name: 'Test Venue',
         title: 'Help me!',
         date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
@@ -33,8 +33,8 @@ it('renders correctly', () => {
 it('fetching renders correctly', () => {
   const wrapper = shallow(
     <TaskDetails isFetching
+      id='5834b73cb5cb2c65d95f7ceb'
       task={{
-        id: '5834b73cb5cb2c65d95f7ceb',
         name: 'Test Venue',
         title: 'Help me!',
         date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
