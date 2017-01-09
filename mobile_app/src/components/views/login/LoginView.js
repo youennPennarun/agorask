@@ -26,6 +26,9 @@ export class LoginView extends Component {
     }
   }
 
+  setUsernameRef = r => { this.usernameRef = r; }
+  setPasswordRef = r => { this.passwordRef = r; }
+
   isFormValid(): boolean {
     return (
       this.state.username !== '' &&
@@ -34,7 +37,9 @@ export class LoginView extends Component {
   }
 
   _onSubmitUsername() {
-    this.passwordRef.focus();
+    if (this.passwordRef) {
+      this.passwordRef.focus();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +50,7 @@ export class LoginView extends Component {
 
   _onSubmitPassword() {
     const {username, password} = this.state;
-    if (!username) {
+    if (!username && this.usernameRef) {
       this.usernameRef.focus();
       return;
     }
@@ -72,7 +77,7 @@ export class LoginView extends Component {
           source={require('../../../assets/logo.png')}
           resizeMode='contain' />
         {this._renderErrorMessage()}
-        <Textfield ref={r => { this.usernameRef = r; }}
+        <Textfield ref={this.setUsernameRef}
           accessibilityLabel='Username Input'
           style={styles.textInput}
           placeholder='Username'
@@ -80,7 +85,7 @@ export class LoginView extends Component {
           onSubmitEditing={() => { this._onSubmitUsername(); }}
           value={this.state.username}
           onChangeText={(text: string) => { this.setState({username: text}); }} />
-        <Textfield ref={r => { this.passwordRef = r; }}
+        <Textfield ref={this.setPasswordRef}
           accessibilityLabel='Password Input'
           style={styles.textInput}
           placeholder='Password'

@@ -30,6 +30,8 @@ exports[`test fetching renders correctly 1`] = `
       Test Venue
     </Text>
   </View>
+  <IndeterminateProgress
+    style={Object {}} />
   <ScrollView>
     <View
       style={
@@ -156,6 +158,103 @@ exports[`test fetching renders correctly 1`] = `
           } />
       </View>
     </View>
+    <Connect(AddAnswer)
+      addAnswer={[Function]} />
+  </ScrollView>
+</View>
+`;
+
+exports[`test fetching renders correctly if there is no answers 1`] = `
+<View
+  style={Object {}}>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#263238",
+        "flexDirection": "row",
+        "height": 50,
+        "paddingLeft": 15,
+      }
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Arrow back
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 26,
+        }
+      }>
+      Test Venue
+    </Text>
+  </View>
+  <ScrollView>
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "elevation": 6,
+          "marginBottom": 0,
+          "paddingBottom": 10,
+          "paddingLeft": 5,
+          "width": 750,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "marginLeft": 10,
+            "width": 730,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail">
+          23/11/16
+        </Text>
+      </View>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 23,
+            "marginLeft": 5,
+          }
+        }>
+        Help me!
+      </Text>
+    </View>
+    <Spinner
+      spinnerAniDuration={1333}
+      strokeWidth={3}
+      style={
+        Object {
+          "alignSelf": "center",
+          "marginBottom": 25,
+          "marginTop": 50,
+        }
+      } />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "marginBottom": 20,
+          },
+        ]
+      } />
     <Connect(AddAnswer)
       addAnswer={[Function]} />
   </ScrollView>

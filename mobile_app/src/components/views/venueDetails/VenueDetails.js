@@ -58,7 +58,6 @@ export class VenueDetails extends Component {
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
       imageUri = `${Config.API_URL}/venues/${venue._id}/image`;
-      console.log('img = ', imageUri)
     }
     return (
       <View style={styles.container}>

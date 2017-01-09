@@ -1,4 +1,4 @@
-exports[`test Button enable if usrname and password are filled 1`] = `
+exports[`test Button enabled if username and password are filled 1`] = `
 <View
   accessibilityLabel="Login View"
   style={
@@ -17,9 +17,11 @@ exports[`test Button enable if usrname and password are filled 1`] = `
         "width": 550,
       }
     } />
-  <MKTextField
+  <BuiltTextfield
     accessibilityLabel="Username Input"
     blurOnSubmit={true}
+    floatingLabelEnabled={true}
+    highlightColor="#CDDC39"
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
     placeholder="Username"
@@ -30,10 +32,13 @@ exports[`test Button enable if usrname and password are filled 1`] = `
         "width": 650,
       }
     }
+    underlineEnabled={true}
     value="mrMeeseeks" />
-  <MKTextField
+  <BuiltTextfield
     accessibilityLabel="Password Input"
     blurOnSubmit={true}
+    floatingLabelEnabled={true}
+    highlightColor="#CDDC39"
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
     password={true}
@@ -47,12 +52,110 @@ exports[`test Button enable if usrname and password are filled 1`] = `
         "width": 650,
       }
     }
+    underlineEnabled={true}
     value="Look at me" />
-  <MKButton
+  <BuiltButton
+    backgroundColor="#3F51B5"
     enabled={true}
-    onPress={[Function]} />
-  <MKButton
-    onPress={[Function]} />
+    maskBorderRadius={2}
+    maskColor="rgba(255,255,255,0.15)"
+    maskDuration={200}
+    maskEnabled={true}
+    onPress={[Function]}
+    pointerEvents="box-only"
+    rippleColor="rgba(255,255,255,0.2)"
+    rippleDuration={200}
+    rippleLocation="tapLocation"
+    shadowAniEnabled={true}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "padding": 8,
+        },
+        Object {
+          "backgroundColor": "#3F51B5",
+        },
+        Object {
+          "borderRadius": 2,
+          "elevation": 4,
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 0.5,
+            "width": 0,
+          },
+          "shadowOpacity": 0.7,
+          "shadowRadius": 1,
+        },
+        Object {
+          "marginVertical": 5,
+        },
+      ]
+    }
+    text="Login"
+    textStyle={
+      Array [
+        Object {
+          "fontSize": 14,
+        },
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+        },
+      ]
+    } />
+  <BuiltButton
+    backgroundColor="#3F51B5"
+    enabled={true}
+    maskBorderRadius={2}
+    maskColor="rgba(255,255,255,0.15)"
+    maskDuration={200}
+    maskEnabled={true}
+    onPress={[Function]}
+    pointerEvents="box-only"
+    rippleColor="rgba(255,255,255,0.2)"
+    rippleDuration={200}
+    rippleLocation="tapLocation"
+    shadowAniEnabled={true}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "padding": 8,
+        },
+        Object {
+          "backgroundColor": "#3F51B5",
+        },
+        Object {
+          "borderRadius": 2,
+          "elevation": 4,
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 0.5,
+            "width": 0,
+          },
+          "shadowOpacity": 0.7,
+          "shadowRadius": 1,
+        },
+        Object {
+          "marginVertical": 5,
+        },
+      ]
+    }
+    text="Sign in"
+    textStyle={
+      Array [
+        Object {
+          "fontSize": 14,
+        },
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+        },
+      ]
+    } />
   <TouchableOpacity
     accessibilityLabel="Skip login"
     activeOpacity={0.2}
@@ -91,9 +194,11 @@ exports[`test renders correctly 1`] = `
         "width": 550,
       }
     } />
-  <MKTextField
+  <BuiltTextfield
     accessibilityLabel="Username Input"
     blurOnSubmit={true}
+    floatingLabelEnabled={true}
+    highlightColor="#CDDC39"
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
     placeholder="Username"
@@ -104,10 +209,13 @@ exports[`test renders correctly 1`] = `
         "width": 650,
       }
     }
+    underlineEnabled={true}
     value="" />
-  <MKTextField
+  <BuiltTextfield
     accessibilityLabel="Password Input"
     blurOnSubmit={true}
+    floatingLabelEnabled={true}
+    highlightColor="#CDDC39"
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
     password={true}
@@ -121,12 +229,110 @@ exports[`test renders correctly 1`] = `
         "width": 650,
       }
     }
+    underlineEnabled={true}
     value="" />
-  <MKButton
+  <BuiltButton
+    backgroundColor="#3F51B5"
     enabled={false}
-    onPress={[Function]} />
-  <MKButton
-    onPress={[Function]} />
+    maskBorderRadius={2}
+    maskColor="rgba(255,255,255,0.15)"
+    maskDuration={200}
+    maskEnabled={true}
+    onPress={[Function]}
+    pointerEvents="box-only"
+    rippleColor="rgba(255,255,255,0.2)"
+    rippleDuration={200}
+    rippleLocation="tapLocation"
+    shadowAniEnabled={true}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "padding": 8,
+        },
+        Object {
+          "backgroundColor": "#3F51B5",
+        },
+        Object {
+          "borderRadius": 2,
+          "elevation": 4,
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 0.5,
+            "width": 0,
+          },
+          "shadowOpacity": 0.7,
+          "shadowRadius": 1,
+        },
+        Object {
+          "marginVertical": 5,
+        },
+      ]
+    }
+    text="Login"
+    textStyle={
+      Array [
+        Object {
+          "fontSize": 14,
+        },
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+        },
+      ]
+    } />
+  <BuiltButton
+    backgroundColor="#3F51B5"
+    enabled={true}
+    maskBorderRadius={2}
+    maskColor="rgba(255,255,255,0.15)"
+    maskDuration={200}
+    maskEnabled={true}
+    onPress={[Function]}
+    pointerEvents="box-only"
+    rippleColor="rgba(255,255,255,0.2)"
+    rippleDuration={200}
+    rippleLocation="tapLocation"
+    shadowAniEnabled={true}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "padding": 8,
+        },
+        Object {
+          "backgroundColor": "#3F51B5",
+        },
+        Object {
+          "borderRadius": 2,
+          "elevation": 4,
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 0.5,
+            "width": 0,
+          },
+          "shadowOpacity": 0.7,
+          "shadowRadius": 1,
+        },
+        Object {
+          "marginVertical": 5,
+        },
+      ]
+    }
+    text="Sign in"
+    textStyle={
+      Array [
+        Object {
+          "fontSize": 14,
+        },
+        Object {
+          "color": "white",
+          "fontWeight": "bold",
+        },
+      ]
+    } />
   <TouchableOpacity
     accessibilityLabel="Skip login"
     activeOpacity={0.2}
