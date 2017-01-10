@@ -108,9 +108,11 @@ const styles = StyleSheet.create({
   },
 });
 
+/* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
   query: state.search.query,
 });
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Function): Object => ({
   clearSearch: () => {
     dispatch(clear());

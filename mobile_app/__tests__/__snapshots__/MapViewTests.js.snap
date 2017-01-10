@@ -1,0 +1,121 @@
+exports[`test renders correctly with search results 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }>
+  <MapWrapper
+    style={
+      Object {
+        "backgroundColor": "red",
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }>
+    <MarkerWrapper
+      coordinate={
+        Object {
+          "latitude": -5,
+          "longitude": 50,
+        }
+      }
+      numberOfTasks={2}
+      onPress={[Function]} />
+    <MarkerWrapper
+      coordinate={
+        Object {
+          "latitude": -6,
+          "longitude": 51,
+        }
+      }
+      numberOfTasks={10}
+      onPress={[Function]} />
+    <MarkerWrapper
+      coordinate={
+        Object {
+          "latitude": -7,
+          "longitude": 52,
+        }
+      }
+      numberOfTasks={20}
+      onPress={[Function]} />
+  </MapWrapper>
+  <Connect(SearchBar) />
+</View>
+`;
+
+exports[`test renders correctly with venues 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }>
+  <MapWrapper
+    style={
+      Object {
+        "backgroundColor": "red",
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }>
+    <MarkerWrapper
+      coordinate={
+        Object {
+          "latitude": -5,
+          "longitude": 50,
+        }
+      }
+      numberOfTasks={2}
+      onPress={[Function]} />
+    <MarkerWrapper
+      coordinate={
+        Object {
+          "latitude": -6,
+          "longitude": 51,
+        }
+      }
+      numberOfTasks={10}
+      onPress={[Function]} />
+    <MarkerWrapper
+      coordinate={
+        Object {
+          "latitude": -7,
+          "longitude": 52,
+        }
+      }
+      numberOfTasks={20}
+      onPress={[Function]} />
+  </MapWrapper>
+  <Connect(SearchBar) />
+</View>
+`;
+
+exports[`test renders correctly without any venues 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }>
+  <MapWrapper
+    style={
+      Object {
+        "backgroundColor": "red",
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    } />
+  <Connect(SearchBar) />
+</View>
+`;

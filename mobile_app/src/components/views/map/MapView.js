@@ -116,10 +116,12 @@ const SearchVenuesQuery = gql`
 `;
 
 
+/* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
   userLocation: state.userLocation,
   query: state.search.query,
 });
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Function): Object => ({
   goToVenueDetails: (venue) => {
     dispatch(pushRoute({
@@ -136,6 +138,7 @@ const mapDispatchToProps = (dispatch: Function): Object => ({
 });
 
 
+/* istanbul ignore next */
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   graphql(VenuesNearUserQuery, {
