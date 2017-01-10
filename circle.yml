@@ -17,8 +17,9 @@ dependencies:
       fi
     - echo y | android update sdk --no-ui --all --filter tools,build-tools-23.0.1,build-tools-23.0.3,android-23,android-24,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,extra-android-support
     - npm install -g appium
-    - npm install
-        pwd: tests/app
+    - npm install:
+        pwd:
+          tests/app
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
