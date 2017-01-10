@@ -2,6 +2,7 @@ machine:
   node:
     version: 6.1.0
   environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     MONGO_URL: mongodb://localhost/agorask
@@ -16,7 +17,9 @@ dependencies:
       fi
     - echo y | android update sdk --no-ui --all --filter tools,build-tools-23.0.1,build-tools-23.0.3,android-23,android-24,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,extra-android-support
     - npm install -g appium
-    - cd tests/app && npm install && cd ../..
+    - npm install
+        pwd:
+          tests/app
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
@@ -28,13 +31,17 @@ deployment:
       - git remote add heroku git@heroku.com:agorask-dev.git
       - git push heroku `git subtree split --prefix server master`:master --force
       - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
-      - cd tools/buildApplication && npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
+      - npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
           timeout: 3600
+          pwd:
+            tools/buildApplication
   production:
     branch: master
     commands:
       - git remote add heroku git@heroku.com:agorask.git
       - git push heroku `git subtree split --prefix server master`:master --force
       - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
-      - cd tools/buildApplication && npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
+      - npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
           timeout: 3600
+          pwd:
+            tools/buildApplication
