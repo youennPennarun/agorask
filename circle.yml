@@ -34,7 +34,7 @@ test:
     - appium:
         background: true
     - sleep 5
-    - ./gradlew devRelease
+    - ./gradlew devRelease:
         pwd:
           mobile_app/android
     - npm start:
