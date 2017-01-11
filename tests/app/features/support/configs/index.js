@@ -63,6 +63,8 @@ module.exports = function getConfig(type) {
   switch (type.toUpperCase()) {
     case 'LOCAL':
       return local;
+    case 'CIRCLE':
+      return circle;
     case 'TEST_DROID':
     case 'TESTDROID':
       return testdroid;
