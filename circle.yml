@@ -34,7 +34,8 @@ test:
     - appium -p 4723:
         background: true
     - sleep 5
-    - ./gradlew assembleRelease:
+    - ./gradlew assembleRelease::
+        timeout: 3600
         pwd:
           mobile_app/android
     - npm start:
