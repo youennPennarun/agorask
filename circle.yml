@@ -31,7 +31,7 @@ test:
         parallel: true
     - circle-android wait-for-boot
   override:
-    - appium:
+    - appium -p 4723:
         background: true
     - sleep 5
     - ./gradlew devRelease:

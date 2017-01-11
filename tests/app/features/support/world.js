@@ -2,11 +2,15 @@ const wd = require('wd');
 const getConfig = require('./configs');
 const {defineSupportCode} = require('cucumber');
 
+console.log(process.argv);
+process.exit()
+
 const LoginPage = require('./pages/LoginView');
 
+const confName = (process.env.CIRCLECI) ? 'circle' : 'local';
 
 function CustomWorld() {
-  const conf = getConfig('local');
+  const conf = getConfig(confName);
   this.driver = wd.promiseChainRemote(conf.server.url || conf.server);
   this.LoginPage = new LoginPage(this.driver);
   this.caps = conf.caps;
