@@ -2,9 +2,6 @@ const wd = require('wd');
 const getConfig = require('./configs');
 const {defineSupportCode} = require('cucumber');
 
-console.log(process.argv);
-process.exit()
-
 const LoginPage = require('./pages/LoginView');
 
 const confName = (process.env.CIRCLECI) ? 'circle' : 'local';
