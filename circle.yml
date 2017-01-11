@@ -23,7 +23,22 @@ dependencies:
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
-
+test:
+  pre:
+    - emulator -avd circleci-android23 -no-audio -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    override:
+        - appium:
+              background: true
+        - sleep 5
+        - ./gradlew devRelease
+            pwd:
+              mobile_app/android
+        - npm start:
+            pwd:
+              tests/app
 deployment:
   development:
     branch: development
