@@ -1,3 +1,5 @@
+const path = require('path');
+
 const testdroid = {
   caps: {
     testdroid_apiKey: process.env.TESTDROID_API_KEY,
@@ -27,12 +29,13 @@ const local = {
   caps: {
     platformName: "Android",
     deviceName: "192.168.1.35:5555",
-    platformVersion: "7.1.1",
+    platformVersion: "5.1",
     appPackage: "com.agorask.debug",
     appActivity: "com.agorask.MainActivity",
     noReset: true,
     fullReset: false,
     waitForAppScript: true,
+    app: path.join(__dirname, '../../../../../mobile_app/android/app/build/outputs/apk/app-devRelease.apk'),
   },
   server: {
     port: 4723,

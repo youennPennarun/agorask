@@ -6,7 +6,7 @@ const LoginPage = require('./pages/LoginView');
 
 
 function CustomWorld() {
-  const conf = getConfig('testobject');
+  const conf = getConfig('local');
   this.driver = wd.promiseChainRemote(conf.server.url || conf.server);
   this.LoginPage = new LoginPage(this.driver);
   this.caps = conf.caps;
