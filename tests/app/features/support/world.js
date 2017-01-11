@@ -5,6 +5,7 @@ const {defineSupportCode} = require('cucumber');
 const LoginPage = require('./pages/LoginView');
 
 const confName = (process.env.CIRCLECI) ? 'circle' : 'local';
+console.log(`using config ${confName}`);
 
 function CustomWorld() {
   const conf = getConfig(confName);
