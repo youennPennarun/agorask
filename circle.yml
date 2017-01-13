@@ -2,6 +2,7 @@ machine:
   node:
     version: 6.1.0
   environment:
+    _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
@@ -34,7 +35,7 @@ test:
     - appium -p 4723:
         background: true
     - sleep 5
-    - ls; ./gradlew assembleRelease:
+    - ./gradlew assembleRelease:
         timeout: 3600
         pwd:
           mobile_app/android
