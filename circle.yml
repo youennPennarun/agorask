@@ -21,6 +21,7 @@ dependencies:
         pwd:
           tests/app
     - yarn
+    - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
     - ./gradlew assembleRelease --stacktrace --info:
         timeout: 3600
         pwd:
