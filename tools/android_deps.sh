@@ -12,6 +12,6 @@ if [ ! -e $DEPS ]; then
   echo y | android update sdk -u -a -t extra-google-m2repository &&
   echo y | android update sdk -u -t extra-android-m2repository &&
   echo y | android update sdk -u -t extra-android-support &&
-  echo no | android create avd -n testAVD -f -t android-23
+  echo no | android create avd -n testAVD -f -t android-23 --abi default/armeabi-v7a
   touch $DEPS
 fi
