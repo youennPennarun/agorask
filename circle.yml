@@ -20,6 +20,7 @@ dependencies:
     - yarn:
         pwd:
           tests/app
+    - yarn
     - ./gradlew assembleRelease --stacktrace --info:
         timeout: 3600
         pwd:
