@@ -2,7 +2,7 @@ machine:
   node:
     version: 6.1.0
   environment:
-    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx3072m -XX:+HeapDumpOnOutOfMemoryError"'
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     MONGO_URL: mongodb://localhost/agorask
@@ -20,10 +20,15 @@ dependencies:
     - yarn:
         pwd:
           tests/app
+    - ./gradlew resolveConfigurations:
+        timeout: 3600
+        pwd:
+          mobile_app/android
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
     - /usr/local/android-sdk-linux
+    - ~/.gradle
 
 test:
   pre:
