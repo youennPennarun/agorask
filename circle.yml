@@ -2,7 +2,8 @@ machine:
   node:
     version: 6.1.0
   environment:
-    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
+    QEMU_AUDIO_DRV: none
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     MONGO_URL: mongodb://localhost/agorask
@@ -34,14 +35,14 @@ dependencies:
 
 test:
   pre:
-    - emulator -avd testAVD -no-window:
+    - emulator -avd testAVD -no-window &> emulator.log:
         background: true
         parallel: true
     - circle-android wait-for-boot
-  override:
-    - appium -p 4723:
-        background: true
     - sleep 5
+  override:
+    - appium -p 4723 &> emulator.log:
+        background: true
     - npm start:
         pwd:
           tests/app
