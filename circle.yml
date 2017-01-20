@@ -30,15 +30,15 @@ test:
     - emulator -avd testAVD -no-window:
         background: true
         parallel: true
+    - ./gradlew assembleRelease --stacktrace --info:
+        timeout: 3600
+        pwd:
+          mobile_app/android
     - circle-android wait-for-boot
   override:
     - appium -p 4723:
         background: true
     - sleep 5
-    - ./gradlew assembleRelease --stacktrace --debug:
-        timeout: 3600
-        pwd:
-          mobile_app/android
     - npm start:
         pwd:
           tests/app
