@@ -23,11 +23,11 @@ dependencies:
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
-    - ~/android-sdk-linux
+    - /usr/local/android-sdk-linux
 
 test:
   pre:
-    - emulator -avd testAVD -no-audio -no-window:
+    - emulator -avd testAVD -no-window:
         background: true
         parallel: true
     - circle-android wait-for-boot
