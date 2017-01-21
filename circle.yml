@@ -45,6 +45,7 @@ test:
     - appium -p 4723 &> appium.log:
         background: true
     - npm start:
+        timeout: 3600
         pwd:
           tests/app
 
