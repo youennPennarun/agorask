@@ -2,7 +2,7 @@ machine:
   node:
     version: 6.1.0
   environment:
-    ANDROID_SDK_HOME: /home/ubuntu/android
+    ANDROID_SDK_HOME: /home/ubuntu/
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
     QEMU_AUDIO_DRV: none
     YARN_VERSION: 0.18.1
