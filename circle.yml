@@ -2,6 +2,7 @@ machine:
   node:
     version: 6.1.0
   environment:
+    ANDROID_SDK_HOME: /home/ubuntu/android
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
     QEMU_AUDIO_DRV: none
     YARN_VERSION: 0.18.1
@@ -17,7 +18,7 @@ dependencies:
         curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
       fi
     - ./tools/android_deps.sh
-    - yarn global add appium appium
+    - yarn global add appium
     - yarn:
         pwd:
           tests/app
