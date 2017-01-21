@@ -140,9 +140,9 @@ android {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
         }
-        devRelease.initWith(buildTypes.release)
+        testRelease.initWith(buildTypes.release)
 
-        devRelease {
+        testRelease {
             applicationIdSuffix ".test"
             versionNameSuffix "-test"
         }
