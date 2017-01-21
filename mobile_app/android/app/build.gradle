@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 
 project.ext.envConfigFiles = [
     debug: ".env",
-    testRelease: ".env.test",
+    ciRelease: ".env.test",
     devRelease: ".env.dev",
     release: ".env.production",
     anyCustomBuildTypeName: ".env",
@@ -140,11 +140,11 @@ android {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
         }
-        testRelease.initWith(buildTypes.release)
+        ciRelease.initWith(buildTypes.release)
 
-        testRelease {
-            applicationIdSuffix ".test"
-            versionNameSuffix "-test"
+        ciRelease {
+            applicationIdSuffix ".ci"
+            versionNameSuffix "-ci"
         }
     }
     splits {
