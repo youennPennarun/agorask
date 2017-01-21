@@ -33,7 +33,7 @@ const local = {
     waitForAppScript: true,
     app: path.join(
       __dirname,
-      '../../../../../mobile_app/android/app/build/outputs/apk/app-devRelease.apk',
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-devRelease.apk'
     ),
   },
   server: {port: 4723},
@@ -52,7 +52,7 @@ const circle = {
     waitForAppScript: true,
     app: path.join(
       __dirname,
-      '../../../../../mobile_app/android/app/build/outputs/apk/app-release.apk',
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-release.apk'
     ),
   },
   server: {port: 4723},
