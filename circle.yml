@@ -35,15 +35,7 @@ dependencies:
     - ~/.gradle
 
 test:
-  pre:
-    - emulator -avd testAVD -no-window &> emulator.log:
-        background: true
-        parallel: true
-    - circle-android wait-for-boot
-    - sleep 5
   override:
-    - appium -p 4723 &> appium.log:
-        background: true
     - npm start:
         timeout: 3600
         pwd:
