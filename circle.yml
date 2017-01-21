@@ -24,7 +24,7 @@ dependencies:
           tests/app
     - yarn
     - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
-    - ./gradlew assembleRelease --stacktrace --info:
+    - ./gradlew assembleTestRelease --stacktrace --info:
         timeout: 3600
         pwd:
           mobile_app/android
@@ -35,6 +35,10 @@ dependencies:
     - ~/.gradle
 
 test:
+  pre:
+    - git remote add heroku git@heroku.com:agorask-test.git
+    - git push heroku `git subtree split --prefix server master`:master --force
+    - sleep 5
   override:
     - npm start:
         timeout: 3600
