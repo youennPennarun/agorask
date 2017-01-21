@@ -39,6 +39,11 @@ test:
     - git remote add heroku git@heroku.com:agorask-test.git
     - git push heroku `git subtree split --prefix server master`:master --force
     - sleep 5
+    - |
+      curl -u "youennpennarun:$TESTOBJECT_API_KEY" \
+      -X POST https://app.testobject.com:443/api/storage/upload \
+      -H "Content-Type: application/octet-stream" \
+      --data-binary @./mobile_app/android/app/build/outputs/apk/app-testRelease.apk
   override:
     - npm start:
         timeout: 3600
