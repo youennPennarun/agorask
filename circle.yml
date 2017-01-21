@@ -41,7 +41,7 @@ test:
     - circle-android wait-for-boot
     - sleep 5
   override:
-    - appium -p 4723 &> emulator.log:
+    - appium -p 4723 &> appium.log:
         background: true
     - npm start:
         pwd:
