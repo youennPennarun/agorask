@@ -46,14 +46,14 @@ const opo = {
     platformName: 'Android',
     deviceName: '192.168.0.12:5555',
     platformVersion: '7.1.1',
-    appPackage: 'com.agorask.debug',
+    appPackage: 'com.agorask.ci',
     appActivity: 'com.agorask.MainActivity',
     noReset: true,
     fullReset: false,
     waitForAppScript: true,
     app: path.join(
       __dirname,
-      '../../../../../mobile_app/android/app/build/outputs/apk/app-debug.apk'
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-ciRelease.apk'
     ),
   },
   server: {port: 4723},

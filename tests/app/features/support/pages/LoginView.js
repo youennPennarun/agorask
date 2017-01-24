@@ -10,14 +10,7 @@ class LoginView {
   }
 
   haveErrorMessage() {
-    return this.driver.elementIfExists('accessibility id', 'Error Message')
-      .then(el => {
-        if (el === undefined) {
-          return Promise.resolve(false);
-        } else {
-          return Promise.resolve(true);
-        }
-      });
+    return this.driver.waitForElementByAccessibilityId('Error Message', asserters.isDisplayed, 30000);
   }
   getErrorMessage() {
     return this.driver.elementByAccessibilityId('Error Message').text();
