@@ -42,7 +42,8 @@ test:
       export APP_ID=$(curl -s -u "youennpennarun:$TESTOBJECT_API_KEY" \
       -X POST https://app.testobject.com:443/api/storage/upload \
       -H "Content-Type: application/octet-stream" \
-      --data-binary @./mobile_app/android/app/build/outputs/apk/app-ciRelease.apk)
+      --data-binary @./mobile_app/android/app/build/outputs/apk/app-ciRelease.apk \
+      ) && echo APP_ID=$APP_ID >> ~/.circlerc
     - echo "Using app ID $APP_ID"
   override:
     - yarn start:
