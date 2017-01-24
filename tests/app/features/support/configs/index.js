@@ -33,11 +33,30 @@ const local = {
     waitForAppScript: true,
     app: path.join(
       __dirname,
-      '../../../../../mobile_app/android/app/build/outputs/apk/app-devRelease.apk'
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-debug.apk'
     ),
   },
   server: {port: 4723},
 };
+
+const opo = {
+  caps: {
+    platformName: 'Android',
+    deviceName: '192.168.0.12:5555',
+    platformVersion: '7.1.1',
+    appPackage: 'com.agorask.debug',
+    appActivity: 'com.agorask.MainActivity',
+    noReset: true,
+    fullReset: false,
+    waitForAppScript: true,
+    app: path.join(
+      __dirname,
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-debug.apk'
+    ),
+  },
+  server: {port: 4723},
+};
+
 
 const circle = {
   caps: {
@@ -61,6 +80,8 @@ module.exports = function getConfig(type) {
   switch (type.toUpperCase()) {
     case 'LOCAL':
       return local;
+    case 'OPO':
+      return opo;
     case 'CIRCLE':
       return circle;
     case 'TEST_DROID':
@@ -70,7 +91,6 @@ module.exports = function getConfig(type) {
     case 'TESTOBJECT':
       return testobject;
     default:
-      console.log('Unknown config type ' + type);
       return local;
   }
 };

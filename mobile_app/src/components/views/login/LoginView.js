@@ -63,7 +63,10 @@ export class LoginView extends Component {
     const {message} = this.props;
     if (message) {
       return (
-        <Text style={styles.errorMessage}>{message}</Text>
+        <Text style={styles.errorMessage}
+          accessibilityLabel='Error Message'>
+          {message}
+        </Text>
       );
     }
     return null;

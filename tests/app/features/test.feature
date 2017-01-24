@@ -12,4 +12,4 @@ Feature: Login
     When    I fill the username with "hello"
       And   I fill the password with "password"
       And   I click on login
-    Then I should see an error
+    Then I should see an error that say "Invalid credentials"

@@ -86,15 +86,26 @@ export function login(username: string, password: string): Function {
         password,
       }),
     })
-    .then((response: Object): Object => response.json())
+    .then((response: Object): Promise<Object> => {
+      if (response.status === 200) {
+        return response.json();
+      } else if (response.status === 401) {
+        return Promise.reject(new Error('Invalid credential'));
+      }
+      return Promise.reject(new Error(response.text));
+    })
     .then(({token}) => {
       dispatch(success(username, token));
       return AsyncStorage.setItem('agorask:user', JSON.stringify({username, token}));
     })
     .then(() => {
     })
-    .catch(e => {
-      dispatch(failed(e.message));
+    .catch((e: Object) => {
+      if (e.status === 401) {
+        dispatch(failed('Invalid credentials'));
+      } else {
+        dispatch(failed(e.message));
+      }
     });
   };
 }
