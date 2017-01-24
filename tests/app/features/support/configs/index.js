@@ -17,6 +17,7 @@ const testobject = {
   caps: {
     testobject_api_key: process.env.TESTOBJECT_API_KEY,
     testobject_device: 'Motorola_Moto_E_2nd_gen_free',
+    testobject_app_id: process.env.app_id,
   },
   server: {url: 'http://appium.testobject.com/wd/hub'},
 };
