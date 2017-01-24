@@ -16,7 +16,7 @@ function* getVersion(ANDROID_PATH, buildType) {
   console.log(`${colors.blue('getting current version')}`);
   const reGetVersion = /android {[\s\S]*defaultConfig {[\s\S]*versionName "(.*)"/;
   const reGetSuffix = new RegExp(
-    `buildTypes {[\\s\\S]*${buildType} {[^}]*versionNameSuffix "(.*)"[^}]*}`,
+    `buildTypes {[\\s\\S]*${buildType} {[^}]*versionNameSuffix "(.*)"[^}]*}`
   );
   const gradleConfig = fs
     .readFileSync(`${ANDROID_PATH}/app/build.gradle`)
@@ -26,7 +26,7 @@ function* getVersion(ANDROID_PATH, buildType) {
   const versionName = versionMatched ? versionMatched[1] : '0.0.0';
   const suffix = suffixMatched ? suffixMatched[1] : '';
   console.log(
-    `${colors.white('Got version')} ${colors.green(`${versionName}${suffix}`)}`,
+    `${colors.white('Got version')} ${colors.green(`${versionName}${suffix}`)}`
   );
   return `${versionName}${suffix}`;
 }
@@ -38,7 +38,7 @@ function* uploadRelease(ANDROID_PATH, releaseDate) {
   const form = new FormData();
   form.append(
     'app',
-    fs.createReadStream(`${ANDROID_PATH}/app/build/outputs/apk/${config.out}`),
+    fs.createReadStream(`${ANDROID_PATH}/app/build/outputs/apk/${config.out}`)
   );
   try {
     const response = yield fetch(`${url}&token=${token}`, {
