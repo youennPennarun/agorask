@@ -13,6 +13,7 @@ const testdroid = {
   },
   server: {url: 'http://appium.testdroid.com/wd/hub'},
 };
+conosle.log(process.env.APP_ID);
 const testobject = {
   caps: {
     testobject_api_key: process.env.TESTOBJECT_API_KEY,
