@@ -90,7 +90,7 @@ export function login(username: string, password: string): Function {
       if (response.status === 200) {
         return response.json();
       } else if (response.status === 401) {
-        return Promise.reject(new Error('Invalid credential'));
+        return Promise.reject(new Error('Invalid credentials'));
       }
       return Promise.reject(new Error(response.text));
     })
@@ -101,11 +101,7 @@ export function login(username: string, password: string): Function {
     .then(() => {
     })
     .catch((e: Object) => {
-      if (e.status === 401) {
-        dispatch(failed('Invalid credentials'));
-      } else {
-        dispatch(failed(e.message));
-      }
+      dispatch(failed(e.message));
     });
   };
 }
