@@ -18,7 +18,6 @@ dependencies:
         curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
       fi
     - ./tools/android_deps.sh
-    - yarn global add appium
     - yarn:
         pwd:
           tests/app
@@ -35,7 +34,7 @@ test:
     - git remote add heroku git@heroku.com:agorask-test.git
     - git push heroku `git subtree split --prefix server master`:master --force
     - sleep 5
-    - ./gradlew assembleCiRelease --stacktrace --info:
+    - ./gradlew assembleCiRelease:
         timeout: 3600
         pwd:
           mobile_app/android
