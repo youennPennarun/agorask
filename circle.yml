@@ -46,6 +46,7 @@ test:
       ) && echo "export APP_ID=$APP_ID" >> ~/.circlerc
     - echo "Using app ID $APP_ID"
   override:
+    - yarn test
     - yarn start:
         timeout: 3600
         pwd:
