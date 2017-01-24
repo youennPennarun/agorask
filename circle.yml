@@ -44,6 +44,7 @@ test:
       -H "Content-Type: application/octet-stream" \
       --data-binary @./mobile_app/android/app/build/outputs/apk/app-ciRelease.apk);\
       export APP_ID=$APP_ID_RESP
+    - echo "Using app ID $APP_ID"
   override:
     - yarn start:
         timeout: 3600
