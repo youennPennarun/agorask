@@ -3,7 +3,9 @@ import gql from 'graphql-tag';
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
-import Task from './Task';
+const UIManager = require('NativeModules').UIManager;
+
+import TaskHeader from '../../taskDetails/TaskHeader';
 
 const {width, height} = Dimensions.get('window');
 
@@ -14,19 +16,31 @@ class Tasks extends Component {
     openTasksExtended: false,
     resolvedTasksExtended: false,
   }
-  _getResolvedTasks(skipSlice) {
+  setTaskRef = (ref, taskId) => {
+    this.taskRefs[taskId] = ref;
+  }
+  taskRefs = {};
+
+
+  _getResolvedTasks(skipSlice: Boolean) : Array<Object> {
     const {tasks} = this.props;
     const {resolvedTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers > 0));
     return (resolvedTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
   }
-  _getOpenTasks(skipSlice) {
+  _getOpenTasks(skipSlice: Boolean) : Array<Object> {
     const {tasks} = this.props;
     const {openTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers === 0));
     return (openTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
   }
-  _renderShowMoreButton(type) {
+  goToTask(task) {
+    this.taskRefs[task._id].measure((ox, oy, width, height, px, py) => {
+      console.log({oy, py})
+        this.props.goToTask(task._id, task, {y: py});
+      });
+  }
+  _renderShowMoreButton(type : String) : any {
     let tasks;
     let nextState = {};
     let label = '';
@@ -53,16 +67,23 @@ class Tasks extends Component {
       </TouchableOpacity>
     );
   }
-  _renderTask(task, key): any {
+  _renderTask(task, key): React.Element<any> {
+    console.log(task);
     return (
       <TouchableOpacity key={key}
-        onPress={() => { this.props.goToTask(task._id, task); }} >
-        <Task title={task.title} nbAnswers={task.nbAnswers} />
-        <View style={styles.separator} />
+        style={{
+          marginVertical: 1,
+          paddingVertical: 2,
+        }}
+        ref={(ref) => { this.setTaskRef(ref, task._id); }}
+        onPress={() => { this.goToTask(task); }} >
+        <TaskHeader title={task.title}
+          nbAnswers={task.nbAnswers}
+          postedBy={task.postedBy} />
       </TouchableOpacity>
     );
   }
-  render(): any {
+  render(): React.Element {
     const resolved = this._getResolvedTasks();
     const open = this._getOpenTasks();
     return (
@@ -91,7 +112,7 @@ class Tasks extends Component {
               {this._renderShowMoreButton('resolved')}
               </View>
               <View style={styles.tasksContainer}>
-                {resolved.map((task, key) => this._renderTask(task, key))}
+                {resolved.map((task, key) : Array<React.Element> => this._renderTask(task, key))}
               </View>
             </View>
           ) : null}
@@ -111,8 +132,6 @@ const styles = StyleSheet.create({
   tasksContainer: {
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: 'white',
-    elevation: 1,
   },
   extendIcon: {
     marginRight: 15,
@@ -155,7 +174,7 @@ Tasks.fragments = {
         ...Task
       }
     }
-    ${Task.fragments.task}
+    ${TaskHeader.fragments.task}
   `,
 };
 

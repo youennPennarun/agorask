@@ -13,11 +13,9 @@ export function pushRoute(route: Object = {}) {
   };
 }
 
-
 export function popRoute() {
   return {
     type: POP,
   };
 }
-
 

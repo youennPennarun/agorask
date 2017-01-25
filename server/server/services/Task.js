@@ -60,6 +60,10 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
     _id: task._id,
     title: task.title,
     nbAnswers: 0,
+    postedBy: {
+      userId,
+      username,
+    },
   });
   venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
   yield venue.save();

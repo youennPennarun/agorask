@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import gql from 'graphql-tag';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, LayoutAnimation} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const {width} = Dimensions.get('window');
@@ -19,30 +19,36 @@ function renderAddress(formattedAddress) {
   return <View />;
 }
 
-function VenueDescription(props) {
-  const {name, address = {}, categories = [], website, contact = {}} = props.venue;
-  const categoryName = (categories.length) ? categories[0].name : '';
-  return (
-    <View style={styles.block}>
-      <View style={styles.titleContainer} >
-        <Icon name={getIcon()}
-          style={styles.icon}
-          size={16}
-          color='blue' />
-        <Text style={styles.venueName}>{name}</Text>
+class VenueDescription extends React.Component {
+  componentWillUpdate() {
+    LayoutAnimation.easeInEaseOut();
+  }
+
+  render() {
+    const {name, address = {}, categories = [], website, contact = {}} = this.props.venue;
+    const categoryName = (categories.length) ? categories[0].name : '';
+    return (
+      <View style={styles.block}>
+        <View style={styles.titleContainer} >
+          <Icon name={getIcon()}
+            style={styles.icon}
+            size={16}
+            color='blue' />
+          <Text style={styles.venueName}>{name}</Text>
+        </View>
+        {renderAddress(address.formatted)}
+        <Text>{categoryName}</Text>
+        <Text>{website}</Text>
+        {(contact && contact.formattedPhone) ? (
+          <Text><Icon name={'mobile'}
+            style={styles.icon}
+            size={16}
+            color='blue' />{contact.formattedPhone}
+          </Text>) : null
+        }
       </View>
-      {renderAddress(address.formatted)}
-      <Text>{categoryName}</Text>
-      <Text>{website}</Text>
-      {(contact && contact.formattedPhone) ? (
-        <Text><Icon name={'mobile'}
-          style={styles.icon}
-          size={16}
-          color='blue' />{contact.formattedPhone}
-        </Text>) : null
-      }
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

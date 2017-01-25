@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid} from 'react-native';
+import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid, LayoutAnimation} from 'react-native';
 
 import Config from 'react-native-config';
 
@@ -34,7 +34,7 @@ function renderError(error) {
     <View>
       <Text>Error: {error}</Text>
     </View>
-  )
+  );
 }
 
 export class VenueDetails extends Component {
@@ -50,7 +50,7 @@ export class VenueDetails extends Component {
     return this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
-  render() {
+  render(): React.Element {
     const {venue, isFetching, error} = this.props;
 
     if (isFetching) return renderFetchingState();
@@ -69,7 +69,7 @@ export class VenueDetails extends Component {
           <View style={styles.scrollViewContent} >
             <VenueDescription venue={venue} />
             <Tasks tasks={venue.tasks || []}
-              goToTask={(id, task) => { this.props.navigator.taskDetails(id, task); }} />
+              goToTask={(id, task, position) => { this.props.navigator.taskDetails(id, task, position); }} />
           </View>
         </ScrollView>
         <AddTask style={styles.addTask}

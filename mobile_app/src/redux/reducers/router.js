@@ -8,6 +8,7 @@ const {
 const initialState = {
   index: 0,
   key: 'App',
+  animated: false,
   routes: [
     {
       key: 'map',

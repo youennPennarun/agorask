@@ -1,7 +1,7 @@
 /* @flow */
 import React, {Component} from 'react';
 
-import {View, PermissionsAndroid} from 'react-native';
+import {View, PermissionsAndroid, UIManager} from 'react-native';
 import { Provider } from 'react-redux';
 
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
@@ -47,6 +47,7 @@ class App extends Component {
   state = {
   };
   componentWillMount() {
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     store.dispatch(loadTokenFromStorage());
     checkForUpdate().then(downloadUrl => {
       if (downloadUrl) {

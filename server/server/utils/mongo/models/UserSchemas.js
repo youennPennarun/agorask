@@ -5,6 +5,16 @@ const validateEmail = function(email) {
     return re.test(email);
 };
 
+const shortUser = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+}, { _id: false });
 
 const user = mongoose.Schema({
     username: {
@@ -32,4 +42,5 @@ const user = mongoose.Schema({
 
 module.exports = {
     user,
+    shortUser,
 };

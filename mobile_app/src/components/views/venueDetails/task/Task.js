@@ -40,19 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-Task.propTypes = {
-  title: PropTypes.string.isRequired,
-  nbAnswers: PropTypes.number.isRequired,
-};
-Task.fragments = {
-  task: gql`
-    fragment Task on Task {
-      _id
-        title,
-        nbAnswers
-    }
-  `,
-};
-
 export default Task;

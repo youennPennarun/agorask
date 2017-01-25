@@ -1,5 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Text, StyleSheet, Dimensions, ScrollView, InteractionManager} from 'react-native';
+import {
+  View,
+  Animated,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  InteractionManager,
+  BackAndroid,
+} from 'react-native';
 import {
   MKProgress,
   MKSpinner,
@@ -11,14 +20,39 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import moment from 'moment';
 
+import TaskHeader from './TaskHeader';
 import Vote from './Vote';
 import AddAnswer from './AddAnswer';
 
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 export class TaskDetails extends Component {
+  state = {
+    bodyHeight: new Animated.Value(0),
+    isHiding: false,
+  };
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this.onBack);
+    InteractionManager.runAfterInteractions(() => {
+      Animated.timing(this.state.bodyHeight, {
+        toValue: height,
+        duration: 200,
+      }).start();
+    });
+  }
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this.onBack);
+  }
 
+  onBack = () => {
+    this.setState({isHiding: true});
+    Animated.timing(this.state.bodyHeight, {
+      toValue: 0,
+      duration: 200,
+    }).start();
+    return false;
+  }
   addAnswer(answer, token) {
     return this.props.addAnswer(this.props.task._id, answer, token);
   }
@@ -56,18 +90,15 @@ export class TaskDetails extends Component {
     const {name, title, date, answers = []} = this.props.task;
     return (
       <View style={styles.container} >
-        <View style={styles.header} >
-          <Text>Arrow back</Text>
-          <Text style={styles.venueName} >{name}</Text>
-        </View>
         {this._renderProgressBar()}
         <ScrollView>
-          <View style={styles.questionContainer} >
-            <View style={styles.blockDate} >
-              <Text>{moment(date).format('DD/MM/YY')}</Text>
-            </View>
-            <Text style={styles.question} >{title}</Text>
-          </View>
+          <TaskHeader title={title}
+            postedBy={postedBy}
+            date={(this.state.isHiding) ? undefined : date} />
+          <Animated.View style={{
+            backgroundColor: 'white',
+            height: this.state.bodyHeight,
+          }}>
           {this._renderSpinner()}
           <View style={[styles.answersContainer]} >
             {
@@ -77,7 +108,7 @@ export class TaskDetails extends Component {
             }
           </View>
           <AddAnswer addAnswer={(answer, token) => this.addAnswer(answer, token)} />
-          
+          </Animated.View>
         </ScrollView>
       </View>
     );
@@ -86,34 +117,6 @@ export class TaskDetails extends Component {
 
 const styles = StyleSheet.create({
   container: {},
-  questionContainer: {
-    width,
-    backgroundColor: 'white',
-    elevation: 6,
-    marginBottom: 0,
-    paddingBottom: 10,
-    paddingLeft: 5,
-  },
-  header: {
-    height: 50,
-    backgroundColor: '#263238',
-    alignItems: 'center',
-    paddingLeft: 15,
-    flexDirection: 'row',
-  },
-  venueName: {
-    fontSize: 26,
-    color: 'white',
-  },
-  blockDate: {
-    width: width - 20,
-    marginLeft: 10,
-    alignItems: 'flex-end',
-  },
-  question: {
-    fontSize: 23,
-    marginLeft: 5,
-  },
   answersContainer: {
     backgroundColor: 'white',
     marginBottom: 20,
@@ -259,10 +262,8 @@ export default graphql(AddAnswerMutation, {
           },
           Venue: (prev, { mutationResult }) => {
             const newAnswer = mutationResult.data.answer;
-            console.log('new answer ', newAnswer)
             const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}) => _id === ownProps.task._id);
             if (taskInVenueIndex <= -1) return prev;
-            console.log(prev)
             return {
               ...prev,
               venue: {
@@ -282,6 +283,7 @@ export default graphql(AddAnswerMutation, {
       }),
   }),
 })(graphql(TaskDetailsQuery, {
+  skip: (ownProps) => ownProps.animated,
   options: ({ id }) => ({
     variables: {id},
   }),

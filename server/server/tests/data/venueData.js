@@ -6,6 +6,7 @@ function getTask(taskKey) {
     _id: tasks[taskKey]._id,
     title: tasks[taskKey].title,
     nbAnswers: tasks[taskKey].answers.length,
+    postedBy: tasks[taskKey].postedBy,
   };
 }
 

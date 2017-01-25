@@ -64,7 +64,6 @@ export class MapView extends React.Component {
   }
   render() {
     const {venues, searchResults, venuesError} = this.props;
-    console.log('error=> ', venuesError)
     const venuesToShow = (!!searchResults) ? searchResults : venues;
     return (
       <View style={{flex: 1}}>
