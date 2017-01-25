@@ -19,7 +19,7 @@ class SvgAnimationTest extends Component {
       Animated.timing(this.state.radius, {
       toValue: 45,
       duration: 2000,
-    }).start()
+    }).start();
     });
   }
   interpolateToString(value: Animated.Value, range: number[]) {

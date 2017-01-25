@@ -1,31 +1,46 @@
-import React, {Component} from 'react';
+/* @flow */
+
+import React, {Component, PropTypes} from 'react';
 
 import {connect} from 'react-redux';
 import {login} from '../../../redux/actions/router';
 
 import {View, Text, StyleSheet} from 'react-native';
-import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
+import {MKButton, MKTextField} from 'react-native-material-kit';
+
+type AddAnswerStateType = {
+  answerHeight: number,
+  loading: boolean,
+  answer: string,
+};
+
+type AddAnswerPropsType = {
+  login: Function,
+  addAnswer: Function,
+  token: string,
+};
 
 export class AddAnswer extends Component {
-  state = {
+  static propTypes = {
+    login: PropTypes.func.isRequired,
+    addAnswer: PropTypes.func.isRequired,
+    token: PropTypes.string,
+  }
+  state: AddAnswerStateType = {
     answerHeight: 0,
     loading: false,
     answer: '',
-  }
+  };
+
+  props: AddAnswerPropsType;
+
   updateAnswerFieldHeight({height}) {
+  // height: number
     if (this.state.answerHeight !== height) {
       this.setState({answerHeight: height});
     }
   }
 
-  _renderNotLoggedin() {
-    return (
-      <View style={styles.notLoggedInContainer}>
-        <Text>You need to be logged in to add an answer</Text>
-        <LoginBtn onPress={() => { this.props.login(); }}/>
-      </View>
-    );
-  }
 
   submit() {
     const {answer} = this.state;
@@ -40,16 +55,29 @@ export class AddAnswer extends Component {
       });
   }
 
-  render() {
+  _renderNotLoggedin(): React.Element<*> {
+    return (
+      <View style={styles.notLoggedInContainer}>
+        <Text>You need to be logged in to add an answer</Text>
+        <LoginBtn onPress={() => { this.props.login(); }} />
+      </View>
+    );
+  }
+
+  render(): React.Element<*> {
     if (!this.props.token) return this._renderNotLoggedin();
     return (
       <View style={styles.container} >
         <MKTextField style={[styles.answerInput, {height: Math.max(35, this.state.answerHeight)}]}
           multiline
           value={this.state.answer}
-          onTextChange={text => this.setState({answer: text})}
-          onChange={({nativeEvent: {contentSize}}) => { this.updateAnswerFieldHeight(contentSize); }}
-          onContentSizeChange={({nativeEvent: {contentSize}}) => { this.updateAnswerFieldHeight(contentSize); }}
+          onTextChange={text => { this.setState({answer: text}); }}
+          onChange={({nativeEvent: {contentSize}}) => {
+            this.updateAnswerFieldHeight(contentSize);
+          }}
+          onContentSizeChange={({nativeEvent: {contentSize}}) => {
+            this.updateAnswerFieldHeight(contentSize);
+          }}
           placeholder='answer' />
 
         <AddAnswerBtn enabled={!this.state.loading} onPress={() => { this.submit(); }} />
@@ -86,12 +114,12 @@ const LoginBtn = MKButton.coloredButton()
   .withStyle(styles.button)
   .build();
 
-function mapStateToProps(state) {
+function mapStateToProps(state): Object {
   return {
     ...state.user,
   };
 }
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch): Object {
   return {
     login: () => { dispatch(login()); },
   };

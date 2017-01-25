@@ -121,7 +121,7 @@ export class TaskDetails extends Component {
     return <MKSpinner style={styles.spinner} />;
   }
   render(): React.Element {
-    const {name, title, date, answers = [], postedBy} = this.props.task;
+    const {title, date, answers = [], postedBy} = this.props.task;
     return (
       <View style={styles.container} >
         {this._renderProgressBar()}
@@ -142,7 +142,9 @@ export class TaskDetails extends Component {
               )
             }
           </View>
-          <AddAnswer addAnswer={(answer, token) => this.addAnswer(answer, token)} />
+          <AddAnswer addAnswer={(answer, token): Promise<Object> => {
+            return this.addAnswer(answer, token);
+          }} />
           </Animated.View>
         </ScrollView>
       </View>
@@ -290,7 +292,7 @@ export default graphql(AddAnswerMutation, {
           },
           Venue: (prev, { mutationResult }) => {
             const newAnswer = mutationResult.data.answer;
-            const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}) => _id === ownProps.task._id);
+            const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}): boolean => _id === ownProps.task._id);
             if (taskInVenueIndex <= -1) return prev;
             return {
               ...prev,
@@ -311,11 +313,10 @@ export default graphql(AddAnswerMutation, {
       }),
   }),
 })(graphql(TaskDetailsQuery, {
-  skip: (ownProps) => ownProps.animated,
-  options: ({ id }) => ({
+  options: ({ id }): Object => ({
     variables: {id},
   }),
-  props: ({ ownProps, data: { loading, error, task } }) => {
+  props: ({ ownProps, data: { loading, error, task } }): Object => {
     return {
       loading,
       task: task || ownProps.task,

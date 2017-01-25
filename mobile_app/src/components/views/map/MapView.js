@@ -15,6 +15,7 @@ import {updateUserLocation} from '../../../redux/actions/user';
 import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
+
 export class MapView extends React.Component {
   state = {
     position: null,
@@ -26,8 +27,8 @@ export class MapView extends React.Component {
     navigator.geolocation.getCurrentPosition((position) => {
         this._onGetPosition(position);
       },
-      (error) => console.log(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      (error) => { console.log(JSON.stringify(error)); },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     this.watchID = navigator.geolocation.watchPosition(position => {
       this._onGetPosition(position);
@@ -42,13 +43,14 @@ export class MapView extends React.Component {
   _onGetPosition = ({coords}) => {
     this.props.updateUserLocation({lat: coords.latitude, lng: coords.longitude});
   }
+
   _goToVenueDetails(venue) {
     const {goToVenueDetails} = this.props;
     goToVenueDetails(venue);
   }
-  _renderMarkers(venues = []) {
+
+  _renderMarkers(venues: Array<Object> = []): Array<MapMarker> {
     return venues.map((venue, key) => {
-      const cKey = `${venue.source || 'bd'}_${venue._id || venue.foursquareId}`;
       return (
         <MapMarker key={key}
           coordinate={{
@@ -62,9 +64,9 @@ export class MapView extends React.Component {
       );
     });
   }
-  render() {
+  render(): React.Element<*> {
     const {venues, searchResults, venuesError} = this.props;
-    const venuesToShow = (!!searchResults) ? searchResults : venues;
+    const venuesToShow = searchResults || venues;
     return (
       <View style={{flex: 1}}>
         <Map style={{

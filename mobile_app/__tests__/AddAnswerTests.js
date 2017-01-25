@@ -10,7 +10,8 @@ import { shallowToJson } from 'enzyme-to-json';
 
 it('renders correctly', () => {
   const wrapper = shallow(
-    <AddAnswer />
+    <AddAnswer addAnswer={() => {}}
+      login={() => {}} />
   );
   expect(shallowToJson(wrapper)).toMatchSnapshot();
 });

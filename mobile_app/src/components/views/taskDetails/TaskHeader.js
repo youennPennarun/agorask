@@ -1,19 +1,33 @@
+/* @flow */
+
 import React, {PropTypes} from 'react';
 import {
   View,
   Animated,
-  Dimensions,
   Text,
   StyleSheet,
   InteractionManager,
-  UIManager,
-  LayoutAnimation,
 } from 'react-native';
 import gql from 'graphql-tag';
 
-const {width} = Dimensions.get('window');
-
 import moment from 'moment';
+
+type TaskHeaderStateType = {
+  radius: Animated.Value,
+  marginHorizontal: Animated.Value,
+  blockDateTranslationY: Animated.Value,
+  dateOpacity: Animated.Value,
+  nbAnswersOpacity: Animated.Value,
+}
+
+type TaskHeaderPropsType = {
+  title: string,
+  date: ?Date,
+  postedBy: {
+    username: string,
+  },
+  nbAnswers: number,
+}
 
 const initialState = {
   radius: 3,
@@ -24,7 +38,17 @@ const initialState = {
 };
 
 class TaskHeader extends React.Component {
-  state = {
+
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    nbAnswers: PropTypes.number.isRequired,
+    postedBy: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+    }).isRequired,
+    date: PropTypes.objectOf(Date),
+  };
+
+  state: TaskHeaderStateType = {
     radius: new Animated.Value(initialState.radius),
     marginHorizontal: new Animated.Value(initialState.marginHorizontal),
     blockDateTranslationY: new Animated.Value(initialState.blockDateTranslationY),
@@ -32,11 +56,18 @@ class TaskHeader extends React.Component {
     nbAnswersOpacity: new Animated.Value(initialState.nbAnswersOpacity),
   }
 
+  props: TaskHeaderPropsType;
+
   componentDidMount() {
-    const {radius, marginHorizontal, blockDateTranslationY, dateOpacity, nbAnswersOpacity} = this.state;
+    const {
+      radius,
+      marginHorizontal,
+      blockDateTranslationY,
+      dateOpacity,
+      nbAnswersOpacity,
+    } = this.state;
 
     if (this.props.date) {
-      console.log('yo')
       Animated.parallel([
         Animated.timing(marginHorizontal, {
           toValue: 0,
@@ -67,8 +98,14 @@ class TaskHeader extends React.Component {
       }
     });
   }
-  componentWillReceiveProps(next) {
-    const {radius, marginHorizontal, blockDateTranslationY, dateOpacity, nbAnswersOpacity} = this.state;
+  componentWillReceiveProps(next: TaskHeaderPropsType) {
+    const {
+      radius,
+      marginHorizontal,
+      blockDateTranslationY,
+      dateOpacity,
+      nbAnswersOpacity,
+    } = this.state;
     if (this.props.date !== next.date && !next.date) {
       Animated.parallel([
         Animated.timing(blockDateTranslationY, {
@@ -92,7 +129,7 @@ class TaskHeader extends React.Component {
       ]).start();
     }
   }
-  render() {
+  render(): React.Element<*> {
     const {title, date, postedBy} = this.props;
     return (
       <Animated.View style={[
@@ -167,10 +204,6 @@ const styles = StyleSheet.create({
   },
 });
 
-TaskHeader.propTypes = {
-  title: PropTypes.string.isRequired,
-  nbAnswers: PropTypes.number.isRequired,
-};
 TaskHeader.fragments = {
   task: gql`
     fragment Task on Task {

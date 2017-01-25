@@ -10,14 +10,21 @@ import { shallowToJson } from 'enzyme-to-json';
 
 it('renders correctly when no query', () => {
   const wrapper = shallow(
-    <SearchBar />,
+    <SearchBar clearSearch={() => {}}
+      updateSearchQuery={() => {}}
+      search={() => {}}
+      openDrawer={() => {}} />,
   );
   expect(shallowToJson(wrapper)).toMatchSnapshot();
 });
 
 it('renders correctly when is filled', () => {
   const wrapper = shallow(
-    <SearchBar query='Some query' />,
+    <SearchBar query='Some query'
+      clearSearch={() => {}}
+      updateSearchQuery={() => {}}
+      search={() => {}}
+      openDrawer={() => {}}  />,
   );
   expect(shallowToJson(wrapper)).toMatchSnapshot();
 });
@@ -27,6 +34,8 @@ it('Clear query and open drawer', () => {
   const openDrawer = jest.fn();
   const wrapper = shallow(
     <SearchBar query='Some query'
+      search={() => {}}
+      updateSearchQuery={() => {}}
       clearSearch={clearSearch}
       openDrawer={openDrawer} />,
   );

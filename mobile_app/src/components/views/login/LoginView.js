@@ -11,13 +11,33 @@ import {popRoute} from '../../../redux/actions/router';
 
 const {width} = Dimensions.get('window');
 
+type LoginViewStateType = {
+  username: string,
+  password: string,
+}
+
+type LoginViewPropsType = {
+  navigator: {
+    back: Function,
+    signIn: Function,
+  },
+  doLogin: Function,
+  message: ?string,
+  token: ?string,
+}
+
 export class LoginView extends Component {
-  state = {
+  state: LoginViewStateType = {
     username: '',
     password: '',
   }
-  usernameRef = null;
-  passwordRef = null;
+  props: LoginViewPropsType;
+
+  /* eslint-disable react/sort-comp */
+  usernameRef: MKTextField = null;
+  passwordRef: MKTextField = null;
+  /* eslint-enable react/sort-comp */
+
   login() {
     const {username, password} = this.state;
     const {doLogin} = this.props;
@@ -26,8 +46,8 @@ export class LoginView extends Component {
     }
   }
 
-  setUsernameRef = r => { this.usernameRef = r; }
-  setPasswordRef = r => { this.passwordRef = r; }
+  setUsernameRef = (r: MKTextField) => { this.usernameRef = r; }
+  setPasswordRef = (r: MKTextField) => { this.passwordRef = r; }
 
   isFormValid(): boolean {
     return (
@@ -42,7 +62,7 @@ export class LoginView extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: LoginViewPropsType) {
     if (!this.props.token && nextProps.token) {
       this.props.navigator.back();
     }
@@ -73,7 +93,6 @@ export class LoginView extends Component {
   }
 
   render(): Object {
-    const {goToMap} = this.props;
     return (
       <View style={styles.container} accessibilityLabel='Login View'>
         <Image style={styles.logo}
@@ -103,7 +122,7 @@ export class LoginView extends Component {
         <LoginButton enabled={this.isFormValid()}
           onPress={() => { this.login(); }} />
 
-          <RegisterButton onPress={() => this.props.navigator.signIn()} />
+          <RegisterButton onPress={() => { this.props.navigator.signIn(); }} />
 
           <TouchableOpacity accessibilityLabel='Skip login'
             style={styles.goToMapButton}
@@ -158,11 +177,11 @@ const Textfield = MKTextField.textfieldWithFloatingLabel()
   .build();
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: Object): Object => ({
   ...state.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch): Object => ({
   doLogin: (username: string, password: string) => {
     dispatch(login(username, password));
   },
