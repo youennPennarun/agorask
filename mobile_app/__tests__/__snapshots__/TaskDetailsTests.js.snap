@@ -1,124 +1,51 @@
 exports[`test fetching renders correctly 1`] = `
 <View
   style={Object {}}>
-  <View
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "#263238",
-        "flexDirection": "row",
-        "height": 50,
-        "paddingLeft": 15,
-      }
-    }>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail">
-      Arrow back
-    </Text>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "color": "white",
-          "fontSize": 26,
-        }
-      }>
-      Test Venue
-    </Text>
-  </View>
   <IndeterminateProgress
     style={Object {}} />
   <ScrollView>
-    <View
+    <TaskHeader
+      date={2016-11-23T00:36:54.000Z}
+      nbAnswers={1}
+      postedBy={
+        Object {
+          "username": "Duck",
+        }
+      }
+      title="Help me!" />
+    <AnimatedComponent
       style={
         Object {
           "backgroundColor": "white",
-          "elevation": 6,
-          "marginBottom": 0,
-          "paddingBottom": 10,
-          "paddingLeft": 5,
-          "width": 750,
+          "height": 0,
         }
       }>
       <View
         style={
-          Object {
-            "alignItems": "flex-end",
-            "marginLeft": 10,
-            "width": 730,
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail">
-          23/11/16
-        </Text>
-      </View>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 23,
-            "marginLeft": 5,
-          }
-        }>
-        Help me!
-      </Text>
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "backgroundColor": "white",
-            "marginBottom": 20,
-          },
-        ]
-      }>
-      <View
-        style={Object {}}>
-        <View
-          style={
+          Array [
             Object {
-              "flexDirection": "row",
-            }
-          }>
-          <Vote
-            score={-5} />
+              "backgroundColor": "white",
+              "marginBottom": 20,
+            },
+          ]
+        }>
+        <View
+          style={Object {}}>
           <View
             style={
               Object {
-                "flex": 1,
-                "flexGrow": 1,
-                "marginLeft": 2,
-                "marginRight": 5,
-                "marginTop": 4,
+                "flexDirection": "row",
               }
             }>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Object {
-                  "color": "black",
-                  "flexGrow": 1,
-                  "fontSize": 16,
-                }
-              }>
-              No can do
-            </Text>
+            <Vote
+              score={-5} />
             <View
               style={
                 Object {
-                  "flexDirection": "row",
-                  "justifyContent": "space-between",
+                  "flex": 1,
+                  "flexGrow": 1,
+                  "marginLeft": 2,
+                  "marginRight": 5,
                   "marginTop": 4,
                 }
               }>
@@ -128,38 +55,60 @@ exports[`test fetching renders correctly 1`] = `
                 ellipsizeMode="tail"
                 style={
                   Object {
-                    "color": "#BDBDBD",
-                    "fontSize": 15,
+                    "color": "black",
+                    "flexGrow": 1,
+                    "fontSize": 16,
                   }
                 }>
-                Joe
+                No can do
               </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <View
                 style={
                   Object {
-                    "color": "#BDBDBD",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "marginTop": 4,
                   }
                 }>
-                23/11/16
-              </Text>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  style={
+                    Object {
+                      "color": "#BDBDBD",
+                      "fontSize": 15,
+                    }
+                  }>
+                  Joe
+                </Text>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  style={
+                    Object {
+                      "color": "#BDBDBD",
+                    }
+                  }>
+                  23/11/16
+                </Text>
+              </View>
             </View>
           </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#f0f0f0",
+                "height": 1,
+                "width": 750,
+              }
+            } />
         </View>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#f0f0f0",
-              "height": 1,
-              "width": 750,
-            }
-          } />
       </View>
-    </View>
-    <Connect(AddAnswer)
-      addAnswer={[Function]} />
+      <Connect(AddAnswer)
+        addAnswer={[Function]} />
+    </AnimatedComponent>
   </ScrollView>
 </View>
 `;
@@ -167,96 +116,45 @@ exports[`test fetching renders correctly 1`] = `
 exports[`test fetching renders correctly if there is no answers 1`] = `
 <View
   style={Object {}}>
-  <View
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "#263238",
-        "flexDirection": "row",
-        "height": 50,
-        "paddingLeft": 15,
-      }
-    }>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail">
-      Arrow back
-    </Text>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "color": "white",
-          "fontSize": 26,
-        }
-      }>
-      Test Venue
-    </Text>
-  </View>
   <ScrollView>
-    <View
+    <TaskHeader
+      date={2016-11-23T00:36:54.000Z}
+      nbAnswers={0}
+      postedBy={
+        Object {
+          "username": "Duck",
+        }
+      }
+      title="Help me!" />
+    <AnimatedComponent
       style={
         Object {
           "backgroundColor": "white",
-          "elevation": 6,
-          "marginBottom": 0,
-          "paddingBottom": 10,
-          "paddingLeft": 5,
-          "width": 750,
+          "height": 0,
         }
       }>
+      <Spinner
+        spinnerAniDuration={1333}
+        strokeWidth={3}
+        style={
+          Object {
+            "alignSelf": "center",
+            "marginBottom": 25,
+            "marginTop": 50,
+          }
+        } />
       <View
         style={
-          Object {
-            "alignItems": "flex-end",
-            "marginLeft": 10,
-            "width": 730,
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail">
-          23/11/16
-        </Text>
-      </View>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 23,
-            "marginLeft": 5,
-          }
-        }>
-        Help me!
-      </Text>
-    </View>
-    <Spinner
-      spinnerAniDuration={1333}
-      strokeWidth={3}
-      style={
-        Object {
-          "alignSelf": "center",
-          "marginBottom": 25,
-          "marginTop": 50,
-        }
-      } />
-    <View
-      style={
-        Array [
-          Object {
-            "backgroundColor": "white",
-            "marginBottom": 20,
-          },
-        ]
-      } />
-    <Connect(AddAnswer)
-      addAnswer={[Function]} />
+          Array [
+            Object {
+              "backgroundColor": "white",
+              "marginBottom": 20,
+            },
+          ]
+        } />
+      <Connect(AddAnswer)
+        addAnswer={[Function]} />
+    </AnimatedComponent>
   </ScrollView>
 </View>
 `;
@@ -264,122 +162,49 @@ exports[`test fetching renders correctly if there is no answers 1`] = `
 exports[`test renders correctly 1`] = `
 <View
   style={Object {}}>
-  <View
-    style={
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "#263238",
-        "flexDirection": "row",
-        "height": 50,
-        "paddingLeft": 15,
-      }
-    }>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail">
-      Arrow back
-    </Text>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
-      style={
-        Object {
-          "color": "white",
-          "fontSize": 26,
-        }
-      }>
-      Test Venue
-    </Text>
-  </View>
   <ScrollView>
-    <View
+    <TaskHeader
+      date={2016-11-23T00:36:54.000Z}
+      nbAnswers={1}
+      postedBy={
+        Object {
+          "username": "Duck",
+        }
+      }
+      title="Help me!" />
+    <AnimatedComponent
       style={
         Object {
           "backgroundColor": "white",
-          "elevation": 6,
-          "marginBottom": 0,
-          "paddingBottom": 10,
-          "paddingLeft": 5,
-          "width": 750,
+          "height": 0,
         }
       }>
       <View
         style={
-          Object {
-            "alignItems": "flex-end",
-            "marginLeft": 10,
-            "width": 730,
-          }
-        }>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail">
-          23/11/16
-        </Text>
-      </View>
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "fontSize": 23,
-            "marginLeft": 5,
-          }
-        }>
-        Help me!
-      </Text>
-    </View>
-    <View
-      style={
-        Array [
-          Object {
-            "backgroundColor": "white",
-            "marginBottom": 20,
-          },
-        ]
-      }>
-      <View
-        style={Object {}}>
-        <View
-          style={
+          Array [
             Object {
-              "flexDirection": "row",
-            }
-          }>
-          <Vote
-            score={-5} />
+              "backgroundColor": "white",
+              "marginBottom": 20,
+            },
+          ]
+        }>
+        <View
+          style={Object {}}>
           <View
             style={
               Object {
-                "flex": 1,
-                "flexGrow": 1,
-                "marginLeft": 2,
-                "marginRight": 5,
-                "marginTop": 4,
+                "flexDirection": "row",
               }
             }>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Object {
-                  "color": "black",
-                  "flexGrow": 1,
-                  "fontSize": 16,
-                }
-              }>
-              No can do
-            </Text>
+            <Vote
+              score={-5} />
             <View
               style={
                 Object {
-                  "flexDirection": "row",
-                  "justifyContent": "space-between",
+                  "flex": 1,
+                  "flexGrow": 1,
+                  "marginLeft": 2,
+                  "marginRight": 5,
                   "marginTop": 4,
                 }
               }>
@@ -389,38 +214,60 @@ exports[`test renders correctly 1`] = `
                 ellipsizeMode="tail"
                 style={
                   Object {
-                    "color": "#BDBDBD",
-                    "fontSize": 15,
+                    "color": "black",
+                    "flexGrow": 1,
+                    "fontSize": 16,
                   }
                 }>
-                Joe
+                No can do
               </Text>
-              <Text
-                accessible={true}
-                allowFontScaling={true}
-                ellipsizeMode="tail"
+              <View
                 style={
                   Object {
-                    "color": "#BDBDBD",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "marginTop": 4,
                   }
                 }>
-                23/11/16
-              </Text>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  style={
+                    Object {
+                      "color": "#BDBDBD",
+                      "fontSize": 15,
+                    }
+                  }>
+                  Joe
+                </Text>
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  style={
+                    Object {
+                      "color": "#BDBDBD",
+                    }
+                  }>
+                  23/11/16
+                </Text>
+              </View>
             </View>
           </View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#f0f0f0",
+                "height": 1,
+                "width": 750,
+              }
+            } />
         </View>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#f0f0f0",
-              "height": 1,
-              "width": 750,
-            }
-          } />
       </View>
-    </View>
-    <Connect(AddAnswer)
-      addAnswer={[Function]} />
+      <Connect(AddAnswer)
+        addAnswer={[Function]} />
+    </AnimatedComponent>
   </ScrollView>
 </View>
 `;

@@ -217,6 +217,7 @@
       order: [
         "static-methods",
         "state",
+        "props",
         "constructor",
         "lifecycle",
         "/^on.+$/",

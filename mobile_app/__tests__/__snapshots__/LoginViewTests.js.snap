@@ -4,6 +4,7 @@ exports[`test Button enabled if username and password are filled 1`] = `
   style={
     Object {
       "alignItems": "center",
+      "backgroundColor": "white",
       "flex": 1,
     }
   }>
@@ -181,6 +182,7 @@ exports[`test renders correctly 1`] = `
   style={
     Object {
       "alignItems": "center",
+      "backgroundColor": "white",
       "flex": 1,
     }
   }>

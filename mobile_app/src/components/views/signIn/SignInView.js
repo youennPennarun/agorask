@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
@@ -10,17 +10,44 @@ import {doSignIn} from '../../../redux/actions/user';
 
 const {width} = Dimensions.get('window');
 
+type PropsType = {
+  token: ?string,
+  navigator: {
+    back: Function
+  },
+  doSignIn: Function,
+  message: ?string,
+};
+type StateType = {
+  username: string,
+  email: string,
+  password: string,
+  confirmPassword: string,
+};
+
 export class LoginView extends Component {
-  state = {
+  static propTypes = {
+    token: PropTypes.string,
+    navigator: PropTypes.objectOf({
+      back: PropTypes.func.isRequired,
+    }).isRequired,
+    doSignIn: PropTypes.func.isRequired,
+    message: PropTypes.string,
+  }
+  state: StateType = {
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   }
-  usernameRef = null;
-  emailRef = null;
-  passwordRef = null;
-  confirmPasswordRef = null;
+  props: PropsType;
+
+  /* eslint-disable react/sort-comp */
+  usernameRef: ?Textfield = null;
+  emailRef: ?Textfield = null;
+  passwordRef: ?Textfield = null;
+  confirmPasswordRef: ?Textfield = null;
+  /* eslint-enable react/sort-comp */
 
   isFormValid(): boolean {
     return (
@@ -29,28 +56,27 @@ export class LoginView extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: PropsType) {
     if (!this.props.token && nextProps.token) {
       this.props.navigator.back();
     }
   }
 
-  _focusOnMissingField() {
+  _focusOnMissingField(): boolean {
     const {username, email, password, confirmPassword} = this.state;
-    console.log({username, email, password, confirmPassword})
-    if (!username) {
+    if (!username && this.usernameRef) {
       this.usernameRef.focus();
       return true;
-    } else if (!email) {
+    } else if (!email && this.emailRef) {
       this.emailRef.focus();
       return true;
-    } else if (!password) {
+    } else if (!password && this.passwordRef) {
       this.passwordRef.focus();
       return true;
-    } else if (!confirmPassword) {
+    } else if (!confirmPassword && this.confirmPasswordRef) {
       this.confirmPasswordRef.focus();
       return true;
-    } else if (password !== confirmPassword) {
+    } else if (password !== confirmPassword && this.confirmPasswordRef) {
       this.confirmPasswordRef.focus();
       return true;
     }
@@ -169,7 +195,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  doSignIn: (username: string, email: String, password: string) => {
+  doSignIn: (username: string, email: string, password: string) => {
     dispatch(doSignIn(username, email, password));
   },
 });

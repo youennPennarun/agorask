@@ -16,6 +16,9 @@ it('renders correctly', () => {
         name: 'Test Venue',
         title: 'Help me!',
         date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
+        postedBy: {
+          username: 'Duck',
+        },
         answers: [
           {
             answer: 'No can do',
@@ -38,6 +41,9 @@ it('fetching renders correctly', () => {
         name: 'Test Venue',
         title: 'Help me!',
         date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
+        postedBy: {
+          username: 'Duck',
+        },
         answers: [
           {
             answer: 'No can do',
@@ -59,6 +65,9 @@ it('fetching renders correctly if there is no answers', () => {
       task={{
         name: 'Test Venue',
         title: 'Help me!',
+        postedBy: {
+          username: 'Duck',
+        },
         date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
       }} />
   );
@@ -74,6 +83,9 @@ it('Call add answer', () => {
         name: 'Test Venue',
         title: 'Help me!',
         date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
+        postedBy: {
+          username: 'Duck',
+        },
         answers: [
           {
             answer: 'No can do',

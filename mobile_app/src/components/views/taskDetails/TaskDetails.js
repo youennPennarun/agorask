@@ -27,11 +27,44 @@ import AddAnswer from './AddAnswer';
 
 const {width, height} = Dimensions.get('window');
 
+type TaskDetailsPropsType = {
+  id: string,
+  task: {
+    name: string,
+    title: string,
+    date: string,
+    answers: Array,
+    postedBy: {
+      username: string,
+    },
+  },
+}
+
+type TaskDetailsStateType = {
+  bodyHeight: Animated.Value,
+  isHiding: boolean,
+};
+
 export class TaskDetails extends Component {
-  state = {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    task: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      date: PropTypes.objectOf(Date).isRequired,
+      answers: PropTypes.array,
+      postedBy: PropTypes.object.isRequired,
+    }).isRequired,
+  };
+  static defaultProps = {
+    task: {},
+  };
+  state: TaskDetailsStateType = {
     bodyHeight: new Animated.Value(0),
     isHiding: false,
   };
+  props: TaskDetailsPropsType;
+
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.onBack);
     InteractionManager.runAfterInteractions(() => {
@@ -45,7 +78,7 @@ export class TaskDetails extends Component {
     BackAndroid.removeEventListener('hardwareBackPress', this.onBack);
   }
 
-  onBack = () => {
+  onBack = (): boolean => {
     this.setState({isHiding: true});
     Animated.timing(this.state.bodyHeight, {
       toValue: 0,
@@ -53,7 +86,8 @@ export class TaskDetails extends Component {
     }).start();
     return false;
   }
-  addAnswer(answer, token) {
+
+  addAnswer(answer: string, token: string): Promise<Object> {
     return this.props.addAnswer(this.props.task._id, answer, token);
   }
 
@@ -74,27 +108,28 @@ export class TaskDetails extends Component {
       </View>
     );
   }
-  _renderProgressBar(): any {
+  _renderProgressBar(): ?MKProgress.Indeterminate {
     const {loading, task} = this.props;
     const {answers = []} = task;
     if (!loading || !answers.length) return null;
     return <MKProgress.Indeterminate style={styles.progress} />;
   }
-  _renderSpinner(): any {
+  _renderSpinner(): ?MKSpinner {
     const {loading, task} = this.props;
     const {answers = []} = task;
     if (!loading || answers.length) return null;
     return <MKSpinner style={styles.spinner} />;
   }
-  render(): any {
-    const {name, title, date, answers = []} = this.props.task;
+  render(): React.Element {
+    const {name, title, date, answers = [], postedBy} = this.props.task;
     return (
       <View style={styles.container} >
         {this._renderProgressBar()}
         <ScrollView>
           <TaskHeader title={title}
             postedBy={postedBy}
-            date={(this.state.isHiding) ? undefined : date} />
+            date={(this.state.isHiding) ? undefined : date}
+            nbAnswers={answers.length} />
           <Animated.View style={{
             backgroundColor: 'white',
             height: this.state.bodyHeight,
@@ -176,12 +211,6 @@ const styles = StyleSheet.create({
   },
 });
 
-TaskDetails.propTypes = {
-  id: PropTypes.string.isRequired,
-};
-TaskDetails.defaultProps = {
-  task: {},
-};
 /*
 const mapStateToProps = (state, props) => {
   const {name, isFetching, tasks} = state.selectedVenue.venue;
@@ -245,8 +274,7 @@ export default graphql(AddAnswerMutation, {
         updateQueries: {
           TaskDetails: (prev, { mutationResult }) => {
             const newAnswer = mutationResult.data.answer;
-            console.log('new answer ', newAnswer)
-            const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
+            // const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
             /*
             if (existing) {
               return prev;
@@ -277,8 +305,8 @@ export default graphql(AddAnswerMutation, {
                   ...prev.venue.tasks.slice(taskInVenueIndex + 1),
                 ],
               },
-            }
-          }
+            };
+          },
         },
       }),
   }),
