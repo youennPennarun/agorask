@@ -107,6 +107,9 @@ const VenueType = new GraphQLObjectType({
     nbTasks: {
       type: GraphQLInt,
     },
+    nbOpenTasks: {
+      type: GraphQLInt,
+    },
     picture: {
       type: GraphQLString,
       args: {

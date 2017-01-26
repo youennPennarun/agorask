@@ -68,12 +68,24 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
           },
         },
       },
+      {
+        'tasks.nbAnswers': 0,
+      },
     ],
   }).sort({_id: -1});
   if (fields) {
+    if (fields.nbOpenTasks) {
+      fields['tasks.nbAnswers'] = 1;
+    }
     query.select(fields);
   }
-  const venues = yield query.exec();
+  let venues = yield query.exec();
+  if (!fields || fields.nbOpenTasks) {
+    venues = venues.map(venue => {
+      venue.nbOpenTasks = venue.tasks.find(task => !task.nbAnswers).length;
+      return venue;
+    });
+  }
   return venues;
 };
 
