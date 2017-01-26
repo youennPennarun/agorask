@@ -5,7 +5,18 @@ const {
  StateUtils: NavigationStateUtils,
 } = NavigationExperimental;
 
-const initialState = {
+type RouteType = {
+  key: String,
+};
+
+type RouterStateType = {
+  index: Number,
+  key: String,
+  animated: Boolean,
+  routes: Array<RouteType>
+};
+
+const initialState: RouterStateType = {
   index: 0,
   key: 'App',
   animated: false,
@@ -15,7 +26,8 @@ const initialState = {
     },
   ],
 };
-function navigator (currentState = initialState, action) {
+
+function navigator (currentState: RouterStateType = initialState, action) {
   switch (action.type) {
     case PUSH:
       return NavigationStateUtils.push(currentState, action.route);

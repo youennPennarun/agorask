@@ -1,7 +1,14 @@
 import {FETCHING_LIST, SUCCESS_LIST, FAILURE_LIST, FETCHING_VENUE, UPDATE_SELECTED_VENUE, PUSH} from '../actions/venue';
 import {FETCHING_TASK, SUCCESS_FETCH_TASK} from '../actions/task';
 
-export const venuesDefaultState = {
+
+type VenueStateType = {
+  version: Number,
+  isFetching: Boolean,
+  error: ?Object,
+  venues: Array<Object>,
+};
+export const venuesDefaultState: VenueStateType = {
   version: 0,
   isFetching: false,
   error: null,
@@ -86,7 +93,7 @@ function selectedVenue(state = selectedVenueDefaultState, action) {
   }
 }
 
-function venues(state = venuesDefaultState, action) {
+function venues(state: VenueStateType = venuesDefaultState, action): VenueStateType {
   switch (action.type) {
     case FETCHING_LIST:
       return {

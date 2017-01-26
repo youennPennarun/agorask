@@ -49,15 +49,18 @@ export class TaskDetails extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     task: PropTypes.shape({
-      name: PropTypes.string.isRequired,
+      name: PropTypes.string,
       title: PropTypes.string.isRequired,
-      date: PropTypes.objectOf(Date).isRequired,
       answers: PropTypes.array,
-      postedBy: PropTypes.object.isRequired,
+      postedBy: PropTypes.object,
     }).isRequired,
   };
   static defaultProps = {
-    task: {},
+    task: {
+      postedBy: {
+        username: '',
+      },
+    },
   };
   state: TaskDetailsStateType = {
     bodyHeight: new Animated.Value(0),
@@ -121,12 +124,13 @@ export class TaskDetails extends Component {
     return <MKSpinner style={styles.spinner} />;
   }
   render(): React.Element {
-    const {title, date, answers = [], postedBy} = this.props.task;
+    const {title, date, answers = [], postedBy = {username: ''}} = this.props.task;
     return (
       <View style={styles.container} >
         {this._renderProgressBar()}
         <ScrollView>
           <TaskHeader title={title}
+            full
             postedBy={postedBy}
             date={(this.state.isHiding) ? undefined : date}
             nbAnswers={answers.length} />
@@ -234,7 +238,10 @@ const TaskDetailsQuery = gql`
     task(id: $id) {
       _id,
       title,
-      date,
+      date,,
+      postedBy {
+        username
+      }
       answers {
         answer,
         postedBy {

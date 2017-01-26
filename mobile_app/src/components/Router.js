@@ -46,9 +46,10 @@ export class Router extends Component {
     venueDetails: {
       component: VenueDetails,
       navigator: (dispatch) : Object => ({
-        taskDetails: (id, initialData, position) : Promise<*> => dispatch(pushRoute({key: 'taskDetails', id, task: initialData, position })),
+        taskDetails: (id, initialData, position) : Promise<*> =>
+          dispatch(pushRoute({key: 'taskDetails', id, task: initialData, position })),
       }),
-      transition: 'vertical',
+      transition: 'none',
     },
     taskDetails: {
       component: TaskDetails,
@@ -57,7 +58,7 @@ export class Router extends Component {
   }
 
   componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress', () => {
+    BackAndroid.addEventListener('hardwareBackPress', (): boolean => {
       if (this.props.navigator.routes.length > 1) {
         this.props.dispatch(popRoute());
         return true;
@@ -66,7 +67,7 @@ export class Router extends Component {
     });
   }
 
-  getTransition(routeConfig, config) {
+  getTransition(routeConfig: Object, config: Object): Object {
     if (!routeConfig.transition || routeConfig.transition === 'horizontal') {
       return NavigationPagerStyleInterpolator.forHorizontal(config);
     } else if (routeConfig.transition === 'vertical') {
@@ -79,7 +80,7 @@ export class Router extends Component {
     return {};
   }
 
-  createNextScene({scene, ...transitionProps}, routeConfig = {}) {
+  createNextScene({scene, ...transitionProps}: Object, routeConfig: Object = {}): React.Element<*> {
     const props = {
       ...scene.route,
       openDrawer: this.props.openDrawer,
@@ -91,16 +92,9 @@ export class Router extends Component {
     }
     return React.createElement(routeConfig.component, props);
   }
-/*
-  _render(transitionProps) : React.Element {
-    const {navigator} = this.props;
-    <NavigationCardStack style={{flex: 1}}
-        onNavigateBack={() => { this.props.dispatch(popRoute()); }}
-        navigationState={navigator}
-        renderScene={(sceneProps) => this._renderScene(sceneProps)} />
-  }*/
+
   _render(transitionProps): Array<React.Element<any>> {
-    return transitionProps.scenes.map((scene, key) : React.Element => {
+    return transitionProps.scenes.map((scene, key) : React.Element<*> => {
       const sceneProps = {
         ...transitionProps,
         scene,
@@ -127,16 +121,18 @@ export class Router extends Component {
         <Animated.View key={key} style={style}>
           { this.createNextScene(props, routeConfig) }
         </Animated.View>
-      )
+      );
     }
     return <View />;
   }
 
-  render() {
+  render(): React.Element<Router> {
     const {navigator} = this.props;
     return (
       <NavigationTransitioner navigationState={navigator}
-        render={(transitionProps) => this._render(transitionProps)} />
+        render={(transitionProps): Array<React.Element<*>> =>
+          this._render(transitionProps)
+        } />
     );
   }
 
@@ -145,11 +141,9 @@ Router.propTypes = {
   openDrawer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state): {navigator: Function} => {
   return {navigator: state.navigator};
 };
-
-
 
 export default connect(
   mapStateToProps,

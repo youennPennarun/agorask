@@ -1,6 +1,14 @@
 import {UPDATE_QUERY, FETCHING_LIST, SUCCESS_LIST, FAILURE_LIST, CLEAR} from '../actions/search';
 
-const searchDefaultState = {
+type SearchStateType = {
+  version: Number,
+  isFetching: Boolean,
+  query: String,
+  error: ?Object,
+  venues: ?Array<Object>,
+};
+
+const searchDefaultState: SearchStateType = {
   version: 0,
   isFetching: false,
   query: '',
@@ -8,7 +16,7 @@ const searchDefaultState = {
   venues: null,
 };
 
-function search(state = searchDefaultState, action) {
+function search(state: SearchStateType = searchDefaultState, action) {
   switch (action.type) {
     case UPDATE_QUERY:
       return {

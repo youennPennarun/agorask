@@ -2,6 +2,7 @@ package com.agorask;
 
 import com.agorask.map.MapManager;
 import com.agorask.map.RNMarkerManager;
+import com.agorask.radialAnimatedView.RadialAnimatedViewManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -34,7 +35,8 @@ class CustomPackage implements ReactPackage {
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.<ViewManager>asList(
             new MapManager(reactContext),
-            new RNMarkerManager()
+            new RNMarkerManager(),
+            new RadialAnimatedViewManager(reactContext)
         );
     }
 }

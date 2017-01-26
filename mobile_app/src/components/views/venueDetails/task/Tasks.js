@@ -1,9 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import gql from 'graphql-tag';
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
-
-const UIManager = require('NativeModules').UIManager;
 
 import TaskHeader from '../../taskDetails/TaskHeader';
 

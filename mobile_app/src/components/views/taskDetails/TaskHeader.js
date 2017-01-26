@@ -45,7 +45,6 @@ class TaskHeader extends React.Component {
     postedBy: PropTypes.shape({
       username: PropTypes.string.isRequired,
     }).isRequired,
-    date: PropTypes.objectOf(Date),
   };
 
   state: TaskHeaderStateType = {
@@ -67,7 +66,7 @@ class TaskHeader extends React.Component {
       nbAnswersOpacity,
     } = this.state;
 
-    if (this.props.date) {
+    if (this.props.full) {
       Animated.parallel([
         Animated.timing(marginHorizontal, {
           toValue: 0,
@@ -80,7 +79,7 @@ class TaskHeader extends React.Component {
       ]).start();
     }
     InteractionManager.runAfterInteractions(() => {
-      if (this.props.date) {
+      if (this.props.full) {
         Animated.parallel([
           Animated.timing(blockDateTranslationY, {
             toValue: 0,
@@ -139,6 +138,9 @@ class TaskHeader extends React.Component {
           marginHorizontal: this.state.marginHorizontal,
           borderRadius: this.state.radius,
         }]} >
+        <View style={styles.pic}>
+
+        </View>
         <View style={styles.leftColumn}>
           <Text style={styles.question} >{title}</Text>
           <Text style={styles.postedBy} >
@@ -164,21 +166,28 @@ class TaskHeader extends React.Component {
 const styles = StyleSheet.create({
   questionContainer: {
     flexDirection: 'row',
-    height: 60,
+    height: 80,
     backgroundColor: 'white',
     elevation: 1,
     marginBottom: 0,
     paddingLeft: 5,
   },
+  pic: {
+    alignSelf: 'center',
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    backgroundColor: 'pink',
+  },
   leftColumn: {
-    flex: 0.75,
+    flex: 0.70,
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
   question: {
     marginLeft: 5,
     textAlignVertical: 'center',
-    fontSize: 18,
+    fontSize: 19,
     color: '#212121',
   },
   postedBy: {
@@ -190,8 +199,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   rightColumn: {
-    flex: 0.25,
-    marginRight: 20,
+    flex: 0.30,
+    marginRight: 5,
     marginVertical: 5,
     alignItems: 'flex-end',
     justifyContent: 'space-between',

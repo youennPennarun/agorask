@@ -16,11 +16,13 @@ import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
 
+
 export class MapView extends React.Component {
   state = {
     position: null,
     x: 50,
     y: 50,
+    rev: false,
   };
 
   componentWillMount() {
@@ -44,9 +46,9 @@ export class MapView extends React.Component {
     this.props.updateUserLocation({lat: coords.latitude, lng: coords.longitude});
   }
 
-  _goToVenueDetails(venue) {
+  _goToVenueDetails(venue, {x, y}) {
     const {goToVenueDetails} = this.props;
-    goToVenueDetails(venue);
+    goToVenueDetails(venue, {x, y});
   }
 
   _renderMarkers(venues: Array<Object> = []): Array<MapMarker> {
@@ -57,8 +59,8 @@ export class MapView extends React.Component {
             latitude: venue.address.location[1],
             longitude: venue.address.location[0],
           }}
-          onPress={() => {
-            this._goToVenueDetails(venue);
+          onPress={({nativeEvent}) => {
+            this._goToVenueDetails(venue, nativeEvent);
           }}
           numberOfTasks={venue.nbTasks} />
       );
@@ -124,13 +126,14 @@ const mapStateToProps = (state: Object): Object => ({
 });
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Function): Object => ({
-  goToVenueDetails: (venue) => {
+  goToVenueDetails: (venue, position) => {
     dispatch(pushRoute({
       key: 'venueDetails',
       _id: venue._id,
       id: venue._id,
       sourceId: venue.foursquareId,
       source: 'foursquare',
+      position,
     }));
   },
   updateUserLocation: ({lat, lng}) => {

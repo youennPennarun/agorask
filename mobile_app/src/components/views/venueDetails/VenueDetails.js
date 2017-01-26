@@ -1,5 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid, LayoutAnimation} from 'react-native';
+import {View,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  ToastAndroid,
+  BackAndroid,
+  LayoutAnimation,
+} from 'react-native';
 
 import Config from 'react-native-config';
 
@@ -19,6 +28,8 @@ import gql from 'graphql-tag';
 
 import VenueDescription from './VenueDescription';
 import Tasks from './task/Tasks';
+
+import RadialAnimatedView from '../../natives/RadialAnimatedView';
 
 
 const {width, height} = Dimensions.get('window');
@@ -41,13 +52,34 @@ export class VenueDetails extends Component {
   state = {
     showAddTask: false,
   }
-  roundButtonRef = null;
+  roundButtonRef: RoundButton = null;
+  radialAnimatedViewRef: ?RadialAnimatedView = null;
 
   addTask(task): Promise<*> {
     const {_id, foursquareId, name, address, tasks = []} = this.props.venue;
 
     this.props.pushVenueToMap({_id, foursquareId, name, address, nbTasks: tasks.length + 1});
     return this.props.addTask(this.props.venue._id, task, this.props.token);
+  }
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this._onBack);
+    if (this.radialAnimatedViewRef) {
+      setTimeout(() => {
+        this.radialAnimatedViewRef.reveal();
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this._onBack);
+  }
+
+  _onBack = (): boolean => {
+    if (this.props.isActive) {
+      this.radialAnimatedViewRef.hide();
+    }
+    return false;
   }
 
   render(): React.Element {
@@ -60,7 +92,9 @@ export class VenueDetails extends Component {
       imageUri = `${Config.API_URL}/venues/${venue._id}/image`;
     }
     return (
-      <View style={styles.container}>
+      <RadialAnimatedView ref={r => { this.radialAnimatedViewRef = r; }}
+        style={styles.container}
+        center={this.props.position} >
           <Image style={styles.coverImage}
             resizeMode='cover'
             source={{uri: imageUri}} />
@@ -91,7 +125,7 @@ export class VenueDetails extends Component {
             renderIcon: () => <Icon name='close' size={42} color='white' />,
             callback: () => this.setState({showAddTask: false}),
           }} />
-      </View>
+      </RadialAnimatedView>
     );
   }
 }

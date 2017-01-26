@@ -20,9 +20,7 @@ function renderAddress(formattedAddress) {
 }
 
 class VenueDescription extends React.Component {
-  componentWillUpdate() {
-    LayoutAnimation.easeInEaseOut();
-  }
+  
 
   render() {
     const {name, address = {}, categories = [], website, contact = {}} = this.props.venue;

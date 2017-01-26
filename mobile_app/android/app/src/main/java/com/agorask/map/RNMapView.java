@@ -58,6 +58,13 @@ public class RNMapView extends MapView
 
                 if (clickedMarker != null){
                     WritableMap event = new WritableNativeMap();
+                    LatLng latLng = clickedMarker.getPosition();
+                    event.putDouble("latitude", latLng.latitude);
+                    event.putDouble("longitude", latLng.longitude);
+
+                    Point point = map.getProjection().toScreenLocation(latLng);
+                    event.putDouble("x", point.x);
+                    event.putDouble("y", point.y);
                     Log.i("RNMapView", "Push 'onPress' event");
                     mapManager.pushEvent(clickedMarker, "onPress", event);
                     return true;

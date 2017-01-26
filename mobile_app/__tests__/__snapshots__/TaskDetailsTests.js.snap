@@ -6,6 +6,7 @@ exports[`test fetching renders correctly 1`] = `
   <ScrollView>
     <TaskHeader
       date={2016-11-23T00:36:54.000Z}
+      full={true}
       nbAnswers={1}
       postedBy={
         Object {
@@ -119,6 +120,7 @@ exports[`test fetching renders correctly if there is no answers 1`] = `
   <ScrollView>
     <TaskHeader
       date={2016-11-23T00:36:54.000Z}
+      full={true}
       nbAnswers={0}
       postedBy={
         Object {
@@ -165,6 +167,7 @@ exports[`test renders correctly 1`] = `
   <ScrollView>
     <TaskHeader
       date={2016-11-23T00:36:54.000Z}
+      full={true}
       nbAnswers={1}
       postedBy={
         Object {
