@@ -1,17 +1,15 @@
 exports[`test Test with address as a single string 1`] = `
 <View
   style={
-    Array [
-      Object {
-        "backgroundColor": "white",
-        "elevation": 2,
-        "paddingBottom": 10,
-        "paddingLeft": 10,
-        "paddingRight": 10,
-        "paddingTop": 10,
-        "width": 750,
-      },
-    ]
+    Object {
+      "backgroundColor": "white",
+      "elevation": 2,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "width": 750,
+    }
   }>
   <View
     style={
@@ -79,17 +77,15 @@ exports[`test Test with address as a single string 1`] = `
 exports[`test Test with formatted address 1`] = `
 <View
   style={
-    Array [
-      Object {
-        "backgroundColor": "white",
-        "elevation": 2,
-        "paddingBottom": 10,
-        "paddingLeft": 10,
-        "paddingRight": 10,
-        "paddingTop": 10,
-        "width": 750,
-      },
-    ]
+    Object {
+      "backgroundColor": "white",
+      "elevation": 2,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "width": 750,
+    }
   }>
   <View
     style={
@@ -171,17 +167,15 @@ exports[`test Test with formatted address 1`] = `
 exports[`test Test without address 1`] = `
 <View
   style={
-    Array [
-      Object {
-        "backgroundColor": "white",
-        "elevation": 2,
-        "paddingBottom": 10,
-        "paddingLeft": 10,
-        "paddingRight": 10,
-        "paddingTop": 10,
-        "width": 750,
-      },
-    ]
+    Object {
+      "backgroundColor": "white",
+      "elevation": 2,
+      "paddingBottom": 10,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 10,
+      "width": 750,
+    }
   }>
   <View
     style={
