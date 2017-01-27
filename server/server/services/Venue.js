@@ -12,7 +12,7 @@ const getVenueFromExternalSource = function* (id, source, fields) {
   let venue;
   let query;
   if (source === 'foursquare') {
-    console.log("GET venue from foursquareID with fields ", fields);
+    console.log('GET venue from foursquareID with fields ', fields);
     query = Venue.findOne({foursquareId: id});
     if (fields) query.select(fields);
     venue = yield query.exec();
@@ -79,11 +79,6 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
     query.select(fields);
   }
   const venues = yield query.exec();
-  /*
-  if (!fields || fields.nbOpenTasks) {
-    venues = putNbOpenTasksForVenues(venues);
-  }
-  */
   return venues;
 };
 
