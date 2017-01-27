@@ -83,7 +83,6 @@ export class VenueDetails extends Component {
   }
 
   render(): React.Element {
-    console.log(this.props)
     const {venue, isFetchingVenue, error} = this.props;
 
     if (error) return renderError(error);

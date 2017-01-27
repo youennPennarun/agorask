@@ -76,47 +76,24 @@ class TaskHeader extends React.Component {
           toValue: 0,
           duration: 1000,
         }),
+
+        Animated.timing(blockDateTranslationY, {
+          toValue: 0,
+          useNativeDriver: true,
+        }),
       ]).start();
     }
-    InteractionManager.runAfterInteractions(() => {
-      if (this.props.full) {
-        Animated.parallel([
-          Animated.timing(blockDateTranslationY, {
-            toValue: 0,
-            useNativeDriver: true,
-          }),
-          Animated.timing(dateOpacity, {
-            toValue: 1,
-            useNativeDriver: true,
-          }),
-          Animated.timing(nbAnswersOpacity, {
-            toValue: 0,
-            useNativeDriver: true,
-          }),
-        ]).start();
-      }
-    });
   }
   componentWillReceiveProps(next: TaskHeaderPropsType) {
     const {
       radius,
       marginHorizontal,
       blockDateTranslationY,
-      dateOpacity,
-      nbAnswersOpacity,
     } = this.state;
-    if (this.props.date !== next.date && !next.date) {
+    if (this.props.full !== next.full && !next.full) {
       Animated.parallel([
         Animated.timing(blockDateTranslationY, {
           toValue: initialState.blockDateTranslationY,
-          useNativeDriver: true,
-        }),
-        Animated.timing(dateOpacity, {
-          toValue: initialState.dateOpacity,
-          useNativeDriver: true,
-        }),
-        Animated.timing(nbAnswersOpacity, {
-          toValue: initialState.nbAnswersOpacity,
           useNativeDriver: true,
         }),
         Animated.timing(radius, {

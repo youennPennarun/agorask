@@ -37,7 +37,6 @@ export function searchVenue(radius = 3000) {
       },
     })
     .then((response): Promise<*> => {
-      console.log(response);
       return response.json();
     })
     .then((venues: Array) => {

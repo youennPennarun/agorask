@@ -130,9 +130,9 @@ export class TaskDetails extends Component {
         {this._renderProgressBar()}
         <ScrollView>
           <TaskHeader title={title}
-            full
+            full={(!this.state.isHiding)}
             postedBy={postedBy}
-            date={(this.state.isHiding) ? undefined : date}
+            date={date}
             nbAnswers={answers.length} />
           <Animated.View style={{
             backgroundColor: 'white',
