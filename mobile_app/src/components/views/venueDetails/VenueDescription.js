@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import gql from 'graphql-tag';
-import {View, Text, StyleSheet, Dimensions, LayoutAnimation} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const {width} = Dimensions.get('window');
@@ -10,7 +10,7 @@ function getIcon(amenity) {
 }
 function renderAddress(formattedAddress) {
   if (typeof formattedAddress === 'string') {
-    return (<Text>{formattedAddress}</Text>);
+    return (<Text>{formattedAddress }</Text>);
   } else if (formattedAddress instanceof Array) {
     return (
       <View>{formattedAddress.map((line, key) => <Text key={key}>{line}</Text>)}</View>
@@ -19,14 +19,23 @@ function renderAddress(formattedAddress) {
   return <View />;
 }
 
-class VenueDescription extends React.Component {
-  
+function renderLoading() {
+  return (
+    <View style={[styles.block]} >
+      <ActivityIndicator />
+    </View>
+  );
+}
 
-  render() {
-    const {name, address = {}, categories = [], website, contact = {}} = this.props.venue;
-    const categoryName = (categories.length) ? categories[0].name : '';
-    return (
-      <View style={styles.block}>
+function VenueDescription(props) {
+  console.log('#####################################')
+  console.log(props)
+  console.log('#####################################')
+  const {name, address = {}, categories = [], website, contact = {}} = props.venue;
+  const categoryName = (categories.length) ? categories[0].name : '';
+  if (props.loading) return renderLoading();
+  return (
+    <View style={styles.block} >
         <View style={styles.titleContainer} >
           <Icon name={getIcon()}
             style={styles.icon}
@@ -44,9 +53,8 @@ class VenueDescription extends React.Component {
             color='blue' />{contact.formattedPhone}
           </Text>) : null
         }
-      </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
