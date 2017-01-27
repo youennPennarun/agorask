@@ -1,8 +1,10 @@
+/* @flow */
 import React, {Component, PropTypes} from 'react';
 import gql from 'graphql-tag';
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
 
 import TaskHeader from '../../taskDetails/TaskHeader';
+import TaskList from './TaskList';
 
 const {width, height} = Dimensions.get('window');
 
@@ -13,28 +15,18 @@ class Tasks extends Component {
     openTasksExtended: false,
     resolvedTasksExtended: false,
   }
-  setTaskRef = (ref, taskId) => {
-    this.taskRefs[taskId] = ref;
-  }
-  taskRefs = {};
 
-
-  _getResolvedTasks(skipSlice: Boolean) : Array<Object> {
+  _getResolvedTasks(skipSlice: boolean) : Array<Object> {
     const {tasks} = this.props;
     const {resolvedTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers > 0));
     return (resolvedTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
   }
-  _getOpenTasks(skipSlice: Boolean) : Array<Object> {
+  _getOpenTasks(skipSlice: boolean) : Array<Object> {
     const {tasks} = this.props;
     const {openTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers === 0));
     return (openTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
-  }
-  goToTask(task) {
-    this.taskRefs[task._id].measure((ox, oy, width, height, px, py) => {
-        this.props.goToTask(task._id, task, {y: py});
-      });
   }
   _renderShowMoreButton(type : String) : any {
     let tasks;
@@ -63,21 +55,6 @@ class Tasks extends Component {
       </TouchableOpacity>
     );
   }
-  _renderTask(task, key): React.Element<any> {
-    return (
-      <TouchableOpacity key={key}
-        style={{
-          marginVertical: 1,
-          paddingVertical: 2,
-        }}
-        ref={(ref) => { this.setTaskRef(ref, task._id); }}
-        onPress={() => { this.goToTask(task); }} >
-        <TaskHeader title={task.title}
-          nbAnswers={task.nbAnswers}
-          postedBy={task.postedBy} />
-      </TouchableOpacity>
-    );
-  }
   render(): React.Element {
     const resolved = this._getResolvedTasks();
     const open = this._getOpenTasks();
@@ -93,7 +70,8 @@ class Tasks extends Component {
               {this._renderShowMoreButton('open')}
               </View>
               <View style={styles.tasksContainer}>
-                {open.map((task, key) => this._renderTask(task, key))}
+                <TaskList tasks={open}
+                  goToTask={this.props.goToTask} />
               </View>
             </View>
         ) : null}
@@ -107,7 +85,8 @@ class Tasks extends Component {
               {this._renderShowMoreButton('resolved')}
               </View>
               <View style={styles.tasksContainer}>
-                {resolved.map((task, key) : Array<React.Element> => this._renderTask(task, key))}
+                <TaskList tasks={resolved}
+                  goToTask={this.props.goToTask} />
               </View>
             </View>
           ) : null}
