@@ -147,22 +147,13 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   graphql(VenuesNearUserQuery, {
     skip: ({userLocation}): boolean => (!userLocation || !userLocation.coords),
-    options: ({ userLocation: {coords} }): Object => {
-      console.log({
+    options: ({ userLocation: {coords} }): Object => ({
       variables: {
         lat: coords.lat,
         lng: coords.lng,
         radius: 4000,
       },
-      })
-      return  {
-      variables: {
-        lat: coords.lat,
-        lng: coords.lng,
-        radius: 4000,
-      },
-      }
-    },
+    }),
     props: ({ ownProps, data: { loading, error, venuesWithinRadius } }) => ({
       ...ownProps,
       loading,

@@ -28,9 +28,6 @@ function renderLoading() {
 }
 
 function VenueDescription(props) {
-  console.log('#####################################')
-  console.log(props)
-  console.log('#####################################')
   const {name, address = {}, categories = [], website, contact = {}} = props.venue;
   const categoryName = (categories.length) ? categories[0].name : '';
   if (props.loading) return renderLoading();

@@ -16,7 +16,7 @@ import {
 import update from 'immutability-helper';
 
 
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import moment from 'moment';
 
@@ -217,21 +217,7 @@ const styles = StyleSheet.create({
   },
 });
 
-/*
-const mapStateToProps = (state, props) => {
-  const {name, isFetching, tasks} = state.selectedVenue.venue;
-  return {
-    name,
-    isFetching,
-    ...tasks.find(task => task._id === props.id),
-  };
-};
 
-const mapDispatchToProps = (dispatch: Function, props): Object => ({
-  getTask: () => {
-    dispatch(getTask(props.id));
-  },
-});*/
 
 const TaskDetailsQuery = gql`
   query TaskDetails($id: ID!) {
@@ -265,70 +251,73 @@ const AddAnswerMutation = gql`
   }
 `;
 
-export default graphql(AddAnswerMutation, {
-  props: ({ownProps, mutate}) => ({
-      addAnswer: (taskId, answer, token) => mutate({
-        variables: {taskId, answer, token},
-        optimisticResponse: {
-          __typename: 'Mutation',
-          answer: {
-            __typename: 'Answer',
-            answer: answer,
-            date: new Date(),
-            postedBy: {
-              username: '',
+export default compose(
+  graphql(AddAnswerMutation, {
+    props: ({ownProps, mutate}) => ({
+        addAnswer: (taskId, answer, token) => mutate({
+          variables: {taskId, answer, token},
+          optimisticResponse: {
+            __typename: 'Mutation',
+            answer: {
+              __typename: 'Answer',
+              answer: answer,
+              date: new Date(),
+              postedBy: {
+                username: '',
+              },
             },
           },
-        },
-        updateQueries: {
-          TaskDetails: (prev, { mutationResult }) => {
-            const newAnswer = mutationResult.data.answer;
-            // const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
-            /*
-            if (existing) {
-              return prev;
-            }
-            */
-            return update(prev, {
-              task: {
-                answers: {
-                  $push: [newAnswer],
-                },
-              },
-            });
-          },
-          Venue: (prev, { mutationResult }) => {
-            const newAnswer = mutationResult.data.answer;
-            const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}): boolean => _id === ownProps.task._id);
-            if (taskInVenueIndex <= -1) return prev;
-            return {
-              ...prev,
-              venue: {
-                ...prev.venue,
-                tasks: [
-                  ...prev.venue.tasks.slice(0, taskInVenueIndex),
-                  {
-                    ...prev.venue.tasks[taskInVenueIndex],
-                    nbAnswers: prev.venue.tasks[taskInVenueIndex].nbAnswers + 1,
+          updateQueries: {
+            TaskDetails: (prev, { mutationResult }) => {
+              const newAnswer = mutationResult.data.answer;
+              // const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
+              /*
+              if (existing) {
+                return prev;
+              }
+              */
+              return update(prev, {
+                task: {
+                  answers: {
+                    $push: [newAnswer],
                   },
-                  ...prev.venue.tasks.slice(taskInVenueIndex + 1),
-                ],
-              },
-            };
+                },
+              });
+            },
+            Venue: (prev, { mutationResult }) => {
+              const newAnswer = mutationResult.data.answer;
+              const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}): boolean => _id === ownProps.task._id);
+              if (taskInVenueIndex <= -1) return prev;
+              return {
+                ...prev,
+                venue: {
+                  ...prev.venue,
+                  tasks: [
+                    ...prev.venue.tasks.slice(0, taskInVenueIndex),
+                    {
+                      ...prev.venue.tasks[taskInVenueIndex],
+                      nbAnswers: prev.venue.tasks[taskInVenueIndex].nbAnswers + 1,
+                    },
+                    ...prev.venue.tasks.slice(taskInVenueIndex + 1),
+                  ],
+                },
+              };
+            },
           },
-        },
-      }),
+        }),
+    }),
   }),
-})(graphql(TaskDetailsQuery, {
-  options: ({ id }): Object => ({
-    variables: {id},
+  graphql(TaskDetailsQuery, {
+    options: ({ id }): Object => ({
+      variables: {id},
+    }),
+    props: ({ ownProps, data: { loading, error, task } }): Object => {
+      return {
+        loading,
+        task: task || ownProps.task,
+        error,
+      };
+    },
   }),
-  props: ({ ownProps, data: { loading, error, task } }): Object => {
-    return {
-      loading,
-      task: task || ownProps.task,
-      error,
-    };
-  },
-})(TaskDetails));
+)(TaskDetails);
 

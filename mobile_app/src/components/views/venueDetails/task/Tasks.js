@@ -33,7 +33,6 @@ class Tasks extends Component {
   }
   goToTask(task) {
     this.taskRefs[task._id].measure((ox, oy, width, height, px, py) => {
-      console.log({oy, py})
         this.props.goToTask(task._id, task, {y: py});
       });
   }
@@ -65,7 +64,6 @@ class Tasks extends Component {
     );
   }
   _renderTask(task, key): React.Element<any> {
-    console.log(task);
     return (
       <TouchableOpacity key={key}
         style={{

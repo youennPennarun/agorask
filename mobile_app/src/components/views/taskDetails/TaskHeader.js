@@ -142,7 +142,7 @@ class TaskHeader extends React.Component {
 
         </View>
         <View style={styles.leftColumn}>
-          <Text style={styles.question} >{title}</Text>
+          <Text style={styles.question} numberOfLines={2} ellipsizeMode='tail' >{title}</Text>
           <Text style={styles.postedBy} >
             {'Posted by: '}
             <Text style={styles.postedByUsername}>

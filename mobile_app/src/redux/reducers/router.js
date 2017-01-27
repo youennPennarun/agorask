@@ -1,4 +1,4 @@
-import {PUSH, POP} from '../actions/router';
+import {PUSH, POP, TRANSITION_START, TRANSITION_END} from '../actions/router';
 import {NavigationExperimental} from 'react-native';
 
 const {
@@ -35,6 +35,16 @@ function navigator (currentState: RouterStateType = initialState, action) {
       return currentState.index > 0 ?
         NavigationStateUtils.pop(currentState) :
         currentState;
+    case TRANSITION_START:
+      return {
+        ...currentState,
+        animated: true,
+      };
+    case TRANSITION_END:
+      return {
+        ...currentState,
+        animated: false,
+      };
     default:
       return currentState;
   }

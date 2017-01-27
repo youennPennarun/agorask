@@ -3,7 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import { View, Animated, NavigationExperimental, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
-import {popRoute, pushRoute} from '../redux/actions/router';
+import {popRoute, pushRoute, transitionStart, transitionEnd} from '../redux/actions/router';
 import Transitions from '../utils/Transitions';
 
 const {
@@ -130,6 +130,8 @@ export class Router extends Component {
     const {navigator} = this.props;
     return (
       <NavigationTransitioner navigationState={navigator}
+        onTransitionStart={() => this.props.dispatch(transitionStart())}
+        onTransitionEnd={() => this.props.dispatch(transitionEnd())}
         render={(transitionProps): Array<React.Element<*>> =>
           this._render(transitionProps)
         } />

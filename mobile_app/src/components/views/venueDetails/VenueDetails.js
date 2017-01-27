@@ -22,7 +22,7 @@ import RoundButton from '../../commons/RoundButton';
 
 import AddTask from './task/AddTask';
 
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 
@@ -83,9 +83,9 @@ export class VenueDetails extends Component {
   }
 
   render(): React.Element {
-    const {venue, isFetching, error} = this.props;
+    console.log(this.props)
+    const {venue, isFetchingVenue, error} = this.props;
 
-    if (isFetching) return renderFetchingState();
     if (error) return renderError(error);
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
@@ -101,7 +101,7 @@ export class VenueDetails extends Component {
         <ScrollView style={styles.scollView}
           contentContainerStyle={styles.scrollViewContentContainer} >
           <View style={styles.scrollViewContent} >
-            <VenueDescription venue={venue} />
+            <VenueDescription loading={isFetchingVenue} venue={venue} />
             <Tasks tasks={venue.tasks || []}
               goToTask={(id, task, position) => { this.props.navigator.taskDetails(id, task, position); }} />
           </View>
@@ -238,91 +238,93 @@ const mapDispatchToProps = (dispatch: Function, props): Object => ({
   },
 });
 
-
-const VenueDetailsConnected = connect(mapStateToProps, mapDispatchToProps)(VenueDetails);
-
-export default graphql(VenueDetailsQuery, {
-  options: ({ _id, sourceId, source }) => {
-    const variables = {};
-    if (_id) {
-      variables.id = _id;
-      variables.source = null;
-    } else {
-      variables.id = sourceId;
-      variables.source = source;
-    }
-    return {variables};
-  },
-  props: ({ownProps, data: { loading, error, venue } }) => {
-    return {
-      isFetching: loading,
-      venue: {
-        _id: ownProps._id,
-       ...venue,
-      },
-      error,
-      navigator: ownProps.navigator,
-    };
-  },
-})(graphql(AddTaskMutation, {
-  props: ({ownProps, mutate}) => ({
-      addTask: (venueId, task, token) => mutate({
-        variables: {venueId, task, token},
-        optimisticResponse: {
-          __typename: 'Mutation',
-          task: {
-            __typename: 'Task',
-            _id: null,
-            title: task.title,
-            nbAnswers: 0,
-          },
+export default compose(
+  graphql(VenueDetailsQuery, {
+    options: ({ _id, sourceId, source }) => {
+      const variables = {};
+      if (_id) {
+        variables.id = _id;
+        variables.source = null;
+      } else {
+        variables.id = sourceId;
+        variables.source = source;
+      }
+      return {variables};
+    },
+    props: ({ownProps, data: { loading, error, venue } }) => {
+      return {
+        isFetchingVenue: loading,
+        venue: {
+          _id: ownProps._id,
+        ...venue,
         },
-        updateQueries: {
-          VenuesNearUser: (prev, { mutationResult }) => {
-            if (mutationResult.errors) {
-              // TODO error handling
-              if (mutationResult.errors.length) {
-                ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
-              }
-              return prev;
-            }
-            if (!prev.venuesWithinRadius) return prev;
-
-            let venue = prev.venuesWithinRadius.find(v => (v._id === ownProps.venue._id || v.foursquareId === ownProps.venue.foursquareId));
-            if (!venue) {
-              venue = {
-                ...ownProps.venue,
-              };
-            }
-            venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
-            const updated = update(prev, {
-              venuesWithinRadius: {
-                $unshift: [venue],
-              },
-            });
-            return updated;
-          },
-          Venue: (prev, { mutationResult }) => {
-            if (mutationResult.errors) {
-              // TODO error handling
-              if (mutationResult.errors.length) {
-                ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
-              }
-              return prev;
-            }
-            if (!prev.venue) return prev;
-            const newTask = mutationResult.data.task;
-
-            const updated = update(prev, {
-              venue: {
-                tasks: {
-                  $unshift: [newTask],
-                },
-              },
-            });
-            return updated;
-          },
-        },
-      }),
+        error,
+        navigator: ownProps.navigator,
+      };
+    },
   }),
-})(VenueDetailsConnected));
+  graphql(AddTaskMutation, {
+    props: ({ownProps, mutate}) => ({
+        addTask: (venueId, task, token) => mutate({
+          variables: {venueId, task, token},
+          optimisticResponse: {
+            __typename: 'Mutation',
+            task: {
+              __typename: 'Task',
+              _id: null,
+              title: task.title,
+              nbAnswers: 0,
+            },
+          },
+          updateQueries: {
+            VenuesNearUser: (prev, { mutationResult }) => {
+              if (mutationResult.errors) {
+                // TODO error handling
+                if (mutationResult.errors.length) {
+                  ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
+                }
+                return prev;
+              }
+              if (!prev.venuesWithinRadius) return prev;
+
+              let venue = prev.venuesWithinRadius.find(v => (v._id === ownProps.venue._id || v.foursquareId === ownProps.venue.foursquareId));
+              if (!venue) {
+                venue = {
+                  ...ownProps.venue,
+                };
+              }
+              venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
+              const updated = update(prev, {
+                venuesWithinRadius: {
+                  $unshift: [venue],
+                },
+              });
+              return updated;
+            },
+            Venue: (prev, { mutationResult }) => {
+              if (mutationResult.errors) {
+                // TODO error handling
+                if (mutationResult.errors.length) {
+                  ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
+                }
+                return prev;
+              }
+              if (!prev.venue) return prev;
+              const newTask = mutationResult.data.task;
+
+              const updated = update(prev, {
+                venue: {
+                  tasks: {
+                    $unshift: [newTask],
+                  },
+                },
+              });
+              return updated;
+            },
+          },
+        }),
+    }),
+  }),
+  connect(mapStateToProps, mapDispatchToProps),
+)(VenueDetails);
+
