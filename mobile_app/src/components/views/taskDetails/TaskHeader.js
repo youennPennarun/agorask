@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet,
   InteractionManager,
+  Image,
 } from 'react-native';
 import gql from 'graphql-tag';
 
@@ -115,9 +116,8 @@ class TaskHeader extends React.Component {
           marginHorizontal: this.state.marginHorizontal,
           borderRadius: this.state.radius,
         }]} >
-        <View style={styles.pic}>
-
-        </View>
+        <Image style={styles.pic}
+          source={require('../../../assets/user.png')} />
         <View style={styles.leftColumn}>
           <Text style={styles.question} numberOfLines={2} ellipsizeMode='tail' >{title}</Text>
           <Text style={styles.postedBy} >
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
-    backgroundColor: 'pink',
   },
   leftColumn: {
     flex: 0.70,
@@ -164,10 +163,12 @@ const styles = StyleSheet.create({
   question: {
     marginLeft: 5,
     textAlignVertical: 'center',
-    fontSize: 19,
+    fontSize: 16,
+    fontWeight: '800',
     color: '#212121',
   },
   postedBy: {
+    fontWeight: '100',
     fontSize: 12,
     marginLeft: 15,
   },
