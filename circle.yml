@@ -56,7 +56,7 @@ deployment:
     branch: development
     commands:
       - git remote add heroku git@heroku.com:agorask-dev.git
-      - git push heroku `git subtree split --prefix server master`:master --force
+      - git push heroku `git subtree split --prefix server HEAD`:master --force
       - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
       - npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
           timeout: 3600
@@ -66,7 +66,7 @@ deployment:
     branch: master
     commands:
       - git remote add heroku git@heroku.com:agorask.git
-      - git push heroku `git subtree split --prefix server master`:master --force
+      - git push heroku `git subtree split --prefix server HEAD`:master --force
       - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
       - npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL:
           timeout: 3600
