@@ -25,6 +25,7 @@ const fullVenueFragment = `
       phone
     }
     picture(size: 35)
+    nbOpenTasks
   }
 `;
 

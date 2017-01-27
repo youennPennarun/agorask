@@ -62,7 +62,7 @@ export class MapView extends React.Component {
           onPress={({nativeEvent}) => {
             this._goToVenueDetails(venue, nativeEvent);
           }}
-          numberOfTasks={venue.nbTasks} />
+          numberOfTasks={venue.nbOpenTasks} />
       );
     });
   }
@@ -92,7 +92,7 @@ MapView.fragments = {
       foursquareId,
       name,
       source,
-      nbTasks
+      nbOpenTasks
       address {
         location,
       },
@@ -147,13 +147,22 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   graphql(VenuesNearUserQuery, {
     skip: ({userLocation}): boolean => (!userLocation || !userLocation.coords),
-    options: ({ userLocation: {coords} }): Object => ({
+    options: ({ userLocation: {coords} }): Object => {
+      console.log({
       variables: {
         lat: coords.lat,
         lng: coords.lng,
         radius: 4000,
       },
-    }),
+      })
+      return  {
+      variables: {
+        lat: coords.lat,
+        lng: coords.lng,
+        radius: 4000,
+      },
+      }
+    },
     props: ({ ownProps, data: { loading, error, venuesWithinRadius } }) => ({
       ...ownProps,
       loading,
