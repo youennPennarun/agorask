@@ -23,7 +23,6 @@ exports[`test renders correctly with search results 1`] = `
           "longitude": 50,
         }
       }
-      numberOfTasks={2}
       onPress={[Function]} />
     <MarkerWrapper
       coordinate={
@@ -32,7 +31,6 @@ exports[`test renders correctly with search results 1`] = `
           "longitude": 51,
         }
       }
-      numberOfTasks={10}
       onPress={[Function]} />
     <MarkerWrapper
       coordinate={
@@ -41,7 +39,6 @@ exports[`test renders correctly with search results 1`] = `
           "longitude": 52,
         }
       }
-      numberOfTasks={20}
       onPress={[Function]} />
   </MapWrapper>
   <Connect(SearchBar) />
@@ -73,7 +70,6 @@ exports[`test renders correctly with venues 1`] = `
           "longitude": 50,
         }
       }
-      numberOfTasks={2}
       onPress={[Function]} />
     <MarkerWrapper
       coordinate={
@@ -82,7 +78,6 @@ exports[`test renders correctly with venues 1`] = `
           "longitude": 51,
         }
       }
-      numberOfTasks={10}
       onPress={[Function]} />
     <MarkerWrapper
       coordinate={
@@ -91,7 +86,6 @@ exports[`test renders correctly with venues 1`] = `
           "longitude": 52,
         }
       }
-      numberOfTasks={20}
       onPress={[Function]} />
   </MapWrapper>
   <Connect(SearchBar) />
