@@ -1,3 +1,5 @@
+const path = require('path');
+
 const testdroid = {
   caps: {
     testdroid_apiKey: process.env.TESTDROID_API_KEY,
@@ -9,40 +11,81 @@ const testdroid = {
     platformName: 'Android',
     deviceName: 'Android Phone',
   },
-  server: {
-    url: 'http://appium.testdroid.com/wd/hub',
-  },
-}
+  server: {url: 'http://appium.testdroid.com/wd/hub'},
+};
+console.log(process.env.APP_ID);
 const testobject = {
   caps: {
     testobject_api_key: process.env.TESTOBJECT_API_KEY,
     testobject_device: 'Motorola_Moto_E_2nd_gen_free',
+    testobject_app_id: process.env.APP_ID,
   },
-  server: {
-    url: "http://appium.testobject.com/wd/hub",
-  }
-}
+  server: {url: 'http://appium.testobject.com/wd/hub'},
+};
 
 const local = {
   caps: {
-    platformName: "Android",
-    deviceName: "192.168.1.35:5555",
-    platformVersion: "7.1.1",
-    appPackage: "com.agorask.debug",
-    appActivity: "com.agorask.MainActivity",
+    platformName: 'Android',
+    deviceName: '192.168.1.35:5555',
+    platformVersion: '5.1',
+    appPackage: 'com.agorask.debug',
+    appActivity: 'com.agorask.MainActivity',
     noReset: true,
     fullReset: false,
     waitForAppScript: true,
+    app: path.join(
+      __dirname,
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-debug.apk'
+    ),
   },
-  server: {
-    port: 4723,
+  server: {port: 4723},
+};
+
+const opo = {
+  caps: {
+    platformName: 'Android',
+    deviceName: '192.168.0.12:5555',
+    platformVersion: '7.1.1',
+    appPackage: 'com.agorask.ci',
+    appActivity: 'com.agorask.MainActivity',
+    noReset: true,
+    fullReset: false,
+    waitForAppScript: true,
+    app: path.join(
+      __dirname,
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-ciRelease.apk'
+    ),
   },
-}
+  server: {port: 4723},
+};
+
+
+const circle = {
+  caps: {
+    platformName: 'Android',
+    deviceName: '192.168.1.35:5555',
+    platformVersion: '6.0',
+    appPackage: 'com.agorask',
+    appActivity: 'com.agorask.MainActivity',
+    noReset: true,
+    fullReset: false,
+    waitForAppScript: true,
+    app: path.join(
+      __dirname,
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-release.apk'
+    ),
+  },
+  server: {port: 4723},
+};
 
 module.exports = function getConfig(type) {
   switch (type.toUpperCase()) {
     case 'LOCAL':
       return local;
+    case 'OPO':
+      return opo;
+    case 'CIRCLE':
+      return circle;
     case 'TEST_DROID':
     case 'TESTDROID':
       return testdroid;
@@ -50,7 +93,6 @@ module.exports = function getConfig(type) {
     case 'TESTOBJECT':
       return testobject;
     default:
-      console.log('Unknown config type ' + type);
       return local;
   }
-}
+};

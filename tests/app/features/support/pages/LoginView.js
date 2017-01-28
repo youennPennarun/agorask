@@ -9,6 +9,12 @@ class LoginView {
     return this.driver.waitForElementByAccessibilityId('Login View', asserters.isDisplayed, 30000);
   }
 
+  haveErrorMessage() {
+    return this.driver.waitForElementByAccessibilityId('Error Message', asserters.isDisplayed, 30000);
+  }
+  getErrorMessage() {
+    return this.driver.elementByAccessibilityId('Error Message').text();
+  }
   getUsernameInput() {
     return this.driver.elementByAccessibilityId('Username Input');
   }

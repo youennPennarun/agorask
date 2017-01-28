@@ -11,13 +11,33 @@ import {popRoute} from '../../../redux/actions/router';
 
 const {width} = Dimensions.get('window');
 
+type LoginViewStateType = {
+  username: string,
+  password: string,
+}
+
+type LoginViewPropsType = {
+  navigator: {
+    back: Function,
+    signIn: Function,
+  },
+  doLogin: Function,
+  message: ?string,
+  token: ?string,
+}
+
 export class LoginView extends Component {
-  state = {
+  state: LoginViewStateType = {
     username: '',
     password: '',
   }
-  usernameRef = null;
-  passwordRef = null;
+  props: LoginViewPropsType;
+
+  /* eslint-disable react/sort-comp */
+  usernameRef: MKTextField = null;
+  passwordRef: MKTextField = null;
+  /* eslint-enable react/sort-comp */
+
   login() {
     const {username, password} = this.state;
     const {doLogin} = this.props;
@@ -25,6 +45,9 @@ export class LoginView extends Component {
       doLogin(username, password);
     }
   }
+
+  setUsernameRef = (r: MKTextField) => { this.usernameRef = r; }
+  setPasswordRef = (r: MKTextField) => { this.passwordRef = r; }
 
   isFormValid(): boolean {
     return (
@@ -34,10 +57,12 @@ export class LoginView extends Component {
   }
 
   _onSubmitUsername() {
-    this.passwordRef.focus();
+    if (this.passwordRef) {
+      this.passwordRef.focus();
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: LoginViewPropsType) {
     if (!this.props.token && nextProps.token) {
       this.props.navigator.back();
     }
@@ -45,7 +70,7 @@ export class LoginView extends Component {
 
   _onSubmitPassword() {
     const {username, password} = this.state;
-    if (!username) {
+    if (!username && this.usernameRef) {
       this.usernameRef.focus();
       return;
     }
@@ -58,21 +83,23 @@ export class LoginView extends Component {
     const {message} = this.props;
     if (message) {
       return (
-        <Text style={styles.errorMessage}>{message}</Text>
+        <Text style={styles.errorMessage}
+          accessibilityLabel='Error Message'>
+          {message}
+        </Text>
       );
     }
     return null;
   }
 
   render(): Object {
-    const {goToMap} = this.props;
     return (
       <View style={styles.container} accessibilityLabel='Login View'>
         <Image style={styles.logo}
           source={require('../../../assets/logo.png')}
           resizeMode='contain' />
         {this._renderErrorMessage()}
-        <Textfield ref={r => { this.usernameRef = r; }}
+        <Textfield ref={this.setUsernameRef}
           accessibilityLabel='Username Input'
           style={styles.textInput}
           placeholder='Username'
@@ -80,7 +107,7 @@ export class LoginView extends Component {
           onSubmitEditing={() => { this._onSubmitUsername(); }}
           value={this.state.username}
           onChangeText={(text: string) => { this.setState({username: text}); }} />
-        <Textfield ref={r => { this.passwordRef = r; }}
+        <Textfield ref={this.setPasswordRef}
           accessibilityLabel='Password Input'
           style={styles.textInput}
           placeholder='Password'
@@ -95,7 +122,7 @@ export class LoginView extends Component {
         <LoginButton enabled={this.isFormValid()}
           onPress={() => { this.login(); }} />
 
-          <RegisterButton onPress={() => this.props.navigator.signIn()} />
+          <RegisterButton onPress={() => { this.props.navigator.signIn(); }} />
 
           <TouchableOpacity accessibilityLabel='Skip login'
             style={styles.goToMapButton}
@@ -111,6 +138,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   logo: {
     marginTop: 15,
@@ -149,11 +177,11 @@ const Textfield = MKTextField.textfieldWithFloatingLabel()
   .build();
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: Object): Object => ({
   ...state.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch): Object => ({
   doLogin: (username: string, password: string) => {
     dispatch(login(username, password));
   },

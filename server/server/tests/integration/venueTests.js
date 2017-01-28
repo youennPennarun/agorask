@@ -36,9 +36,6 @@ describe('Venue Tests', () => {
         expect(response.status).to.be.equal(200);
         return response.json();
       }).then(json => {
-        console.log('==================================');
-        console.log(json);
-        console.log('==================================');
         expect(json).to.matchSnapshot(snapshotPath, this.test.name);
       });
     });

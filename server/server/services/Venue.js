@@ -12,15 +12,15 @@ const getVenueFromExternalSource = function* (id, source, fields) {
   let venue;
   let query;
   if (source === 'foursquare') {
-    console.log("GET venue from foursquareID with fields ", fields)
+    console.log('GET venue from foursquareID with fields ', fields);
     query = Venue.findOne({foursquareId: id});
     if (fields) query.select(fields);
     venue = yield query.exec();
     if (!venue) {
-      console.log('venue from foursquare')
+      console.log('venue from foursquare');
       const venueData = yield Foursquare.getVenueById(id);
 
-      console.log('storing it')
+      console.log('storing it');
       venue = yield storeVenue(venueData);
       console.log(venue);
     }
@@ -35,7 +35,9 @@ const getVenue = function* (id, source, fields) {
   let query;
   if (!source) {
     query = Venue.findOne({_id: id});
-    if (fields) query.select(fields);
+    if (fields) {
+      query.select(fields);
+    }
     venue = yield query.exec();
   } else {
     venue = yield getVenueFromExternalSource(id, source, fields);
@@ -68,6 +70,9 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
           },
         },
       },
+      {
+        'tasks.nbAnswers': 0,
+      },
     ],
   }).sort({_id: -1});
   if (fields) {
@@ -79,7 +84,6 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
 
 const searchVenue = function* ({lat, lng}, query, radius) {
   const venues = yield Foursquare.searchVenue({lat, lng}, query, radius);
-  console.log(venues);
   return venues;
 };
 
@@ -96,6 +100,39 @@ const getVenuePicture = function(venue, size) {
 const getVenuePictureUrlFromVenueId = function* (venueId, size) {
   const venue = yield getVenue(venueId);
   return getVenuePicture(venue, size);
+};
+
+const getNbOpenTask = function* (venue) {
+  console.log(venue);
+  if (venue.tasks &&
+    venue.tasks.length === venue.tasks.filter(t => (t.nbAnswers !== undefined)).length) {
+    return venue.tasks.filter(task => !task.nbAnswers).length;
+  }
+  const result = yield Venue.aggregate([
+    {
+      $match: {
+        _id: venue._id,
+      },
+    },
+    {
+      $unwind: '$tasks',
+    },
+    {
+      $match: {
+        'tasks.nbAnswers': 0,
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+  ]).exec();
+
+  return result.length === 0 ? 0 : result[0].count;
 };
 
 const reduce = function(venue) {
@@ -117,5 +154,6 @@ module.exports = {
   searchVenue,
   getVenuePicture,
   getVenuePictureUrlFromVenueId,
+  getNbOpenTask,
   reduce,
 };

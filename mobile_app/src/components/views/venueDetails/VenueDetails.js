@@ -1,5 +1,14 @@
 import React, {Component, PropTypes} from 'react';
-import {View, Image, Text, StyleSheet, Dimensions, ScrollView, ToastAndroid} from 'react-native';
+import {View,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  ToastAndroid,
+  BackAndroid,
+  LayoutAnimation,
+} from 'react-native';
 
 import Config from 'react-native-config';
 
@@ -13,12 +22,14 @@ import RoundButton from '../../commons/RoundButton';
 
 import AddTask from './task/AddTask';
 
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 
 import VenueDescription from './VenueDescription';
 import Tasks from './task/Tasks';
+
+import RadialAnimatedView from '../../natives/RadialAnimatedView';
 
 
 const {width, height} = Dimensions.get('window');
@@ -34,14 +45,15 @@ function renderError(error) {
     <View>
       <Text>Error: {error}</Text>
     </View>
-  )
+  );
 }
 
 export class VenueDetails extends Component {
   state = {
     showAddTask: false,
   }
-  roundButtonRef = null;
+  roundButtonRef: RoundButton = null;
+  radialAnimatedViewRef: ?RadialAnimatedView = null;
 
   addTask(task): Promise<*> {
     const {_id, foursquareId, name, address, tasks = []} = this.props.venue;
@@ -50,27 +62,47 @@ export class VenueDetails extends Component {
     return this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
-  render() {
-    const {venue, isFetching, error} = this.props;
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this._onBack);
+    if (this.radialAnimatedViewRef) {
+      setTimeout(() => {
+        this.radialAnimatedViewRef.reveal();
+      });
+    }
+  }
 
-    if (isFetching) return renderFetchingState();
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this._onBack);
+  }
+
+  _onBack = (): boolean => {
+    if (this.props.isActive) {
+      this.radialAnimatedViewRef.hide();
+    }
+    return false;
+  }
+
+  render(): React.Element {
+    const {venue, isFetchingVenue, error} = this.props;
+
     if (error) return renderError(error);
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
       imageUri = `${Config.API_URL}/venues/${venue._id}/image`;
-      console.log('img = ', imageUri)
     }
     return (
-      <View style={styles.container}>
+      <RadialAnimatedView ref={r => { this.radialAnimatedViewRef = r; }}
+        style={styles.container}
+        center={this.props.position} >
           <Image style={styles.coverImage}
             resizeMode='cover'
             source={{uri: imageUri}} />
         <ScrollView style={styles.scollView}
           contentContainerStyle={styles.scrollViewContentContainer} >
           <View style={styles.scrollViewContent} >
-            <VenueDescription venue={venue} />
+            <VenueDescription loading={isFetchingVenue} venue={venue} />
             <Tasks tasks={venue.tasks || []}
-              goToTask={(id, task) => { this.props.navigator.taskDetails(id, task); }} />
+              goToTask={(id, task, position) => { this.props.navigator.taskDetails(id, task, position); }} />
           </View>
         </ScrollView>
         <AddTask style={styles.addTask}
@@ -92,7 +124,7 @@ export class VenueDetails extends Component {
             renderIcon: () => <Icon name='close' size={42} color='white' />,
             callback: () => this.setState({showAddTask: false}),
           }} />
-      </View>
+      </RadialAnimatedView>
     );
   }
 }
@@ -205,91 +237,93 @@ const mapDispatchToProps = (dispatch: Function, props): Object => ({
   },
 });
 
-
-const VenueDetailsConnected = connect(mapStateToProps, mapDispatchToProps)(VenueDetails);
-
-export default graphql(VenueDetailsQuery, {
-  options: ({ _id, sourceId, source }) => {
-    const variables = {};
-    if (_id) {
-      variables.id = _id;
-      variables.source = null;
-    } else {
-      variables.id = sourceId;
-      variables.source = source;
-    }
-    return {variables};
-  },
-  props: ({ownProps, data: { loading, error, venue } }) => {
-    return {
-      isFetching: loading,
-      venue: {
-        _id: ownProps._id,
-       ...venue,
-      },
-      error,
-      navigator: ownProps.navigator,
-    };
-  },
-})(graphql(AddTaskMutation, {
-  props: ({ownProps, mutate}) => ({
-      addTask: (venueId, task, token) => mutate({
-        variables: {venueId, task, token},
-        optimisticResponse: {
-          __typename: 'Mutation',
-          task: {
-            __typename: 'Task',
-            _id: null,
-            title: task.title,
-            nbAnswers: 0,
-          },
+export default compose(
+  graphql(VenueDetailsQuery, {
+    options: ({ _id, sourceId, source }) => {
+      const variables = {};
+      if (_id) {
+        variables.id = _id;
+        variables.source = null;
+      } else {
+        variables.id = sourceId;
+        variables.source = source;
+      }
+      return {variables};
+    },
+    props: ({ownProps, data: { loading, error, venue } }) => {
+      return {
+        isFetchingVenue: loading,
+        venue: {
+          _id: ownProps._id,
+        ...venue,
         },
-        updateQueries: {
-          VenuesNearUser: (prev, { mutationResult }) => {
-            if (mutationResult.errors) {
-              // TODO error handling
-              if (mutationResult.errors.length) {
-                ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
-              }
-              return prev;
-            }
-            if (!prev.venuesWithinRadius) return prev;
-
-            let venue = prev.venuesWithinRadius.find(v => (v._id === ownProps.venue._id || v.foursquareId === ownProps.venue.foursquareId));
-            if (!venue) {
-              venue = {
-                ...ownProps.venue,
-              };
-            }
-            venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
-            const updated = update(prev, {
-              venuesWithinRadius: {
-                $unshift: [venue],
-              },
-            });
-            return updated;
-          },
-          Venue: (prev, { mutationResult }) => {
-            if (mutationResult.errors) {
-              // TODO error handling
-              if (mutationResult.errors.length) {
-                ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
-              }
-              return prev;
-            }
-            if (!prev.venue) return prev;
-            const newTask = mutationResult.data.task;
-
-            const updated = update(prev, {
-              venue: {
-                tasks: {
-                  $unshift: [newTask],
-                },
-              },
-            });
-            return updated;
-          },
-        },
-      }),
+        error,
+        navigator: ownProps.navigator,
+      };
+    },
   }),
-})(VenueDetailsConnected));
+  graphql(AddTaskMutation, {
+    props: ({ownProps, mutate}) => ({
+        addTask: (venueId, task, token) => mutate({
+          variables: {venueId, task, token},
+          optimisticResponse: {
+            __typename: 'Mutation',
+            task: {
+              __typename: 'Task',
+              _id: null,
+              title: task.title,
+              nbAnswers: 0,
+            },
+          },
+          updateQueries: {
+            VenuesNearUser: (prev, { mutationResult }) => {
+              if (mutationResult.errors) {
+                // TODO error handling
+                if (mutationResult.errors.length) {
+                  ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
+                }
+                return prev;
+              }
+              if (!prev.venuesWithinRadius) return prev;
+
+              let venue = prev.venuesWithinRadius.find(v => (v._id === ownProps.venue._id || v.foursquareId === ownProps.venue.foursquareId));
+              if (!venue) {
+                venue = {
+                  ...ownProps.venue,
+                };
+              }
+              venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
+              const updated = update(prev, {
+                venuesWithinRadius: {
+                  $unshift: [venue],
+                },
+              });
+              return updated;
+            },
+            Venue: (prev, { mutationResult }) => {
+              if (mutationResult.errors) {
+                // TODO error handling
+                if (mutationResult.errors.length) {
+                  ToastAndroid.show(mutationResult.errors[0].message, ToastAndroid.SHORT);
+                }
+                return prev;
+              }
+              if (!prev.venue) return prev;
+              const newTask = mutationResult.data.task;
+
+              const updated = update(prev, {
+                venue: {
+                  tasks: {
+                    $unshift: [newTask],
+                  },
+                },
+              });
+              return updated;
+            },
+          },
+        }),
+    }),
+  }),
+  connect(mapStateToProps, mapDispatchToProps),
+)(VenueDetails);
+

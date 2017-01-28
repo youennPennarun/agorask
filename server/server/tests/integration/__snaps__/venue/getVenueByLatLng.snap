@@ -22,6 +22,7 @@ Object {
         "contact": null,
         "foursquareId": "53161f34498efe0e844dacce",
         "name": "ShopKeep",
+        "nbOpenTasks": 1,
         "picture": "http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png",
         "tasks": Array [
           Object {
@@ -55,6 +56,7 @@ Object {
         "contact": null,
         "foursquareId": "4d09e28ac370a35d1ea90d22",
         "name": "Independent Republic of Atari",
+        "nbOpenTasks": 4,
         "picture": "http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png",
         "tasks": Array [
           Object {
@@ -98,6 +100,7 @@ Object {
         "contact": null,
         "foursquareId": "4beadc76a9900f47f9061740",
         "name": "Ormeau Baths Gallery",
+        "nbOpenTasks": 1,
         "picture": "https://irs3.4sqi.net/img/general/undefinedxundefined/47296435_a6m5HaWleEE72AfUh8uZL-h8JUFH7-CcUTU-z0P5CSU.jpg",
         "tasks": Array [
           Object {
@@ -107,49 +110,6 @@ Object {
           }
         ],
         "website": ""
-      },
-      Object {
-        "_id": "581773476d568ac7723e1bae",
-        "address": Object {
-          "formatted": Array [
-            "17 Ormeau Ave",
-            "Belfast",
-            "BT2 8HD"
-          ],
-          "location": Array [
-            -5.928990840911865,
-            54.592803881688155
-          ]
-        },
-        "categories": Array [
-          Object {
-            "icon": "https://ss3.4sqi.net/img/categories_v2/nightlife/nightclub_64.png",
-            "name": "Nightclub"
-          }
-        ],
-        "contact": Object {
-          "facebook": null,
-          "facebookName": null,
-          "formattedPhone": "028 9032 5968",
-          "phone": "02890325968",
-          "twitter": null
-        },
-        "foursquareId": "4b65d319f964a5203a022be3",
-        "name": "The Limelight",
-        "picture": "https://irs0.4sqi.net/img/general/undefinedxundefined/RZx73X91WBg_n-Vr9OGx76qwTx_4m6fII-KsAxTB0dM.jpg",
-        "tasks": Array [
-          Object {
-            "_id": "581411784d79072f3b799aca",
-            "nbAnswers": 3,
-            "title": "Do they have live music?"
-          },
-          Object {
-            "_id": "581411784d79072f3b799acb",
-            "nbAnswers": 1,
-            "title": "Question 3"
-          }
-        ],
-        "website": "http://www.limelightbelfast.com"
       }
     ]
   }

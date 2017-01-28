@@ -16,12 +16,12 @@ export function showUpdateModal(url) {
 
 export function checkForUpdate() {
   return new Promise((resolve, reject) => {
+    if (!Config.RELEASE_DATE) return resolve();
     // const url = `${Config.API_URL}/application/check/${Config.RELEASE_DATE}?type=${Config.BUILD_TYPE}`;
-    const api_url = Config.VERSIONING_API_URL || Config.API_URL;
-    const url = `${api_url}/application/check/${Config.RELEASE_DATE}?type=${Config.BUILD_TYPE}`;
-    console.log(url)
+    const apiUrl = Config.VERSIONING_API_URL || Config.API_URL;
+    const url = `${apiUrl}/application/check/${Config.RELEASE_DATE}?type=${Config.BUILD_TYPE}`;
     fetch(url)
-      .then((response: Object) => response.json())
+      .then((response: Object): Promise<*> => response.json())
       .then(json => {
         if (json.uptodate) {
           resolve(null);
@@ -31,6 +31,7 @@ export function checkForUpdate() {
       })
       .catch(e => {
         console.log('error', e);
+        reject(e);
       });
   });
 }

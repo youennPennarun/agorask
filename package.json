@@ -2,9 +2,9 @@
   "name": "agorask",
   "version": "0.0.1",
   "scripts": {
-    "install": "cd ./server && npm install && cd ../mobile_app && npm install",
-    "test:server:codecov": "cd ./server && npm run codecov && cd ..",
-    "test:app:codecov": "cd ./mobile_app && npm run codecov && cd ..",
-    "test": " npm run test:server:codecov && npm run test:app:codecov"
+    "install": "cd ./server && yarn install && cd ../mobile_app && yarn install",
+    "test:server:codecov": "cd ./server && yarn run codecov && cd ..",
+    "test:app:codecov": "cd ./mobile_app && yarn run codecov && cd ..",
+    "test": " yarn run test:server:codecov && yarn run test:app:codecov"
   }
 }

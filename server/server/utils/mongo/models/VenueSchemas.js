@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const venueSubModels = require('./subModels/venueSubModels');
+const {shortUser} = require('./UserSchemas');
 
 const venueTaskSchema = mongoose.Schema({
   _id: {
@@ -12,6 +13,10 @@ const venueTaskSchema = mongoose.Schema({
   },
   nbAnswers: {
     type: mongoose.Schema.Types.Number,
+    required: true,
+  },
+  postedBy: {
+    type: shortUser,
     required: true,
   },
 }, {required: true});
@@ -48,7 +53,6 @@ const venue = mongoose.Schema({
     },
     amenity: String,
     tasks: [venueTaskSchema],
-    nbTasks: Number,
 });
 
 module.exports = {

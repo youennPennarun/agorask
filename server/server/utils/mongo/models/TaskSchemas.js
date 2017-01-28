@@ -1,15 +1,6 @@
 const mongoose = require('mongoose');
+const {shortUser} = require('./UserSchemas');
 
-const shortUser = mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-}, { _id: false });
 const answer = mongoose.Schema({
   answer: {
     type: String,

@@ -15,19 +15,22 @@ import {updateUserLocation} from '../../../redux/actions/user';
 import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
+
+
 export class MapView extends React.Component {
   state = {
     position: null,
     x: 50,
     y: 50,
+    rev: false,
   };
 
   componentWillMount() {
     navigator.geolocation.getCurrentPosition((position) => {
         this._onGetPosition(position);
       },
-      (error) => console.log(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      (error) => { console.log(JSON.stringify(error)); },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     this.watchID = navigator.geolocation.watchPosition(position => {
       this._onGetPosition(position);
@@ -42,30 +45,30 @@ export class MapView extends React.Component {
   _onGetPosition = ({coords}) => {
     this.props.updateUserLocation({lat: coords.latitude, lng: coords.longitude});
   }
-  _goToVenueDetails(venue) {
+
+  _goToVenueDetails(venue, {x, y}) {
     const {goToVenueDetails} = this.props;
-    goToVenueDetails(venue);
+    goToVenueDetails(venue, {x, y});
   }
-  _renderMarkers(venues = []) {
+
+  _renderMarkers(venues: Array<Object> = []): Array<MapMarker> {
     return venues.map((venue, key) => {
-      const cKey = `${venue.source || 'bd'}_${venue._id || venue.foursquareId}`;
       return (
         <MapMarker key={key}
           coordinate={{
             latitude: venue.address.location[1],
             longitude: venue.address.location[0],
           }}
-          onPress={() => {
-            this._goToVenueDetails(venue);
+          onPress={({nativeEvent}) => {
+            this._goToVenueDetails(venue, nativeEvent);
           }}
-          numberOfTasks={venue.nbTasks} />
+          numberOfTasks={venue.nbOpenTasks} />
       );
     });
   }
-  render() {
+  render(): React.Element<*> {
     const {venues, searchResults, venuesError} = this.props;
-    console.log('error=> ', venuesError)
-    const venuesToShow = (!!searchResults) ? searchResults : venues;
+    const venuesToShow = searchResults || venues;
     return (
       <View style={{flex: 1}}>
         <Map style={{
@@ -89,7 +92,7 @@ MapView.fragments = {
       foursquareId,
       name,
       source,
-      nbTasks
+      nbOpenTasks
       address {
         location,
       },
@@ -116,18 +119,21 @@ const SearchVenuesQuery = gql`
 `;
 
 
+/* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
   userLocation: state.userLocation,
   query: state.search.query,
 });
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Function): Object => ({
-  goToVenueDetails: (venue) => {
+  goToVenueDetails: (venue, position) => {
     dispatch(pushRoute({
       key: 'venueDetails',
       _id: venue._id,
       id: venue._id,
       sourceId: venue.foursquareId,
       source: 'foursquare',
+      position,
     }));
   },
   updateUserLocation: ({lat, lng}) => {
@@ -136,6 +142,7 @@ const mapDispatchToProps = (dispatch: Function): Object => ({
 });
 
 
+/* istanbul ignore next */
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   graphql(VenuesNearUserQuery, {

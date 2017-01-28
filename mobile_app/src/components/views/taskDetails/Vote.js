@@ -1,7 +1,12 @@
+/* @flow */
 import React, { PropTypes} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-export default function Vote(props): any {
+type VotePropsType = {
+  score: number,
+}
+
+export default function Vote(props: VotePropsType): React.Element<Vote> {
   const {score} = props;
 
   let scoreStatusStyle = {};

@@ -1,9 +1,10 @@
+/* @flow */
 import React, {Component, PropTypes} from 'react';
 import gql from 'graphql-tag';
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
 
-import Task from './Task';
+import TaskHeader from '../../taskDetails/TaskHeader';
+import TaskList from './TaskList';
 
 const {width, height} = Dimensions.get('window');
 
@@ -14,19 +15,20 @@ class Tasks extends Component {
     openTasksExtended: false,
     resolvedTasksExtended: false,
   }
-  _getResolvedTasks(skipSlice) {
+
+  _getResolvedTasks(skipSlice: boolean) : Array<Object> {
     const {tasks} = this.props;
     const {resolvedTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers > 0));
     return (resolvedTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
   }
-  _getOpenTasks(skipSlice) {
+  _getOpenTasks(skipSlice: boolean) : Array<Object> {
     const {tasks} = this.props;
     const {openTasksExtended} = this.state;
     const openTasks = tasks.filter(t => (t.nbAnswers === 0));
     return (openTasksExtended || skipSlice) ? openTasks : openTasks.slice(0, NB_TASK_TO_SHOW);
   }
-  _renderShowMoreButton(type) {
+  _renderShowMoreButton(type : String) : any {
     let tasks;
     let nextState = {};
     let label = '';
@@ -53,16 +55,7 @@ class Tasks extends Component {
       </TouchableOpacity>
     );
   }
-  _renderTask(task, key): any {
-    return (
-      <TouchableOpacity key={key}
-        onPress={() => { this.props.goToTask(task._id, task); }} >
-        <Task title={task.title} nbAnswers={task.nbAnswers} />
-        <View style={styles.separator} />
-      </TouchableOpacity>
-    );
-  }
-  render(): any {
+  render(): React.Element {
     const resolved = this._getResolvedTasks();
     const open = this._getOpenTasks();
     return (
@@ -77,7 +70,8 @@ class Tasks extends Component {
               {this._renderShowMoreButton('open')}
               </View>
               <View style={styles.tasksContainer}>
-                {open.map((task, key) => this._renderTask(task, key))}
+                <TaskList tasks={open}
+                  goToTask={this.props.goToTask} />
               </View>
             </View>
         ) : null}
@@ -91,7 +85,8 @@ class Tasks extends Component {
               {this._renderShowMoreButton('resolved')}
               </View>
               <View style={styles.tasksContainer}>
-                {resolved.map((task, key) => this._renderTask(task, key))}
+                <TaskList tasks={resolved}
+                  goToTask={this.props.goToTask} />
               </View>
             </View>
           ) : null}
@@ -111,8 +106,6 @@ const styles = StyleSheet.create({
   tasksContainer: {
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: 'white',
-    elevation: 1,
   },
   extendIcon: {
     marginRight: 15,
@@ -155,7 +148,7 @@ Tasks.fragments = {
         ...Task
       }
     }
-    ${Task.fragments.task}
+    ${TaskHeader.fragments.task}
   `,
 };
 

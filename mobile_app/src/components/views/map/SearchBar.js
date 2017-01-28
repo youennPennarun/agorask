@@ -14,10 +14,29 @@ const Textfield = MKTextField.textfield()
   .withPlaceholder('Search')
   .build();
 
+type SearchBarPropsType = {
+  query: string,
+  search: Function,
+  clearSearch: Function,
+  updateSearchQuery: Function,
+  openDrawer: Function,
+};
+
 export class SearchBar extends Component {
-  state = {
+  static propTypes = {
+    query: PropTypes.string,
+    search: PropTypes.func.isRequired,
+    clearSearch: PropTypes.func.isRequired,
+    updateSearchQuery: PropTypes.func.isRequired,
+    openDrawer: PropTypes.func.isRequired,
   };
-  _tfRef: Object = null;
+
+  static defaultProps = {
+    quer: '',
+  };
+  props: SearchBarPropsType;
+
+  _tfRef: ?MKTextField = null;
   _onChangeText(text: string) {
     this.props.updateSearchQuery(text);
   }
@@ -63,17 +82,6 @@ export class SearchBar extends Component {
   }
 }
 
-SearchBar.propTypes = {
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  onClear: PropTypes.func,
-};
-SearchBar.defaultProps = {
-  onChange: () => {},
-  onSubmit: () => {},
-  onClear: () => {},
-};
-
 const styles = StyleSheet.create({
   container: {
     width: width - 20,
@@ -108,9 +116,11 @@ const styles = StyleSheet.create({
   },
 });
 
+/* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
   query: state.search.query,
 });
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Function): Object => ({
   clearSearch: () => {
     dispatch(clear());

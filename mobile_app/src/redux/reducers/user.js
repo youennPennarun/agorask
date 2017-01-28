@@ -4,15 +4,24 @@ type UserLocationType = {
   coords: {
     lat: Number,
     lng: Number,
-  }
+  },
+  error: ?Object,
 }
 
-const defaultLocationState = {
+type UserStateType = {
+  isFetching: Boolean,
+  hasFailed: Boolean,
+  message: ?String,
+  token: ?String,
+  username: ?String,
+};
+
+const defaultLocationState: UserLocationType = {
   coords: null,
   error: null,
 };
 
-const defaultUserState = {
+const defaultUserState: UserStateType = {
   isFetching: false,
   hasFailed: false,
   message: null,
@@ -20,7 +29,7 @@ const defaultUserState = {
   username: null,
 };
 
-function userLocation(state = defaultLocationState, action): UserLocationType {
+function userLocation(state: UserLocationType = defaultLocationState, action): UserLocationType {
  switch (action.type) {
     case UPDATE_LOCATION:
       return {
@@ -35,7 +44,7 @@ function userLocation(state = defaultLocationState, action): UserLocationType {
  }
 }
 
-function user(state = defaultUserState, action) {
+function user(state: UserStateType = defaultUserState, action): UserStateType {
  switch (action.type) {
     case LOGIN:
       return {

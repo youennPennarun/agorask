@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "cucumberjs"
+  },
   "dependencies": {
     "cucumber": "^2.0.0-rc.5",
     "wd": "^1.1.1"

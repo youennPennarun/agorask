@@ -1,5 +1,7 @@
 export const PUSH = 'ROUTER_PUSH';
 export const POP = 'ROUTER_POP';
+export const TRANSITION_START = 'ROUTER_TRANSITION_START';
+export const TRANSITION_END = 'ROUTER_TRANSITION_END';
 
 
 export function login() {
@@ -13,11 +15,21 @@ export function pushRoute(route: Object = {}) {
   };
 }
 
-
 export function popRoute() {
   return {
     type: POP,
   };
 }
 
+export function transitionStart() {
+  return {
+    type: TRANSITION_START,
+  };
+}
+
+export function transitionEnd() {
+  return {
+    type: TRANSITION_END,
+  };
+}
 

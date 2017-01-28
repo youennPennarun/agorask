@@ -2,7 +2,8 @@ apply plugin: "com.android.application"
 
 project.ext.envConfigFiles = [
     debug: ".env",
-    devRelease: ".env.dev",
+    cirelease: ".env.test",
+    devrelease: ".env.dev",
     release: ".env.production",
     anyCustomBuildTypeName: ".env",
 ]
@@ -98,7 +99,7 @@ android {
 
     defaultConfig {
         applicationId "com.agorask"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -138,6 +139,12 @@ android {
         devRelease {
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
+        }
+        ciRelease.initWith(buildTypes.release)
+
+        ciRelease {
+            applicationIdSuffix ".ci"
+            versionNameSuffix "-ci"
         }
     }
     splits {

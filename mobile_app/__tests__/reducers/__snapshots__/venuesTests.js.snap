@@ -1,4 +1,22 @@
-exports[`test renders correctly 1`] = `
+exports[`test default venues state 1`] = `
+Object {
+  "error": null,
+  "isFetching": false,
+  "venues": Array [],
+  "version": 0,
+}
+`;
+
+exports[`test fetch venues fail 1`] = `
+Object {
+  "error": [Error: Unable to fetch venues],
+  "isFetching": false,
+  "venues": Array [],
+  "version": 0,
+}
+`;
+
+exports[`test fetch venues successful 1`] = `
 Object {
   "error": null,
   "isFetching": false,
@@ -9,5 +27,14 @@ Object {
     },
   ],
   "version": 1,
+}
+`;
+
+exports[`test fetching venues 1`] = `
+Object {
+  "error": null,
+  "isFetching": true,
+  "venues": Array [],
+  "version": 0,
 }
 `;

@@ -17,8 +17,21 @@ defineSupportCode(function({Given, When, Then}) {
     return this.LoginPage.login();
   });
 
-  Then('I should see an error', function () {
-    throw new Error('not implemented yet')
+  Then(/I should see an error that say "([^"]*)"/, function (text) {
+    return this.LoginPage.haveErrorMessage()
+      .then(exists => {
+        if (exists) {
+          return Promise.resolve();
+        } else {
+          return Promise.reject(new Error('No error is displayed'));
+        }
+      })
+      .then(() => this.LoginPage.getErrorMessage())
+      .then(message => {
+        return message === text ?
+          Promise.resolve() :
+          Promise.reject(new Error(`Expecting error to have value "${text}" but got "${message}"`));
+      });
   });
 
   When('I click on Not now', function () {

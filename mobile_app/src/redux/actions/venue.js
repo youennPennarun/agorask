@@ -21,7 +21,6 @@ const VENUE_API_URL = `${API_URL}/venues`;
 
 export function getVenuesWithTasksNearPosition(location: {latitude: number, longitude: number}, radius = 25) {
   return dispatch => {
-    console.log(VENUE_API_URL);
     dispatch({
       type: FETCHING_LIST,
     });
