@@ -52,12 +52,10 @@
     "test:unit": "npm run setupTestDb && mocha ./server/tests/unit/index.js",
     "test:integration": "npm run setupTestDb && ENV=test mocha ./server/tests/integration/index.js",
     "setupTestDb": "node ./scripts/setupTestDb.js",
-    "coverage:unit": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha --dir unit -x 'coverage/**' -x '**/lcov-report/**' -x 'scripts/' -- ./server/tests/unit/index.js",
-    "coverage:integration": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha --dir integration -x 'coverage/**' -x '**/lcov-report/**' -x 'scripts/' -- ./server/tests/integration/index.js",
+    "coverage:unit": "npm run setupTestDb && ENV=test istanbul  cover _mocha --dir coverage/unit  -- ./server/tests/unit/index.js",
+    "coverage:integration": "npm run setupTestDb && ENV=test istanbul  cover _mocha --dir coverage/integration -- ./server/tests/integration/index.js",
     "coverage": "npm run coverage:unit && npm run coverage:integration && istanbul report",
-    "codecov:unit": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha --report lcovonly --dir unit -x 'codecov/**' -x '**/lcov-report/**' -x 'scripts/' -- ./server/tests/unit/index.js",
-    "codecov:integration": "npm run setupTestDb && ENV=test istanbul  --include-all-sources cover _mocha --report lcovonly --dir integration -x 'coverage/**' -x '**/lcov-report/**' -x 'scripts/' -- ./server/tests/integration/index.js",
-    "codecov": "npm run codecov:unit && npm run codecov:integration && istanbul report && codecov"
+    "codecov": "npm run coverage && codecov"
   },
   "jest": {
     "testRegex": "(__tests__/.*/*..test.js$)",
