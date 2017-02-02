@@ -3,14 +3,17 @@ const getConfig = require('./configs');
 const {defineSupportCode} = require('cucumber');
 
 const LoginPage = require('./pages/LoginView');
+const MapPage = require('./pages/MapView');
 
-const confName = process.env.CIRCLECI ? 'testobject' : 'opo';
+
+const confName = process.env.APPIUM_CONFIG_NAME || (process.env.CIRCLECI ? 'testobject' : 'opo');
 console.log(`using config ${confName}`);
 
 function CustomWorld() {
   const conf = getConfig(confName);
   this.driver = wd.promiseChainRemote(conf.server.url || conf.server);
   this.LoginPage = new LoginPage(this.driver);
+  this.MapPage = new MapPage(this.driver);
   this.caps = conf.caps;
 }
 

@@ -55,6 +55,7 @@ export class MapView extends React.Component {
     return venues.map((venue, key) => {
       return (
         <MapMarker key={key}
+          accessibilityLabel={venue.name}
           coordinate={{
             latitude: venue.address.location[1],
             longitude: venue.address.location[0],

@@ -13,14 +13,30 @@ const testdroid = {
   },
   server: {url: 'http://appium.testdroid.com/wd/hub'},
 };
-console.log(process.env.APP_ID);
 const testobject = {
   caps: {
     testobject_api_key: process.env.TESTOBJECT_API_KEY,
     testobject_device: 'Motorola_Moto_E_2nd_gen_free',
     testobject_app_id: process.env.APP_ID,
+    testobject_appium_version: '1.5.3',
   },
   server: {url: 'http://appium.testobject.com/wd/hub'},
+};
+
+const saucelabs = {
+  caps: {
+    name: 'Sample Test',
+    browserName: '',
+    appiumVersion: '1.5.3',
+    deviceName: 'Android Emulator',
+    deviceOrientation: 'portrait',
+    platformVersion: '5.1',
+    platformName: 'Android',
+    app: 'sauce-storage:agorask.apk',
+  },
+  server: {
+    url: `https://${process.env.SAUCE_USERNAME}:${process.env.SAUCE_ACCESS_KEY}@ondemand.saucelabs.com:443/wd/hub`,
+  },
 };
 
 const local = {
@@ -46,14 +62,14 @@ const opo = {
     platformName: 'Android',
     deviceName: '192.168.0.12:5555',
     platformVersion: '7.1.1',
-    appPackage: 'com.agorask.ci',
+    appPackage: 'com.agorask.debug',
     appActivity: 'com.agorask.MainActivity',
     noReset: true,
     fullReset: false,
     waitForAppScript: true,
     app: path.join(
       __dirname,
-      '../../../../../mobile_app/android/app/build/outputs/apk/app-ciRelease.apk'
+      '../../../../../mobile_app/android/app/build/outputs/apk/app-debug.apk'
     ),
   },
   server: {port: 4723},
@@ -92,6 +108,11 @@ module.exports = function getConfig(type) {
     case 'TEST_OBJECT':
     case 'TESTOBJECT':
       return testobject;
+    case 'SAUCE_LABS':
+    case 'SAUCELABS':
+    case 'SAUCE_LAB':
+    case 'SAUCELAB':
+      return saucelabs;
     default:
       return local;
   }

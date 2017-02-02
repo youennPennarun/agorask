@@ -51,6 +51,7 @@ export class SearchBar extends Component {
     if (!this.props.query) return null;
     return (
       <TouchableOpacity style={styles.rightIcon}
+        accessibilityLabel='Clear Query Button'
         onPress={() => { this._clear(); }}>
         <Icon name='close'
           size={20}
@@ -68,6 +69,7 @@ export class SearchBar extends Component {
             color='#929292' />
         </TouchableOpacity>
         <Textfield style={styles.textInput}
+          accessibilityLabel='Search Input'
           ref={(tf) => { this._tfRef = tf; }}
           returnKeyType='search'
           placeholder='Search'
