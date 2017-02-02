@@ -31,6 +31,7 @@ exports[`test renders correctly when is filled 1`] = `
       size={30} />
   </TouchableOpacity>
   <BuiltTextfield
+    accessibilityLabel="Search Input"
     blurOnSubmit={true}
     highlightColor="#3F51B5"
     onChangeText={[Function]}
@@ -49,6 +50,7 @@ exports[`test renders correctly when is filled 1`] = `
     underlineEnabled={true}
     value="Some query" />
   <TouchableOpacity
+    accessibilityLabel="Clear Query Button"
     activeOpacity={0.2}
     onPress={[Function]}
     style={
@@ -102,6 +104,7 @@ exports[`test renders correctly when no query 1`] = `
       size={30} />
   </TouchableOpacity>
   <BuiltTextfield
+    accessibilityLabel="Search Input"
     blurOnSubmit={true}
     highlightColor="#3F51B5"
     onChangeText={[Function]}
