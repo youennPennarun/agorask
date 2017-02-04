@@ -15,6 +15,8 @@ import {updateUserLocation} from '../../../redux/actions/user';
 import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
+import Location from '../../../utils/Location';
+
 
 
 export class MapView extends React.Component {
@@ -26,18 +28,18 @@ export class MapView extends React.Component {
   };
 
   componentWillMount() {
-    navigator.geolocation.getCurrentPosition((position) => {
+    Location.getCurrentPosition((position) => {
         this._onGetPosition(position);
       },
       (error) => { console.log(JSON.stringify(error)); },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
-    this.watchID = navigator.geolocation.watchPosition(position => {
+    this.watchID = Location.watchPosition(position => {
       this._onGetPosition(position);
     });
   }
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
+    Location.clearWatch(this.watchID);
   }
 
   watchID = null;

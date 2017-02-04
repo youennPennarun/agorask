@@ -10,7 +10,9 @@ Feature: Map
   Scenario: Search
     Given  I am on the map screen
     When I search for "pub"
-    Then 12 markers will be visible
+      And I hide the keyboard
+    Then 29 markers will be visible
+      And I take a screenshot named "map_after_search_pub"
 
   Scenario: Clear search query
     Given  I am on the map screen

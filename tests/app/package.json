@@ -9,6 +9,7 @@
   "dependencies": {
     "chai": "^3.5.0",
     "cucumber": "^2.0.0-rc.5",
+    "node-resemble-js": "^0.2.0",
     "wd": "^1.1.1"
   }
 }

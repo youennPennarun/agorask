@@ -1,4 +1,5 @@
 const path = require('path');
+const {startMockLocationService, stopMockLocationService} = require('./utils');
 
 const testdroid = {
   caps: {
@@ -73,6 +74,10 @@ const opo = {
     ),
   },
   server: {port: 4723},
+  before: (caps) => {
+    return startMockLocationService(caps, {latitude: 52.527, longitude: 13.395})
+  },
+  after: stopMockLocationService
 };
 
 

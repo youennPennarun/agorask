@@ -1,24 +1,27 @@
 var {defineSupportCode} = require('cucumber');
 
+
 defineSupportCode(function({Before, After}) {
-  Before(function(scenarioResult, callback) {
-    this.driver.init(this.caps).then(data => {
-      this.driver.setAsyncScriptTimeout(30000);
-      console.log("setGeo ")
-      this.driver.setGeoLocation(5, -5, 30)
-        .then(() => {
-          callback();
-        })
-        .catch(e => {
-          console.log('ERROR ', e);
-          callback();
-        });
-      
-    }).catch((e) => {
-      callback(e.data || e)
-    });
+  
+
+  Before(function(scenarioResult) {
+    const before = (this.config.before) ? this.config.before : Promise.resolve;
+    return before(this.caps)
+      .then(() => this.driver.init(this.caps))
+      .then(() => {
+        this.driver.setAsyncScriptTimeout(30000)
+        return Promise.resolve();
+      })
   })
   After(function() {
+    if (this.config.after) {
+      return this.config.after(this.caps)
+        .then(() => this.driver.quit())
+        .catch(e => {
+          console.log(e);
+          return this.driver.quit();
+        })
+    }
     return this.driver.quit();
   });
 });

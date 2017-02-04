@@ -1,13 +1,11 @@
 package com.agorask.map;
 
-import android.content.Context;
 import android.graphics.Point;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
 
+import com.agorask.map.location.AgoraskLocationSource;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableMap;
@@ -28,33 +26,55 @@ import java.util.Map;
 public class RNMapView extends MapView
     implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
+    private final String TAG = "RNMapView";
+
 
     private final List<MapFeature> features = new ArrayList<>();
     private final Map<Marker, RNMarkerView> markers = new HashMap<>();
     private final MapManager mapManager;
     private final ReactApplicationContext context;
+    private final AgoraskLocationSource locationSource;
     private GoogleMap map;
+
     public RNMapView(ReactApplicationContext reactContext,MapManager mapManager) {
         super(reactContext);
         this.context = reactContext;
+        this.locationSource = AgoraskLocationSource.getInstance(reactContext);
+        this.locationSource.addServiceListener(new AgoraskLocationSource.LocationServiceCallbacks() {
+
+            @Override
+            public void onConnected() {
+                zoomOnUserLocation();
+            }
+
+            @Override
+            public void onConnectionSuspended() {
+
+            }
+
+            @Override
+            public void onConnectionFailed() {
+
+            }
+        });
 
         this.mapManager = mapManager;
 
         super.onCreate(null);
         super.onResume();
         super.getMapAsync(this);
-        Log.i("RNMapView", "getMapAsync");
+        Log.i(TAG, "getMapAsync");
     }
 
     @Override
     public void onMapReady(final GoogleMap map) {
-        Log.i("RNMapView", "onMapReady");
+        Log.i(TAG, "onMapReady");
         this.map = map;
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 RNMarkerView clickedMarker = markers.get(marker);
-                Log.i("RNMapView", "onMarkerClick");
+                Log.i(TAG, "onMarkerClick");
 
                 if (clickedMarker != null){
                     WritableMap event = new WritableNativeMap();
@@ -65,7 +85,7 @@ public class RNMapView extends MapView
                     Point point = map.getProjection().toScreenLocation(latLng);
                     event.putDouble("x", point.x);
                     event.putDouble("y", point.y);
-                    Log.i("RNMapView", "Push 'onPress' event");
+                    Log.i(TAG, "Push 'onPress' event");
                     mapManager.pushEvent(clickedMarker, "onPress", event);
                     return true;
                 }
@@ -87,6 +107,7 @@ public class RNMapView extends MapView
             @Override
             public void onHostResume() {
                 map.setMyLocationEnabled(true);
+                zoomOnUserLocation();
             }
             @Override
             public void onHostPause() {
@@ -109,7 +130,7 @@ public class RNMapView extends MapView
         Point point = map.getProjection().toScreenLocation(latLng);
         event.putDouble("x", point.x);
         event.putDouble("y", point.y);
-        Log.i("RNMapView", "Push 'onLongPress' event");
+        Log.i(TAG, "Push 'onLongPress' event");
         mapManager.pushEvent(this, "onLongPress", event);
     }
 
@@ -117,11 +138,9 @@ public class RNMapView extends MapView
         if (map == null) {
             return;
         }
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        Location location = locationSource.getLastKnownLocation();
         if (location != null) {
+            Log.d(TAG, "Zoom on user: " + location);
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -130,6 +149,8 @@ public class RNMapView extends MapView
                     .bearing(0)                // Sets the orientation of the camera to east
                     .build();                   // Creates a CameraPosition from the builder
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        } else {
+            Log.d(TAG, "Unable to retrieve user's location. Skipping zoom on user location");
         }
     }
 
@@ -144,7 +165,7 @@ public class RNMapView extends MapView
         }
     }
     public void removeFeatureAt(int index) {
-        Log.i("RNMapView", "removeFeatureAt " + index);
+        Log.i(TAG, "removeFeatureAt " + index);
         MapFeature feature = features.remove(index);
         if (feature instanceof RNMarkerView) {
             markers.remove(feature.getFeature());
