@@ -5,13 +5,21 @@ const fs = require('fs');
 
 const path = require('path');
 
-const diffImagePath = "../../snapshots";
+const NEW_IMAGES_PATH = `${(process.env.CIRCLE_ARTIFACTS || '/tmp/agorask_build')}/screenshots`;
+console.log(NEW_IMAGES_PATH.split('/'))
+NEW_IMAGES_PATH.split('/').reduce((previousPath, currentDirectory) => {
+  const cPath = `${previousPath}/${currentDirectory}`;
+  if (!fs.existsSync(cPath)) {
+    fs.mkdirSync(cPath)
+  }
+  return cPath;
+});
 
 defineSupportCode(function({Given, When, Then}) {
   When(/I take a screenshot named "([^"]+)"/, function (fileName) {
     const fileFullName = path.join(__dirname, `../../snapshots/${fileName}.png`);
-    const newFileFullName = path.join(__dirname, `../../snapshots/${fileName}_new.png`);
-    const diffFileFullName = path.join(__dirname, `../../snapshots/${fileName}_diff.jpg`);
+    const newFileFullName = path.join(NEW_IMAGES_PATH, `${fileName}_new.png`);
+    const diffFileFullName = path.join(NEW_IMAGES_PATH, `${fileName}_diff.jpg`);
     if (!fs.existsSync(fileFullName)) {
       console.log('Snapshot desn\'t exists. Creating it and skipping comparison');
       return this.driver.saveScreenshot(fileFullName);
@@ -21,17 +29,12 @@ defineSupportCode(function({Given, When, Then}) {
         .then(() => {
           resemble(fileFullName).compareTo(newFileFullName).onComplete(function(data){
             console.log(data);
-            fs.open(diffFileFullName, 'w', function(err, fd) {
+            fs.writeFile(diffFileFullName, data.getDiffImageAsJPEG(), function(err) {
               if (err) return reject(err);
-              fs.write(fd, data.getDiffImageAsJPEG(), 0, data.getDiffImageAsJPEG().length, null, function(err) {
-                if (err) return reject(err);
-                fs.close(fd, function() {
-                  return resolve();
-                })
-              });
+              return resolve();
             });
           });
-        });
+        }).catch(reject);
     });
   });
   When("I hide the keyboard", function() {
