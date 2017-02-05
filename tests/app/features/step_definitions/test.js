@@ -29,7 +29,6 @@ defineSupportCode(function({Given, When, Then}) {
           resemble(fileFullName)
             .compareTo(newFileFullName)
             .ignoreRectangles([[0,0,10000, 75]])
-            .scaleToSameSize()
             .ignoreAntialiasing()
             .onComplete(function(data){
               console.log(data);
