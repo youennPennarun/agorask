@@ -6,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 
 const NEW_IMAGES_PATH = `${(process.env.CIRCLE_ARTIFACTS || '/tmp/agorask_build')}/screenshots`;
-console.log(NEW_IMAGES_PATH.split('/'))
 NEW_IMAGES_PATH.split('/').reduce((previousPath, currentDirectory) => {
   const cPath = `${previousPath}/${currentDirectory}`;
   if (!fs.existsSync(cPath)) {
@@ -27,12 +26,15 @@ defineSupportCode(function({Given, When, Then}) {
     return new Promise((resolve, reject) => {
         this.driver.saveScreenshot(newFileFullName)
         .then(() => {
-          resemble(fileFullName).compareTo(newFileFullName).onComplete(function(data){
-            console.log(data);
-            fs.writeFile(diffFileFullName, data.getDiffImageAsJPEG(), function(err) {
-              if (err) return reject(err);
-              return resolve();
-            });
+          resemble(fileFullName)
+            .compareTo(newFileFullName)
+            .ignoreRectangles([[0,0,10000, 75]])
+            .onComplete(function(data){
+              console.log(data);
+              fs.writeFile(diffFileFullName, data.getDiffImageAsJPEG(), function(err) {
+                if (err) return reject(err);
+                return resolve();
+              });
           });
         }).catch(reject);
     });
