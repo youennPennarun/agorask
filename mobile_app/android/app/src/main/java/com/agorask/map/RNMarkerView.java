@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.content.res.Resources;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,7 +20,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by nolitsou on 10/22/16.
  */
 public class RNMarkerView extends MapFeature {
-    private final static int MARKER_SIZE = 70;
+    private static double MARKER_SIZE_WIDTH_RATIO = 0.065;
+    private static int MARKER_SIZE = 70;
     private MarkerOptions options;
     private LatLng position;
     private Marker marker;
@@ -27,6 +29,8 @@ public class RNMarkerView extends MapFeature {
 
     public RNMarkerView(Context context) {
         super(context);
+        Double size = MARKER_SIZE_WIDTH_RATIO * Resources.getSystem().getDisplayMetrics().widthPixels;
+        MARKER_SIZE = size.intValue();
     }
 
     @Override
