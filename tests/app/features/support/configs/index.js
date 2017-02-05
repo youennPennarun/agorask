@@ -17,7 +17,7 @@ const testdroid = {
 const testobject = {
   caps: {
     testobject_api_key: process.env.TESTOBJECT_API_KEY,
-    testobject_device: 'LG_Nexus_4_E960_real',
+    testobject_device: 'LG_Nexus_5X_real',
     testobject_app_id: process.env.APP_ID,
     testobject_appium_version: '1.5.3',
   },
