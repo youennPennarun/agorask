@@ -8,25 +8,10 @@ import {MapView} from '../src/components/views/map/MapView';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-function geoMock() {
-  const mock = {};
-  mock.getCurrentPositionCb = () => null;
-  mock.watchPositionCb = () => null;
-  mock.clearWatch = jest.fn();
+import Location from '../src/utils/Location';
 
-  mock.geolocation = {
-    getCurrentPosition: (cb) => { mock.getCurrentPositionCb = cb; },
-    watchPosition: (cb) => {
-      mock.watchPositionCb = cb;
-      return 1;
-    },
-    clearWatch: mock.clearWatch,
-  };
-  return mock;
-}
 
 it('renders correctly without any venues', () => {
-  navigator.geolocation = geoMock().geolocation;
   const wrapper = shallow(
     <MapView />,
   );
@@ -34,7 +19,6 @@ it('renders correctly without any venues', () => {
 });
 
 it('renders correctly with venues', () => {
-  navigator.geolocation = geoMock().geolocation;
   const wrapper = shallow(
     <MapView venues={[{
       _id: 'venueId1',
@@ -63,7 +47,6 @@ it('renders correctly with venues', () => {
 });
 
 it('renders correctly with search results', () => {
-  navigator.geolocation = geoMock().geolocation;
   const wrapper = shallow(
     <MapView searchResults={[{
       foursquareId: 'foursquareVenueId1',
@@ -95,17 +78,15 @@ it('renders correctly with search results', () => {
 });
 
 it('update user position called and clearWatch on componentWillUnmount', () => {
-  const mock = geoMock();
-  navigator.geolocation = mock.geolocation;
   const updateUserLocation = jest.fn();
   const wrapper = shallow(
     <MapView updateUserLocation={updateUserLocation} />,
     { lifecycleExperimental: true },
   );
-  mock.getCurrentPositionCb({ coords: {latitude: 50, longitude: -5}});
+  Location.getCurrentPositionCb({ coords: {latitude: 50, longitude: -5}});
   expect(updateUserLocation.mock.calls.length).toBe(1);
-  mock.watchPositionCb({ coords: {latitude: 50, longitude: -5}});
+  Location.watchPositionCb({ coords: {latitude: 50, longitude: -5}});
   expect(updateUserLocation.mock.calls.length).toBe(2);
   wrapper.unmount();
-  expect(mock.clearWatch.mock.calls.length).toBe(1);
+  expect(Location.clearWatch.mock.calls.length).toBe(1);
 });

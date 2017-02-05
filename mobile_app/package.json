@@ -42,14 +42,13 @@
     "eslint-plugin-import": "2.2.0",
     "flow-bin": "^0.37.4",
     "jest": "^18.1.0",
-    "jest-react-native": "^18.0.0",
     "react-dom": "15.4.1",
     "react-native-mock": "^0.2.7",
     "reactotron-react-native": "^1.6.0",
     "reactotron-redux": "^1.6.1"
   },
   "jest": {
-    "preset": "jest-react-native",
+    "preset": "react-native",
     "setupFiles": [
       "./jest/setup.js"
     ],

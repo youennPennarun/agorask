@@ -1,5 +1,3 @@
-import {mockComponent} from 'jest-react-native';
-
 
 jest.doMock('requireNativeComponent', () => {
   const React = require('react');
@@ -10,4 +8,16 @@ jest.doMock('requireNativeComponent', () => {
     props.children,
   );
 });
-// jest.mock('../src/components/natives/Map', () => {console.log(this); mockComponent('../src/components/natives/Map.js')});
+jest.mock('../src/utils/Location', () => {
+  const mock = {};
+  mock.getCurrentPositionCb = () => null;
+  mock.watchPositionCb = () => null;
+  mock.clearWatch = jest.fn();
+
+  mock.getCurrentPosition = (cb) => { mock.getCurrentPositionCb = cb; };
+  mock.watchPosition = (cb) => {
+    mock.watchPositionCb = cb;
+    return 1;
+  };
+  return mock;
+});
