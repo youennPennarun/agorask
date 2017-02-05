@@ -4,12 +4,12 @@ Feature: Map
   Background:
     Given I am on the login screen
     Then I click on Not now
-      And I take a screenshot named "map_before_feature"
 
 
   Scenario: Search
     Given  I am on the map screen
-    When I search for "pub"
+    When I take a screenshot named "map_before_feature"
+      And I search for "pub"
       And I hide the keyboard
     Then 29 markers will be visible
       And I take a screenshot named "map_after_search_pub"

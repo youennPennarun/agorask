@@ -6,6 +6,7 @@ defineSupportCode(function({Before, After}) {
 
   Before(function(scenarioResult) {
     const before = (this.config.before) ? this.config.before : (() => Promise.resolve());
+    
     return before(this.caps)
       .then(() => this.driver.init(this.caps))
       .then(() => {

@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 6.1.0
+    version: 6.9.2
   environment:
     ANDROID_SDK_HOME: /home/ubuntu/
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'

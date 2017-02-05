@@ -1,7 +1,8 @@
 var {defineSupportCode} = require('cucumber');
 const {asserters} = require('wd');
-const resemble = require('node-resemble-js');
 const fs = require('fs');
+
+const PixelDiff = require('pixel-diff');
 
 const path = require('path');
 
@@ -15,10 +16,8 @@ NEW_IMAGES_PATH.split('/').reduce((previousPath, currentDirectory) => {
 });
 
 defineSupportCode(function({Given, When, Then}) {
+  /*
   When(/I take a screenshot named "([^"]+)"/, function (fileName) {
-    const fileFullName = path.join(__dirname, `../../snapshots/${fileName}.png`);
-    const newFileFullName = path.join(NEW_IMAGES_PATH, `${fileName}_new.png`);
-    const diffFileFullName = path.join(NEW_IMAGES_PATH, `${fileName}_diff.jpg`);
     if (!fs.existsSync(fileFullName)) {
       console.log('Snapshot desn\'t exists. Creating it and skipping comparison');
       return this.driver.saveScreenshot(fileFullName);
@@ -39,7 +38,43 @@ defineSupportCode(function({Given, When, Then}) {
           });
         }).catch(reject);
     });
+  });*/
+  When(/I take a screenshot named "([^"]+)"/, function (fileName) {
+    const imageAPath = path.join(__dirname, `../../snapshots/${fileName}.png`);
+    const imageBPath = path.join(NEW_IMAGES_PATH, `${fileName}_new.png`);
+    const diffFileFullName = path.join(NEW_IMAGES_PATH, `${fileName}_diff.png`);
+
+    const cropOpts = {
+      y: 75,
+    };
+
+    const diff = new PixelDiff({
+      imageAPath,
+      imageBPath,
+      cropImageA: cropOpts,
+      cropImageB: cropOpts,
+
+      thresholdType: PixelDiff.THRESHOLD_PERCENT,
+      threshold: 0.02, // 1% threshold
+
+      imageOutputPath: diffFileFullName
+    });
+    if (!fs.existsSync(imageAPath)) {
+      return this.driver.saveScreenshot(imageAPath)
+    }
+    return this.driver.saveScreenshot(imageBPath)
+      .then(() => {
+        return diff.runWithPromise();
+      })
+      .then((result) => {
+        if (diff.hasPassed(result.code)) {
+          return Promise.resolve();
+        }
+        console.log(result);
+        return Promise.reject(`Found ${result.differences} differences`);
+      });
   });
+
   When("I hide the keyboard", function() {
     return this.driver.hideDeviceKeyboard();
   })
