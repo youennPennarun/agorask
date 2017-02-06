@@ -7,7 +7,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "cucumberjs"
+    "test": "cucumberjs"
   },
   "dependencies": {
     "chai": "^3.5.0",

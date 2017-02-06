@@ -10,7 +10,6 @@ function startMockLocationService(caps, {latitude, longitude}) {
       if (error) {
         return reject(error)
       }
-      console.log(stdout);
       return resolve();
     });
   });
@@ -22,7 +21,6 @@ function stopMockLocationService(caps) {
       if (error) {
         return reject(error)
       }
-      console.log(stdout);
       return resolve();
     });
   });

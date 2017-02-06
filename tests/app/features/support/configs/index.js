@@ -22,6 +22,7 @@ const testobject = {
     testobject_appium_version: '1.5.3',
   },
   server: {url: 'http://appium.testobject.com/wd/hub'},
+  screenshotsDirName: 'LG_Nexus_5X_real',
 };
 
 const saucelabs = {
@@ -77,7 +78,8 @@ const opo = {
   before: (caps) => {
     return startMockLocationService(caps, {latitude: 52.527, longitude: 13.395})
   },
-  after: stopMockLocationService
+  after: stopMockLocationService,
+  screenshotsDirName: 'local',
 };
 
 

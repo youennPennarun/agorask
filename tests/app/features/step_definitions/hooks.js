@@ -1,7 +1,8 @@
 var {defineSupportCode} = require('cucumber');
+const {pushNewScreenshots} = require('../support/utils/updateSnaphots');
 
 
-defineSupportCode(function({Before, After}) {
+defineSupportCode(function({Before, After, registerHandler}) {
   
 
   Before(function(scenarioResult) {
@@ -24,5 +25,11 @@ defineSupportCode(function({Before, After}) {
         })
     }
     return this.driver.quit();
+  });
+  const world = this;
+  registerHandler('AfterFeatures', function(features, callback) {
+    pushNewScreenshots()
+      .then(callback)
+      .catch(callback)
   });
 });
