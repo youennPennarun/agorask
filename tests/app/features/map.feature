@@ -11,8 +11,8 @@ Feature: Map
     When I take a screenshot named "map_before_feature"
       And I search for "pub"
       And I hide the keyboard
-    Then 29 markers will be visible
-      And I take a screenshot named "map_after_search_pub"
+    Then I take a screenshot named "map_after_search_pub"
+      And 29 markers will be visible
 
   Scenario: Clear search query
     Given  I am on the map screen
