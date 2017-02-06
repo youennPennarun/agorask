@@ -3,7 +3,6 @@ machine:
     version: 6.9.2
   environment:
     ANDROID_SDK_HOME: /home/ubuntu/
-    GIT_COMMIT_DESC: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
     JAVA_OPTS: "-Xms518m -Xmx2048m"
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
     QEMU_AUDIO_DRV: none

@@ -34,7 +34,6 @@ function pushNewScreenshots() {
   const spawnPromise = spawnPromiseFactory(buffer => { console.log(buffer.toString()); });
   const directory = path.join(__dirname, '../../../screenshots/')
   if (!process.env.CIRCLE_BRANCH) return Promise.resolve();
-  console.log(directory)
   return spawnPromise('git', ['add', directory])
     .then(() => spawnPromise('git', ['commit', '-m', '[auto pushed by CI] Update screenshots[skip ci]']))
     .then(() => spawnPromise('git', ['push', 'origin', process.env.CIRCLE_BRANCH]));
@@ -44,14 +43,18 @@ function screenshotsToUpdateFromLocalTests(directory) {
   if (COMMIT_RANGE) {
     const res = execSync(`git diff --name-only ${COMMIT_RANGE}`).toString();
     const files = res.split('\n');
-    return files.filter(f => f.startsWith(`tests/app/screenshots/local`));
+    conosle.log('Updated files: ', files)
+    const updated = files.filter(f => f.startsWith(`tests/app/screenshots/local`));
+    conosle.log('Updated screenshots: ', updated)
   }
   return [];
 }
 
 
 function screenshotsToUpdateFromCommitDesc() {
-  if (process.env.CIRCLECI && process.env.GIT_COMMIT_DESC) {
+  if (process.env.CIRCLECI) {
+    const GIT_COMMIT_DESC = execSync(`git log --format=oneline -n 1 ${process.env.CIRCLE_SHA1}`).toString()
+    conosle.log('commit message: ', GIT_COMMIT_DESC)
     const re = /\[ *ci +updateScreenshots +(.*) *\]/;
     const matches = process.env.GIT_COMMIT_DESC.match(re);
     if (matches && matches.length === 2) {
