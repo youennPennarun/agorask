@@ -2,6 +2,15 @@ const execSync = require('child_process').execSync;
 const spawn = require('child_process').spawn;
 const path = require('path');
 
+let COMMIT_RANGE;
+if (process.env.CIRCLECI && process.env.CIRCLE_COMPARE_URL) {
+  const re = /compare\/([0-9a-z]+)\.\.\.([0-9a-z]+)$/;
+  const matches = process.env.CIRCLE_COMPARE_URL.match(re);
+  if (matches.length === 3) {
+    COMMIT_RANGE = `${matches[1]}...${matches[2]}`;
+  }
+}
+
 function spawnPromiseFactory(onDataStdout, onDataStdErr) {
   onDataStdout = onDataStdout || (() => {});
   onDataStdErr = onDataStdErr || onDataStdout;
@@ -32,8 +41,8 @@ function pushNewScreenshots() {
 }
 
 function screenshotsToUpdateFromLocalTests(directory) {
-  if (process.env.CIRCLECI && process.env.COMMIT_RANGE) {
-    const res = execSync(`git diff --name-only ${process.env.COMMIT_RANGE}`).toString();
+  if (COMMIT_RANGE) {
+    const res = execSync(`git diff --name-only ${COMMIT_RANGE}`).toString();
     const files = res.split('\n');
     return files.filter(f => f.startsWith(`tests/app/screenshots/local`));
   }

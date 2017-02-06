@@ -20,6 +20,15 @@ defineSupportCode(function({Given, When, Then}) {
       })
   });
 
+  Then(/at least([0-9]+) markers will be visible/, function(nbMarkersExpected) {
+    return this.MapPage.getMarkers()
+      .then(markers => {
+        expect(markers).to.have.length.of.at.least(nbMarkersExpected);
+
+        return Promise.resolve();
+      })
+  });
+
   When(/I clear the search/, function () {
     return this.MapPage.clearQuery();
   });
