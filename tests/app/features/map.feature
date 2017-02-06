@@ -12,7 +12,7 @@ Feature: Map
       And I search for "pub"
       And I hide the keyboard
     Then I take a screenshot named "map_after_search_pub"
-      And 29 markers will be visible
+      And 22 markers will be visible
 
   Scenario: Clear search query
     Given  I am on the map screen

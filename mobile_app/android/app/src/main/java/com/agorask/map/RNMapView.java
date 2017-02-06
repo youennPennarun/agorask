@@ -143,7 +143,7 @@ public class RNMapView extends MapView
             Log.d(TAG, "Zoom on user: " + location);
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                    .zoom(12)                   // Sets the zoom
+                    .zoom(13)                   // Sets the zoom
                     .build();                   // Creates a CameraPosition from the builder
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         } else {

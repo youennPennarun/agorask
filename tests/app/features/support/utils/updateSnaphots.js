@@ -27,7 +27,7 @@ function pushNewScreenshots() {
   if (!process.env.CIRCLE_BRANCH) return Promise.resolve();
   console.log(directory)
   return spawnPromise('git', ['add', directory])
-    .then(() => spawnPromise('git', ['commit', '-m', '"[auto pushed by CI] Update screenshots[skip ci]"']))
+    .then(() => spawnPromise('git', ['commit', '-m', '[auto pushed by CI] Update screenshots[skip ci]']))
     .then(() => spawnPromise('git', ['push', 'origin', process.env.CIRCLE_BRANCH]));
 }
 
