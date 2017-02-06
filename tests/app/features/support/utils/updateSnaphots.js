@@ -56,7 +56,8 @@ function screenshotsToUpdateFromCommitDesc() {
     const GIT_COMMIT_DESC = execSync(`git log --format=oneline -n 1 ${process.env.CIRCLE_SHA1}`).toString()
     console.log('commit message: ', GIT_COMMIT_DESC)
     const re = /\[ *ci +updateScreenshots +(.*) *\]/;
-    const matches = GIT_COMMIT_DESC.match(re);
+    const matches = re.exec(GIT_COMMIT_DESC);
+    console.log('Matches: ', matches);
     if (matches && matches.length === 2) {
       return matches[1].split(',');
     }
