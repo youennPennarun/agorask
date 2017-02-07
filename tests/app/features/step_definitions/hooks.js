@@ -30,6 +30,6 @@ defineSupportCode(function({Before, After, registerHandler}) {
   registerHandler('AfterFeatures', function(features, callback) {
     pushNewScreenshots()
       .then(callback)
-      .catch(callback)
+      .catch(() => callback())
   });
 });
