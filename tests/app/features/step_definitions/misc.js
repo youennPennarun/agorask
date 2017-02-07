@@ -48,7 +48,7 @@ defineSupportCode(function({Given, When, Then}) {
       return this.driver.saveScreenshot(imageAPath)
     }
     if (shouldUpdateScreenshot(fileName, updateScreenshots)) {
-      console.log(`Updating ${filename}`)
+      console.log(`Updating ${fileName}`)
       return this.driver.saveScreenshot(imageAPath) 
     }
     return this.driver.saveScreenshot(imageBPath)
