@@ -32,7 +32,7 @@ export class MapView extends React.Component {
         this._onGetPosition(position);
       },
       (error) => { console.log(JSON.stringify(error)); },
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      {enableHighAccuracy: true, timeout: 60000},
     );
     this.watchID = Location.watchPosition(position => {
       this._onGetPosition(position);

@@ -48,14 +48,10 @@ public class RNMapView extends MapView
             }
 
             @Override
-            public void onConnectionSuspended() {
-
-            }
+            public void onConnectionSuspended() {}
 
             @Override
-            public void onConnectionFailed() {
-
-            }
+            public void onConnectionFailed() {}
         });
 
         this.mapManager = mapManager;

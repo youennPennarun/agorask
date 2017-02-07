@@ -41,7 +41,6 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     private static AgoraskLocationSource instance = null;
     private final Context context;
     private Location lastLocation;
-    private LocationRequest locationRequest;
     private boolean requestingLocationUpdates = false;
     private String lastUpdateTime;
 
@@ -70,9 +69,6 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     }
 
     public void addServiceListener(LocationServiceCallbacks listener) {
-        if (isConnected && serviceListeners.size() == 0) {
-            createLocationRequest();
-        }
         if (!serviceListeners.contains(listener)) {
             serviceListeners.add(listener);
         }
@@ -80,9 +76,6 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     public void removeServiceListener(LocationServiceCallbacks listener) {
         if (serviceListeners.contains(listener)) {
             serviceListeners.remove(listener);
-        }
-        if (serviceListeners.size() == 0) {
-            stopLocationUpdates();
         }
     }
 
@@ -101,9 +94,6 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     public void onConnected(@Nullable Bundle bundle) {
         isConnected = true;
         Log.d(TAG, "Connected...");
-        if (serviceListeners.size() > 0) {
-            createLocationRequest();
-        }
         for(LocationServiceCallbacks listener: serviceListeners) {
             listener.onConnected();
         }
@@ -124,24 +114,12 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
         }
     }
 
-    public Location createLocationRequest() {
-        if (requestingLocationUpdates || !isConnected) {
-            return lastLocation;
-        }
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setFastestInterval(5000); // 5 sec
-        locationRequest.setInterval(10000); // Update location every 10 second
-        Log.d(TAG, "createLocationRequest: requestLocationUpdates");
-        FusedLocationApi.requestLocationUpdates(gApi, locationRequest, this);
-        requestingLocationUpdates = true;
-
-        return getLastKnownLocation();
+    public void requestLocationUpdates(LocationRequest request, LocationListener callback) {
+        FusedLocationApi.requestLocationUpdates(gApi, request, callback);
     }
 
-    protected void stopLocationUpdates() {
-        FusedLocationApi.removeLocationUpdates(gApi, this);
-        requestingLocationUpdates = false;
+    public void removeLocationUpdates(LocationListener callback) {
+        FusedLocationApi.removeLocationUpdates(gApi, callback);
     }
 
     public Location getLastKnownLocation() {
