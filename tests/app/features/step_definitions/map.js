@@ -7,11 +7,11 @@ const path = require('path');
 
 defineSupportCode(function({Given, When, Then}) {
 
-  When(/I search for "([^"]*)"/, function (query) {
+  When(/^I search for "([^"]*)"$/, function (query) {
     return this.MapPage.searchFor(query);
   });
 
-  Then(/([0-9]+) markers will be visible/, function(nbMarkersExpected) {
+  Then(/^([0-9]+) markers will be visible$/, function(nbMarkersExpected) {
     return this.MapPage.getMarkers()
       .then(markers => {
         expect(markers).to.have.lengthOf(nbMarkersExpected);
@@ -20,7 +20,7 @@ defineSupportCode(function({Given, When, Then}) {
       })
   });
 
-  Then(/at least ([0-9]+) markers will be visible/, function(nbMarkersExpected) {
+  Then(/^at least ([0-9]+) markers will be visible$/, function(nbMarkersExpected) {
     return this.MapPage.getMarkers()
       .then(markers => {
         expect(markers).to.have.length.of.at.least(nbMarkersExpected);
