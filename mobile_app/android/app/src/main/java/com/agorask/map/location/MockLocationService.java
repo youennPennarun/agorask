@@ -1,12 +1,15 @@
 package com.agorask.map.location;
 
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.agorask.map.location.AgoraskLocationSource;
+import com.agorask.R;
 
 /**
  * Created by nolitsou on 2/3/17.
@@ -14,6 +17,8 @@ import com.agorask.map.location.AgoraskLocationSource;
 
 public class MockLocationService extends Service {
     private final static String TAG = "MockLocationService";
+
+    private final static int NOTIFICATION_ID = 64;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -58,6 +63,7 @@ public class MockLocationService extends Service {
 
     private void unmock(AgoraskLocationSource locationSource) {
         locationSource.setMockMode(false);
+        hideNotification();
     }
     private void mock(AgoraskLocationSource locationSource, Intent intent) {
         double latitude = 0;
@@ -89,6 +95,29 @@ public class MockLocationService extends Service {
         loc.setLatitude(latitude);
         loc.setLongitude(longitude);
         locationSource.setMockLocation(loc);
+        showNotification();
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                .setContentTitle("Mock location service enabled!")
+                .setContentText("...")
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Hide the notification after its selected
+
+        Log.d(TAG, "Show notification");
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void hideNotification() {
+        Log.d(TAG, "Hiding notification");
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(NOTIFICATION_ID);
+
     }
 
     @Override
