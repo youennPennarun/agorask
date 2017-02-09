@@ -27,9 +27,6 @@ dependencies:
         background: true
         pwd:
           mobile_app/android
-    - until (./gradlew --status | grep -q IDLE); do echo "Waiting for gradle daemon..."; done:
-        pwd:
-          mobile_app/android
           
   cache_directories:
     - ~/.yarn
