@@ -34,7 +34,7 @@ test:
     - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
     - git remote add herokuTest git@heroku.com:agorask-test.git
     - git push herokuTest `git subtree split --prefix server HEAD`:master --force
-    - ./gradlew assembleCiRelease --configure-on-demand --daemon --parallel:
+    - ./gradlew assembleCiRelease:
         timeout: 3600
         pwd:
           mobile_app/android
