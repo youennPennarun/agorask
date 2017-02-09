@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
-import com.horcrux.svg.RNSvgPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -34,7 +33,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-            new RNSvgPackage(),
             new ReactMaterialKitPackage(),
             new ReactNativeConfigPackage(),
           new CustomPackage()
