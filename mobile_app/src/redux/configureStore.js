@@ -17,36 +17,43 @@ if (__DEV__) {
 }
 
 const queue = {};
-/*
+let clientQL = null;
+
 const storage = store => next => action => {
   if (action.type === 'APOLLO_MUTATION_INIT') {
     if (!queue[action.mutationId]) {
       console.log('Storing mutation', action.mutationId)
-      queue[action.mutationId] = action;
+      const save = {
+        mutation: action.mutation,
+        variables: action.variables,
+        optimisticResponse: action.optimisticResponse,
+        updateQueries: action.updateQueriesByName,
+        refetchQueries: [],
+      };
+      queue[action.mutationId] = save;
     }
   } else if (action.type === 'APOLLO_MUTATION_RESULT') {
-    console.log('removing ', queue[action.mutationId])
     if (queue[action.mutationId]) {
       delete queue[action.mutationId];
     }
   } else if (action.type === 'APOLLO_MUTATION_ERROR') {
-    console.log(action.mutationId, ' in? ', Object.keys(queue));
     if (queue[action.mutationId]) {
         queue[action.mutationId].__retried = true;
-        console.log('will retry!!!!');
+        const mutation = {...queue[action.mutationId]};
+        delete queue[action.mutationId];
         setTimeout(() => {
-          console.log('retry!!!');
-          store.dispatch(queue[action.mutationId]);
-        }, 1000)
+          clientQL.mutate(mutation);
+        }, 60000);
     }
   }
   return next(action);
 };
 middlewares.push(storage);
-*/
+
 
 
 function configureStore(apolloClient) {
+  clientQL = apolloClient;
   const reducersWithApollo = combineReducers({
     ...reducers,
     apollo: apolloClient.reducer(),
@@ -57,7 +64,11 @@ function configureStore(apolloClient) {
   if (module.hot) {
     module.hot.accept(() => {
       // eslint-disable-next-line global-require
-      const nextRootReducer = require('./reducers').default;
+      const nextReducers = require('./reducers').default;
+      const nextRootReducer = combineReducers({
+        ...nextReducers,
+        apollo: apolloClient.reducer(),
+      });
       store.replaceReducer(nextRootReducer);
     });
   }

@@ -76,6 +76,10 @@ export class VenueDetails extends Component {
   }
 
   _onBack = (): boolean => {
+    if (this.state.showAddTask) {
+      if (this.roundButtonRef) this.roundButtonRef.setActive(false);
+      return true;
+    }
     if (this.props.isActive) {
       this.radialAnimatedViewRef.hide();
     }

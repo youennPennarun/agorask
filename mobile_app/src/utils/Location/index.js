@@ -31,6 +31,7 @@ if (NativeModules.Location) {
       if (!locationEventEmitterId) {
         locationEventEmitterId = LocationEventEmitter.addListener('locationChanged', onLocation);
       }
+      return id;
     },
     clearWatch: (id) => {
       NativeModules.Location.clearWatch(id);
