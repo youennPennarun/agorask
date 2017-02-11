@@ -1,8 +1,12 @@
 package com.agorask;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.agorask.map.location.AgoraskLocationSource;
+import com.agorask.map.location.MockLocationService;
 import com.facebook.react.ReactActivity;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -13,5 +17,22 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "agorask";
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        AgoraskLocationSource locationSource = AgoraskLocationSource.getInstance();
+        if (locationSource != null && state != null) {
+            locationSource.onSaveInstanceState(state);
+        }
+    }
+    @Override
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
+        AgoraskLocationSource locationSource = AgoraskLocationSource.getInstance();
+        if (locationSource != null && state != null) {
+            locationSource.updateValuesFromBundle(state);
+        }
     }
 }

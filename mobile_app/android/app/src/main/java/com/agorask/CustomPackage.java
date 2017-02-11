@@ -2,6 +2,7 @@ package com.agorask;
 
 import com.agorask.map.MapManager;
 import com.agorask.map.RNMarkerManager;
+import com.agorask.map.location.LocationLink;
 import com.agorask.radialAnimatedView.RadialAnimatedViewManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -22,6 +23,7 @@ class CustomPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
+        modules.add(new LocationLink(reactContext));
 
         return modules;
     }

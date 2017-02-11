@@ -1,8 +1,9 @@
 machine:
   node:
-    version: 6.1.0
+    version: 6.9.2
   environment:
     ANDROID_SDK_HOME: /home/ubuntu/
+    JAVA_OPTS: "-Xms518m -Xmx2048m"
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
     QEMU_AUDIO_DRV: none
     YARN_VERSION: 0.18.1
@@ -22,6 +23,7 @@ dependencies:
         pwd:
           tests/app
     - yarn
+          
   cache_directories:
     - ~/.yarn
     - ~/.cache/yarn
@@ -33,8 +35,9 @@ test:
     - openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
     - git remote add herokuTest git@heroku.com:agorask-test.git
     - git push herokuTest `git subtree split --prefix server HEAD`:master --force
-    - ./gradlew assembleCiRelease:
+    - ./gradlew assembleCiRelease --parallel:
         timeout: 3600
+        parallel: true
         pwd:
           mobile_app/android
     - |
@@ -46,7 +49,7 @@ test:
     - echo "Using app ID $APP_ID"
   override:
     - yarn test
-    - yarn start:
+    - yarn test:
         timeout: 3600
         pwd:
           tests/app

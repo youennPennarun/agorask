@@ -2,4 +2,5 @@
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
 
     <string name="app_name">agorask</string>
+    <bool name="is_debug_build">false</bool>
 </resources>

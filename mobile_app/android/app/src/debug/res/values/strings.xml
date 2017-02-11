@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">agorask DEBUG</string>
+    <bool name="is_debug_build">true</bool>
 </resources>

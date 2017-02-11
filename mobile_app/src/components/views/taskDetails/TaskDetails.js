@@ -70,12 +70,12 @@ export class TaskDetails extends Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.onBack);
-    InteractionManager.runAfterInteractions(() => {
+    // InteractionManager.runAfterInteractions(() => {
       Animated.timing(this.state.bodyHeight, {
         toValue: height,
         duration: 200,
       }).start();
-    });
+    // });
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.onBack);

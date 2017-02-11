@@ -112,7 +112,6 @@ class TaskList extends Component {
       });
   }
   _renderRow(task, key): React.Element<*> {
-    console.log(task)
     return (
       <Animated.View key={key} style={{
         transform: [

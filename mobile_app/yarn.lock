@@ -2809,10 +2809,6 @@ jest-mock@^18.0.0:
   version "18.0.0"
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-18.0.0.tgz#5c248846ea33fa558b526f5312ab4a6765e489b3"
 
-jest-react-native@^18.0.0:
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/jest-react-native/-/jest-react-native-18.0.0.tgz#77dd909f069324599f227c58c61c2e62168726ba"
-
 jest-resolve-dependencies@^18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/jest-resolve-dependencies/-/jest-resolve-dependencies-18.1.0.tgz#8134fb5caf59c9ed842fe0152ab01c52711f1bbb"
@@ -3923,9 +3919,9 @@ react-native-code-push@^1.16.0-beta:
     inquirer "1.1.2"
     plist "1.2.0"
 
-react-native-config@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.2.1.tgz#8331c050b8f487019b1baed93451f06ae5848926"
+react-native-config@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.3.1.tgz#981d98eee2c4e467397cd9306f5b6958c501c6e8"
 
 "react-native-material-kit@git://github.com/youennPennarun/react-native-material-kit#cc9ac25":
   version "0.3.3"

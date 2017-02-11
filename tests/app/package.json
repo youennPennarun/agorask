@@ -1,13 +1,19 @@
 {
   "name": "app",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=6.9.2"
+  },
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "cucumberjs"
+    "test": "cucumberjs"
   },
   "dependencies": {
+    "chai": "^3.5.0",
     "cucumber": "^2.0.0-rc.5",
+    "node-resemble-js": "^0.2.0",
+    "pixel-diff": "^1.0.1",
     "wd": "^1.1.1"
   }
 }

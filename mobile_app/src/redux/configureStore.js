@@ -16,7 +16,44 @@ if (__DEV__) {
   _createStore = Reactotron.createStore;
 }
 
+const queue = {};
+let clientQL = null;
+
+const storage = store => next => action => {
+  if (action.type === 'APOLLO_MUTATION_INIT') {
+    if (!queue[action.mutationId]) {
+      console.log('Storing mutation', action.mutationId)
+      const save = {
+        mutation: action.mutation,
+        variables: action.variables,
+        optimisticResponse: action.optimisticResponse,
+        updateQueries: action.updateQueriesByName,
+        refetchQueries: [],
+      };
+      queue[action.mutationId] = save;
+    }
+  } else if (action.type === 'APOLLO_MUTATION_RESULT') {
+    if (queue[action.mutationId]) {
+      delete queue[action.mutationId];
+    }
+  } else if (action.type === 'APOLLO_MUTATION_ERROR') {
+    if (queue[action.mutationId]) {
+        queue[action.mutationId].__retried = true;
+        const mutation = {...queue[action.mutationId]};
+        delete queue[action.mutationId];
+        setTimeout(() => {
+          clientQL.mutate(mutation);
+        }, 60000);
+    }
+  }
+  return next(action);
+};
+middlewares.push(storage);
+
+
+
 function configureStore(apolloClient) {
+  clientQL = apolloClient;
   const reducersWithApollo = combineReducers({
     ...reducers,
     apollo: apolloClient.reducer(),
@@ -27,7 +64,11 @@ function configureStore(apolloClient) {
   if (module.hot) {
     module.hot.accept(() => {
       // eslint-disable-next-line global-require
-      const nextRootReducer = require('./reducers').default;
+      const nextReducers = require('./reducers').default;
+      const nextRootReducer = combineReducers({
+        ...nextReducers,
+        apollo: apolloClient.reducer(),
+      });
       store.replaceReducer(nextRootReducer);
     });
   }

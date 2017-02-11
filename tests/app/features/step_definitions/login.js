@@ -1,6 +1,8 @@
 var {defineSupportCode} = require('cucumber');
 const {asserters} = require('wd');
 
+const path = require('path');
+
 
 defineSupportCode(function({Given, When, Then}) {
   Given('I am on the login screen', function() {
@@ -38,7 +40,7 @@ defineSupportCode(function({Given, When, Then}) {
     return this.LoginPage.skipToMap();
   });
 
-  Then('the map will show', function () {
+  Then('I am on the map screen', function () {
     return this.driver.elementByAccessibilityId('Google Map')
   });
 });

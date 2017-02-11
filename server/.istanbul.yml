@@ -1,5 +1,4 @@
 instrumentation:
-  root: .
+  root: ./server
   default_excludes: true
-  excludes:
-    - scripts/*
+  include-all-sources: true
