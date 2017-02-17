@@ -1,4 +1,4 @@
-module.exports = [
+const data = [
   {
     _id: '58481f0831858d7e0cc8835a',
     releaseDate: new Date('01/01/03'),
@@ -17,5 +17,8 @@ module.exports = [
     fileName: 'agorask.apk',
     downloadUrl: 'http://test/download/apk/dev',
   },
-
 ];
+
+module.exports = {
+  data,
+};

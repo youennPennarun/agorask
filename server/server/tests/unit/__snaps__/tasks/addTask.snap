@@ -9,7 +9,13 @@ Object {
     "username": "jessica"
   },
   "title": "Task test 1",
-  "venue": "5817739a6d568ac7723e1bb1"
+  "venue": Object {
+    "_id": "5817739a6d568ac7723e1bb1",
+    "location": Array [
+      -5.928924160916588,
+      54.59276808539911
+    ]
+  }
 }
 `;
 

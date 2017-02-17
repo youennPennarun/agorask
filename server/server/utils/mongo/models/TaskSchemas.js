@@ -1,6 +1,28 @@
 const mongoose = require('mongoose');
 const {shortUser} = require('./UserSchemas');
 
+const votes = mongoose.Schema({
+  rating: {
+    type: mongoose.Schema.Types.Number,
+    required: true,
+  },
+  list: [{
+    user: {
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+      },
+      username: {
+        type: mongoose.Schema.Types.String,
+        required: true,
+      },
+    },
+    rating: {
+      type: mongoose.Schema.Types.Number,
+      required: true,
+    },
+  }],
+}, { _id: false });
 const answer = mongoose.Schema({
   answer: {
     type: String,
@@ -14,7 +36,11 @@ const answer = mongoose.Schema({
     type: mongoose.Schema.Types.Date,
     required: true,
   },
-}, { _id: false });
+  votes: {
+    type: votes,
+    required: true,
+  },
+});
 
 const task = mongoose.Schema({
   title: {
@@ -31,8 +57,15 @@ const task = mongoose.Schema({
     required: true,
   },
   venue: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    location: {
+      type: [Number], // [longitude, latitude]
+      index: '2d',
+      required: true,
+    },
   },
 });
 

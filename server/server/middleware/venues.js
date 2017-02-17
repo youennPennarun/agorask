@@ -15,6 +15,7 @@ const getVenuesWithTasks = function* () {
   this.body = venues.map(Venue.reduce);
 };
 
+
 const searchVenue = function* () {
   const {lat, lng, query, radius} = this.request.query;
   if (!lat || !lng || !query) {

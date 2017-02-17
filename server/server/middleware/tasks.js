@@ -1,4 +1,5 @@
 const Task = require('../services/Task');
+const ngeohash = require('ngeohash');
 
 
 const getTask = function* () {
@@ -23,7 +24,18 @@ const addTask = function* () {
   this.body = task;
 };
 
+const getTasksNearMe = function* () {
+  console.log(this.query)
+  const {geohash, radius = 100} = this.query;
+  if (!geohash) return this.throw('BadRequest', 400);
+
+  /*const {latitude: lat, longitude: lng, ...rest} = ngeohash.decode(geohash);
+  this.body = {lat, lng, rest};*/
+  this.body = {parsed: ngeohash.decode(geohash), radius};
+};
+
 module.exports = {
   getTask,
   addTask,
+  getTasksNearMe,
 };

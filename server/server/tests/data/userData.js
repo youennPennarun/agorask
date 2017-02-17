@@ -1,4 +1,4 @@
-module.exports = [
+const data = [
   {
     _id: '58140720b0fce75c59f74d60',
     username: 'rickSanchez',
@@ -73,3 +73,7 @@ module.exports = [
     },
   },
 ];
+
+module.exports = {
+  data,
+};

@@ -45,7 +45,7 @@ const getVenue = function* (id, source, fields) {
   return venue;
 };
 
-const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
+const getVenuesWithinRadiusWithTasks = function* (center, radius, fields, options = {}) {
   const radiusInRad = (radius / 1000) / 6378.1;
   if (!Array.isArray(center)) {
     if ((center.lat && center.lng) || (center.latitude && center.longitude)) {

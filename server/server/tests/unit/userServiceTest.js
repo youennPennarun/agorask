@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const User = require('../../services/User');
 const co = require('co');
 
-const userData = require('../data/userData');
+const userData = require('../data').User;
 
 describe('UserService', () => {
   describe('login', () => {

@@ -9,6 +9,12 @@ Object {
     "username": "jerry"
   },
   "title": "Question 4",
-  "venue": "5817738f6d568ac7723e1baf"
+  "venue": Object {
+    "_id": "5817738f6d568ac7723e1baf",
+    "location": Array [
+      -5.929163411658459,
+      54.59263519737411
+    ]
+  }
 }
 `;

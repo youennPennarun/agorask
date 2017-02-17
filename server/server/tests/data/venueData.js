@@ -1,5 +1,5 @@
 /* eslint-disable quote-props, comma-dangle */
-const tasks = require('./taskData');
+const tasks = require('./taskData').data;
 
 function getTask(taskKey) {
   return {
@@ -9,8 +9,7 @@ function getTask(taskKey) {
     postedBy: tasks[taskKey].postedBy,
   };
 }
-
-module.exports = [{
+const data = [{
   '_id': '581773476d568ac7723e1bae',
   'source': 'foursquare',
   'name': 'The Limelight',
@@ -314,3 +313,6 @@ module.exports = [{
     getTask(20)
   ],
 }];
+module.exports = {
+  data,
+};
