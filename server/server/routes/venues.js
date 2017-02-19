@@ -3,5 +3,5 @@ const {getVenuesWithTasks} = require('../middleware/venues');
 
 
 module.exports = function(router) {
-  router.post('/venues/', koaBody, getVenuesWithTasks);
+  // router.post('/venues/', koaBody, getVenuesWithTasks);
 };

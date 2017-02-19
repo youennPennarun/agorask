@@ -11,6 +11,35 @@ const getTasks = function* (offset = 0, limit = 5) {
   return tasks;
 };
 
+const getTasksNearMe = function* ({latitude, longitude}, radiusMeters, userId) {
+  const radiusInRad = (radiusMeters / 1000) / 6378.1;
+  const andQuery = [
+    {
+      'venue.location': {
+        $geoWithin: {
+          $centerSphere: [[longitude, latitude], radiusInRad],
+        },
+      },
+    },
+    {
+      answers: {
+        $size: 0,
+      },
+    },
+  ];
+  if (userId) {
+    andQuery.push({
+      'postedBy.userId': {
+        $ne: userId,
+      },
+    });
+  }
+
+  return yield Task.find({
+    $and: andQuery,
+  });
+};
+
 const getTask = function* (id, userId, fields) {
   if (fields && !(fields instanceof Array)) {
     fields = Object.keys(fields);
@@ -198,6 +227,7 @@ const getAnswerUserRating = function* (taskId, answerId, userId) {
 module.exports = {
   getTasks,
   getTask,
+  getTasksNearMe,
   getUserTasks,
   addTask,
   getTasksByIds,
