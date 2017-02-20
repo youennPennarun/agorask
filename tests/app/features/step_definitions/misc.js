@@ -62,12 +62,12 @@ function takeScreenshot(fileName) {
 
 defineSupportCode(function({Given, When, Then}) {
   When(/^I take a screenshot named "([^"]+)"$/, function (fileName) {
-    return takeScreenshot(fileName);
+    return takeScreenshot.bind(this)(fileName);
   });
   When(/^I take a screenshot named "([^"]+)" after ([0-9]+) ?ms$/, function (fileName, delay) {
     return new Promise(resolve => {
       setTimeout(() => {
-        takeScreenshot(fileName)
+        takeScreenshot.bind(this)(fileName)
           .then(resolve).catch(reject);
       }, delay);
     })
