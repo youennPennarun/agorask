@@ -61,10 +61,10 @@ function takeScreenshot(fileName) {
 }
 
 defineSupportCode(function({Given, When, Then}) {
-  When(/I take a screenshot named "([^"]+)"/, function (fileName) {
+  When(/^I take a screenshot named "([^"]+)"$/, function (fileName) {
     return takeScreenshot(fileName);
   });
-  When(/I take a screenshot named "([^"]+)" after ([0-9]+) ?ms/, function (fileName, delay) {
+  When(/^I take a screenshot named "([^"]+)" after ([0-9]+) ?ms$/, function (fileName, delay) {
     return new Promise(resolve => {
       setTimeout(() => {
         takeScreenshot(fileName)
