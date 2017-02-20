@@ -35,31 +35,42 @@ function shouldUpdateScreenshot(fileName, updateScreenshots) {
   return false;
 }
 
+function takeScreenshot(fileName) {
+  const {updateScreenshots, screenshotsDirectories: {initial, newImages}} = this.parameters;
+  const imageAPath = path.join(initial, `${fileName}.png`);
+  const imageBPath = path.join(newImages, `${fileName}_new.png`);
+  const diffFileFullName = path.join(newImages, `${fileName}_diff.png`);
+  const diff = createPixelDiff(imageAPath, imageBPath, diffFileFullName);
+  if (!fs.existsSync(imageAPath)) {
+    console.log(`${imageAPath} doesn't exists, creating it`)
+    return this.driver.saveScreenshot(imageAPath)
+  }
+  if (shouldUpdateScreenshot(fileName, updateScreenshots)) {
+    console.log(`Updating ${fileName}`)
+    return this.driver.saveScreenshot(imageAPath) 
+  }
+  return this.driver.saveScreenshot(imageBPath)
+    .then(() => diff.runWithPromise())
+    .then((result) => {
+      if (diff.hasPassed(result.code)) {
+        return Promise.resolve();
+      }
+      console.log(result);
+      return Promise.reject(`Found ${result.differences} differences`);
+    });
+}
+
 defineSupportCode(function({Given, When, Then}) {
   When(/I take a screenshot named "([^"]+)"/, function (fileName) {
-    const {updateScreenshots, screenshotsDirectories: {initial, newImages}} = this.parameters;
-    const imageAPath = path.join(initial, `${fileName}.png`);
-    const imageBPath = path.join(newImages, `${fileName}_new.png`);
-    const diffFileFullName = path.join(newImages, `${fileName}_diff.png`);
-
-    const diff = createPixelDiff(imageAPath, imageBPath, diffFileFullName);
-    if (!fs.existsSync(imageAPath)) {
-      console.log(`${imageAPath} doesn't exists, creating it`)
-      return this.driver.saveScreenshot(imageAPath)
-    }
-    if (shouldUpdateScreenshot(fileName, updateScreenshots)) {
-      console.log(`Updating ${fileName}`)
-      return this.driver.saveScreenshot(imageAPath) 
-    }
-    return this.driver.saveScreenshot(imageBPath)
-      .then(() => diff.runWithPromise())
-      .then((result) => {
-        if (diff.hasPassed(result.code)) {
-          return Promise.resolve();
-        }
-        console.log(result);
-        return Promise.reject(`Found ${result.differences} differences`);
-      });
+    return takeScreenshot(fileName);
+  });
+  When(/I take a screenshot named "([^"]+)" after ([0-9]+) ?ms/, function (fileName, delay) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        takeScreenshot(fileName)
+          .then(resolve).catch(reject);
+      }, delay);
+    })
   });
 
   When("I hide the keyboard", function() {

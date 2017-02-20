@@ -8,7 +8,7 @@ Feature: Map
 
   Scenario: Search
     Given  I am on the map screen
-    When I take a screenshot named "map_before_feature"
+    When I take a screenshot named "map_before_feature" after 500ms
       And I search for "pub"
       And I hide the keyboard
     Then I take a screenshot named "map_after_search_pub"
