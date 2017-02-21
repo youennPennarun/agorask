@@ -3,7 +3,6 @@
 import React, {Component, PropTypes} from 'react';
 
 import {connect} from 'react-redux';
-import {login} from '../../../redux/actions/router';
 
 import {View, Text, StyleSheet} from 'react-native';
 import {MKButton, MKTextField} from 'react-native-material-kit';
@@ -35,7 +34,6 @@ export class AddAnswer extends Component {
   props: AddAnswerPropsType;
 
   updateAnswerFieldHeight({height}) {
-  // height: number
     if (this.state.answerHeight !== height) {
       this.setState({answerHeight: height});
     }
@@ -45,7 +43,7 @@ export class AddAnswer extends Component {
   submit() {
     const {answer} = this.state;
     this.setState({loading: true});
-    this.props.addAnswer({answer: answer}, this.props.token)
+    this.props.addAnswer({answer: answer})
       .then(() => {
           this.setState({loading: false, answer: ''});
       })
@@ -114,15 +112,5 @@ const LoginBtn = MKButton.coloredButton()
   .withStyle(styles.button)
   .build();
 
-function mapStateToProps(state): Object {
-  return {
-    ...state.user,
-  };
-}
-function mapDispatchToProps(dispatch): Object {
-  return {
-    login: () => { dispatch(login()); },
-  };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddAnswer);
+export default AddAnswer;

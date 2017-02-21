@@ -44,7 +44,6 @@ Array [
         "rating": 1,
         "ratingList": Array [
           Object {
-            "_id": "58aae094701f0c0e8ad4ab87",
             "rating": 1,
             "user": Object {
               "_id": "581407deb0fce75c59f74d66",

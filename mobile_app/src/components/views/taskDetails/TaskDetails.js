@@ -14,11 +14,13 @@ import {
   MKSpinner,
 } from 'react-native-material-kit';
 import update from 'immutability-helper';
+import {connect} from 'react-redux';
 
 
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import moment from 'moment';
+import {login} from '../../../redux/actions/router';
 
 import TaskHeader from './TaskHeader';
 import Vote from './Vote';
@@ -70,12 +72,10 @@ export class TaskDetails extends Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.onBack);
-    // InteractionManager.runAfterInteractions(() => {
-      Animated.timing(this.state.bodyHeight, {
-        toValue: height,
-        duration: 200,
-      }).start();
-    // });
+    Animated.timing(this.state.bodyHeight, {
+      toValue: height,
+      duration: 200,
+    }).start();
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.onBack);
@@ -90,15 +90,19 @@ export class TaskDetails extends Component {
     return false;
   }
 
-  addAnswer(answer: string, token: string): Promise<Object> {
-    return this.props.addAnswer(this.props.task._id, answer, token);
+  addAnswer(answer: string): Promise<Object> {
+    return this.props.addAnswer(this.props.task._id, answer, this.props.token);
   }
 
-  _renderAnswer({answer, postedBy: {username}, date}, key): any {
+  _renderAnswer({_id, answer, postedBy: {username}, date, rating, userRating}, key): any {
+    const {token, rateAnswer, task} = this.props;
+    const onVoteCallback = (token) ? (value => {
+      rateAnswer(task._id, _id, value, token);
+    }) : undefined;
     return (
       <View key={key} style={styles.answerContainer}>
         <View style={styles.row} >
-          <Vote score={-5} />
+          <Vote score={rating} userRating={userRating} onVote={onVoteCallback} />
           <View style={styles.answer} >
             <Text style={styles.answerText}>{answer}</Text>
             <View style={styles.answerFooter} >
@@ -141,14 +145,14 @@ export class TaskDetails extends Component {
           {this._renderSpinner()}
           <View style={[styles.answersContainer]} >
             {
-              answers.map((answer: Object, key: number): any =>
-                this._renderAnswer(answer, key),
+              answers.map((answer: Object, key: number): any => 
+                this._renderAnswer(answer, key)
               )
             }
           </View>
-          <AddAnswer addAnswer={(answer, token): Promise<Object> => {
-            return this.addAnswer(answer, token);
-          }} />
+          <AddAnswer login={() => { this.props.login(); }}
+            token={this.props.token}
+            addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
           </Animated.View>
         </ScrollView>
       </View>
@@ -207,9 +211,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
-  progress: {
-
-  },
+  progress: {},
   spinner: {
     alignSelf: 'center',
     marginTop: 50,
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
 
 
 const TaskDetailsQuery = gql`
-  query TaskDetails($id: ID!) {
+  query TaskDetails($id: ID!, $token: String) {
     task(id: $id) {
       _id,
       title,
@@ -229,11 +231,16 @@ const TaskDetailsQuery = gql`
         username
       }
       answers {
+        _id
         answer,
         postedBy {
           username
         }
         date
+        rating
+        userRating(token: $token) {
+          rating
+        }
       }
     }
   }
@@ -251,7 +258,27 @@ const AddAnswerMutation = gql`
   }
 `;
 
+const RateMutation = gql`
+  mutation rating($taskId: ID!, $answerId: ID!, $ratingValue: RatingInput!, $token: String!) {
+    rating(taskId: $taskId, answerId: $answerId, ratingValue: $ratingValue, token: $token) {
+      rating
+    }
+  }
+`;
+
+function mapStateToProps(state): Object {
+  return {
+    ...state.user,
+  };
+}
+function mapDispatchToProps(dispatch): Object {
+  return {
+    login: () => { dispatch(login()); },
+  };
+}
+
 export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
   graphql(AddAnswerMutation, {
     props: ({ownProps, mutate}) => ({
         addAnswer: (taskId, answer, token) => mutate({
@@ -270,12 +297,6 @@ export default compose(
           updateQueries: {
             TaskDetails: (prev, { mutationResult }) => {
               const newAnswer = mutationResult.data.answer;
-              // const existing = prev.task.answers.find(existingAnswer => existingAnswer.answer === newAnswer.answer);
-              /*
-              if (existing) {
-                return prev;
-              }
-              */
               return update(prev, {
                 task: {
                   answers: {
@@ -308,8 +329,8 @@ export default compose(
     }),
   }),
   graphql(TaskDetailsQuery, {
-    options: ({ id }): Object => ({
-      variables: {id},
+    options: ({ id, token }): Object => ({
+      variables: {id, token},
     }),
     props: ({ ownProps, data: { loading, error, task } }): Object => {
       return {
@@ -318,6 +339,27 @@ export default compose(
         error,
       };
     },
+  }),
+  graphql(RateMutation, {
+    props: ({mutate}) => ({
+        rateAnswer: (taskId, answerId, ratingValue, token) =>
+          mutate({
+            variables: {taskId, answerId, ratingValue, token},
+            updateQueries: {
+              TaskDetails: (prev, { mutationResult }) => {
+                if (mutationResult.error) return prev;
+                console.log('================');
+                console.log(mutationResult)
+                console.log('{{{{{{{{{{}}}}}}}}}}')
+                console.log(prev);
+                const next = {
+
+                }
+                return prev;
+              },
+            },
+          }),
+    }),
   }),
 )(TaskDetails);
 

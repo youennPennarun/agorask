@@ -1,6 +1,23 @@
 const mongoose = require('mongoose');
 const {shortUser} = require('./UserSchemas');
 
+const ratingType = mongoose.Schema({
+  user: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    username: {
+      type: mongoose.Schema.Types.String,
+      required: true,
+    },
+  },
+  rating: {
+    type: mongoose.Schema.Types.Number,
+    required: true,
+  },
+}, { _id: false });
+
 const answer = mongoose.Schema({
   answer: {
     type: String,
@@ -18,22 +35,7 @@ const answer = mongoose.Schema({
     type: mongoose.Schema.Types.Number,
     required: true,
   },
-  ratingList: [{
-    user: {
-      _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-      },
-      username: {
-        type: mongoose.Schema.Types.String,
-        required: true,
-      },
-    },
-    rating: {
-      type: mongoose.Schema.Types.Number,
-      required: true,
-    },
-  }],
+  ratingList: [ratingType],
 });
 
 const task = mongoose.Schema({
