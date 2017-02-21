@@ -39,7 +39,7 @@ exports[`test fetching renders correctly 1`] = `
               }
             }>
             <Vote
-              score={-5} />
+              score={5} />
             <View
               style={
                 Object {
@@ -107,8 +107,9 @@ exports[`test fetching renders correctly 1`] = `
             } />
         </View>
       </View>
-      <Connect(AddAnswer)
-        addAnswer={[Function]} />
+      <AddAnswer
+        addAnswer={[Function]}
+        login={[Function]} />
     </AnimatedComponent>
   </ScrollView>
 </View>
@@ -154,8 +155,9 @@ exports[`test fetching renders correctly if there is no answers 1`] = `
             },
           ]
         } />
-      <Connect(AddAnswer)
-        addAnswer={[Function]} />
+      <AddAnswer
+        addAnswer={[Function]}
+        login={[Function]} />
     </AnimatedComponent>
   </ScrollView>
 </View>
@@ -200,7 +202,7 @@ exports[`test renders correctly 1`] = `
               }
             }>
             <Vote
-              score={-5} />
+              score={1} />
             <View
               style={
                 Object {
@@ -268,8 +270,9 @@ exports[`test renders correctly 1`] = `
             } />
         </View>
       </View>
-      <Connect(AddAnswer)
-        addAnswer={[Function]} />
+      <AddAnswer
+        addAnswer={[Function]}
+        login={[Function]} />
     </AnimatedComponent>
   </ScrollView>
 </View>
