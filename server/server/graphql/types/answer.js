@@ -2,7 +2,6 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLNonNull,
-  GraphQLList,
   GraphQLInt,
 } = require('graphql');
 const GraphQLDate = require('graphql-date');
@@ -27,6 +26,10 @@ const AnswerRatingUserType = new GraphQLObjectType({
 const AnswerType = new GraphQLObjectType({
   name: 'Answer',
   fields: () => ({
+    _id: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'task\'s id',
+    },
     answer: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'the answer',
@@ -39,26 +42,26 @@ const AnswerType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLDate),
       description: 'When the task was posted',
     },
-    votes: {
-      type: new GraphQLObjectType({
-        name: 'AnswerRating',
-        fields: () => ({
-          rating: {
-            type: new GraphQLNonNull(GraphQLInt),
-            description: 'Answer rating value',
-          },
-          userRating: {
-            type: AnswerRatingUserType,
-          },
-        }),
-      }),
+    rating: {
+      type: new GraphQLNonNull(GraphQLInt),
+      description: 'Answer rating value',
+    },
+    userRating: {
+      type: AnswerRatingUserType,
       args: {
         token: {
           name: 'token',
           type: GraphQLString,
         },
       },
-      description: 'Answer ratings',
+      resolve: (parent, {token}) => {
+        if (!token) return null;
+        const payload = Auth.isTokenValid(token);
+        if (payload === false) {
+          return null;
+        }
+        return co(Task.getUserRating(parent._id, payload.id));
+      },
     },
   }),
 });

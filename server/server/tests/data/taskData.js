@@ -28,10 +28,8 @@ const data = [
           username: users[5].username,
         },
         date: '2016-10-29T03:27:25.527Z',
-        votes: {
-          rating: 0,
-          list: [],
-        },
+        rating: 0,
+        ratingList: [],
       },
       {
         _id: '589f51d4c5add0a4f0ea5ec0',
@@ -41,23 +39,25 @@ const data = [
           username: users[4].username,
         },
         date: '2016-10-29T03:27:25.527Z',
-        votes: {
-          rating: 0,
-          list: [],
-        },
+        rating: 1,
+        ratingList: [{
+          rating: 1,
+          user: {
+            _id: users[5]._id,
+            username: users[5].username,
+          },
+        }],
       },
       {
-        _id: '589f51ddc5add0a4f0ea5ec1',
+        _id: '58aadf7b26722092e3c8bd66',
         answer: 'No sux so lame grumble grumble!',
         postedBy: {
           userId: users[10]._id,
           username: users[10].username,
         },
         date: '2016-10-29T03:27:25.527Z',
-        votes: {
-          rating: 0,
-          list: [],
-        },
+        rating: 0,
+        ratingList: [],
       },
     ],
     date: '2016-10-29T03:27:25.527Z',
@@ -72,17 +72,15 @@ const data = [
     },
     answers: [
       {
-        _id: '589f51eac5add0a4f0ea5ec2',
-        answer: 'Answer 1',
+        _id: '589f51ddc5add0a4f0ea5ec1',
+        answer: 'No sux so lame grumble grumble!',
         postedBy: {
-          userId: users[0]._id,
-          username: users[0].username,
+          userId: users[10]._id,
+          username: users[10].username,
         },
         date: '2016-10-29T03:27:25.527Z',
-        votes: {
-          rating: 0,
-          list: [],
-        },
+        rating: 0,
+        ratingList: [],
       },
     ],
     date: '2016-10-10T03:27:25.527Z',
@@ -183,7 +181,19 @@ const data = [
       userId: users[2]._id,
       username: users[2].username,
     },
-    answers: [],
+    answers: [
+      {
+        _id: '589f51eac5add0a4f0ea5ec2',
+        answer: 'Answer 1',
+        postedBy: {
+          userId: users[0]._id,
+          username: users[0].username,
+        },
+        date: '2016-10-29T03:27:25.527Z',
+        rating: 0,
+        ratingList: [],
+      },
+    ],
     date: '2016-09-09T01:00:00.527Z',
     venue: Venue('5817738f6d568ac7723e1baf'),
   },

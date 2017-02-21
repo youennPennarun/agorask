@@ -30,10 +30,8 @@ Array [
           "userId": "581407deb0fce75c59f74d66",
           "username": "jessica"
         },
-        "votes": Object {
-          "list": Array [],
-          "rating": 0
-        }
+        "rating": 0,
+        "ratingList": Array []
       },
       Object {
         "_id": "589f51d4c5add0a4f0ea5ec0",
@@ -43,23 +41,28 @@ Array [
           "userId": "581407d8b0fce75c59f74d65",
           "username": "jerry"
         },
-        "votes": Object {
-          "list": Array [],
-          "rating": 0
-        }
+        "rating": 1,
+        "ratingList": Array [
+          Object {
+            "_id": "58aae094701f0c0e8ad4ab87",
+            "rating": 1,
+            "user": Object {
+              "_id": "581407deb0fce75c59f74d66",
+              "username": "jessica"
+            }
+          }
+        ]
       },
       Object {
-        "_id": "589f51ddc5add0a4f0ea5ec1",
+        "_id": "58aadf7b26722092e3c8bd66",
         "answer": "No sux so lame grumble grumble!",
         "date": 2016-10-29T03:27:25.527Z,
         "postedBy": Object {
           "userId": "581407fab0fce75c59f74d6b",
           "username": "unity"
         },
-        "votes": Object {
-          "list": Array [],
-          "rating": 0
-        }
+        "rating": 0,
+        "ratingList": Array []
       }
     ],
     "date": 2016-10-29T03:27:25.527Z,

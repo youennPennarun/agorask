@@ -1,4 +1,5 @@
 const {Task, Venue} = require('../utils/mongo/models');
+var mongoose = require('mongoose');
 
 const {NotFoundError} = require('../utils/errors');
 
@@ -44,6 +45,9 @@ const getTask = function* (id, userId, fields) {
   if (fields && !(fields instanceof Array)) {
     fields = Object.keys(fields);
   }
+  if (fields) {
+    fields.push('answers._id');
+  }
 
   const query = Task.findOne({_id: id});
   let userRatingIndex;
@@ -54,22 +58,41 @@ const getTask = function* (id, userId, fields) {
     }
     query.select(fields);
   }
-  let task = yield query.exec();
-  if (userRatingIndex > -1 && userId && task) {
-    task = task.toObject();
-    task.answers = task.answers.map(answer => {
-      answer.votes.userRating = getUserRating(userId, answer.votes);
-      delete answer.votes.list;
-      return answer;
-    });
-  }
-  return task;
+  return yield query.exec();
 };
 
-const getUserRating = function(userId, votes) {
-  return votes.list.find(vote => {
-    return vote.user._id.toString() === userId;
-  });
+const getUserRating = function* (answerId, userId) {
+  const result = yield Task.aggregate([
+    {
+      $unwind: {
+        path: '$answers',
+      },
+    },
+    {
+      $match: {
+        'answers._id': answerId,
+      },
+    },
+    {
+      $unwind: {
+        path: '$answers.ratingList',
+      },
+    },
+    {
+      $project: {
+        'answers.ratingList': 1,
+      },
+    },
+    {
+      $match: {
+        'answers.ratingList.user._id': new mongoose.mongo.ObjectId(userId),
+      },
+    },
+  ]).exec();
+  if (result.length) {
+    return result[0].answers.ratingList;
+  }
+  return null;
 };
 
 const getTasksByIds = function* (ids, fields) {
@@ -157,18 +180,18 @@ const vote = function* (taskId, answerId, user, voteValue) {
     _id: taskId,
     'answers._id': answerId,
   });
-  query.select('answers.$.votes');
+  query.select('answers.$');
   const result = yield query.exec();
 
   if (!result) {
     throw new NotFoundError(`Unable to find an answer with taskId='${taskId} and answerId='${answerId}'`);
   }
 
-  const existingVoteForUserIndex = result.answers[0].votes.list.findIndex(userRating => userRating.user._id.toString() === user._id);
+  const existingVoteForUserIndex = result.answers[0].ratingList.findIndex(userRating => userRating.user._id.toString() === user._id);
 
 
   let updateQuery;
-  let newRating = result.answers[0].votes.rating;
+  let newRating = result.answers[0].rating;
   if (existingVoteForUserIndex === -1) {
     if (voteValue === '-1') {
       newRating -= 1;
@@ -181,22 +204,22 @@ const vote = function* (taskId, answerId, user, voteValue) {
     },
     {
       $set: {
-        'answers.$.votes.rating': newRating,
+        'answers.$.rating': newRating,
       },
       $push: {
-        'answers.$.votes.list': {
+        'answers.$.ratingList': {
           user,
           rating: voteValue,
         },
       },
     });
-  } else if (result.answers[0].votes.list[existingVoteForUserIndex].rating !== ~~voteValue) {
+  } else if (result.answers[0].ratingList[existingVoteForUserIndex].rating !== ~~voteValue) {
     if (voteValue === '-1') {
       newRating -= 2;
     } else {
       newRating += 2;
     }
-    result.answers[0].votes.list[existingVoteForUserIndex] = {
+    result.answers[0].ratingList[existingVoteForUserIndex] = {
       user,
       rating: voteValue,
     };
@@ -206,8 +229,8 @@ const vote = function* (taskId, answerId, user, voteValue) {
     },
     {
       $set: {
-        'answers.$.votes.rating': newRating,
-        'answers.$.votes.list': result.answers[0].votes.list,
+        'answers.$.rating': newRating,
+        'answers.$.ratingList': result.answers[0].ratingList,
       },
     });
   }
@@ -218,20 +241,14 @@ const vote = function* (taskId, answerId, user, voteValue) {
   return newRating;
 };
 
-const getAnswerUserRating = function* (taskId, answerId, userId) {
-  return {
-    rating: '+1',
-  };
-};
-
 module.exports = {
   getTasks,
   getTask,
+  getUserRating,
   getTasksNearMe,
   getUserTasks,
   addTask,
   getTasksByIds,
   addAnswer,
   vote,
-  getAnswerUserRating,
 };
