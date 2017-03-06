@@ -1,74 +1,61 @@
-import React, {Component, PropTypes} from 'react';
-import {View,
+/* @flow */
+
+import React, { Component, PropTypes } from 'react';
+import {
+  View,
   Image,
-  Text,
   StyleSheet,
   Dimensions,
   ScrollView,
   ToastAndroid,
   BackAndroid,
-  LayoutAnimation,
 } from 'react-native';
 
 import Config from 'react-native-config';
 
-import {connect} from 'react-redux';
-import {pushVenue} from '../../../redux/actions/venue';
+import { connect } from 'react-redux';
+import { pushVenue } from '../../../redux/actions/venue';
 
 import Icon from 'react-native-vector-icons/EvilIcons';
 import update from 'immutability-helper';
 
 import RoundButton from '../../commons/RoundButton';
+import Error from '../../commons/Error';
 
 import AddTask from './task/AddTask';
 
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-
 import VenueDescription from './VenueDescription';
 import Tasks from './task/Tasks';
 
 import RadialAnimatedView from '../../natives/RadialAnimatedView';
 
-
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const COVER_IMAGE_HEIGHT = height * 0.3;
-
-function renderFetchingState() {
-  return <View />;
-}
-
-function renderError(error) {
-  console.log(error);
-  return (
-    <View>
-      <Text>Error: {error}</Text>
-    </View>
-  );
-}
 
 export class VenueDetails extends Component {
   state = {
     showAddTask: false,
-  }
+  };
   roundButtonRef: RoundButton = null;
   radialAnimatedViewRef: ?RadialAnimatedView = null;
 
   addTask(task): Promise<*> {
-    const {_id, foursquareId, name, address, tasks = []} = this.props.venue;
+    const { _id, foursquareId, name, address, tasks = [] } = this.props.venue;
 
-    this.props.pushVenueToMap({_id, foursquareId, name, address, nbTasks: tasks.length + 1});
+    this.props.pushVenueToMap({ _id, foursquareId, name, address, nbTasks: tasks.length + 1 });
     return this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this._onBack);
-    if (this.radialAnimatedViewRef) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (this.radialAnimatedViewRef) {
         this.radialAnimatedViewRef.reveal();
-      });
-    }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -84,50 +71,61 @@ export class VenueDetails extends Component {
       this.radialAnimatedViewRef.hide();
     }
     return false;
-  }
+  };
 
   render(): React.Element {
-    const {venue, isFetchingVenue, error} = this.props;
+    const { venue, isFetchingVenue, error } = this.props;
 
-    if (error) return renderError(error);
     let imageUri = 'http://www.eltis.org/sites/eltis/files/default_images/photo_default_4.png';
     if (venue._id) {
       imageUri = `${Config.API_URL}/venues/${venue._id}/image`;
     }
     return (
-      <RadialAnimatedView ref={r => { this.radialAnimatedViewRef = r; }}
+      <RadialAnimatedView
+        ref={r => {
+          this.radialAnimatedViewRef = r;
+        }}
         style={styles.container}
-        center={this.props.position} >
-          <Image style={styles.coverImage}
-            resizeMode='cover'
-            source={{uri: imageUri}} />
-        <ScrollView style={styles.scollView}
-          contentContainerStyle={styles.scrollViewContentContainer} >
-          <View style={styles.scrollViewContent} >
+        center={this.props.position}>
+        <Image style={styles.coverImage} resizeMode='cover' source={{ uri: imageUri }} />
+        <ScrollView
+          style={styles.scollView}
+          contentContainerStyle={styles.scrollViewContentContainer}>
+          <View style={styles.scrollViewContent}>
             <VenueDescription loading={isFetchingVenue} venue={venue} />
-            <Tasks tasks={venue.tasks || []}
-              goToTask={(id, task, position) => { this.props.navigator.taskDetails(id, task, position); }} />
+            <Tasks
+              tasks={venue.tasks || []}
+              goToTask={(id, task, position) => {
+                this.props.navigator.taskDetails(id, task, position);
+              }} />
           </View>
         </ScrollView>
-        <AddTask style={styles.addTask}
-          isLoggedIn={(!!this.props.token)}
+        <AddTask
+          style={styles.addTask}
+          isLoggedIn={!!this.props.token}
           visible={this.state.showAddTask}
-          onClose={() => { if (this.roundButtonRef) this.roundButtonRef.setActive(false); }}
+          onClose={() => {
+            if (this.roundButtonRef) this.roundButtonRef.setActive(false);
+          }}
           addTask={(task): Promise<*> => this.addTask(task)} />
 
-        <RoundButton ref={ref => { this.roundButtonRef = ref; }}
+        <RoundButton
+          ref={ref => {
+            this.roundButtonRef = ref;
+          }}
           style={styles.addTaskBtn}
           size={50}
           initialState={{
             color: 'green',
             renderIcon: () => <Icon name='plus' size={42} color='white' />,
-            callback: () => this.setState({showAddTask: true}),
+            callback: () => this.setState({ showAddTask: true }),
           }}
           activatedState={{
             color: 'red',
             renderIcon: () => <Icon name='close' size={42} color='white' />,
-            callback: () => this.setState({showAddTask: false}),
+            callback: () => this.setState({ showAddTask: false }),
           }} />
+          <Error error={error} />
       </RadialAnimatedView>
     );
   }
@@ -151,7 +149,7 @@ const styles = StyleSheet.create({
     paddingTop: COVER_IMAGE_HEIGHT,
   },
   scrollViewContent: {
-    backgroundColor: '#e9e9e9',    
+    backgroundColor: '#e9e9e9',
   },
   block: {
     backgroundColor: 'white',
@@ -183,8 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: 'white',
   },
-  addTask: {
-  }
+  addTask: {},
 });
 
 VenueDetails.propTypes = {
@@ -219,7 +216,6 @@ const VenueDetailsQuery = gql`
   ${VenueDetails.fragments.venue}
 `;
 
-
 const AddTaskMutation = gql`
   mutation addTask($venueId: ID!, $task: TaskInput!, $token: String!) {
     task(venueId: $venueId, task: $task, token: $token) {
@@ -235,11 +231,13 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = (dispatch: Function, props): Object => ({
-  pushVenueToMap: venue => {
-    dispatch(pushVenue(venue));
-  },
-});
+const mapDispatchToProps = (dispatch: Function): Object => {
+  return {
+    pushVenueToMap: venue => {
+      dispatch(pushVenue(venue));
+    },
+  };
+};
 
 export default compose(
   graphql(VenueDetailsQuery, {
@@ -252,14 +250,14 @@ export default compose(
         variables.id = sourceId;
         variables.source = source;
       }
-      return {variables};
+      return { variables };
     },
-    props: ({ownProps, data: { loading, error, venue } }) => {
+    props: ({ ownProps, data: { loading, error, venue } }) => {
       return {
         isFetchingVenue: loading,
         venue: {
           _id: ownProps._id,
-        ...venue,
+          ...venue,
         },
         error,
         navigator: ownProps.navigator,
@@ -267,9 +265,10 @@ export default compose(
     },
   }),
   graphql(AddTaskMutation, {
-    props: ({ownProps, mutate}) => ({
+    props: ({ ownProps, mutate }) => {
+      return {
         addTask: (venueId, task, token) => mutate({
-          variables: {venueId, task, token},
+          variables: { venueId, task, token },
           optimisticResponse: {
             __typename: 'Mutation',
             task: {
@@ -290,13 +289,15 @@ export default compose(
               }
               if (!prev.venuesWithinRadius) return prev;
 
-              let venue = prev.venuesWithinRadius.find(v => (v._id === ownProps.venue._id || v.foursquareId === ownProps.venue.foursquareId));
+              let venue = prev.venuesWithinRadius.find(
+                v => v._id === ownProps.venue._id || v.foursquareId === ownProps.venue.foursquareId,
+              );
               if (!venue) {
                 venue = {
                   ...ownProps.venue,
                 };
               }
-              venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
+              venue.nbTasks = venue.nbTasks ? venue.nbTasks + 1 : 1;
               const updated = update(prev, {
                 venuesWithinRadius: {
                   $unshift: [venue],
@@ -326,8 +327,8 @@ export default compose(
             },
           },
         }),
-    }),
+      };
+    },
   }),
   connect(mapStateToProps, mapDispatchToProps),
 )(VenueDetails);
-

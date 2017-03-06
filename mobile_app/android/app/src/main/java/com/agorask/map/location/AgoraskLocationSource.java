@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.agorask.GoogleApiUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -33,13 +34,12 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     private static final String LAST_UPDATED_TIME_STRING_KEY = "LAST_UPDATED_TIME_STRING_KEY";
     private static final String TAG = "AgoraskLocationSource";
 
-    private final GoogleApiClient gApi;
-
     private final ArrayList<LocationServiceCallbacks> serviceListeners = new ArrayList<>();
     private final ArrayList<AgoraskLocationListener> locationListeners = new ArrayList<>();
 
     private static AgoraskLocationSource instance = null;
     private final Context context;
+    private final GoogleApiUtils googleClientUtils;
     private Location lastLocation;
     private boolean requestingLocationUpdates = false;
     private String lastUpdateTime;
@@ -49,18 +49,21 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     private AgoraskLocationSource(Context context)
     {
         this.context = context;
-        gApi = new GoogleApiClient.Builder(context)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        gApi.connect();
+        this.googleClientUtils = GoogleApiUtils.getInstance(context);
+        googleClientUtils.addConnectionCallback(this);
+        if (googleClientUtils.getClient().isConnected()) {
+            onConnected(null);
+        }
 
     }
 
     public static AgoraskLocationSource getInstance(Context context) {
         if (instance == null) {
-            instance = new AgoraskLocationSource(context);
+            synchronized (AgoraskLocationSource.class) {
+                if (instance == null) {
+                    instance = new AgoraskLocationSource(context);
+                }
+            }
         }
         return instance;
     }
@@ -115,15 +118,16 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
     }
 
     public void requestLocationUpdates(LocationRequest request, LocationListener callback) {
-        FusedLocationApi.requestLocationUpdates(gApi, request, callback);
+        FusedLocationApi.requestLocationUpdates(googleClientUtils.getClient(), request, callback);
     }
 
     public void removeLocationUpdates(LocationListener callback) {
-        FusedLocationApi.removeLocationUpdates(gApi, callback);
+        FusedLocationApi.removeLocationUpdates(googleClientUtils.getClient(), callback);
     }
 
     public Location getLastKnownLocation() {
-        Location updatedLocation = LocationServices.FusedLocationApi.getLastLocation(gApi);
+        Location updatedLocation = LocationServices.FusedLocationApi
+                .getLastLocation(googleClientUtils.getClient());
         if (updatedLocation != null) {
             lastLocation = updatedLocation;
             lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
@@ -174,12 +178,12 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
         location.setTime(currentTime);
         location.setAccuracy(1);
         try {
-            FusedLocationApi.setMockMode(gApi, true)
+            FusedLocationApi.setMockMode(googleClientUtils.getClient(), true)
                     .setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(Status status) {
                     assertTrue(status.isSuccess());
-                    LocationServices.FusedLocationApi.setMockLocation(gApi, location)
+                    LocationServices.FusedLocationApi.setMockLocation(googleClientUtils.getClient(), location)
                             .setResultCallback(new ResultCallback<Status>() {
                                 @Override
                                 public void onResult(Status status) {
@@ -198,7 +202,7 @@ public class AgoraskLocationSource implements GoogleApiClient.OnConnectionFailed
 
         Log.d(TAG, "set mock mod to " + isMocked);
         try {
-            FusedLocationApi.setMockMode(gApi, isMocked);
+            FusedLocationApi.setMockMode(googleClientUtils.getClient(), isMocked);
         } catch(SecurityException e) {
         Log.e(TAG, e.getMessage());
     }

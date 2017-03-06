@@ -12,7 +12,7 @@ const getTasks = function* (offset = 0, limit = 5) {
   return tasks;
 };
 
-const getTasksNearMe = function* ({latitude, longitude}, radiusMeters, userId) {
+const getTasksNearMe = function* ({latitude, longitude}, radiusMeters, userId, fields) {
   const radiusInRad = (radiusMeters / 1000) / 6378.1;
   const andQuery = [
     {
@@ -36,9 +36,14 @@ const getTasksNearMe = function* ({latitude, longitude}, radiusMeters, userId) {
     });
   }
 
-  return yield Task.find({
+  const query = Task.find({
     $and: andQuery,
   });
+  if (fields) {
+    query.select(fields);
+  }
+
+  return yield query.exec();
 };
 
 const getTask = function* (id, userId, fields) {

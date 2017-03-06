@@ -22,6 +22,8 @@ import SignInView from './views/signIn/SignInView';
 import VenueDetails from './views/venueDetails/VenueDetails';
 import TaskDetails from './views/taskDetails/TaskDetails';
 
+import Settings from './views/settings/Settings';
+
 
 export class Router extends Component {
   static routes = {
@@ -53,6 +55,10 @@ export class Router extends Component {
     },
     taskDetails: {
       component: TaskDetails,
+      transition: 'focus',
+    },
+    settings: {
+      component: Settings,
       transition: 'focus',
     },
   }

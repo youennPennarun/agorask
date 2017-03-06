@@ -11,7 +11,8 @@ const getTasksNearMe = function* () {
   if (token !== false) {
     userId = payload.id;
   }
-  this.body = yield Task.getTasksNearMe(ngeohash.decode(geohash), radius, userId);
+  const fields = ['_id', 'title'];
+  this.body = yield Task.getTasksNearMe(ngeohash.decode(geohash), radius, userId, fields);
 };
 
 module.exports = {

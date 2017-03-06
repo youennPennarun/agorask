@@ -31,7 +31,6 @@ export function checkForUpdate() {
       })
       .catch(e => {
         console.log('error', e);
-        reject(e);
       });
   });
 }

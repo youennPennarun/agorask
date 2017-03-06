@@ -2,19 +2,21 @@ package com.agorask;
 
 import android.app.Application;
 
+import com.agorask.notification.TaskChecker;
 import com.facebook.react.ReactApplication;
-import com.microsoft.codepush.react.CodePush;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.soloader.SoLoader;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.microsoft.codepush.react.CodePush;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
+  private TaskChecker taskChecker;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 

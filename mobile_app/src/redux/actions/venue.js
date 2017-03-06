@@ -18,7 +18,7 @@ export const PUSH = 'PUSH_VENUE';
 
 const VENUE_API_URL = `${API_URL}/venues`;
 // const API_URL = 'https://agorask.herokuapp.com/venues';
-
+/*
 export function getVenuesWithTasksNearPosition(location: {latitude: number, longitude: number}, radius = 25) {
   return dispatch => {
     dispatch({
@@ -96,3 +96,4 @@ export function pushVenue(venue) {
   };
 }
 
+*/

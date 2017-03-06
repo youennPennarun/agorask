@@ -1,11 +1,8 @@
 package com.agorask;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.agorask.map.location.AgoraskLocationSource;
-import com.agorask.map.location.MockLocationService;
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -30,6 +27,7 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        GoogleApiUtils.getInstance(this);
         AgoraskLocationSource locationSource = AgoraskLocationSource.getInstance();
         if (locationSource != null && state != null) {
             locationSource.updateValuesFromBundle(state);

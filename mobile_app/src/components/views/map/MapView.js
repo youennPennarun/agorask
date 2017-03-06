@@ -11,8 +11,8 @@ import SearchBar from './SearchBar';
 
 import Map from '../../natives/Map';
 import MapMarker from '../../natives/MapMarker';
+import Error from '../../commons/Error';
 import {updateUserLocation} from '../../../redux/actions/user';
-import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
 import Location from '../../../utils/Location';
@@ -81,6 +81,7 @@ export class MapView extends React.Component {
           {this._renderMarkers(venuesToShow)}
         </Map>
         <SearchBar openDrawer={this.props.openDrawer} />
+        <Error error={venuesError} />
       </View>
     );
   }
@@ -156,6 +157,7 @@ export default compose(
         lng: coords.lng,
         radius: 4000,
       },
+      pollInterval: 60000,
     }),
     props: ({ ownProps, data: { loading, error, venuesWithinRadius } }) => ({
       ...ownProps,
