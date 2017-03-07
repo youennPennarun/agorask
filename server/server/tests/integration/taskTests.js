@@ -1,13 +1,15 @@
 /* global describe, it */
 const expect = require('chai').expect;
 const co = require('co');
-const { Venue } = require('../data');
+const { Venue, Task } = require('../data');
 
-const {addTask} = require('./queries/tasks');
+const {addTask, getTask} = require('./queries/tasks');
+const {addAnswer} = require('./queries/answer');
 
 const fetchQL = require('./graphFetch');
 
-const TOKEN = process.env.TEST_TOKEN;
+const TOKEN = process.env.TEST_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1bW1lciIsImlhdCI6MTQ3ODA5MjAxNn0.Tcy-ZLrEv5mhbk5JcTsWXxAvjzjlUEwxR-RwGY4Ork8';
+
 const USERNAME = process.env.TEST_USERNAME;
 
 
@@ -96,6 +98,38 @@ describe('Tasks Tests', () => {
           ],
        });
       });
+    });
+  });
+
+  describe('add an answer', () => {
+    it('Should be able to answer a task', () => {
+      const params = {
+        taskId: Task[0]._id,
+        answer: {
+          answer: 'An answer from a test!',
+        },
+        token: TOKEN,
+      };
+      return co(function* () {
+        const response = yield fetchQL(addAnswer, params);
+
+        expect(response.status).to.be.equal(200);
+        return response.json();
+      }).then(({data, errors}) => {
+        if (errors) {
+          throw new Error(JSON.stringify(errors));
+        }
+
+        expect(data).to.have.property('answer');
+        expect(data.answer).to.have.property('answer', params.answer.answer);
+        expect(data.answer).to.have.property('postedBy');
+        expect(data.answer.postedBy).to.have.property('username', 'unity');
+      }).then(() => co(function* () {
+        const response = yield fetchQL(getTask, {id: params.taskId});
+
+        expect(response.status).to.be.equal(200);
+        return response.json();
+      }));
     });
   });
 });

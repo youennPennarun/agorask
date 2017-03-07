@@ -4,6 +4,7 @@ import { Text, StyleSheet, Dimensions, Animated } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
+const FINAL_HEIGHT = 50;
 class Error extends React.Component {
   state = {
     height: new Animated.Value(0),
@@ -32,7 +33,6 @@ Error.propTypes = {
   error: PropTypes.object,
 };
 
-const FINAL_HEIGHT = 50;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',

@@ -94,7 +94,7 @@ export class TaskDetails extends Component {
     return this.props.addAnswer(this.props.task._id, answer, this.props.token);
   }
 
-  _renderAnswer({_id, answer, postedBy: {username}, date, rating, userRating}, key): any {
+  _renderAnswer({_id, answer, postedBy: {username}, date, rating = 0, userRating}, key): any {
     const {token, rateAnswer, task} = this.props;
     const onVoteCallback = (token) ? (value => {
       rateAnswer(task._id, _id, value, token);
@@ -128,6 +128,9 @@ export class TaskDetails extends Component {
     return <MKSpinner style={styles.spinner} />;
   }
   render(): React.Element {
+    console.log('{{{{{{{{{{{{{{{{{{{{{{{{{')
+    console.log(this.props.task)
+    console.log('{{{{{{{{{{{{{{{{{{{{{{{{{')
     const {title, date, answers = [], postedBy = {username: ''}} = this.props.task;
     return (
       <View style={styles.container} >
@@ -220,6 +223,22 @@ const styles = StyleSheet.create({
 });
 
 
+const AnswerFragment = {
+  answer: gql`
+    fragment AnswerData on Answer {
+     _id
+        answer,
+        postedBy {
+          username
+        }
+        date
+        rating
+        userRating(token: $token) {
+          rating
+        }
+    }
+  `,
+};
 
 const TaskDetailsQuery = gql`
   query TaskDetails($id: ID!, $token: String) {
@@ -231,31 +250,20 @@ const TaskDetailsQuery = gql`
         username
       }
       answers {
-        _id
-        answer,
-        postedBy {
-          username
-        }
-        date
-        rating
-        userRating(token: $token) {
-          rating
-        }
+        ...AnswerData
       }
     }
   }
+  ${AnswerFragment.answer}
 `;
 
 const AddAnswerMutation = gql`
   mutation answer($taskId: ID!, $answer: AnswerInput!, $token: String!) {
     answer(taskId: $taskId, answer: $answer, token: $token) {
-      answer
-      date
-      postedBy {
-        username
-      }
+      ...AnswerData
     }
   }
+  ${AnswerFragment.answer}
 `;
 
 const RateMutation = gql`
@@ -287,23 +295,44 @@ export default compose(
             __typename: 'Mutation',
             answer: {
               __typename: 'Answer',
+              _id: null,
               answer: answer,
               date: new Date(),
               postedBy: {
                 username: '',
               },
+              userRating: null,
+              rating: 0,
             },
           },
           updateQueries: {
-            TaskDetails: (prev, { mutationResult }) => {
+            TaskDetails: (prev, { mutationResult, ...rest }) => {
               const newAnswer = mutationResult.data.answer;
-              return update(prev, {
+              const next = {
+                ...prev,
                 task: {
-                  answers: {
-                    $push: [newAnswer],
-                  },
+                  ...prev.task,
+                  answers: [
+                    ...prev.task.answers,
+                    {
+                      ...newAnswer,
+                    },
+                  ],
                 },
-              });
+              };
+              return next;
+              /*
+              {
+                ...prev,
+                task: {
+                  ...prev.task,
+                  answers: [
+                    ...prev.task.answers,
+                    newAnswer,
+                  ],
+                },
+              }
+              */
             },
             Venue: (prev, { mutationResult }) => {
               const newAnswer = mutationResult.data.answer;
@@ -332,7 +361,7 @@ export default compose(
     options: ({ id, token }): Object => ({
       variables: {id, token},
     }),
-    props: ({ ownProps, data: { loading, error, task } }): Object => {
+    props: ({ ownProps, data: { loading, error, task, ...rest } }): Object => {
       return {
         loading,
         task: task || ownProps.task,
@@ -362,4 +391,3 @@ export default compose(
     }),
   }),
 )(TaskDetails);
-

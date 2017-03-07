@@ -157,7 +157,7 @@ export default compose(
         lng: coords.lng,
         radius: 4000,
       },
-      pollInterval: 60000,
+      pollInterval: 5 * 60 * 1000,
     }),
     props: ({ ownProps, data: { loading, error, venuesWithinRadius } }) => ({
       ...ownProps,

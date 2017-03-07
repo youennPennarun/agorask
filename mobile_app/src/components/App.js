@@ -68,7 +68,7 @@ class App extends Component {
       store,
       {
         storage: AsyncStorage,
-        blacklist: ['search'],
+        blacklist: ['search', 'navigator'],
       },
       () => {
         this.setState({ ready: true });
@@ -76,7 +76,7 @@ class App extends Component {
           store.dispatch(pushRoute({ key: 'login' }));
         }
         if (store.getState().settings.notifications) {
-          TaskChecker.start();
+          // TaskChecker.start();
         }
       },
     );

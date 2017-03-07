@@ -159,7 +159,11 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
 };
 
 const addAnswer = function* (taskId, answer, fields) {
+  answer._id = new mongoose.mongo.ObjectId();
   answer.date = new Date();
+  answer.rating = 0;
+  answer.ratingList = [];
+
   const query = Task.findByIdAndUpdate(
     taskId,
     {$push: {answers: answer}},

@@ -253,6 +253,7 @@ export default compose(
       return { variables };
     },
     props: ({ ownProps, data: { loading, error, venue } }) => {
+      if (error) console.log('Error', error);
       return {
         isFetchingVenue: loading,
         venue: {
