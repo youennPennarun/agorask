@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+/* @flow */
+import React, { Component, PropTypes } from 'react';
 import {
   View,
   Animated,
@@ -6,28 +7,21 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  InteractionManager,
   BackAndroid,
 } from 'react-native';
-import {
-  MKProgress,
-  MKSpinner,
-} from 'react-native-material-kit';
-import update from 'immutability-helper';
-import {connect} from 'react-redux';
-
+import { MKProgress, MKSpinner } from 'react-native-material-kit';
+import { connect } from 'react-redux';
 
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import moment from 'moment';
-import {login} from '../../../redux/actions/router';
+import { login } from '../../../redux/actions/router';
 
 import TaskHeader from './TaskHeader';
 import Vote from './Vote';
 import AddAnswer from './AddAnswer';
 
-
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 type TaskDetailsPropsType = {
   id: string,
@@ -40,7 +34,7 @@ type TaskDetailsPropsType = {
       username: string,
     },
   },
-}
+};
 
 type TaskDetailsStateType = {
   bodyHeight: Animated.Value,
@@ -73,41 +67,45 @@ export class TaskDetails extends Component {
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.onBack);
     Animated.timing(this.state.bodyHeight, {
-      toValue: height,
-      duration: 200,
-    }).start();
+        toValue: height,
+        duration: 200,
+      })
+      .start();
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.onBack);
   }
 
   onBack = (): boolean => {
-    this.setState({isHiding: true});
+    this.setState({ isHiding: true });
     Animated.timing(this.state.bodyHeight, {
-      toValue: 0,
-      duration: 200,
-    }).start();
+        toValue: 0,
+        duration: 200,
+      })
+      .start();
     return false;
-  }
+  };
 
   addAnswer(answer: string): Promise<Object> {
     return this.props.addAnswer(this.props.task._id, answer, this.props.token);
   }
 
-  _renderAnswer({_id, answer, postedBy: {username}, date, rating = 0, userRating}, key): any {
-    const {token, rateAnswer, task} = this.props;
-    const onVoteCallback = (token) ? (value => {
-      rateAnswer(task._id, _id, value, token);
-    }) : undefined;
+  _renderAnswer({ _id, answer, postedBy: { username }, date, rating = 0, userRating }): any {
+    const { token, rateAnswer, task } = this.props;
+    const onVoteCallback = token
+      ? value => {
+          rateAnswer(task._id, _id, value, token);
+        }
+      : undefined;
     return (
-      <View key={key} style={styles.answerContainer}>
-        <View style={styles.row} >
+      <View key={_id || '___pending___'} style={styles.answerContainer}>
+        <View style={styles.row}>
           <Vote score={rating} userRating={userRating} onVote={onVoteCallback} />
-          <View style={styles.answer} >
+          <View style={styles.answer}>
             <Text style={styles.answerText}>{answer}</Text>
-            <View style={styles.answerFooter} >
-              <Text style={styles.username} >{username}</Text>
-              <Text style={styles.date} >{moment(date).format('DD/MM/YY')}</Text>
+            <View style={styles.answerFooter}>
+              <Text style={styles.username}>{username}</Text>
+              <Text style={styles.date}>{moment(date).format('DD/MM/YY')}</Text>
             </View>
           </View>
         </View>
@@ -116,47 +114,45 @@ export class TaskDetails extends Component {
     );
   }
   _renderProgressBar(): ?MKProgress.Indeterminate {
-    const {loading, task} = this.props;
-    const {answers = []} = task;
+    const { loading, task } = this.props;
+    const { answers = [] } = task;
     if (!loading || !answers.length) return null;
     return <MKProgress.Indeterminate style={styles.progress} />;
   }
   _renderSpinner(): ?MKSpinner {
-    const {loading, task} = this.props;
-    const {answers = []} = task;
+    const { loading, task } = this.props;
+    const { answers = [] } = task;
     if (!loading || answers.length) return null;
     return <MKSpinner style={styles.spinner} />;
   }
   render(): React.Element {
-    console.log('{{{{{{{{{{{{{{{{{{{{{{{{{')
-    console.log(this.props.task)
-    console.log('{{{{{{{{{{{{{{{{{{{{{{{{{')
-    const {title, date, answers = [], postedBy = {username: ''}} = this.props.task;
+    const { title, date, answers = [], postedBy = { username: '' } } = this.props.task;
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
         {this._renderProgressBar()}
-        <ScrollView>
-          <TaskHeader title={title}
-            full={(!this.state.isHiding)}
+        <ScrollView style={styles.sv}>
+          <TaskHeader
+            title={title}
+            full={!this.state.isHiding}
             postedBy={postedBy}
             date={date}
             nbAnswers={answers.length} />
-          <Animated.View style={{
-            backgroundColor: 'white',
-            height: this.state.bodyHeight,
-          }}>
-          {this._renderSpinner()}
-          <View style={[styles.answersContainer]} >
-            {
-              answers.map((answer: Object, key: number): any => 
-                this._renderAnswer(answer, key)
-              )
-            }
+          <View
+            style={{
+              backgroundColor: 'white',
+              height: height,
+            }}>
+            {this._renderSpinner()}
+            <View style={[styles.answersContainer]}>
+              {answers.map((answer: Object, key: number): any => this._renderAnswer(answer, key))}
+            </View>
           </View>
-          <AddAnswer login={() => { this.props.login(); }}
-            token={this.props.token}
-            addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
-          </Animated.View>
+            <AddAnswer
+              login={() => {
+                this.props.login();
+              }}
+              token={this.props.token}
+              addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
         </ScrollView>
       </View>
     );
@@ -164,7 +160,12 @@ export class TaskDetails extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    height,
+  },
+  sv: {
+  },
   answersContainer: {
     backgroundColor: 'white',
     marginBottom: 20,
@@ -221,7 +222,6 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 });
-
 
 const AnswerFragment = {
   answer: gql`
@@ -281,32 +281,36 @@ function mapStateToProps(state): Object {
 }
 function mapDispatchToProps(dispatch): Object {
   return {
-    login: () => { dispatch(login()); },
+    login: () => {
+      dispatch(login());
+    },
   };
 }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   graphql(AddAnswerMutation, {
-    props: ({ownProps, mutate}) => ({
+    props: ({ ownProps, mutate }): any => {
+      return {
         addAnswer: (taskId, answer, token) => mutate({
-          variables: {taskId, answer, token},
+          variables: { taskId, answer, token },
           optimisticResponse: {
             __typename: 'Mutation',
             answer: {
               __typename: 'Answer',
               _id: null,
-              answer: answer,
-              date: new Date(),
+              answer: answer.answer,
+              date: (new Date()).toISOString(),
               postedBy: {
                 username: '',
+              __typename: 'User',
               },
               userRating: null,
               rating: 0,
             },
           },
           updateQueries: {
-            TaskDetails: (prev, { mutationResult, ...rest }) => {
+            TaskDetails: (prev, { mutationResult }) => {
               const newAnswer = mutationResult.data.answer;
               const next = {
                 ...prev,
@@ -321,22 +325,12 @@ export default compose(
                 },
               };
               return next;
-              /*
-              {
-                ...prev,
-                task: {
-                  ...prev.task,
-                  answers: [
-                    ...prev.task.answers,
-                    newAnswer,
-                  ],
-                },
-              }
-              */
             },
             Venue: (prev, { mutationResult }) => {
               const newAnswer = mutationResult.data.answer;
-              const taskInVenueIndex = prev.venue.tasks.findIndex(({_id}): boolean => _id === ownProps.task._id);
+              const taskInVenueIndex = prev.venue.tasks.findIndex(
+                ({ _id }): boolean => _id === ownProps.task._id,
+              );
               if (taskInVenueIndex <= -1) return prev;
               return {
                 ...prev,
@@ -355,13 +349,16 @@ export default compose(
             },
           },
         }),
-    }),
+      };
+    },
   }),
   graphql(TaskDetailsQuery, {
-    options: ({ id, token }): Object => ({
-      variables: {id, token},
-    }),
-    props: ({ ownProps, data: { loading, error, task, ...rest } }): Object => {
+    options: ({ id, token }): Object => {
+      return {
+        variables: { id, token },
+      };
+    },
+    props: ({ ownProps, data: { loading, error, task } }): Object => {
       return {
         loading,
         task: task || ownProps.task,
@@ -370,24 +367,23 @@ export default compose(
     },
   }),
   graphql(RateMutation, {
-    props: ({mutate}) => ({
-        rateAnswer: (taskId, answerId, ratingValue, token) =>
-          mutate({
-            variables: {taskId, answerId, ratingValue, token},
-            updateQueries: {
-              TaskDetails: (prev, { mutationResult }) => {
-                if (mutationResult.error) return prev;
-                console.log('================');
-                console.log(mutationResult)
-                console.log('{{{{{{{{{{}}}}}}}}}}')
-                console.log(prev);
-                const next = {
-
-                }
-                return prev;
-              },
+    props: ({ mutate }) => {
+      return {
+        rateAnswer: (taskId, answerId, ratingValue, token) => mutate({
+          variables: { taskId, answerId, ratingValue, token },
+          updateQueries: {
+            TaskDetails: (prev, { mutationResult }) => {
+              if (mutationResult.error) return prev;
+              console.log('================');
+              console.log(mutationResult);
+              console.log('{{{{{{{{{{}}}}}}}}}}');
+              console.log(prev);
+              const next = {};
+              return prev;
             },
-          }),
-    }),
+          },
+        }),
+      };
+    },
   }),
 )(TaskDetails);

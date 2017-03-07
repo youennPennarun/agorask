@@ -64,6 +64,7 @@ class App extends Component {
     this.init();
   }
   init() {
+    console.log('persistStore Start...')
     persistStore(
       store,
       {
@@ -71,6 +72,7 @@ class App extends Component {
         blacklist: ['search', 'navigator'],
       },
       () => {
+    console.log('persistStore ENDED!!!')
         this.setState({ ready: true });
         if (!store.getState().user.token) {
           store.dispatch(pushRoute({ key: 'login' }));

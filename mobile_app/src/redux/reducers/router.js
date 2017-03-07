@@ -43,6 +43,7 @@ function navigator(currentState: RouterStateType = initialState, action) {
       return NavigationStateUtils.push(currentState, action.route);
     case POP:
       return currentState.index > 0 ? NavigationStateUtils.pop(currentState) : currentState;
+    /*
     case TRANSITION_START:
       return {
         ...currentState,
@@ -53,6 +54,7 @@ function navigator(currentState: RouterStateType = initialState, action) {
         ...currentState,
         animated: false,
       };
+      */
     default:
       return currentState;
   }

@@ -42,14 +42,14 @@ export class AddAnswer extends Component {
 
   submit() {
     const {answer} = this.state;
-    this.setState({loading: true});
+    this.setState({loading: true, answer: ''});
     this.props.addAnswer({answer: answer})
       .then(() => {
           this.setState({loading: false, answer: ''});
       })
       .catch(e => {
         console.log('error ', e);
-        this.setState({loading: false});
+        this.setState({loading: false, answer});
       });
   }
 
@@ -87,9 +87,11 @@ export class AddAnswer extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 30,
+    paddingHorizontal: 30,
     paddingVertical: 10,
-    marginBottom: 25,
+    paddingBottom: 25,
+    height: 100,
+    backgroundColor: 'white',
   },
   answerInput: {
   },
