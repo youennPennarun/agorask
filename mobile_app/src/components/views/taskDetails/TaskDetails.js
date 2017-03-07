@@ -137,16 +137,16 @@ export class TaskDetails extends Component {
             postedBy={postedBy}
             date={date}
             nbAnswers={answers.length} />
-          <View
+          <Animated.View
             style={{
               backgroundColor: 'white',
-              height: height,
+              height: this.state.bodyHeight,
             }}>
             {this._renderSpinner()}
             <View style={[styles.answersContainer]}>
               {answers.map((answer: Object, key: number): any => this._renderAnswer(answer, key))}
             </View>
-          </View>
+          </Animated.View>
             <AddAnswer
               login={() => {
                 this.props.login();
