@@ -4,7 +4,7 @@ if (__DEV__) {
   Reactotron
     .configure({
       name: 'Agorask',
-    host: '192.168.0.10',
+    host: '192.168.0.19',
   }) // we can use plugins here -- more on this later
     .use(reactotronRedux())
     .connect();
