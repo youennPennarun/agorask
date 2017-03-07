@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-/*
+
 project.ext.envConfigFiles = [
     debug: ".env",
     cirelease: ".env.test",
@@ -9,7 +9,7 @@ project.ext.envConfigFiles = [
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-*/
+
 import com.android.build.OutputFile
 
 /**

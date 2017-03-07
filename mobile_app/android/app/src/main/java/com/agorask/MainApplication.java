@@ -10,7 +10,6 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.microsoft.codepush.react.CodePush;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +33,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new ReactMaterialKitPackage(),
             new ReactNativeConfigPackage(),
           new CustomPackage()
