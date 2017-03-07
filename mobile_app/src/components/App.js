@@ -1,10 +1,8 @@
 /* @flow */
 import React, { Component } from 'react';
 
-import { View, PermissionsAndroid, UIManager } from 'react-native';
-import { Provider } from 'react-redux';
+import { View, PermissionsAndroid, UIManager, AsyncStorage } from 'react-native';
 
-import {AsyncStorage} from 'react-native';
 import { persistStore } from 'redux-persist';
 
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
@@ -51,21 +49,11 @@ class Wrapper extends Component {
 }
 
 class App extends Component {
-  state = {};
-
-  init() {
-    persistStore(store, {
-      storage: AsyncStorage,
-      blacklist: ['search']}, () => {
-      this.setState({ready: true});
-      if (!store.getState().user.token) {
-        store.dispatch(pushRoute({ key: 'login' }));
-      }
-    });
-  }
+  state = {
+    ready: false,
+  };
 
   componentWillMount() {
-    TaskChecker.start();
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
     checkForUpdate().then(downloadUrl => {
@@ -75,14 +63,28 @@ class App extends Component {
     });
     this.init();
   }
-  componentDidMount() {
-    
+  init() {
+    persistStore(
+      store,
+      {
+        storage: AsyncStorage,
+        blacklist: ['search'],
+      },
+      () => {
+        this.setState({ ready: true });
+        if (!store.getState().user.token) {
+          store.dispatch(pushRoute({ key: 'login' }));
+        }
+        if (store.getState().settings.notifications) {
+          TaskChecker.start();
+        }
+      },
+    );
   }
   render(): any {
     return (
       <ApolloProvider store={store} client={clientQL}>
-        {this.state.ready ? 
-          <Wrapper /> : <View/> }
+        {this.state.ready ? <Wrapper /> : <View />}
       </ApolloProvider>
     );
   }

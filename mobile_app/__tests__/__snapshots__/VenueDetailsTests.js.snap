@@ -96,5 +96,6 @@ exports[`test renders correctly 1`] = `
         "width": 50,
       }
     } />
+  <Error />
 </RadialAnimatedViewWrapper>
 `;

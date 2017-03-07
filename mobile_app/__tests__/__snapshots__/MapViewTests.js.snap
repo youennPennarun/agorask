@@ -45,6 +45,7 @@ exports[`test renders correctly with search results 1`] = `
       onPress={[Function]} />
   </MapWrapper>
   <Connect(SearchBar) />
+  <Error />
 </View>
 `;
 
@@ -95,6 +96,7 @@ exports[`test renders correctly with venues 1`] = `
       onPress={[Function]} />
   </MapWrapper>
   <Connect(SearchBar) />
+  <Error />
 </View>
 `;
 
@@ -117,5 +119,6 @@ exports[`test renders correctly without any venues 1`] = `
       }
     } />
   <Connect(SearchBar) />
+  <Error />
 </View>
 `;
