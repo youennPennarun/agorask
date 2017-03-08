@@ -90,7 +90,7 @@ export class TaskDetails extends Component {
     return this.props.addAnswer(this.props.task._id, answer, this.props.token);
   }
 
-  _renderAnswer({ _id, answer, postedBy: { username }, date, rating = 0, userRating }): any {
+  _renderAnswer({ _id, answer, postedBy: { username }, date, rating = 0, userRating }, key): any {
     const { token, rateAnswer, task } = this.props;
     const onVoteCallback = token
       ? value => {
@@ -98,7 +98,7 @@ export class TaskDetails extends Component {
         }
       : undefined;
     return (
-      <View key={_id || '___pending___'} style={styles.answerContainer}>
+      <View key={key} style={styles.answerContainer}>
         <View style={styles.row}>
           <Vote score={rating} userRating={userRating} onVote={onVoteCallback} />
           <View style={styles.answer}>
