@@ -1,12 +1,12 @@
 machine:
   node:
-    version: 6.9.2
+    version: 7.7.2
   environment:
     ANDROID_SDK_HOME: /home/ubuntu/
     JAVA_OPTS: "-Xms518m -Xmx2048m"
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
     QEMU_AUDIO_DRV: none
-    YARN_VERSION: 0.18.1
+    YARN_VERSION: 0.21.3
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     MONGO_URL: mongodb://localhost/agorask
     KEYSTORE_ENCR_1: i6V6Ibes9jthI/QpymfqH3pWEqAVOwT7xohKL/ttL/CXpBnigPmvoUSe4mhblfcylLLPsukcfpQVwezMNeUV/VSyy3JQbimINmwuztnnMDtM4Sjz6DfNy8S60uqUB2yu1V8m5WCYeeXwXFuIe6iur3iqrpSRjpwbAGwOeVP/0B+NLe5ppIzZLSIjIRv0bQUl9lXmXE3Hcw8qmWP4wwRMHMfB9bPNc2UPa5BS5lUxzAI53c4/P/p9QpzRbY5D3T2EPWBnteYZxJH1IhWooU2wHSVpl0glw8YpvlTCb9K8b78JgKRone0HMG6YmRk8qDwIanJV/2AQKrcOyRccAPkxZ1OHNvaMtgLbzlmDLZ8+NJssuGLMOwxOtBnh9jSyrERruRp/GFgoyL8YW+ZEmPY5WlGg3MKYSMkawat30m/+9J1hw8rD5DrpVXTSclMTV2XzluSIst5DBk5Ewsk1QLbt5NVqL6Iz6/MJTVIluvPinNAWWW6LsTE87KjsNUV3rxyozCw5P0tUv3KciSUKU/+skC4h6FDKqDOp2yDLSPtXTxQfbaS6Tp6Wptw0yaxLtS0ExY1jz2BOoCL2LNsOptfiG7nglo2BwnIqJBkhzMoEwCRuKM6z1DSU4gLhpgL+JGxaPcjqZWuzI8Ynn1aZCZNCy2PAAJsSoWrybRUutYb9ryI=
