@@ -5,7 +5,6 @@ Feature: Login
     Given   I am on the login screen
     When I take a screenshot named "login_empty"
       And I click on Not now
-      And I take a screenshot named "map" after 500ms
     Then I am on the map screen
 
 
