@@ -22,7 +22,6 @@ const getVenueFromExternalSource = function* (id, source, fields) {
 
       console.log('storing it');
       venue = yield storeVenue(venueData);
-      console.log(venue);
     }
   } else {
     throw new Error(`Unknow source ${source}`);
@@ -103,7 +102,6 @@ const getVenuePictureUrlFromVenueId = function* (venueId, size) {
 };
 
 const getNbOpenTask = function* (venue) {
-  console.log(venue);
   if (venue.tasks &&
     venue.tasks.length === venue.tasks.filter(t => (t.nbAnswers !== undefined)).length) {
     return venue.tasks.filter(task => !task.nbAnswers).length;

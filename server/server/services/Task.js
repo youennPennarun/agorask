@@ -3,16 +3,15 @@ var mongoose = require('mongoose');
 
 const {NotFoundError} = require('../utils/errors');
 
-const getTasks = function* (offset = 0, limit = 5) {
-  const tasks = yield Task.find({})
+const getTasks = async function (offset = 0, limit = 5) {
+  return Task.find({})
           .skip(offset)
           .limit(limit)
           .sort({date: -1})
           .exec();
-  return tasks;
 };
 
-const getTasksNearMe = function* ({latitude, longitude}, radiusMeters, userId, fields) {
+const getTasksNearMe = async function ({latitude, longitude}, radiusMeters, userId, fields) {
   const radiusInRad = (radiusMeters / 1000) / 6378.1;
   const andQuery = [
     {
@@ -43,10 +42,10 @@ const getTasksNearMe = function* ({latitude, longitude}, radiusMeters, userId, f
     query.select(fields);
   }
 
-  return yield query.exec();
+  return query.exec();
 };
 
-const getTask = function* (id, userId, fields) {
+const getTask = async function (id, userId, fields) {
   if (fields && !(fields instanceof Array)) {
     fields = Object.keys(fields);
   }
@@ -63,11 +62,11 @@ const getTask = function* (id, userId, fields) {
     }
     query.select(fields);
   }
-  return yield query.exec();
+  return query.exec();
 };
 
-const getUserRating = function* (answerId, userId) {
-  const result = yield Task.aggregate([
+const getUserRating = async function (answerId, userId) {
+  const result = await Task.aggregate([
     {
       $unwind: {
         path: '$answers',
@@ -100,27 +99,25 @@ const getUserRating = function* (answerId, userId) {
   return null;
 };
 
-const getTasksByIds = function* (ids, fields) {
+const getTasksByIds = async function (ids, fields) {
   const query = Task.find({
     _id: { $in: ids},
   });
   if (fields) {
     query.select(fields);
   }
-  const tasks = yield query.exec();
-  return tasks;
+  return query.exec();
 };
 
-const getUserTasks = function* (username, offset = 0, limit = 10) {
-  const tasks = yield Task.find({'postedBy.username': username})
+const getUserTasks = async function (username, offset = 0, limit = 10) {
+  return Task.find({'postedBy.username': username})
           .skip(offset)
           .limit(limit)
           .sort({_id: -1})
           .exec();
-  return tasks;
 };
 
-const addTask = function* (title, venueId, {_id: userId, username}, date) {
+const addTask = async function (title, venueId, {_id: userId, username}, date) {
   if (!title) throw new Error('invalid title');
   if (!venueId) throw new Error('invalid venueId');
   if (!userId) throw new Error('invalid user._id');
@@ -129,7 +126,7 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
   if (!date) {
     date = new Date();
   }
-  const venue = yield Venue.findOne({_id: venueId}).exec();
+  const venue = await Venue.findOne({_id: venueId}).exec();
   if (!venue) throw new Error(`unknown venue with id ${venueId}`);
   const taskData = new Task({
     title,
@@ -143,7 +140,7 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
     },
     date,
   });
-  const task = yield taskData.save();
+  const task = await taskData.save();
   venue.tasks.push({
     _id: task._id,
     title: task.title,
@@ -154,11 +151,11 @@ const addTask = function* (title, venueId, {_id: userId, username}, date) {
     },
   });
   venue.nbTasks = (venue.nbTasks) ? venue.nbTasks + 1 : 1;
-  yield venue.save();
+  await venue.save();
   return task;
 };
 
-const addAnswer = function* (taskId, answer, fields) {
+const addAnswer = async function (taskId, answer, fields) {
   answer._id = new mongoose.mongo.ObjectId();
   answer.date = new Date();
   answer.rating = 0;
@@ -171,14 +168,14 @@ const addAnswer = function* (taskId, answer, fields) {
   if (fields) {
     query.select(fields);
   }
-  const response = yield query.exec();
+  const response = await query.exec();
   if (response) {
     return answer;
   }
   return null;
 };
 
-const vote = function* (taskId, answerId, user, voteValue) {
+const vote = async function (taskId, answerId, user, voteValue) {
   if (!user || !user._id || !user.username) {
     throw new TypeError('User should have property _id and username');
   }
@@ -190,7 +187,7 @@ const vote = function* (taskId, answerId, user, voteValue) {
     'answers._id': answerId,
   });
   query.select('answers.$');
-  const result = yield query.exec();
+  const result = await query.exec();
 
   if (!result) {
     throw new NotFoundError(`Unable to find an answer with taskId='${taskId} and answerId='${answerId}'`);
@@ -244,7 +241,7 @@ const vote = function* (taskId, answerId, user, voteValue) {
     });
   }
   if (updateQuery) {
-    yield updateQuery.exec();
+    await updateQuery.exec();
   }
 
   return newRating;

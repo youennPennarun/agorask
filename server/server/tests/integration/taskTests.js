@@ -27,7 +27,9 @@ describe('Tasks Tests', () => {
         const response = yield fetchQL(addTask, params);
         expect(response.status).to.be.equal(200);
         return response.json();
-      }).then(({data: json}) => {
+      }).then(({data: json, errors}) => {
+        expect(errors).to.be.undefined;
+        
         expect(json.task).to.have.property('title', params.task.title);
         expect(json.task).to.have.property('postedBy');
         expect(json.task.postedBy).to.have.property('userId');

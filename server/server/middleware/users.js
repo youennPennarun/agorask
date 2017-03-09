@@ -1,52 +1,51 @@
 const Auth = require('../services/Authentification');
 const User = require('../services/User');
 
-const isLoggedIn = function* (next) {
-  const payload = Auth.isTokenValid(this.request.query.token);
-  if (!payload) {
-    return this.throw('Unauthorized', 401, {errorData: {error: 'invalid token'}});
-  }
-  this.request.tokenPayload = payload;
-  yield next;
-};
-
-function* isAdmin(next) {
-  if (!this.request.tokenPayload || !this.request.tokenPayload.isAdmin) {
-    this.throw('Unauthorized', 401, {errorData: {error: 'Require admin privileges'}});
-  }
-  yield next;
-}
-
-const register = function* () {
-  const {username, password, email} = this.request.body;
+async function register (ctx) {
+  const {username, password, email} = ctx.request.body;
   if (!username || !password || !email) {
-    this.throw(400, 'Missing parameters');
+    ctx.throw(400, 'Missing parameters');
   }
   try {
-    yield User.register(username, password, email);
+    await User.register(username, password, email);
   } catch (e) {
-    if (e.name === 'ValidationError') return this.throw('Invalid parameters', 400);
-    if (e === User.errors.USERNAME_ALREADY_TAKEN) return this.throw('Username already taken', 409);
-    return this.throw('InternalServerError', 500);
+    if (e.name === 'ValidationError') return ctx.throw('Invalid parameters', 400);
+    if (e === User.errors.USERNAME_ALREADY_TAKEN) return ctx.throw('Username already taken', 409);
+    return ctx.throw('InternalServerError', 500);
   }
   const token = Auth.getToken({username});
-  this.body = { token };
-};
+  ctx.body = { token };
+}
 
-const logIn = function* () {
-  const {username, password} = this.request.body;
+async function isLoggedIn(ctx, next) {
+  const payload = Auth.isTokenValid(ctx.request.query.token);
+  if (!payload) {
+    return ctx.throw('Unauthorized', 401, {errorData: {error: 'invalid token'}});
+  }
+  ctx.request.tokenPayload = payload;
+  await next();
+}
+
+async function isAdmin(ctx, next) {
+  if (!ctx.request.tokenPayload || !ctx.request.tokenPayload.isAdmin) {
+    ctx.throw('Unauthorized', 401, {errorData: {error: 'Require admin privileges'}});
+  }
+  await next();
+}
+
+async function logIn (ctx) {
+  const {username, password} = ctx.request.body;
   let user;
-  if (!username || !password) return this.throw('BadRequest', 400);
+  if (!username || !password) return ctx.throw(400);
   try {
-    user = yield User.logIn(username, password);
+    user = await User.logIn(username, password);
   } catch (e) {
-    if (e === User.errors.INVALID_USER) return this.throw('Unauthorized', 401);
-    return this.throw('InternalServerError', 500);
+    if (e === User.errors.INVALID_USER) return ctx.throw('Unauthorized', 401);
+    return ctx.throw('InternalServerError', 500);
   }
   const token = Auth.getToken({id: user._id, username: user.username, isAdmin: !!user.isAdmin});
-  this.body = { token };
-};
-
+  ctx.body = { token };
+}
 
 
 module.exports = {

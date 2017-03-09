@@ -1,5 +1,6 @@
 require('dotenv').config({silent: true});
-const koa = require('koa');
+const Koa = require('koa');
+const convert = require('koa-convert');
 const serve = require('koa-static');
 const router = require('koa-router')();
 const koaBunyanLogger = require('koa-bunyan-logger');
@@ -27,33 +28,30 @@ mongooseConnection.once('open', () => {
 
 const GraphQLSchemas = require('./graphql/schemas');
 
-const app = koa();
+const app = new Koa();
 app.use(serve(path.join(__dirname, '../public')));
-app.use(koaBunyanLogger());
-app.use(koaBunyanLogger.requestIdContext());
-app.use(koaBunyanLogger.requestLogger());
 
-app.use(mount('/graphql', graphqlHTTP({
+app.use(mount('/graphql', convert(graphqlHTTP({
   schema: GraphQLSchemas,
   graphiql: true,
-})));
+}))));
 
 routes(router);
 const port = process.env.PORT || 3000;
 app
-  .use(function* (next) {
+  .use(async (ctx, next) => {
     try {
-      yield next;
+      await next();
     } catch (e) {
       // TODO error logging, handling...
       if (e.errorData) {
-        this.status = e.status || 500;
-        this.message = e.message;
+        ctx.status = e.status || 500;
+        ctx.message = e.message;
         const error = Object.assign({}, e.errorData, {
           statusCode: e.status,
           status: e.message,
         });
-        this.body = error;
+        ctx.body = error;
       } else {
         throw e;
       }

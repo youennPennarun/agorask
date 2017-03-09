@@ -64,7 +64,6 @@ const rate = {
       _id: payload.id,
       username: payload.username,
     };
-    console.log("====================", ratingValue)
     return co(TaskService.vote(taskId, answerId, user, ratingValue))
       .then(rating => ({rating}));
   },

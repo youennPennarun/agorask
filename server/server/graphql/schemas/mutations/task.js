@@ -38,7 +38,7 @@ const task = {
       description: 'Authentification token',
     },
   },
-  resolve: function (root, {venueId, task: {title}, token}, options, fields) {
+  resolve: async function (root, {venueId, task: {title}, token}, options, fields) {
     const payload = Auth.isTokenValid(token);
     if (payload === false) {
       throw new Error('Unauthorized');
@@ -47,7 +47,7 @@ const task = {
       _id: payload.id,
       username: payload.username,
     };
-    return co(TaskService.addTask(title, venueId, user, new Date()));
+    return TaskService.addTask(title, venueId, user, new Date());
   },
 };
 
