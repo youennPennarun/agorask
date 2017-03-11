@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  mobile_app:
+  build:
     docker:
       - image: node:7.7.2
     environment:
@@ -18,7 +18,7 @@ jobs:
       - run:
         name: Tests
         command: yarn run codecov
-  server:
+  build:
     docker:
       - image: node:7.7.2
     environment:
@@ -31,7 +31,7 @@ jobs:
       - run:
         name: Tests
         command: yarn run codecov
-  integration_tests:
+  build:
     docker:
       - image: node:7.7.2
     environment:
