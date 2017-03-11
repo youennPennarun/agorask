@@ -17,9 +17,13 @@ jobs:
       - checkout
       - run:
           name: Intall android dependencies
+          command: ./tools/android_deps.sh
+      - run:
+          name: Intall yarn
           command: |
-            # ./tools/install_android_sdk.sh
-            ./tools/android_deps.sh
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+            apt-get update && apt-get install yarn
       - run:
           name: Install Dependencies
           command: |
