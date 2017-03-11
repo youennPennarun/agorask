@@ -1,6 +1,6 @@
 cd ~/;
 # install openjdk
-sudo apt-get install openjdk-7-jdk
+apt-get update && apt-get install -y default-jre
 
 # download android sdk
 wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
@@ -21,8 +21,8 @@ EOT
 source ~/.zshrc
 
 # adb
-sudo apt-get install libc6:i386 libstdc++6:i386
+apt-get install libc6:i386 libstdc++6:i386
 # aapt
-sudo apt-get install zlib1g:i386
+apt-get install zlib1g:i386
 
 cd -;
