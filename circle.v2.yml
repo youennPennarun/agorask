@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  - build:
+  mobile_app:
     docker:
       - image: node:7.7.2
     environment:
@@ -18,12 +18,7 @@ jobs:
       - run:
         name: Tests
         command: yarn run codecov
-      - run:
-        name: Build app
-        command: |
-          cd android
-          ./gradlew assembleRelease
-  - build:
+  server:
     docker:
       - image: node:7.7.2
     environment:
@@ -36,7 +31,7 @@ jobs:
       - run:
         name: Tests
         command: yarn run codecov
-  - build:
+  integration_tests:
     docker:
       - image: node:7.7.2
     environment:
