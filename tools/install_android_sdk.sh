@@ -1,8 +1,8 @@
 cd ~/;
 # install openjdk
-add-apt-repository ppa:webupd8team/java -y;
-apt-get update;
-apt-get install oracle-java8-installer;
+apt-get update && apt-get install -y openjdk-8-jre
+
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java"
 
 # download android sdk
 wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
