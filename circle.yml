@@ -14,11 +14,11 @@ jobs:
     working_directory: ~/agorask
     parallelism: 4
     steps:
+      - checkout
       - run:
           name: Install Dependencies
           command: |
-            echo $(ls)
-            cd ./tests/app
+            cd ./tests/app/
             yarn
             cd ../..
             yarn
