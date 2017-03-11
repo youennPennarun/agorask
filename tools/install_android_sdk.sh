@@ -6,10 +6,6 @@ apt-get update && apt-get install -y default-jre
 wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
 
 tar -xvf android-sdk_r24.2-linux.tgz
-cd android-sdk-linux/tools
-
-# install all sdk packages
-./android update sdk --no-ui
 
 # set path
 vi ~/.zshrc << EOT
