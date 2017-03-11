@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            echo $(pwd)
+            echo $(ls)
             cd ./tests/app
             yarn
             cd ../..
