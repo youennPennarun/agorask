@@ -14,6 +14,8 @@ jobs:
     working_directory: ~/agorask
     parallelism: 4
     steps:
+      - run:
+        command: apt-get install git-all
       - checkout
       - run:
           name: Intall android dependencies
