@@ -15,6 +15,7 @@ jobs:
     parallelism: 4
     steps:
       - checkout
+      - run: apt-get update && apt-get install -y default-jre
       - run:
           name: Install Dependencies
           command: |
