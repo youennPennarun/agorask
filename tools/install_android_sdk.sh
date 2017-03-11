@@ -1,3 +1,4 @@
+cd ~/;
 # install openjdk
 sudo apt-get install openjdk-7-jdk
 
@@ -23,3 +24,5 @@ source ~/.zshrc
 sudo apt-get install libc6:i386 libstdc++6:i386
 # aapt
 sudo apt-get install zlib1g:i386
+
+cd -;
