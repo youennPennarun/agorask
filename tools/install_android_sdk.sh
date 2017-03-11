@@ -1,6 +1,6 @@
 cd ~/;
 # install openjdk
-apt-get update && apt-get install -y default-jre
+apt-get update && apt-get install -y openjdk-8-jre
 
 # download android sdk
 wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
