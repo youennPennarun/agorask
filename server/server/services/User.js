@@ -1,4 +1,6 @@
 const Auth = require('./Authentification');
+const Cloudinary = require('./Cloudinary');
+const crypto = require('crypto');
 const {User} = require('../utils/mongo/models');
 
 const errors = {
@@ -24,12 +26,18 @@ const getUserById = async function (id, fields) {
   return query.exec();
 };
 
-const register = async function (username, password, email) {
+const register = async function (username, password, email, imagePath) {
   let encryptedPassword;
 
   const existingUser = await getUser(username, email);
   if (existingUser) {
     throw errors.USERNAME_ALREADY_TAKEN;
+  }
+  let image;
+  if (imagePath) {
+    image = await Cloudinary.upload(imagePath);
+  } else {
+    image = getDefaultImage(email);
   }
   try {
     encryptedPassword = await Auth.encrypt(password);
@@ -37,12 +45,37 @@ const register = async function (username, password, email) {
       username,
       password: encryptedPassword,
       email,
+      image,
     }).save();
 
     return user;
   } catch (e) {
     throw e;
   }
+};
+
+const getDefaultImage = function(email) {
+  const hash = (email) ? crypto.createHash('md5').update(email).digest('hex') : '';
+  return {
+    url: `https://www.gravatar.com/avatar/${hash}`,
+    width: 800,
+    height: 800,
+  };
+};
+
+const updateImage = async function(userId, filePath) {
+  const uploadedImage = await Cloudinary.upload(filePath);
+  await User.update({_id: userId}, { $set: { image: uploadedImage }}).exec();
+  return uploadedImage;
+};
+
+const getImage = async function(email) {
+  const query = User.findOne({email}, {})
+    .select(['image']);
+  const user = await query.exec();
+  if (!user) return null;
+  if (!user.image) return getDefaultImage(email);
+  return user.image;
 };
 
 const logIn = async function (username, password) {
@@ -58,4 +91,6 @@ module.exports = {
   logIn,
   errors,
   getUserById,
+  getImage,
+  updateImage,
 };

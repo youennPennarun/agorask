@@ -47,10 +47,17 @@ async function logIn (ctx) {
   ctx.body = { token };
 }
 
+async function getUserImage(ctx) {
+  const image = await User.getImage(ctx.query.email);
+  if (!image || !image.url) return ctx.throw(404);
+   ctx.redirect(image.url);
+}
+
 
 module.exports = {
   isLoggedIn,
   isAdmin,
   register,
   logIn,
+  getUserImage,
 };

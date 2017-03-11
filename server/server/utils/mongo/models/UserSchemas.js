@@ -16,6 +16,21 @@ const shortUser = mongoose.Schema({
   },
 }, { _id: false });
 
+const userImage = mongoose.Schema({
+  url: {
+    type: String,
+    required: true,
+  },
+  width: {
+    type: Number,
+    required: true,
+  },
+  height: {
+    type: Number,
+    required: true,
+  },
+}, { _id: false });
+
 const user = mongoose.Schema({
     username: {
         type: String,
@@ -29,6 +44,9 @@ const user = mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         validate: [validateEmail, 'email is invalid'],
         required: true,
+    },
+    image: {
+        type: userImage,
     },
     isAdmin: mongoose.SchemaTypes.Boolean,
     externals: {
