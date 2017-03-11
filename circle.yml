@@ -12,13 +12,15 @@ jobs:
       GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
       MONGO_URL: mongodb://localhost/agorask
     working_directory: ~/agorask
+    parallelism: 4
     steps:
       - run:
           name: Install Dependencies
           command: |
             echo $(pwd)
-            yarn
             cd ./tests/app
+            yarn
+            cd ../..
             yarn
             cd ../../mobile_app/android
             ./gradlew assembleCiRelease --parallel
