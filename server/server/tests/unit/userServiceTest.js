@@ -130,14 +130,15 @@ describe('UserService', () => {
 
   describe('get image', () => {
     it('shoud return the user profile image', async () => {
-      const image = await User.getImage('jackHackettWithImage@drink.com');
+      const image = await User.getImage('jackHackettWithImage');
+      console.log(image)
       expect(image).to.have.property('width', cloudinaryMock.uploadResponse.width);
       expect(image).to.have.property('height', cloudinaryMock.uploadResponse.height);
       expect(image).to.have.property('url', cloudinaryMock.uploadResponse.url);
     });
     it('shoud return an image from gravatar if the user haven\'t uploaded a picture', async () => {
-      const image = await User.getImage('jackHackett@drink.com');
-      expect(image).to.be.have.property('url', 'https://www.gravatar.com/avatar/6c36bc9e22d166ebc0b7059a2dd234c8');
+      const image = await User.getImage('jackHackett');
+      expect(image).to.be.have.property('url', 'https://www.gravatar.com/avatar/6c36bc9e22d166ebc0b7059a2dd234c8?d=mm');
       expect(image).to.be.have.property('width', 800);
       expect(image).to.be.have.property('height', 800);
     });
