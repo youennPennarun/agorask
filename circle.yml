@@ -21,14 +21,20 @@ jobs:
             yarn
             cd ./tests/app/
             yarn
-            cd ../../mobile_app/android
+      - run:
+          name: Build test android application
+          command: |
+            openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
+            cd ./mobile_app/android
             ./gradlew assembleCiRelease --parallel
-            cd ../..
-            git remote add herokuTest git@heroku.com:agorask-test.git,
-            git push herokuTest `git subtree split --prefix server HEAD`:master --force
       - run:
           name: Tests
           command: yarn test
+      - run:
+          name: deploy test server
+          command: |
+            git remote add herokuTest git@heroku.com:agorask-test.git,
+            git push herokuTest `git subtree split --prefix server HEAD`:master --force
       - run:
           name: Upload app to testobject
           command: |
