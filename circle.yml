@@ -16,9 +16,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Intall android dependencies
-          command: ./tools/android_deps.sh
-      - run:
           name: Install Dependencies
           command: |
             yarn
