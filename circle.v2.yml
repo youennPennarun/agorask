@@ -13,7 +13,7 @@ jobs:
       JAVA_OPTS: "-Xms518m -Xmx2048m"
       GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError"'
       MONGO_URL: mongodb://localhost/agorask
-    working_directory: /home/nolitsou/agorask
+    working_directory: ~/agorask
     parallelism: 4
     steps:
       - checkout
