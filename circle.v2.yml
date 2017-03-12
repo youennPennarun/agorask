@@ -35,6 +35,7 @@ jobs:
       - run:
           name: deploy test server
           command: |
+            if [ ! -n "$(grep "^heroku.com " ~/.ssh/known_hosts)" ]; then ssh-keyscan heroku.com >> ~/.ssh/known_hosts 2>/dev/null; fi
             git remote add herokuTest git@heroku.com:agorask-test.git,
             git push herokuTest `git subtree split --prefix server HEAD`:master --force
       - run:
