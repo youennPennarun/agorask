@@ -48,7 +48,7 @@ async function logIn (ctx) {
 }
 
 async function getUserImage(ctx) {
-  const image = await User.getImage(ctx.query.email);
+  const image = await User.getImage(ctx.params.username);
   if (!image || !image.url) return ctx.throw(404);
    ctx.redirect(image.url);
 }

@@ -8,7 +8,7 @@ module.exports = function(router) {
    */
   router.post('/users/login', koaBody, logIn);
 
-  router.get('/users/image/:email', getUserImage);
+  router.get('/users/image/:username', getUserImage);
   /**
    * return {token: string}
    */

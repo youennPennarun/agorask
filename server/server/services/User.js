@@ -57,7 +57,7 @@ const register = async function (username, password, email, imagePath) {
 const getDefaultImage = function(email) {
   const hash = (email) ? crypto.createHash('md5').update(email).digest('hex') : '';
   return {
-    url: `https://www.gravatar.com/avatar/${hash}`,
+    url: `https://www.gravatar.com/avatar/${hash}?d=mm`,
     width: 800,
     height: 800,
   };
@@ -69,12 +69,12 @@ const updateImage = async function(userId, filePath) {
   return uploadedImage;
 };
 
-const getImage = async function(email) {
-  const query = User.findOne({email}, {})
-    .select(['image']);
+const getImage = async function(username) {
+  const query = User.findOne({username}, {})
+    .select(['image', 'email']);
   const user = await query.exec();
   if (!user) return null;
-  if (!user.image) return getDefaultImage(email);
+  if (!user.image) return getDefaultImage(user.email);
   return user.image;
 };
 

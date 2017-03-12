@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { disconnect } from '../../../redux/actions/user';
 import Badge from './Badge';
+import ProfilePic from '../ProfilePic';
 
 const { width, height } = Dimensions.get('window');
 
@@ -123,7 +124,7 @@ class DrawerMenu extends Component {
           ]}
           {...this._panResponder.panHandlers}>
           <View style={styles.userContainer}>
-            <View style={styles.userPic} />
+            <ProfilePic style={styles.userPic} size={110} username={this.props.username} />
             <Text style={styles.username}>{this.props.username}</Text>
           </View>
           <View style={styles.mainMenu}>
@@ -182,10 +183,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   userPic: {
-    width: 110,
-    height: 110,
-    backgroundColor: 'grey',
-    borderRadius: 55,
     marginTop: 5,
     marginBottom: 5,
   },
@@ -224,17 +221,17 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = state => {
- return ({
-  ...state.user,
-});
+  return {
+    ...state.user,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
- return ({
-  disconnect: () => {
-    dispatch(disconnect());
-  },
-});
+  return {
+    disconnect: () => {
+      dispatch(disconnect());
+    },
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);
