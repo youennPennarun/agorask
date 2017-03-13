@@ -24,12 +24,6 @@ jobs:
             cd ./tests/app/
             yarn
       - run:
-          name: Build test android application
-          command: |
-            openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
-            cd ./mobile_app/android
-            ./gradlew assembleCiRelease --parallel
-      - run:
           name: Tests
           command: yarn test
       - add_ssh_keys
@@ -39,6 +33,12 @@ jobs:
             if [ ! -n "$(grep "^heroku.com " ~/.ssh/known_hosts)" ]; then ssh-keyscan heroku.com >> ~/.ssh/known_hosts 2>/dev/null; fi
             git remote add herokuTest git@heroku.com:agorask-test.git,
             git push herokuTest `git subtree split --prefix server HEAD`:master --force
+      - run:
+          name: Build test android application
+          command: |
+            openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
+            cd ./mobile_app/android
+            ./gradlew assembleCiRelease --parallel
       - run:
           name: Upload app to testobject
           command: |
