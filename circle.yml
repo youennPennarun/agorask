@@ -17,12 +17,21 @@ jobs:
     parallelism: 4
     steps:
       - checkout
+      - restore_cache:
+          key: agorask-{{ .Branch }}
       - run:
           name: Install Dependencies
           command: |
             yarn
             cd ./tests/app/
             yarn
+      - save_cache:
+          key: agorask-{{ .Branch }}
+          paths:
+            - ~/.yarn
+            - ~/.cache/yarn
+            - /usr/local/android-sdk-linux
+            - ~/.gradle
       - run:
           name: Tests
           command: yarn test
