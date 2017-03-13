@@ -29,6 +29,7 @@ jobs:
       - add_ssh_keys
       - run:
           name: deploy test server
+          working_directory: ~/agorask
           command: |
             if [ ! -n "$(grep "^heroku.com " ~/.ssh/known_hosts)" ]; then ssh-keyscan heroku.com >> ~/.ssh/known_hosts 2>/dev/null; fi
             git remote add herokuTest git@heroku.com:agorask-test.git,
