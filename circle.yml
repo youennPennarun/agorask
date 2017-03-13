@@ -30,7 +30,6 @@ jobs:
           paths:
             - ~/.yarn
             - ~/.cache/yarn
-            - /usr/local/android-sdk-linux
             - ~/.gradle
       - run:
           name: Tests
