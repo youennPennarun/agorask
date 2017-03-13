@@ -64,12 +64,11 @@ class App extends Component {
     this.init();
   }
   init() {
-    console.log('persistStore Start...')
     persistStore(
       store,
       {
         storage: AsyncStorage,
-        blacklist: ['search', 'navigator'],
+        blacklist: ['apollo', 'search', 'navigator'],
       },
       () => {
     console.log('persistStore ENDED!!!')
@@ -78,7 +77,7 @@ class App extends Component {
           store.dispatch(pushRoute({ key: 'login' }));
         }
         if (store.getState().settings.notifications) {
-          // TaskChecker.start();
+          TaskChecker.start();
         }
       },
     );

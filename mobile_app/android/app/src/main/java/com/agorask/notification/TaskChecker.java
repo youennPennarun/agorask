@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,8 +38,13 @@ public class TaskChecker {
     private static final int RADIUS = 100;
     private static final int USER_MOVED_WHEN_MORE_THAN_METERS = 5;
     private static final int REQUEST_DELAY_MINUTES = 5;
-    private static final int LOCATION_DELAY_SECONDS = 5;
+    private static final int LOCATION_DELAY_SECONDS = 1 * 60;
     private static final int GEOHASH_SIZE = 9;
+
+
+    private OkHttpClient okClient = new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .build();
 
     private static HashMap<String, ArrayList<Task>> cache = new HashMap<>();
 
@@ -91,13 +97,15 @@ public class TaskChecker {
     }
 
     void start(Context context) {
+        Log.d(TAG, "Starting TaskChecker");
         startLocationChecker(context);
     }
     void stop() {
+        Log.d(TAG, "Stopping TaskChecker");
         stopLocationChecker();
     }
     private boolean hasMoved(Location newLocation) {
-        boolean moved = false;
+        boolean moved = (lastLocation == null);
 
         if (lastLocation != null && newLocation != null) {
             moved = (newLocation.distanceTo(lastLocation) >= USER_MOVED_WHEN_MORE_THAN_METERS);
@@ -107,15 +115,13 @@ public class TaskChecker {
         return moved;
     }
     private void handleNewTasks(Context context, JSONArray list, String geohash) throws JSONException {
+        Log.d(TAG, "Received " + list.length() + " tasks for geohash " + geohash);
         ArrayList<Task> tasks = new ArrayList<>();
         for(int i = 0; i < list.length(); i++) {
-            Location l = new Location("");
-            l.distanceTo(new Location(""));
-
-
             tasks.add(new Task(list.getJSONObject(i)));
         }
         if (cache.containsKey(geohash)) {
+            Log.d(TAG, "Tasks are cached the geohash" + geohash);
             ArrayList<Task> newTasks = getNewTasks(tasks, cache.get(geohash));
             notifyNewTasks(context, newTasks);
             cache.put(geohash, tasks);
@@ -127,6 +133,7 @@ public class TaskChecker {
     }
 
     private void notifyNewTasks(Context context, ArrayList<Task> tasks) {
+        Log.d(TAG, "Notifying new tasks");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -136,6 +143,7 @@ public class TaskChecker {
 
     }
     private void notifyTasks(Context context, ArrayList<Task> tasks) {
+        Log.d(TAG, "Notifying a task");
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -171,19 +179,29 @@ public class TaskChecker {
     }
 
     private void requestNewTasksIfNeeded(final Context context) {
-        if ((System.currentTimeMillis() - lastRequest) * 60 * 1000 >= REQUEST_DELAY_MINUTES) {
+        Log.d(TAG, "Request new tasks if needed");
+        Log.d(TAG, "Last request was at " + lastRequest + " it is now " + System.currentTimeMillis());
+
+        if (((System.currentTimeMillis() - lastRequest) / 1000) / 60 >= REQUEST_DELAY_MINUTES) {
             requestNewTasks(context);
+        } else {
+            Log.d(TAG, "Already requested tasks recently. Skipping request...");
         }
     }
 
     private void requestNewTasks(final Context context) {
+        Log.d(TAG, "Requesting new tasks");
         this.lastRequest = System.currentTimeMillis();
         Location location = AgoraskLocationSource.getInstance(context).getLastKnownLocation();
-        OkHttpClient okClient = new OkHttpClient();
-        if (location == null) return;
+
+        if (location == null) {
+            Log.d(TAG, "Location unavailable. Skipping request...");
+            return;
+        }
         final String geohash = GeoHash.encodeHash(location.getLatitude(), location.getLongitude(), GEOHASH_SIZE);
 
         String url = BuildConfig.API_URL + "?geohash=" + geohash + "&radius=" + RADIUS;
+        Log.d(TAG, "Requesting new tasks on URL " + url);
         if (token != null) {
             url += "&token=" + token;
         }
@@ -197,7 +215,10 @@ public class TaskChecker {
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                if (!response.isSuccessful()) {
+                    Log.d(TAG, "Got response with code " + response.code());
+                    throw new IOException("Unexpected code " + response);
+                }
                 try {
                     JSONArray json = new JSONArray(response.body().string());
                     handleNewTasks(context, json, geohash);

@@ -3,6 +3,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+import offline from './offline';
 
 import { autoRehydrate } from 'redux-persist';
 
@@ -14,14 +15,14 @@ const middlewares = [thunkMiddleware];
 
 let _createStore = createStore;
 if (__DEV__) {
-  // middlewares.push(loggerMiddleware);
+  middlewares.push(loggerMiddleware);
   _createStore = Reactotron.createStore;
 }
 
 const queue = {};
 let clientQL = null;
 
-const storage = store => next => action => {
+const mutationStorage = store => next => action => {
   if (action.type === 'APOLLO_MUTATION_INIT') {
     if (!queue[action.mutationId]) {
       console.log('Storing mutation', action.mutationId);
@@ -53,7 +54,8 @@ const storage = store => next => action => {
   }
   return next(action);
 };
-// middlewares.push(storage);
+
+middlewares.push(offline);
 
 function configureStore(apolloClient) {
   clientQL = apolloClient;

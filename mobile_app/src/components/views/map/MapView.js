@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import geohash from 'ngeohash';
 
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -112,6 +113,7 @@ const VenuesNearUserQuery = gql`
   }
   ${MapView.fragments.venues}
 `;
+VenuesNearUserQuery.offline = ({lat, lng}) => ({geohash: geohash.encode(lat, lng, 8)});
 
 const SearchVenuesQuery = gql`
   query SearchVenues($lat: Float!, $lng: Float!, $radius: Float, $query: String!) {
@@ -121,7 +123,7 @@ const SearchVenuesQuery = gql`
   }
   ${MapView.fragments.venues}
 `;
-
+SearchVenuesQuery.offline = ({query}) => ({query});
 
 /* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
@@ -144,7 +146,6 @@ const mapDispatchToProps = (dispatch: Function): Object => ({
     dispatch(updateUserLocation(lat, lng));
   },
 });
-
 
 /* istanbul ignore next */
 export default compose(

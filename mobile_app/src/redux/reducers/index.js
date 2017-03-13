@@ -3,6 +3,8 @@ import user from './user';
 import venue from './venue';
 import search from './search';
 
+import offline from './offline';
+
 import settings from './settings';
 
 const reducers = {
@@ -11,6 +13,7 @@ const reducers = {
   ...venue,
   ...search,
   ...settings,
+  ...offline,
 };
 
 export default reducers;
