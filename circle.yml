@@ -70,3 +70,4 @@ jobs:
             yarn test
       - store_artifacts:
           path: $CIRCLE_ARTIFACTS
+          destination: screenshots
