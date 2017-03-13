@@ -69,5 +69,5 @@ jobs:
             cd ./tests/app
             yarn test
       - store_artifacts:
-          path: $CIRCLE_ARTIFACTS
+          path: /root/agorask/artifacts
           destination: screenshots
