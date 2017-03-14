@@ -19,6 +19,12 @@ jobs:
       - restore_cache:
           key: agorask-{{ .Branch }}
       - run:
+          name: Configure git
+          command: |
+            git config --global user.email "youenn.pennarun@gmail.com"
+            git config --global user.name "Youenn Pennarun"
+            git config --global push.default simple
+      - run:
           name: Install Dependencies
           command: |
             yarn
@@ -39,11 +45,7 @@ jobs:
           working_directory: ~/agorask
           command: |
             if [ ! -n "$(grep "^heroku.com " ~/.ssh/known_hosts)" ]; then ssh-keyscan heroku.com >> ~/.ssh/known_hosts 2>/dev/null; fi
-            echo "Set push default config"
-            git config --global push.default simple
-            echo "Add remote git for herokuTest"
             git remote add herokuTest git@heroku.com:agorask-test.git
-            echo "Push changes"
             git push herokuTest `git subtree split --prefix server HEAD`:master --force
       - run:
           name: Build test android application
