@@ -69,8 +69,8 @@ jobs:
             cd ./tests/app
             yarn test
       - store_artifacts:
-          path: /root/agorask/artifacts
+          path: /root/agorask/artifacts/screenshots
           destination: screenshots
       - store_artifacts:
           path: /root/agorask/mobile_app/android/app/build/outputs/apk/app-ciRelease.apk
-          destination: builds
+          destination: app-ciRelease.apk
