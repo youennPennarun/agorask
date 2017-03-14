@@ -14,5 +14,6 @@ Feature: Login
       And   I fill the password with "password"
       And   I click on login
       And I hide the keyboard
+      And wait 2000 ms
       And I take a screenshot named "login_filled"
     Then I should see an error that say "Invalid credentials"

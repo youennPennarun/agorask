@@ -73,7 +73,14 @@ defineSupportCode(function({Given, When, Then}) {
     })
   });
 
+  When("after ([0-9]+) ?ms", function(delay) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, delay);
+    })
+  });
   When("I hide the keyboard", function() {
     return this.driver.hideDeviceKeyboard();
-  })
+  });
 });
