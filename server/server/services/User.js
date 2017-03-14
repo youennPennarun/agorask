@@ -57,7 +57,7 @@ const register = async function (username, password, email, imagePath) {
 const getDefaultImage = function(email) {
   const hash = (email) ? crypto.createHash('md5').update(email).digest('hex') : '';
   return {
-    url: `https://www.gravatar.com/avatar/${hash}?d=mm`,
+    url: `https://www.gravatar.com/avatar/${hash}?d=mm&size=400`,
     width: 800,
     height: 800,
   };
