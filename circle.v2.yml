@@ -73,4 +73,4 @@ jobs:
           destination: screenshots
       - store_artifacts:
           path: /root/agorask/mobile_app/android/app/build/outputs/apk/app-ciRelease.apk
-          destination: screenshots
+          destination: builds

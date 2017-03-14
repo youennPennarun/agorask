@@ -138,7 +138,7 @@ describe('UserService', () => {
     });
     it('shoud return an image from gravatar if the user haven\'t uploaded a picture', async () => {
       const image = await User.getImage('jackHackett');
-      expect(image).to.be.have.property('url', 'https://www.gravatar.com/avatar/6c36bc9e22d166ebc0b7059a2dd234c8?d=mm');
+      expect(image).to.be.have.property('url', 'https://www.gravatar.com/avatar/6c36bc9e22d166ebc0b7059a2dd234c8?d=mm&size=400');
       expect(image).to.be.have.property('width', 800);
       expect(image).to.be.have.property('height', 800);
     });
