@@ -106,19 +106,26 @@ export function login(username: string, password: string): Function {
   };
 }
 
-export function doSignIn(username: string, email: string, password: string): Function {
+export function doSignIn(username: string, email: string, password: string, image): Function {
   return (dispatch: Function): Promise => {
+    const body = new FormData();
+    body.append('username', username);
+    body.append('password', password);
+    body.append('email', email);
+    if (image) {
+      body.append('picture', {
+        ...image,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      });
+    }
     return fetch(`${config.API_URL}/users/register`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-      }),
+      body,
     })
     .then((response: Object): Object => response.json())
     .then(({token}): Promise => {

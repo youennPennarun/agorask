@@ -10,6 +10,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.imagepicker.ImagePickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new ReactMaterialKitPackage(),
             new ReactNativeConfigPackage(),
+            new ImagePickerPackage(),
           new CustomPackage()
       );
     }

@@ -1,15 +1,17 @@
+/* @flow */
+
 import React, { PropTypes } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 
 import Config from 'react-native-config';
 
 type ProfilePicPropsType = {
-  style: Object<*>,
+  style: Object,
   size: number,
   username: string,
 };
 
-function getStyle(props: ProfilePicPropsType) {
+function getStyle(props: ProfilePicPropsType): Array<Object> {
   return [
     props.style,
     {
@@ -20,7 +22,7 @@ function getStyle(props: ProfilePicPropsType) {
   ];
 }
 
-function renderDefault(props: ProfilePicPropsType) {
+function renderDefault(props: ProfilePicPropsType): React.Element<View> {
   return (
     <View
       style={[
@@ -32,20 +34,25 @@ function renderDefault(props: ProfilePicPropsType) {
   );
 }
 
-function ProfilePic(props: ProfilePicPropsType) {
-  if (!props.username) return renderDefault(props);
-
-  const imageUrl = `${Config.API_URL}/users/image/${props.username}`;
-  return <Image style={getStyle(props)} source={{ uri: imageUrl }} />;
+function ProfilePic(props: ProfilePicPropsType): React.Element<Image> {
+  if (!props.username && !props.src) return renderDefault(props);
+  const source = {
+    uri: props.src || ProfilePic.getImageURL(props.username),
+  };
+  return <Image style={getStyle(props)} source={source} />;
 }
+
+ProfilePic.getImageURL = (username: string): string => `${Config.API_URL}/users/image/${username}`;
+
 ProfilePic.propTypes = {
-  style: PropTypes.string,
+  style: StyleSheet.propTypes,
   size: PropTypes.number.isRequired,
   username: PropTypes.string,
+  src: PropTypes.string,
 };
 
 ProfilePic.defaultProps = {
   style: {},
-}
+};
 
 export default ProfilePic;

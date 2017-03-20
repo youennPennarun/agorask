@@ -1,13 +1,19 @@
 const Auth = require('../services/Authentification');
 const User = require('../services/User');
+const parse = require('co-busboy');
+const path = require('path');
+const fs = require('fs');
+const mongoose = require('mongoose');
+
 
 async function register (ctx) {
-  const {username, password, email} = ctx.request.body;
+  const {fields: {username, password, email}, files: {picture}} = ctx.request.body;
   if (!username || !password || !email) {
     ctx.throw(400, 'Missing parameters');
   }
+  const filePath = (picture) ? picture.path : null;
   try {
-    await User.register(username, password, email);
+    await User.register(username, password, email, filePath);
   } catch (e) {
     if (e.name === 'ValidationError') return ctx.throw('Invalid parameters', 400);
     if (e === User.errors.USERNAME_ALREADY_TAKEN) return ctx.throw('Username already taken', 409);
@@ -53,6 +59,28 @@ async function getUserImage(ctx) {
    ctx.redirect(image.url);
 }
 
+async function updateUserImage(ctx) {
+  const {id, username} = ctx.params;
+  if (ctx.request.tokenPayload.username !== username) {
+    return ctx.throw('Unauthorized', 401);
+  }
+  const parts = parse(ctx, {
+    autoFields: true,
+  });
+  const dest = path.join(
+    __dirname,
+    `../../tmp/${new mongoose.mongo.ObjectId()}`
+  );
+  let part;
+  // eslint-disable-next-line no-cond-assign
+  while ((part = await parts)) {
+    const stream = fs.createWriteStream(dest);
+    part.pipe(stream);
+    console.log('uploading %s -> %s', part.filename, stream.path);
+  }
+  ctx.body = User.updateImage(id, dest);
+}
+
 
 module.exports = {
   isLoggedIn,
@@ -60,4 +88,5 @@ module.exports = {
   register,
   logIn,
   getUserImage,
+  updateUserImage,
 };

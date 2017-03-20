@@ -51,8 +51,10 @@ app
           statusCode: e.status,
           status: e.message,
         });
+        console.log('ERROR => ', error)
         ctx.body = error;
       } else {
+        console.log('ERROR => ', e)
         throw e;
       }
     }

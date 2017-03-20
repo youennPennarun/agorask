@@ -123,10 +123,15 @@ class DrawerMenu extends Component {
             },
           ]}
           {...this._panResponder.panHandlers}>
-          <View style={styles.userContainer}>
+          <TouchableOpacity
+            style={styles.userContainer}
+            onPress={() => {
+              this.close();
+              this.props.pushRoute({ key: 'myProfile' });
+            }}>
             <ProfilePic style={styles.userPic} size={110} username={this.props.username} />
             <Text style={styles.username}>{this.props.username}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.mainMenu}>
             <View style={styles.menuItems}>
               <TouchableOpacity style={styles.item}>

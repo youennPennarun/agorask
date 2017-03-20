@@ -131,7 +131,6 @@ describe('UserService', () => {
   describe('get image', () => {
     it('shoud return the user profile image', async () => {
       const image = await User.getImage('jackHackettWithImage');
-      console.log(image)
       expect(image).to.have.property('width', cloudinaryMock.uploadResponse.width);
       expect(image).to.have.property('height', cloudinaryMock.uploadResponse.height);
       expect(image).to.have.property('url', cloudinaryMock.uploadResponse.url);

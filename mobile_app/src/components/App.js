@@ -68,7 +68,7 @@ class App extends Component {
       store,
       {
         storage: AsyncStorage,
-        blacklist: ['apollo', 'search', 'navigator'],
+        blacklist: ['apollo', 'search', 'navigator', 'offline'],
       },
       () => {
     console.log('persistStore ENDED!!!')

@@ -18,9 +18,9 @@ const {
 import Map from './views/map/MapView';
 import LoginView from './views/login/LoginView';
 import SignInView from './views/signIn/SignInView';
-
 import VenueDetails from './views/venueDetails/VenueDetails';
 import TaskDetails from './views/taskDetails/TaskDetails';
+import MyProfile from './views/userProfile/MyProfile';
 
 import Settings from './views/settings/Settings';
 
@@ -55,6 +55,10 @@ export class Router extends Component {
     },
     taskDetails: {
       component: TaskDetails,
+      transition: 'focus',
+    },
+    myProfile: {
+      component: MyProfile,
       transition: 'focus',
     },
     settings: {

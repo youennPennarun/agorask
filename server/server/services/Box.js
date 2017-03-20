@@ -31,7 +31,6 @@ function* getUserToken(userId) {
     return null;
   }
   let {accessToken, refreshToken} = user.externals.box;
-  console.log(user.externals.box.expireThe, (new Date()), (user.externals.box.expireThe < (new Date())));
   if (!user.externals.box.expireThe || user.externals.box.expireThe < (new Date())) {
     const newTokens = yield refreshTokens(user.externals.box);
     accessToken = newTokens.accessToken;
