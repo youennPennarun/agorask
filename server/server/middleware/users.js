@@ -7,6 +7,12 @@ const mongoose = require('mongoose');
 
 
 async function register (ctx) {
+  if (!ctx.request.body.fields) {
+    ctx.request.body.fields = Object.assign({}, ctx.request.body);
+  }
+  if (!ctx.request.body.files) {
+    ctx.request.body.files = {};
+  }
   const {fields: {username, password, email}, files: {picture}} = ctx.request.body;
   if (!username || !password || !email) {
     ctx.throw(400, 'Missing parameters');
