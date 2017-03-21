@@ -4,8 +4,10 @@ import React, {Component, PropTypes} from 'react';
 
 import {connect} from 'react-redux';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {MKButton, MKTextField} from 'react-native-material-kit';
+
+const { wHeight, wWidth } = Dimensions.get('window');
 
 type AddAnswerStateType = {
   answerHeight: number,
@@ -44,16 +46,14 @@ export class AddAnswer extends Component {
     const {answer} = this.state;
     this.setState({loading: true, answer: ''});
     this.props.addAnswer({answer: answer})
-      .then(() => {
-          this.setState({loading: false, answer: ''});
-      })
+      .then(() => { this.setState({loading: false, answer: ''}); })
       .catch(e => {
         console.log('error ', e);
         this.setState({loading: false, answer});
       });
   }
 
-  _renderNotLoggedin(): React.Element<*> {
+  _renderNotLoggedin(): React.Element {
     return (
       <View style={styles.notLoggedInContainer}>
         <Text>You need to be logged in to add an answer</Text>

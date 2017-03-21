@@ -146,13 +146,13 @@ export class TaskDetails extends Component {
             <View style={[styles.answersContainer]}>
               {answers.map((answer: Object, key: number): any => this._renderAnswer(answer, key))}
             </View>
+          <AddAnswer
+            login={() => {
+              this.props.login();
+            }}
+            token={this.props.token}
+            addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
           </Animated.View>
-            <AddAnswer
-              login={() => {
-                this.props.login();
-              }}
-              token={this.props.token}
-              addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
         </ScrollView>
       </View>
     );
