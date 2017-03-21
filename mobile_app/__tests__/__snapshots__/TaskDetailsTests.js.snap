@@ -113,10 +113,10 @@ exports[`test fetching renders correctly 1`] = `
             } />
         </View>
       </View>
+      <AddAnswer
+        addAnswer={[Function]}
+        login={[Function]} />
     </AnimatedComponent>
-    <AddAnswer
-      addAnswer={[Function]}
-      login={[Function]} />
   </ScrollView>
 </View>
 `;
@@ -167,10 +167,10 @@ exports[`test fetching renders correctly if there is no answers 1`] = `
             },
           ]
         } />
+      <AddAnswer
+        addAnswer={[Function]}
+        login={[Function]} />
     </AnimatedComponent>
-    <AddAnswer
-      addAnswer={[Function]}
-      login={[Function]} />
   </ScrollView>
 </View>
 `;
@@ -288,10 +288,10 @@ exports[`test renders correctly 1`] = `
             } />
         </View>
       </View>
+      <AddAnswer
+        addAnswer={[Function]}
+        login={[Function]} />
     </AnimatedComponent>
-    <AddAnswer
-      addAnswer={[Function]}
-      login={[Function]} />
   </ScrollView>
 </View>
 `;
