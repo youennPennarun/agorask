@@ -1,7 +1,6 @@
-const koaBody = require('koa-body')();
-const {getVenuesWithTasks} = require('../middleware/venues');
+const {getPicture} = require('../middleware/venues');
 
 
 module.exports = function(router) {
-  // router.post('/venues/', koaBody, getVenuesWithTasks);
+  router.get('/venues/:id/image', getPicture);
 };
