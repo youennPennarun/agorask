@@ -17,6 +17,6 @@ export default (): Promise => new Promise((resolve, reject) => {
     } else if (response.error) {
       return reject(response.error);
     }
-    return resolve({ uri: response.uri, data: response.data });
+    return resolve(response);
   });
 });

@@ -112,18 +112,18 @@ export function doSignIn(username: string, email: string, password: string, imag
     body.append('username', username);
     body.append('password', password);
     body.append('email', email);
+    
     if (image) {
       body.append('picture', {
-        ...image,
-        type: 'image/jpeg',
-        name: 'photo.jpg',
+        uri: image.uri,
+        type: image.type,
+        name: image.fileName,
       });
     }
     return fetch(`${config.API_URL}/users/register`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
       },
       body,
     })

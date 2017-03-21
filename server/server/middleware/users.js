@@ -4,9 +4,30 @@ const parse = require('co-busboy');
 const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
+const sharp = require('sharp');
 
+
+function resize(imgPath) {
+  return new Promise((resolve, reject) => {
+    const dest = path.join(
+      __dirname,
+      `../../tmp/${new mongoose.mongo.ObjectId()}`
+    );
+    sharp(imgPath)
+      .resize(600)
+      .toFile(dest, (err, info) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          resolve(dest);
+        }
+      });
+  });
+}
 
 async function register (ctx) {
+  console.log(ctx.request.body)
   if (!ctx.request.body.fields) {
     ctx.request.body.fields = Object.assign({}, ctx.request.body);
   }
@@ -17,7 +38,7 @@ async function register (ctx) {
   if (!username || !password || !email) {
     ctx.throw(400, 'Missing parameters');
   }
-  const filePath = (picture) ? picture.path : null;
+  const filePath = (picture) ? await resize(picture.path) : null;
   try {
     await User.register(username, password, email, filePath);
   } catch (e) {

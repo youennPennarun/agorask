@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { MKButton, MKTextField, MKColor } from 'react-native-material-kit';
 
@@ -25,7 +25,7 @@ type StateType = {
   email: string,
   password: string,
   confirmPassword: string,
-  pictureUri: ?string,
+  picture: {uri: ?String},
 };
 
 export class LoginView extends Component {
@@ -42,7 +42,7 @@ export class LoginView extends Component {
     email: '',
     password: '',
     confirmPassword: '',
-    pictureUri: null,
+    picture: {},
   };
   props: PropsType;
 
@@ -86,15 +86,15 @@ export class LoginView extends Component {
 
   showPicker() {
     ProfilePicturePicker()
-      .then(({uri}) => {
-        this.setState({pictureUri: uri});
+      .then((pic) => {
+        this.setState({picture: pic});
       });
   }
 
   _onSubmit() {
-    const { username, email, password, pictureUri } = this.state;
+    const { username, email, password, picture } = this.state;
     if (!this._focusOnMissingField()) {
-      this.props.doSignIn(username, email, password, pictureUri);
+      this.props.doSignIn(username, email, password, picture);
     }
   }
 
@@ -110,9 +110,11 @@ export class LoginView extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={() => { this.showPicker(); }} >
-          <ProfilePic style={styles.userPic} size={110} src={this.state.pictureUri} />
+          <ProfilePic style={styles.userPic} size={110} src={this.state.picture.uri} />
         </TouchableOpacity>
         {this._renderErrorMessage()}
+        
+      <KeyboardAvoidingView behavior='position' >
         <Textfield
           ref={r => {
             this.usernameRef = r;
@@ -175,6 +177,7 @@ export class LoginView extends Component {
           onChangeText={(text: string) => {
             this.setState({ confirmPassword: text });
           }} />
+          </KeyboardAvoidingView>
 
         <RegisterButton
           enabled={this.isFormValid()}
@@ -240,8 +243,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
  return ({
-  doSignIn: (username: string, email: string, password: string) => {
-    dispatch(doSignIn(username, email, password));
+  doSignIn: (username: string, email: string, password: string, image: ?String) => {
+    dispatch(doSignIn(username, email, password, image));
   },
 });
 };
