@@ -8,10 +8,10 @@ import Config from 'react-native-config';
 type ProfilePicPropsType = {
   style: Object,
   size: number,
-  username: string,
+  username?: string,
 };
 
-function getStyle(props: ProfilePicPropsType): Array<Object> {
+function getStyle(props: ProfilePicPropsType) {
   return [
     props.style,
     {
@@ -22,7 +22,7 @@ function getStyle(props: ProfilePicPropsType): Array<Object> {
   ];
 }
 
-function renderDefault(props: ProfilePicPropsType): React.Element<View> {
+function renderDefault(props: ProfilePicPropsType) {
   return (
     <View
       style={[
@@ -34,10 +34,10 @@ function renderDefault(props: ProfilePicPropsType): React.Element<View> {
   );
 }
 
-function ProfilePic(props: ProfilePicPropsType): React.Element<Image> {
+function ProfilePic(props: ProfilePicPropsType) {
   if (!props.username && !props.src) return renderDefault(props);
   const source = {
-    uri: props.src || ProfilePic.getImageURL(props.username),
+    uri: props.src || ProfilePic.getImageURL(props.username || ''),
   };
   return <Image style={getStyle(props)} source={source} />;
 }

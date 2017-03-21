@@ -38,7 +38,7 @@ function hide(items: Array<Object>, hiddenPosition: Object) {
     ]).start();
   });
 }
-function show(items: Array<Object>, visiblePositions: Object) {
+function show(items: Array<Object>, visiblePositions: Array<Object>) {
   Animated.stagger(100, items.map((item: Object, key: number) => {
     const {left, top} = visiblePositions[key];
     return Animated.parallel([

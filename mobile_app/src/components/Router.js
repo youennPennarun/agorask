@@ -1,9 +1,9 @@
 /* @flow */
 
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, Animated, NavigationExperimental, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
-import {popRoute, pushRoute, transitionStart, transitionEnd} from '../redux/actions/router';
+import { popRoute, pushRoute, transitionStart, transitionEnd } from '../redux/actions/router';
 import Transitions from '../utils/Transitions';
 
 const {
@@ -24,7 +24,6 @@ import MyProfile from './views/userProfile/MyProfile';
 
 import Settings from './views/settings/Settings';
 
-
 export class Router extends Component {
   static routes = {
     map: {
@@ -33,24 +32,30 @@ export class Router extends Component {
     },
     login: {
       component: LoginView,
-      navigator: (dispatch) : Object => ({
-        back: () : Promise<*> => dispatch(popRoute()),
-        signIn: () : Promise<*> => dispatch(pushRoute({key: 'signIn'})),
-      }),
+      navigator: (dispatch): Object => {
+        return {
+          back: (): Promise<*> => dispatch(popRoute()),
+          signIn: (): Promise<*> => dispatch(pushRoute({ key: 'signIn' })),
+        };
+      },
       transition: 'vertical',
     },
     signIn: {
       component: SignInView,
-      navigator: (dispatch) : Object => ({
-        back: () : Promise<*> => dispatch(popRoute()),
-      }),
+      navigator: (dispatch): Object => {
+        return {
+          back: (): Promise<*> => dispatch(popRoute()),
+        };
+      },
     },
     venueDetails: {
       component: VenueDetails,
-      navigator: (dispatch) : Object => ({
-        taskDetails: (id, initialData, position) : Promise<*> =>
-          dispatch(pushRoute({key: 'taskDetails', id, task: initialData, position })),
-      }),
+      navigator: (dispatch): Object => {
+        return {
+          taskDetails: (id, initialData, position): Promise<*> =>
+            dispatch(pushRoute({ key: 'taskDetails', id, task: initialData, position })),
+        };
+      },
       transition: 'none',
     },
     taskDetails: {
@@ -65,7 +70,7 @@ export class Router extends Component {
       component: Settings,
       transition: 'focus',
     },
-  }
+  };
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', (): boolean => {
@@ -90,7 +95,10 @@ export class Router extends Component {
     return {};
   }
 
-  createNextScene({scene, ...transitionProps}: Object, routeConfig: Object = {}): React.Element<*> {
+  createNextScene(
+    { scene, ...transitionProps }: Object,
+    routeConfig: Object = {},
+  ): React.Element<*> {
     const props = {
       ...scene.route,
       openDrawer: this.props.openDrawer,
@@ -104,7 +112,7 @@ export class Router extends Component {
   }
 
   _render(transitionProps): Array<React.Element<any>> {
-    return transitionProps.scenes.map((scene, key) : React.Element<*> => {
+    return transitionProps.scenes.map((scene, key): React.Element<*> => {
       const sceneProps = {
         ...transitionProps,
         scene,
@@ -129,34 +137,30 @@ export class Router extends Component {
     if (routeConfig) {
       return (
         <Animated.View key={key} style={style}>
-          { this.createNextScene(props, routeConfig) }
+          {this.createNextScene(props, routeConfig)}
         </Animated.View>
       );
     }
     return <View />;
   }
 
-  render(): React.Element<Router> {
-    const {navigator} = this.props;
+  render(): React.Element<NavigationTransitioner> {
+    const { navigator } = this.props;
     return (
-      <NavigationTransitioner navigationState={navigator}
+      <NavigationTransitioner
+        navigationState={navigator}
         onTransitionStart={() => this.props.dispatch(transitionStart())}
         onTransitionEnd={() => this.props.dispatch(transitionEnd())}
-        render={(transitionProps): Array<React.Element<*>> =>
-          this._render(transitionProps)
-        } />
+        render={(transitionProps): Array<React.Element<*>> => this._render(transitionProps)} />
     );
   }
-
 }
 Router.propTypes = {
   openDrawer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state): {navigator: Function} => {
-  return {navigator: state.navigator};
+const mapStateToProps = (state): { navigator: Function } => {
+  return { navigator: state.navigator };
 };
 
-export default connect(
-  mapStateToProps,
-)(Router);
+export default connect(mapStateToProps)(Router);

@@ -73,19 +73,6 @@ class DrawerMenu extends Component {
     });
   }
 
-  _renderLoginItem() {
-    return (
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => {
-          this.close();
-          this.props.pushRoute({ key: 'login' });
-        }}>
-        <Icon name='account-circle' style={styles.icon} size={20} color='white' />
-        <Text style={styles.label}>Login</Text>
-      </TouchableOpacity>
-    );
-  }
 
   _renderDisconnectItem() {
     return (
@@ -109,6 +96,19 @@ class DrawerMenu extends Component {
     if (this.props.onRef) {
       this.props.onRef(null);
     }
+  }
+  _renderLoginItem() {
+    return (
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => {
+          this.close();
+          this.props.pushRoute({ key: 'login' });
+        }}>
+        <Icon name='account-circle' style={styles.icon} size={20} color='white' />
+        <Text style={styles.label}>Login</Text>
+      </TouchableOpacity>
+    );
   }
 
   render(): ?Object {

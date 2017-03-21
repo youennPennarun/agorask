@@ -4,8 +4,8 @@ import {View, Text, StyleSheet} from 'react-native';
 
 type BadgePropsType = {
   value: number,
-  badgeColor: ?string,
-  fontColor: ?string,
+  badgeColor?: string,
+  fontColor?: string,
 };
 
 export default function Badge(props: BadgePropsType): Object {

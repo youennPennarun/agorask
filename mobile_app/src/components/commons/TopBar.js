@@ -1,37 +1,57 @@
-import React, {PropTypes} from 'react';
+/* @flow */
+import React, { PropTypes } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
-import {MKColor} from 'react-native-material-kit';
+import { MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
-import {popRoute} from '../../redux/actions/router';
+import { popRoute } from '../../redux/actions/router';
 
 const { width } = Dimensions.get('window');
 
-function renderIcon(icon) {
+type ActionType = {
+  icon: string | React.Element<Icon>,
+  action: Function,
+  enabled: boolean,
+};
+
+type TopBarPropsType = {
+  left: ActionType,
+  right: ActionType,
+  title: string,
+  dispatch: Function,
+};
+
+function renderIcon(icon: string | React.Element<Icon>): React.Element<Icon> {
   if (typeof icon === 'string') {
     return <Icon name={icon} size={30} />;
+  } else if (typeof icon === 'number') {
+    return <View />;
   }
   return icon;
 }
 
-function renderAction(action, dispatch) {
+function renderAction(action: ActionType, dispatch: Function) {
   if (!action) return null;
   return (
-    <TouchableOpacity style={styles.button} onPress={() => { action.action(dispatch); }} >
-      { renderIcon(action.icon) }
+    <TouchableOpacity
+      style={styles.button}
+      onPress={() => {
+        action.action(dispatch);
+      }}>
+      {renderIcon(action.icon)}
     </TouchableOpacity>
   );
 }
 
-function TopBar(props) {
+function TopBar(props: TopBarPropsType) {
   return (
-    <View style={styles.container} >
-      <View style={styles.button} >
-        { renderAction(props.left) }
+    <View style={styles.container}>
+      <View style={styles.button}>
+        {renderAction(props.left, props.dispatch)}
       </View>
       <Text style={styles.title}>{props.title}</Text>
-      <View style={styles.button} >
-        { renderAction(props.right) }
+      <View style={styles.button}>
+        {renderAction(props.right, props.dispatch)}
       </View>
     </View>
   );
@@ -57,7 +77,9 @@ const styles = StyleSheet.create({
 });
 
 TopBar.BACK = {
-  action: (dispatch) => {dispatch(popRoute())},
+  action: dispatch => {
+    dispatch(popRoute());
+  },
   icon: <Icon name='arrow-back' size={30} />,
 };
 TopBar.SUBMIT = {
@@ -65,15 +87,15 @@ TopBar.SUBMIT = {
   icon: <Icon name='send' size={30} />,
 };
 
-const ActionType = {
+const ActionPropTypes = {
   icon: PropTypes.object,
   action: PropTypes.func.isRequired,
   enabled: PropTypes.bool,
 };
 
 TopBar.propTypes = {
-  left: PropTypes.objectOf(ActionType),
-  right: PropTypes.objectOf(ActionType),
+  left: PropTypes.shape(ActionPropTypes),
+  right: PropTypes.shape(ActionPropTypes),
   title: PropTypes.string,
 };
 

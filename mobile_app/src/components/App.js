@@ -1,7 +1,7 @@
 /* @flow */
 import React, { Component } from 'react';
 
-import { View, PermissionsAndroid, UIManager, AsyncStorage } from 'react-native';
+import { View, UIManager, AsyncStorage } from 'react-native';
 
 import { persistStore } from 'redux-persist';
 
@@ -13,7 +13,6 @@ import Config from 'react-native-config';
 import configureStore from '../redux/configureStore';
 import { pushRoute } from '../redux/actions/router';
 
-import { loadTokenFromStorage } from '../redux/actions/user';
 import TaskChecker from './natives/TaskChecker';
 
 import { checkForUpdate, showUpdateModal } from '../utils/Version';
@@ -54,6 +53,7 @@ class App extends Component {
   };
 
   componentWillMount() {
+    // eslint-disable-next-line no-unused-expressions
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
     checkForUpdate().then(downloadUrl => {
@@ -71,7 +71,6 @@ class App extends Component {
         blacklist: ['apollo', 'search', 'navigator', 'offline'],
       },
       () => {
-    console.log('persistStore ENDED!!!')
         this.setState({ ready: true });
         if (!store.getState().user.token) {
           store.dispatch(pushRoute({ key: 'login' }));
