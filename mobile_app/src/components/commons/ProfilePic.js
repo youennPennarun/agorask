@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { PropTypes } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 
 import Config from 'react-native-config';
 
@@ -45,7 +45,7 @@ function ProfilePic(props: ProfilePicPropsType): React.Element<Image> {
 ProfilePic.getImageURL = (username: string): string => `${Config.API_URL}/users/image/${username}`;
 
 ProfilePic.propTypes = {
-  style: StyleSheet.propTypes,
+  style: Image.propTypes.style,
   size: PropTypes.number.isRequired,
   username: PropTypes.string,
   src: PropTypes.string,
