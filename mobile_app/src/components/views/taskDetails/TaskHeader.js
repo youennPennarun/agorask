@@ -106,7 +106,7 @@ class TaskHeader extends React.Component {
     }
   }
   render(): React.Element<*> {
-    const {title, date, postedBy} = this.props;
+    const {title, date, postedBy, nbAnswers = 0} = this.props;
     return (
       <Animated.View style={[
         styles.questionContainer,
@@ -130,7 +130,7 @@ class TaskHeader extends React.Component {
             <Text>{moment(date).format('DD/MM/YY')}</Text>
           </View>
           <View style={styles.blockNbAnswers} >
-            <Text>28 answers</Text>
+            <Text>{nbAnswers} answers</Text>
           </View>
         </View>
       </Animated.View>
