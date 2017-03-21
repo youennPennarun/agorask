@@ -70,6 +70,24 @@ jobs:
           command: |
             cd ./tests/app
             yarn test
+      - deploy:
+          name: deploy server if needed
+          working_directory: ~/agorask
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "development" ]; then
+              git remote add heroku git@heroku.com:agorask-dev.git
+              git push heroku `git subtree split --prefix server HEAD`:master --force
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git remote add heroku git@heroku.com:agorask.git
+              git push heroku `git subtree split --prefix server HEAD`:master --force
+            fi
+      - deploy:
+          name: deploy server if needed
+          working_directory: ~/agorask
+          command: |
+            openssl aes-256-cbc -d -in release.keystore.enc -out mobile_app/android/app/release.keystore -k $KEYSTORE_ENCR_KEY
+            cd tools/buildApplication
+            npm install && node deployApplication.js -b $CIRCLE_BRANCH -u $CIRCLE_COMPARE_URL
       - store_artifacts:
           path: /root/agorask/artifacts/screenshots
           destination: screenshots
