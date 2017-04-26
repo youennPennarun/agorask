@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { MKButton, MKTextField, MKColor } from 'react-native-material-kit';
 
@@ -9,7 +9,7 @@ import { doSignIn } from '../../../redux/actions/user';
 import ProfilePicturePicker from '../../../utils/ProfilePicturePicker';
 import ProfilePic from '../../commons/ProfilePic';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 
 type PropsType = {
@@ -106,6 +106,16 @@ export class LoginView extends Component {
     return null;
   }
 
+  _renderLoadingViewIfNeeded() {
+    if (!this.props.isFetching) return null;
+    return (
+      <View style={styles.loadingView} >
+        <View style={styles.loadingViewBackground} />
+        <ActivityIndicator size='large' />
+      </View>
+    );
+  }
+
   render(): Object {
     return (
       <View style={styles.container}>
@@ -192,6 +202,7 @@ export class LoginView extends Component {
           }}>
           <Text>Cancel</Text>
         </TouchableOpacity>
+        { this._renderLoadingViewIfNeeded() }
       </View>
     );
   }
@@ -223,6 +234,16 @@ const styles = StyleSheet.create({
   goToMapButton: {
     marginTop: 10,
   },
+  loadingView: {
+    ...StyleSheet.absoluteFillObject,
+    elevation: 99,
+    justifyContent: 'center',
+  },
+  loadingViewBackground: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'white',
+    opacity: 0.5,
+  },
 });
 
 const RegisterButton = MKButton.coloredButton()
@@ -244,7 +265,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
  return ({
   doSignIn: (username: string, email: string, password: string, image: ?String) => {
-    dispatch(doSignIn(username, email, password, image));
+    return dispatch(doSignIn(username, email, password, image));
   },
 });
 };

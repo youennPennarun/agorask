@@ -107,7 +107,8 @@ export function login(username: string, password: string): Function {
 }
 
 export function doSignIn(username: string, email: string, password: string, image): Function {
-  return (dispatch: Function): Promise => {
+  return (dispatch: Function): Promise<*> => {
+    dispatch(loginRequested());
     const body = new FormData();
     body.append('username', username);
     body.append('password', password);
