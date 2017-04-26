@@ -39,14 +39,15 @@ async function register (ctx) {
     ctx.throw(400, 'Missing parameters');
   }
   const filePath = (picture) ? await resize(picture.path) : null;
+  let user = {};
   try {
-    await User.register(username, password, email, filePath);
+    user = await User.register(username, password, email, filePath);
   } catch (e) {
     if (e.name === 'ValidationError') return ctx.throw('Invalid parameters', 400);
-    if (e === User.errors.USERNAME_ALREADY_TAKEN) return ctx.throw('Username already taken', 409);
+    if (e === User.errors.USERNAME_ALREADY_TAKEN) return ctx.throw('Username already taken', 409, {errorData: {error: 'Username already taken'}});
     return ctx.throw('InternalServerError', 500);
   }
-  const token = Auth.getToken({username});
+  const token = Auth.getToken({id: user._id, username: user.username, isAdmin: false});
   ctx.body = { token };
 }
 

@@ -139,12 +139,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   title: {
-    fontSize: 22,
+    color: 'black',
+    fontSize: 24,
+    marginBottom: 15,
   },
   button: {
     width: width * 0.5,
     marginTop: 10,
     alignSelf: 'center',
+  },
+  answerInput: {
+    marginBottom: 15,
   },
 });
 

@@ -43,7 +43,7 @@ export default function Vote(props: VotePropsType): React.Element<Vote> {
 const styles = StyleSheet.create({
   container: {
     width: 55,
-    height: 80,
+    height: 90,
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingTop: 5,
@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
     flex: 1.1,
   },
   icon: {
-    fontSize: 15,
+    fontSize: 20,
   },
   score: {
-    fontSize: 17,
-    flex: 0.8,
+    fontSize: 18,
+    flex: 1.1,
   },
   good: {
     color: 'green',

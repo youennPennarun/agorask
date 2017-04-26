@@ -92,6 +92,7 @@ export class TaskDetails extends Component {
 
   _renderAnswer({ _id, answer, postedBy: { username }, date, rating = 0, userRating }, key): any {
     const { token, rateAnswer, task } = this.props;
+    console.log(userRating);
     const onVoteCallback = token
       ? value => {
           rateAnswer(task._id, _id, value, token);
@@ -374,12 +375,29 @@ export default compose(
           updateQueries: {
             TaskDetails: (prev, { mutationResult }) => {
               if (mutationResult.error) return prev;
-              console.log('================');
-              console.log(mutationResult);
-              console.log('{{{{{{{{{{}}}}}}}}}}');
-              console.log(prev);
-              const next = {};
-              return prev;
+              const answerIndex = prev.task.answers.findIndex(answer => answer._id === answerId);
+              const newUserRating = ratingValue === 'POSITIVE' ? 1 : -1;
+              if (answerIndex === -1) return prev;
+
+              const next = {
+                ...prev,
+                task: {
+                  ...prev.task,
+                  answers: [
+                    ...prev.task.answers.slice(0, answerIndex),
+                    {
+                      ...prev.task.answers[answerIndex],
+                      rating: mutationResult.data.rating.rating,
+                      userRating: {
+                        ...prev.task.answers[answerIndex].userRating,
+                        rating: newUserRating,
+                      },
+                    },
+                    ...prev.task.answers.slice(answerIndex + 1),
+                  ],
+                },
+              };
+              return next;
             },
           },
         }),
