@@ -145,7 +145,15 @@ export class TaskDetails extends Component {
             }}>
             {this._renderSpinner()}
             <View style={[styles.answersContainer]}>
-              {answers.map((answer: Object, key: number): any => this._renderAnswer(answer, key))}
+              {
+                answers.filter(({rating = 0}) => rating > -5)
+                .sort(({rating: ratingA = 0}, {rating: ratingB = 0}) => {
+                  if (ratingA < ratingB) return -1;
+                  if (ratingA > ratingB) return 1;
+                  return 0;
+                })
+                .map((answer: Object, key: number): any => this._renderAnswer(answer, key))
+              }
             </View>
           <AddAnswer
             login={() => {
