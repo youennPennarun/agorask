@@ -205,7 +205,7 @@ describe('User Tests', () => {
           }),
         });
         expect(response.status).to.be.equal(409);
-        expect(response.statusText).to.be.equal('Conflict');
+        expect(response.statusText).to.be.equal('Username already taken');
       });
     });
 
@@ -224,7 +224,7 @@ describe('User Tests', () => {
           }),
         });
         expect(response.status).to.be.equal(409);
-        expect(response.statusText).to.be.equal('Conflict');
+        expect(response.statusText).to.be.equal('Username already taken');
       });
     });
   });
