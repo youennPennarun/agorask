@@ -186,7 +186,7 @@ describe('User Tests', () => {
           }),
         });
         expect(response.status).to.be.equal(400);
-        expect(response.statusText).to.be.equal('Bad Request');
+        expect(response.statusText).to.be.equal('Invalid parameters');
       });
     });
 
@@ -224,7 +224,7 @@ describe('User Tests', () => {
           }),
         });
         expect(response.status).to.be.equal(409);
-        expect(response.statusText).to.be.equal('Username already taken');
+        expect(response.statusText).to.be.equal('Email already taken');
       });
     });
   });
