@@ -10,6 +10,7 @@ Feature: Map
     Given  I am on the map screen
     When I search for "pub"
       And I hide the keyboard
+      And wait 5000 ms
     Then at least 20 markers will be visible
 
   Scenario: Clear search query
