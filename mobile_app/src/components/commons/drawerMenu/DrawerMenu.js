@@ -134,9 +134,12 @@ class DrawerMenu extends Component {
           </TouchableOpacity>
           <View style={styles.mainMenu}>
             <View style={styles.menuItems}>
-              <TouchableOpacity style={styles.item}>
+              <TouchableOpacity style={styles.item}
+                onPress={() => {
+                  this.close();
+                  this.props.pushRoute({ key: 'userTasks' });
+                }}>
                 <Text style={styles.label}>My tasks</Text>
-                <Badge value={5} />
               </TouchableOpacity>
             </View>
           </View>

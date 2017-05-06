@@ -1,4 +1,4 @@
-import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, DISCONNECT, UPDATE_LOCATION} from '../actions/user';
+import {LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, DISCONNECT, UPDATE_LOCATION, CLEAN_ERRORS} from '../actions/user';
 
 type UserLocationType = {
   coords: {
@@ -74,6 +74,13 @@ function user(state: UserStateType = defaultUserState, action): UserStateType {
         ...state,
         token: null,
         username: null,
+      };
+    case CLEAN_ERRORS:
+      return {
+        ...state,
+        isFetching: false,
+        hasFailed: false,
+        message: null,
       };
     default:
       return state;

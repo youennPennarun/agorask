@@ -1,5 +1,6 @@
 const {Task, Venue} = require('../utils/mongo/models');
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const Firebase = require('./Firebase');
 
 const {NotFoundError} = require('../utils/errors');
 
@@ -65,6 +66,20 @@ const getTask = async function (id, userId, fields) {
   return query.exec();
 };
 
+const getTasksPostedByUser = async function (userId, fields, options = {}) {
+  const fetchQuery = Task.find({'postedBy.userId': userId});
+  const countQuery = Task.count({'postedBy.userId': userId});
+  if (fields) {
+    fetchQuery.select(fields);
+  }
+  const {limit = 5, offset = 0} = options;
+  fetchQuery.skip(offset).limit(limit);
+  return {
+    total: await countQuery.exec(),
+    tasks: await fetchQuery.exec(),
+  };
+};
+
 const getUserRating = async function (answerId, userId) {
   const result = await Task.aggregate([
     {
@@ -109,12 +124,21 @@ const getTasksByIds = async function (ids, fields) {
   return query.exec();
 };
 
-const getUserTasks = async function (username, offset = 0, limit = 10) {
-  return Task.find({'postedBy.username': username})
+const getUserTasks = async function (username, offset = 0, limit = 10, fields) {
+  if (fields && !(fields instanceof Array)) {
+    fields = Object.keys(fields);
+  }
+  if (fields) {
+    fields.push('postedBy.username');
+  }
+  const query = Task.find({'postedBy.username': username})
           .skip(offset)
           .limit(limit)
           .sort({_id: -1})
-          .exec();
+  if (fields) {
+    query.select(fields);
+  }
+  return query.exec();
 };
 
 const addTask = async function (title, venueId, {_id: userId, username}, date) {
@@ -163,12 +187,14 @@ const addAnswer = async function (taskId, answer, fields) {
 
   const query = Task.findByIdAndUpdate(
     taskId,
-    {$push: {answers: answer}},
-    {new: true});
+    {$push: {answers: answer}}
+  );
   if (fields) {
+    fields.postedBy = 1;
     query.select(fields);
   }
   const response = await query.exec();
+  Firebase.sendMessage(response.postedBy.userId, {type: 'NEW_ANSWER', taskId});
   if (response) {
     return answer;
   }
@@ -257,4 +283,5 @@ module.exports = {
   getTasksByIds,
   addAnswer,
   vote,
+  getTasksPostedByUser,
 };

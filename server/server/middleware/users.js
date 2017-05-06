@@ -34,6 +34,9 @@ async function register (ctx) {
   if (!ctx.request.body.files) {
     ctx.request.body.files = {};
   }
+  console.log("================================");
+  console.log(ctx.request.body);
+  console.log("================================");
   const {fields: {username, password, email}, files: {picture}} = ctx.request.body;
   if (!username || !password || !email) {
     ctx.throw(400, 'Missing parameters');
@@ -43,8 +46,20 @@ async function register (ctx) {
   try {
     user = await User.register(username, password, email, filePath);
   } catch (e) {
-    if (e.name === 'ValidationError') return ctx.throw('Invalid parameters', 400);
+    console.log(e);
+    if (e.name === 'ValidationError') {
+      let errorMessage = '';
+      if (e.errors) {
+        errorMessage = Object.keys(e.errors)
+          .map(key => e.errors[key].message)
+          .join(', ');
+      } else {
+        errorMessage = 'Form invalid';
+      }
+      return ctx.throw('Invalid parameters', 400, {errorData: {error: errorMessage}});
+    }
     if (e === User.errors.USERNAME_ALREADY_TAKEN) return ctx.throw('Username already taken', 409, {errorData: {error: 'Username already taken'}});
+    if (e === User.errors.EMAIL_ALREADY_TAKEN) return ctx.throw('Email already taken', 409, {errorData: {error: 'Email already taken'}});
     return ctx.throw('InternalServerError', 500);
   }
   const token = Auth.getToken({id: user._id, username: user.username, isAdmin: false});
@@ -109,6 +124,12 @@ async function updateUserImage(ctx) {
   ctx.body = User.updateImage(id, dest);
 }
 
+async function setDeviceToken(ctx) {
+  const {deviceToken} = ctx.request.body;
+  await User.setDeviceToken(ctx.request.tokenPayload.id, deviceToken);
+  ctx.body = {success: true};
+}
+
 
 module.exports = {
   isLoggedIn,
@@ -117,4 +138,5 @@ module.exports = {
   logIn,
   getUserImage,
   updateUserImage,
+  setDeviceToken,
 };

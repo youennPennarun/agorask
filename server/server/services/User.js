@@ -7,6 +7,7 @@ const errors = {
   NOT_FOUND: new Error('NOT_FOUND'),
   INVALID_USER: new Error('INVALID_USER'),
   USERNAME_ALREADY_TAKEN: new Error('USERNAME_ALREADY_TAKEN'),
+  EMAIL_ALREADY_TAKEN: new Error('EMAIL_ALREADY_TAKEN'),
 };
 
 const getUser = async function (username, email) {
@@ -31,7 +32,8 @@ const register = async function (username, password, email, imagePath) {
 
   const existingUser = await getUser(username, email);
   if (existingUser) {
-    throw errors.USERNAME_ALREADY_TAKEN;
+    if (existingUser.username === username) throw errors.USERNAME_ALREADY_TAKEN;
+    if (existingUser.email === email) throw errors.EMAIL_ALREADY_TAKEN;
   }
   let image;
   if (imagePath) {
@@ -47,7 +49,6 @@ const register = async function (username, password, email, imagePath) {
       email,
       image,
     }).save();
-
     return user;
   } catch (e) {
     throw e;
@@ -86,6 +87,10 @@ const logIn = async function (username, password) {
   return user;
 };
 
+const setDeviceToken = async function(userId, deviceToken) {
+  return User.update({_id: userId}, { $set: { deviceToken }}).exec();
+};
+
 module.exports = {
   register,
   logIn,
@@ -93,4 +98,5 @@ module.exports = {
   getUserById,
   getImage,
   updateImage,
+  setDeviceToken,
 };

@@ -21,6 +21,7 @@ import SignInView from './views/signIn/SignInView';
 import VenueDetails from './views/venueDetails/VenueDetails';
 import TaskDetails from './views/taskDetails/TaskDetails';
 import MyProfile from './views/userProfile/MyProfile';
+import UserTasks from './views/userProfile/UserTasks';
 
 import Settings from './views/settings/Settings';
 
@@ -64,6 +65,10 @@ export class Router extends Component {
     },
     myProfile: {
       component: MyProfile,
+      transition: 'focus',
+    },
+    userTasks: {
+      component: UserTasks,
       transition: 'focus',
     },
     settings: {

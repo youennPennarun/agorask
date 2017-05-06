@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import { View, UIManager, AsyncStorage } from 'react-native';
 
+import {configure as configureFirebase, setDeviceToken} from '../utils/Firebase';
+
 import { persistStore } from 'redux-persist';
 
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
@@ -74,9 +76,11 @@ class App extends Component {
         this.setState({ ready: true });
         if (!store.getState().user.token) {
           store.dispatch(pushRoute({ key: 'login' }));
-        }
-        if (store.getState().settings.notifications) {
-          TaskChecker.start();
+        } else {
+          configureFirebase(token => setDeviceToken(store.getState().user.token, token));
+          if (store.getState().settings.notifications) {
+            TaskChecker.start();
+          }
         }
       },
     );

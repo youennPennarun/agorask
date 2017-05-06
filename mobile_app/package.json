@@ -22,6 +22,7 @@
     "react-apollo": "1.1.1",
     "react-native": "^0.39.0",
     "react-native-config": "0.3.1",
+    "react-native-fcm": "^6.2.3",
     "react-native-image-picker": "0.24",
     "react-native-material-kit": "git://github.com/youennPennarun/react-native-material-kit#cc9ac25",
     "react-native-vector-icons": "^4.0.0",

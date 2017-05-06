@@ -1,3 +1,4 @@
+/* @flow */
 export const PUSH = 'ROUTER_PUSH';
 export const POP = 'ROUTER_POP';
 export const TRANSITION_START = 'ROUTER_TRANSITION_START';

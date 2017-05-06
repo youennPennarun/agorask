@@ -8,5 +8,6 @@ module.exports = {
   searchVenues: venue.searchVenues,
   venuesWithinRadius: venue.venuesWithinRadius,
   task: task.task,
+  userTasks: task.userTasks,
   user: user.user,
 };

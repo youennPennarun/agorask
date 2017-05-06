@@ -2,6 +2,8 @@ const {
   GraphQLID,
   GraphQLNonNull,
   GraphQLString,
+  GraphQLInt,
+  GraphQLList,
 } = require('graphql');
 
 const TaskType = require('../../types/tasks');
@@ -36,6 +38,33 @@ const task = {
   },
 };
 
+const userTasks = {
+  type: new GraphQLList(TaskType),
+  args: {
+    token: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    offset: {
+      type: GraphQLInt,
+    },
+    limit: {
+      type: GraphQLInt,
+    },
+  },
+  resolve: function (root, {token, offset, limit}, source, fields) {
+    const fieldsNames = getFields(fields, Object);
+    let username;
+    if (token) {
+     const payload = Auth.isTokenValid(token);
+      if (payload !== false) {
+        username = payload.username;
+      }
+    }
+    return co(TaskService.getUserTasks(username, offset, limit, fieldsNames));
+  },
+};
+
 module.exports = {
   task,
+  userTasks,
 };

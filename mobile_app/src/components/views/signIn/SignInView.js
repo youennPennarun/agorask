@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingV
 import { connect } from 'react-redux';
 import { MKButton, MKTextField, MKColor } from 'react-native-material-kit';
 
-import { doSignIn } from '../../../redux/actions/user';
+import { doSignIn, cleanErrors } from '../../../redux/actions/user';
 import ProfilePicturePicker from '../../../utils/ProfilePicturePicker';
 import ProfilePic from '../../commons/ProfilePic';
 
@@ -38,10 +38,10 @@ export class LoginView extends Component {
     message: PropTypes.string,
   };
   state: StateType = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: 'john',
+    email: 'john@email.com',
+    password: 'password',
+    confirmPassword: 'password',
     picture: {},
   };
   props: PropsType;
@@ -57,6 +57,9 @@ export class LoginView extends Component {
     return this.state.username !== '' && this.state.password !== '';
   }
 
+  componentWillMount() {
+    this.props.cleanErrors();
+  }
   componentWillReceiveProps(nextProps: PropsType) {
     if (!this.props.token && nextProps.token) {
       this.props.navigator.back();
@@ -144,6 +147,7 @@ export class LoginView extends Component {
             this.emailRef = r;
           }}
           style={styles.textInput}
+          keyboardType="email-address"
           placeholder='Email'
           blurOnSubmit
           onSubmitEditing={() => {
@@ -267,6 +271,7 @@ const mapDispatchToProps = dispatch => {
   doSignIn: (username: string, email: string, password: string, image: ?String) => {
     return dispatch(doSignIn(username, email, password, image));
   },
+  cleanErrors: () => dispatch(cleanErrors()),
 });
 };
 

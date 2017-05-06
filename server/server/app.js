@@ -29,6 +29,9 @@ mongooseConnection.once('open', () => {
 const GraphQLSchemas = require('./graphql/schemas');
 
 const app = new Koa();
+app.use(koaBunyanLogger());
+app.use(koaBunyanLogger.requestIdContext());
+app.use(koaBunyanLogger.requestLogger());
 app.use(serve(path.join(__dirname, '../public')));
 
 app.use(mount('/graphql', convert(graphqlHTTP({

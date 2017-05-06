@@ -56,6 +56,7 @@ const rate = {
     },
   },
   resolve: function (root, {taskId, answerId, ratingValue, token}) {
+    console.log('Rating...');
     const payload = Auth.isTokenValid(token);
     if (payload === false) {
       throw new Error('Unauthorized');
@@ -64,6 +65,7 @@ const rate = {
       _id: payload.id,
       username: payload.username,
     };
+    console.log(user);
     return co(TaskService.vote(taskId, answerId, user, ratingValue))
       .then(rating => ({rating}));
   },

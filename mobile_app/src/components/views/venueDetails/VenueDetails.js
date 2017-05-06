@@ -199,8 +199,11 @@ VenueDetails.fragments = {
       address {
         location,
       },
+      tasks {
+        ...Tasks
+      },
       ...VenueDescription
-      ...Tasks
+
     }
     ${VenueDescription.fragments.venue}
     ${Tasks.fragments.tasks}

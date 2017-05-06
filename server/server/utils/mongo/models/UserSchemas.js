@@ -48,6 +48,9 @@ const user = mongoose.Schema({
     image: {
         type: userImage,
     },
+    deviceToken: {
+        type: String,
+    },
     isAdmin: mongoose.SchemaTypes.Boolean,
     externals: {
         box: {

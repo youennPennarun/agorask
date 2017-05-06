@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactMaterialKitPackage(),
             new ReactNativeConfigPackage(),
             new ImagePickerPackage(),
+             new FIRMessagingPackage(),
           new CustomPackage()
       );
     }

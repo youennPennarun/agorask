@@ -15,7 +15,7 @@ const middlewares = [thunkMiddleware];
 
 let _createStore = createStore;
 if (__DEV__) {
-  middlewares.push(loggerMiddleware);
+  // middlewares.push(loggerMiddleware);
   _createStore = Reactotron.createStore;
 }
 
