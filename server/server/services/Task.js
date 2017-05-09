@@ -191,10 +191,22 @@ const addAnswer = async function (taskId, answer, fields) {
   );
   if (fields) {
     fields.postedBy = 1;
+    fields.title = 1;
     query.select(fields);
   }
   const response = await query.exec();
-  Firebase.sendMessage(response.postedBy.userId, {type: 'NEW_ANSWER', taskId});
+  response.title = response.title || '';
+
+  Firebase.sendMessage(response.postedBy.userId, {
+    notification: {
+      title: 'Agorask',
+      body: `An answer have been posted on your task: ${response.title}`,
+      sound: 'default',
+    },
+    data: {
+      taskId: taskId,
+    },
+  });
   if (response) {
     return answer;
   }
