@@ -12,7 +12,7 @@ const confName = process.env.APPIUM_CONFIG_NAME || (process.env.CIRCLECI ? 'test
 console.log(`using config ${confName}`);
 
 function CustomWorld({parameters}) {
-  this.parameters = parameters;
+  this.parameters = parameters || {};
   this.config = getConfig(confName);
   const {screenshotsDirName = 'last'} = this.config;
   this.parameters.screenshotsDirectories = getScreenshotsDirectories(screenshotsDirName);

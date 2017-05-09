@@ -3,10 +3,11 @@
 import React, {Component, PropTypes} from 'react';
 
 import {connect} from 'react-redux';
-import {login} from '../../../redux/actions/router';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {MKButton, MKTextField} from 'react-native-material-kit';
+
+const { wHeight, wWidth } = Dimensions.get('window');
 
 type AddAnswerStateType = {
   answerHeight: number,
@@ -35,7 +36,6 @@ export class AddAnswer extends Component {
   props: AddAnswerPropsType;
 
   updateAnswerFieldHeight({height}) {
-  // height: number
     if (this.state.answerHeight !== height) {
       this.setState({answerHeight: height});
     }
@@ -44,18 +44,16 @@ export class AddAnswer extends Component {
 
   submit() {
     const {answer} = this.state;
-    this.setState({loading: true});
-    this.props.addAnswer({answer: answer}, this.props.token)
-      .then(() => {
-          this.setState({loading: false, answer: ''});
-      })
+    this.setState({loading: true, answer: ''});
+    this.props.addAnswer({answer: answer})
+      .then(() => { this.setState({loading: false, answer: ''}); })
       .catch(e => {
         console.log('error ', e);
-        this.setState({loading: false});
+        this.setState({loading: false, answer});
       });
   }
 
-  _renderNotLoggedin(): React.Element<*> {
+  _renderNotLoggedin(): React.Element {
     return (
       <View style={styles.notLoggedInContainer}>
         <Text>You need to be logged in to add an answer</Text>
@@ -89,9 +87,11 @@ export class AddAnswer extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 30,
+    paddingHorizontal: 30,
     paddingVertical: 10,
-    marginBottom: 25,
+    paddingBottom: 25,
+    height: 100,
+    backgroundColor: 'white',
   },
   answerInput: {
   },
@@ -114,15 +114,5 @@ const LoginBtn = MKButton.coloredButton()
   .withStyle(styles.button)
   .build();
 
-function mapStateToProps(state): Object {
-  return {
-    ...state.user,
-  };
-}
-function mapDispatchToProps(dispatch): Object {
-  return {
-    login: () => { dispatch(login()); },
-  };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddAnswer);
+export default AddAnswer;

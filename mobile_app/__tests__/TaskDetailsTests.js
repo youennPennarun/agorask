@@ -26,6 +26,7 @@ it('renders correctly', () => {
               username: 'Joe',
             },
             date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
+            rating: 1,
           },
         ],
       }} />
@@ -51,6 +52,7 @@ it('fetching renders correctly', () => {
               username: 'Joe',
             },
             date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
+            rating: 5,
           },
         ],
       }} />
@@ -93,11 +95,12 @@ it('Call add answer', () => {
               username: 'Joe',
             },
             date: new Date('Wed Nov 23 2016 00:36:54 GMT+0000 (GMT)'),
+            rating: -4,
           },
         ],
-      }} 
-      addAnswer={addAnswer}/>
+      }}
+      addAnswer={addAnswer} />,
   );
-  wrapper.find('Connect(AddAnswer)').at(0).props().addAnswer();
+  wrapper.find('AddAnswer').at(0).props().addAnswer();
   expect(addAnswer.mock.calls.length).toBe(1);
 });

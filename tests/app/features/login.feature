@@ -5,7 +5,6 @@ Feature: Login
     Given   I am on the login screen
     When I take a screenshot named "login_empty"
       And I click on Not now
-      And I take a screenshot named "map"
     Then I am on the map screen
 
 
@@ -15,5 +14,6 @@ Feature: Login
       And   I fill the password with "password"
       And   I click on login
       And I hide the keyboard
+      And wait 2000 ms
       And I take a screenshot named "login_filled"
     Then I should see an error that say "Invalid credentials"

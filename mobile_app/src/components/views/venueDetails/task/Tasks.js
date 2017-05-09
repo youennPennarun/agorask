@@ -143,10 +143,8 @@ Tasks.propTypes = {
 
 Tasks.fragments = {
   tasks: gql`
-    fragment Tasks on Venue {
-      tasks {
-        ...Task
-      }
+    fragment Tasks on Task {
+      ...Task
     }
     ${TaskHeader.fragments.task}
   `,

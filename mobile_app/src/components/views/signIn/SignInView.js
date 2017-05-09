@@ -1,19 +1,21 @@
 /* @flow */
 
-import React, {Component, PropTypes} from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
+import { MKButton, MKTextField, MKColor } from 'react-native-material-kit';
 
-import {doSignIn} from '../../../redux/actions/user';
+import { doSignIn, cleanErrors } from '../../../redux/actions/user';
+import ProfilePicturePicker from '../../../utils/ProfilePicturePicker';
+import ProfilePic from '../../commons/ProfilePic';
 
+const { width, height } = Dimensions.get('window');
 
-const {width} = Dimensions.get('window');
 
 type PropsType = {
   token: ?string,
   navigator: {
-    back: Function
+    back: Function,
   },
   doSignIn: Function,
   message: ?string,
@@ -23,23 +25,25 @@ type StateType = {
   email: string,
   password: string,
   confirmPassword: string,
+  picture: {uri: ?String},
 };
 
 export class LoginView extends Component {
   static propTypes = {
     token: PropTypes.string,
-    navigator: PropTypes.objectOf({
+    navigator: PropTypes.shape({
       back: PropTypes.func.isRequired,
     }).isRequired,
     doSignIn: PropTypes.func.isRequired,
     message: PropTypes.string,
-  }
+  };
   state: StateType = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  }
+    username: 'john',
+    email: 'john@email.com',
+    password: 'password',
+    confirmPassword: 'password',
+    picture: {},
+  };
   props: PropsType;
 
   /* eslint-disable react/sort-comp */
@@ -50,12 +54,12 @@ export class LoginView extends Component {
   /* eslint-enable react/sort-comp */
 
   isFormValid(): boolean {
-    return (
-      this.state.username !== '' &&
-      this.state.password !== ''
-    );
+    return this.state.username !== '' && this.state.password !== '';
   }
 
+  componentWillMount() {
+    this.props.cleanErrors();
+  }
   componentWillReceiveProps(nextProps: PropsType) {
     if (!this.props.token && nextProps.token) {
       this.props.navigator.back();
@@ -63,7 +67,7 @@ export class LoginView extends Component {
   }
 
   _focusOnMissingField(): boolean {
-    const {username, email, password, confirmPassword} = this.state;
+    const { username, email, password, confirmPassword } = this.state;
     if (!username && this.usernameRef) {
       this.usernameRef.focus();
       return true;
@@ -83,70 +87,126 @@ export class LoginView extends Component {
     return false;
   }
 
+  showPicker() {
+    ProfilePicturePicker()
+      .then((pic) => {
+        this.setState({picture: pic});
+      });
+  }
+
   _onSubmit() {
-    const {username, email, password} = this.state;
+    const { username, email, password, picture } = this.state;
     if (!this._focusOnMissingField()) {
-      this.props.doSignIn(username, email, password);
+      this.props.doSignIn(username, email, password, picture);
     }
   }
 
   _renderErrorMessage(): ?Object {
-    const {message} = this.props;
+    const { message } = this.props;
     if (message) {
-      return (
-        <Text style={styles.errorMessage}>{message}</Text>
-      );
+      return <Text style={styles.errorMessage}>{message}</Text>;
     }
     return null;
+  }
+
+  _renderLoadingViewIfNeeded() {
+    if (!this.props.isFetching) return null;
+    return (
+      <View style={styles.loadingView} >
+        <View style={styles.loadingViewBackground} />
+        <ActivityIndicator size='large' />
+      </View>
+    );
   }
 
   render(): Object {
     return (
       <View style={styles.container}>
-        <View style={styles.logo} />
-          {this._renderErrorMessage()}
-          <Textfield ref={r => { this.usernameRef = r; }}
-            style={styles.textInput}
-            placeholder='Username'
-            blurOnSubmit
-            onSubmitEditing={() => { this._onSubmit(); }}
-            value={this.state.username}
-            onChangeText={(text: string) => { this.setState({username: text}); }} />
-          <Textfield ref={r => { this.emailRef = r; }}
-            style={styles.textInput}
-            placeholder='Email'
-            blurOnSubmit
-            onSubmitEditing={() => { this._onSubmit(); }}
-            value={this.state.email}
-            onChangeText={(text: string) => { this.setState({email: text}); }} />
-          <Textfield ref={r => { this.passwordRef = r; }}
-            style={styles.textInput}
-            placeholder='Password'
-            secureTextEntry
-            blurOnSubmit
-            selectTextOnFocus
-            password
-            onSubmitEditing={() => { this._onSubmit(); }}
-            value={this.state.password}
-            onChangeText={(text: string) => { this.setState({password: text}); }} />
-          <Textfield ref={r => { this.confirmPasswordRef = r; }}
-            style={styles.textInput}
-            placeholder='Confirm password'
-            secureTextEntry
-            blurOnSubmit
-            selectTextOnFocus
-            password
-            onSubmitEditing={() => { this._onSubmit(); }}
-            value={this.state.confirmPassword}
-            onChangeText={(text: string) => { this.setState({confirmPassword: text}); }} />
+        <TouchableOpacity onPress={() => { this.showPicker(); }} >
+          <ProfilePic style={styles.userPic} size={110} src={this.state.picture.uri} />
+        </TouchableOpacity>
+        {this._renderErrorMessage()}
+        
+      <KeyboardAvoidingView behavior='position' >
+        <Textfield
+          ref={r => {
+            this.usernameRef = r;
+          }}
+          style={styles.textInput}
+          placeholder='Username'
+          blurOnSubmit
+          onSubmitEditing={() => {
+            this._onSubmit();
+          }}
+          value={this.state.username}
+          onChangeText={(text: string) => {
+            this.setState({ username: text });
+          }} />
+        <Textfield
+          ref={r => {
+            this.emailRef = r;
+          }}
+          style={styles.textInput}
+          keyboardType="email-address"
+          placeholder='Email'
+          blurOnSubmit
+          onSubmitEditing={() => {
+            this._onSubmit();
+          }}
+          value={this.state.email}
+          onChangeText={(text: string) => {
+            this.setState({ email: text });
+          }} />
+        <Textfield
+          ref={r => {
+            this.passwordRef = r;
+          }}
+          style={styles.textInput}
+          placeholder='Password'
+          secureTextEntry
+          blurOnSubmit
+          selectTextOnFocus
+          password
+          onSubmitEditing={() => {
+            this._onSubmit();
+          }}
+          value={this.state.password}
+          onChangeText={(text: string) => {
+            this.setState({ password: text });
+          }} />
+        <Textfield
+          ref={r => {
+            this.confirmPasswordRef = r;
+          }}
+          style={styles.textInput}
+          placeholder='Confirm password'
+          secureTextEntry
+          blurOnSubmit
+          selectTextOnFocus
+          password
+          onSubmitEditing={() => {
+            this._onSubmit();
+          }}
+          value={this.state.confirmPassword}
+          onChangeText={(text: string) => {
+            this.setState({ confirmPassword: text });
+          }} />
+          </KeyboardAvoidingView>
 
-          <RegisterButton enabled={this.isFormValid()}
-            onPress={() => { this._onSubmit(); }} />
+        <RegisterButton
+          enabled={this.isFormValid()}
+          onPress={() => {
+            this._onSubmit();
+          }} />
 
-          <TouchableOpacity style={styles.goToMapButton}
-            onPress={() => { this.props.navigator.back(); }}>
-            <Text>Cancel</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.goToMapButton}
+          onPress={() => {
+            this.props.navigator.back();
+          }}>
+          <Text>Cancel</Text>
+        </TouchableOpacity>
+        { this._renderLoadingViewIfNeeded() }
       </View>
     );
   }
@@ -154,6 +214,7 @@ export class LoginView extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     flex: 1,
     alignItems: 'center',
   },
@@ -177,6 +238,16 @@ const styles = StyleSheet.create({
   goToMapButton: {
     marginTop: 10,
   },
+  loadingView: {
+    ...StyleSheet.absoluteFillObject,
+    elevation: 99,
+    justifyContent: 'center',
+  },
+  loadingViewBackground: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'white',
+    opacity: 0.5,
+  },
 });
 
 const RegisterButton = MKButton.coloredButton()
@@ -189,19 +260,19 @@ const Textfield = MKTextField.textfieldWithFloatingLabel()
   .withHighlightColor(MKColor.Green)
   .build();
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = state => {
+ return ({
   ...state.user,
 });
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  doSignIn: (username: string, email: string, password: string) => {
-    dispatch(doSignIn(username, email, password));
+const mapDispatchToProps = dispatch => {
+ return ({
+  doSignIn: (username: string, email: string, password: string, image: ?String) => {
+    return dispatch(doSignIn(username, email, password, image));
   },
+  cleanErrors: () => dispatch(cleanErrors()),
 });
+};
 
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LoginView);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);

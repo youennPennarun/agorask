@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import geohash from 'ngeohash';
 
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -11,8 +12,8 @@ import SearchBar from './SearchBar';
 
 import Map from '../../natives/Map';
 import MapMarker from '../../natives/MapMarker';
+import Error from '../../commons/Error';
 import {updateUserLocation} from '../../../redux/actions/user';
-import {getVenuesWithTasksNearPosition} from '../../../redux/actions/venue';
 import {pushRoute} from '../../../redux/actions/router';
 
 import Location from '../../../utils/Location';
@@ -81,6 +82,7 @@ export class MapView extends React.Component {
           {this._renderMarkers(venuesToShow)}
         </Map>
         <SearchBar openDrawer={this.props.openDrawer} />
+        <Error error={venuesError} />
       </View>
     );
   }
@@ -111,6 +113,7 @@ const VenuesNearUserQuery = gql`
   }
   ${MapView.fragments.venues}
 `;
+VenuesNearUserQuery.offline = ({lat, lng}) => ({geohash: geohash.encode(lat, lng, 8)});
 
 const SearchVenuesQuery = gql`
   query SearchVenues($lat: Float!, $lng: Float!, $radius: Float, $query: String!) {
@@ -120,7 +123,7 @@ const SearchVenuesQuery = gql`
   }
   ${MapView.fragments.venues}
 `;
-
+SearchVenuesQuery.offline = ({query}) => ({query});
 
 /* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
@@ -144,7 +147,6 @@ const mapDispatchToProps = (dispatch: Function): Object => ({
   },
 });
 
-
 /* istanbul ignore next */
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
@@ -156,6 +158,7 @@ export default compose(
         lng: coords.lng,
         radius: 4000,
       },
+      pollInterval: 5 * 60 * 1000,
     }),
     props: ({ ownProps, data: { loading, error, venuesWithinRadius } }) => ({
       ...ownProps,

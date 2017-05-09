@@ -53,7 +53,7 @@ class Item {
     x: number,
     y: number,
     size: number,
-    callback: Function = (): null => null
+    callback: Function = (): null => null,
   ) {
     this.id = id;
     this.box = {
@@ -135,7 +135,7 @@ export default class RadialMenu extends React.Component {
       }
     }
   }
-  onPress(): any {
+  onPress() {
     const {showIconsOn, onPress} = this.props;
     if (showIconsOn === 'press') {
       if (this.state.showIcons) {
@@ -147,9 +147,8 @@ export default class RadialMenu extends React.Component {
     }
     // eslint-disable-next-line no-unused-expressions
     onPress && onPress();
-    return;
   }
-  onLongPress(): any {
+  onLongPress() {
     const {showIconsOn, onLongPress} = this.props;
     if (showIconsOn === 'longPress') {
       if (this.state.showIcons) {
@@ -161,7 +160,6 @@ export default class RadialMenu extends React.Component {
     }
     // eslint-disable-next-line no-unused-expressions
     onLongPress && onLongPress();
-    return;
   }
 
   _getRelativeTouchPosition(evt: Object, gestureState): {x: number, y: number} {
@@ -186,7 +184,7 @@ export default class RadialMenu extends React.Component {
     /* Checking if hovering an item */
     const {x, y} = this._getRelativeTouchPosition(e, gestureState);
     const nextSelected: ?Item = this.itemsHitBoxes.find(
-      (item: Item): boolean => item.include(x, y)
+      (item: Item): boolean => item.include(x, y),
     );
     if (this.selected !== nextSelected) { // If hovering on a different element
       if (this.selected) { // If was hovering on an element

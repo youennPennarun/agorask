@@ -31,13 +31,14 @@ const encrypt = function(password) {
   });
 };
 
-const comparePassword = function(password, hash) {
-  return new Promise((resolve, reject) => {
+const comparePassword = async function(password, hash) {
+  const promise = new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, (err, match) => {
       if (err) return reject(err);
       return resolve(match);
    });
   });
+  return await promise;
 };
 
 

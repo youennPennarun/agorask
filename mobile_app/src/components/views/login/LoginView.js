@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import { connect } from 'react-redux';
 import {MKButton, MKTextField, MKColor} from 'react-native-material-kit';
 
-import {login} from '../../../redux/actions/user';
+import {login, cleanErrors} from '../../../redux/actions/user';
 import {popRoute} from '../../../redux/actions/router';
 
 
@@ -60,6 +60,10 @@ export class LoginView extends Component {
     if (this.passwordRef) {
       this.passwordRef.focus();
     }
+  }
+
+  componentWillMount() {
+    this.props.cleanErrors();
   }
 
   componentWillReceiveProps(nextProps: LoginViewPropsType) {
@@ -185,6 +189,7 @@ const mapDispatchToProps = (dispatch): Object => ({
   doLogin: (username: string, password: string) => {
     dispatch(login(username, password));
   },
+  cleanErrors: () => dispatch(cleanErrors()),
   goToMap: (): null => dispatch(popRoute()),
 });
 

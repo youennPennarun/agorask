@@ -41,7 +41,6 @@ describe('User Tests', () => {
         const json = yield response.json();
         expect(json).to.have.property('token');
         expect(json.token).to.be.a('string').and.not.be.null;
-        console.log(json);
       });
     });
 
@@ -172,7 +171,7 @@ describe('User Tests', () => {
         expect(response.statusText).to.be.equal('Bad Request');
       });
     });
-    it('Should throw a 400 error has a wrong format', () => {
+    it('Should throw a 400 error if the email address has a wrong format', () => {
       return co(function* () {
         const response = yield fetch('http://localhost:3000/users/register', {
           method: 'POST',
@@ -183,11 +182,11 @@ describe('User Tests', () => {
           body: JSON.stringify({
             username: 'username',
             password: 'password',
-            email: 'email@server',
+            email: 'email@server', // Wrong email address
           }),
         });
         expect(response.status).to.be.equal(400);
-        expect(response.statusText).to.be.equal('Bad Request');
+        expect(response.statusText).to.be.equal('Invalid parameters');
       });
     });
 
@@ -206,7 +205,7 @@ describe('User Tests', () => {
           }),
         });
         expect(response.status).to.be.equal(409);
-        expect(response.statusText).to.be.equal('Conflict');
+        expect(response.statusText).to.be.equal('Username already taken');
       });
     });
 
@@ -225,7 +224,7 @@ describe('User Tests', () => {
           }),
         });
         expect(response.status).to.be.equal(409);
-        expect(response.statusText).to.be.equal('Conflict');
+        expect(response.statusText).to.be.equal('Email already taken');
       });
     });
   });

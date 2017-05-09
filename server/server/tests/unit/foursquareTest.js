@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const co = require('co');
 const nock = require('nock');
 const venueResponses = require('../data/foursquare/venueResponse');
-const venueData = require('../data/venueData');
+const venueData = require('../data').Venue;
 const Foursquare = require('../../services/foursquare/Foursquare');
 
 const {FOURSQUARE_CLIENT_ID, FOURSQUARE_CLIENT_SECRET} = process.env;

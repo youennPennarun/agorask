@@ -37,7 +37,7 @@
     "indent" : 0,
     "space-before-function-paren" : 0,
     "no-useless-constructor" : 0,
-    "no-use-before-define" : 0,
+    "no-use-before-define": 0,
     "no-underscore-dangle" : 0,
     "class-methods-use-this": 0,
     "arrow-parens": 0,
@@ -236,10 +236,6 @@
       return: true
     }],
 
-    // Require that the first prop in a JSX element be on a new line when the element is multiline
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md
-    "react/jsx-first-prop-new-line": [2, "never"],
-
     // enforce spacing around jsx equals signs
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md
     "react/jsx-equals-spacing": [2, "never"],
@@ -263,13 +259,6 @@
 
     // Flowtype rules
     "flowtype/require-parameter-type": 0,
-    "flowtype/require-return-type": [
-        1,
-        "always",
-        {
-            "annotateUndefined": "never"
-        }
-    ],
     "flowtype/space-after-type-colon": [
         1,
         "always"

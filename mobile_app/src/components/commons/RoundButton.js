@@ -1,5 +1,7 @@
-import React, {Component, PropTypes} from 'react';
-import {View, TouchableOpacity, Animated, BackAndroid} from 'react-native';
+/* @flow */
+
+import React, {Component} from 'react';
+import {TouchableOpacity, Animated, BackAndroid} from 'react-native';
 
 
 class RoundButton extends Component {
@@ -17,7 +19,7 @@ class RoundButton extends Component {
     BackAndroid.removeEventListener('hardwareBackPress', this._handleBackButton);
   }
 
-  setActive(active) {
+  setActive(active: boolean) {
     if (active !== this.state.active) {
       this.switch();
     }

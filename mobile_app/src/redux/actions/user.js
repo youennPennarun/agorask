@@ -1,6 +1,9 @@
 /* @flow */
 import {AsyncStorage} from 'react-native';
 import Config from 'react-native-config';
+import {setDeviceToken} from '../../utils/Firebase';
+
+export const CLEAN_ERRORS = 'USER_CLEAN_ERRORS';
 
 export const LOGIN = 'USER_LOGIN';
 export const LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
@@ -14,6 +17,12 @@ export const UPDATE_LOCATION = 'UPDATE_USER_LOCATION';
 const config = {
   API_URL: Config.API_URL,
 };
+
+export function cleanErrors() {
+  return {
+    type: CLEAN_ERRORS,
+  };
+}
 
 export function updateUserLocation(lat: Number, lng: Number): Object {
   return {
@@ -53,27 +62,30 @@ export function loadTokenFromStorage(): Function {
           const parsed = JSON.parse(userStr);
           username = parsed.username;
           token = parsed.token;
-        } catch (e) {}
-        dispatch(success(username, token));
+          dispatch(success(username, token));
+        } catch (e) {
+          console.log(e);
+        }
       })
-      .catch(console.err);
+      .catch(console.log);
   };
 }
 
-export function disconnect(): Function {
+export function disconnect(token: string): Function {
   return dispatch => {
     AsyncStorage.removeItem('agorask:user')
       .then(() => {
+        setDeviceToken(token, null);
         dispatch({
           type: DISCONNECT,
         });
-      }).catch(console.err);
+      }).catch(console.log);
   };
 }
 
 
 export function login(username: string, password: string): Function {
-  return (dispatch: Function): Promise => {
+  return (dispatch: Function): Promise<*> => {
     dispatch(loginRequested());
     return fetch(`${config.API_URL}/users/login`, {
       method: 'POST',
@@ -106,29 +118,48 @@ export function login(username: string, password: string): Function {
   };
 }
 
-export function doSignIn(username: string, email: string, password: string): Function {
-  return (dispatch: Function): Promise => {
+export function doSignIn(username: string, email: string, password: string, image: Object): Function {
+  return (dispatch: Function): Promise<*> => {
+    dispatch(loginRequested());
+    const body = new FormData();
+    body.append('username', username);
+    body.append('password', password);
+    body.append('email', email);
+    
+    if (image && image.uri) {
+      body.append('picture', {
+        uri: image.uri,
+        type: image.type,
+        name: image.fileName,
+      });
+    }
     return fetch(`${config.API_URL}/users/register`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-      }),
+      body,
     })
-    .then((response: Object): Object => response.json())
-    .then(({token}): Promise => {
+    .then((response: Object): Promise<*> => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return Promise.reject(response);
+    })
+    .then(({token}): Promise<*> => {
+      console.log('OKKKKKKKK', token);
       dispatch(success(username, token));
       return AsyncStorage.setItem('agorask:user', JSON.stringify({username, token}));
     })
-    .then(() => {
-    })
-    .catch(e => {
-      dispatch(failed(e.message));
+    .catch((e: Object) => {
+      if (e.status === 409 || e.status === 400) {
+        e.json()
+          .then(json => dispatch(failed(json.error)))
+          .catch(() => dispatch(failed(e.message)));
+      } else {
+        console.log(e);
+        dispatch(failed(e.message));
+      }
     });
   };
 }

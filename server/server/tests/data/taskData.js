@@ -1,6 +1,17 @@
-const users = require('./userData');
+const users = require('./userData').data;
 
-module.exports = [
+function Venue(venueId) {
+  return (venues) => {
+    const data = venues.find(v => v._id === venueId);
+    if (!data) throw new Error(`No venue with id ${venueId}`);
+    return {
+      _id: venueId,
+      location: data.address.location,
+    };
+  };
+}
+
+const data = [
   {
     _id: '581411784d79072f3b799aca',
     title: 'Do they have live music?',
@@ -10,32 +21,47 @@ module.exports = [
     },
     answers: [
       {
+        _id: '589f51c2c5add0a4f0ea5ebf',
         answer: 'Yes, there is regularly lives show',
         postedBy: {
           userId: users[5]._id,
           username: users[5].username,
         },
         date: '2016-10-29T03:27:25.527Z',
+        rating: 0,
+        ratingList: [],
       },
       {
+        _id: '589f51d4c5add0a4f0ea5ec0',
         answer: 'Yeah! There is sometimes live music in Limelight 1 and 2. Limelight 1 hosted live shows from THE BREEDERS, DISCLOSURE and STEVE EARLE & PRIMAL SCREAM, and in Limelight 2 had shows with THE STROKES, MANIC STREET PREACHERS, JOE STRUMMER, BLUR',
         postedBy: {
           userId: users[4]._id,
           username: users[4].username,
         },
         date: '2016-10-29T03:27:25.527Z',
+        rating: 1,
+        ratingList: [{
+          rating: 1,
+          user: {
+            _id: users[5]._id,
+            username: users[5].username,
+          },
+        }],
       },
       {
+        _id: '58aadf7b26722092e3c8bd66',
         answer: 'No sux so lame grumble grumble!',
         postedBy: {
           userId: users[10]._id,
           username: users[10].username,
         },
         date: '2016-10-29T03:27:25.527Z',
+        rating: 0,
+        ratingList: [],
       },
     ],
     date: '2016-10-29T03:27:25.527Z',
-    venue: '581773476d568ac7723e1bae',
+    venue: Venue('581773476d568ac7723e1bae'),
   },
   {
     _id: '581411784d79072f3b799acb',
@@ -46,16 +72,19 @@ module.exports = [
     },
     answers: [
       {
-        answer: 'Answer 1',
+        _id: '589f51ddc5add0a4f0ea5ec1',
+        answer: 'No sux so lame grumble grumble!',
         postedBy: {
-          userId: users[0]._id,
-          username: users[0].username,
+          userId: users[10]._id,
+          username: users[10].username,
         },
         date: '2016-10-29T03:27:25.527Z',
+        rating: 0,
+        ratingList: [],
       },
     ],
     date: '2016-10-10T03:27:25.527Z',
-    venue: '581773476d568ac7723e1bae',
+    venue: Venue('581773476d568ac7723e1bae'),
   },
   {
     _id: '581411d6b0fce75c59f74d6c',
@@ -66,7 +95,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-12-25T06:27:25.527Z',
-    venue: '5817738f6d568ac7723e1baf',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '581411e0b0fce75c59f74d6d',
@@ -77,7 +106,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-05-01T03:27:25.527Z',
-    venue: '5817739f6d568ac7723e1bb2',
+    venue: Venue('5817739f6d568ac7723e1bb2'),
   },
   {
     _id: '5819d362432c548620b9093b',
@@ -88,7 +117,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-04-20T03:25:05.527Z',
-    venue: '5817739f6d568ac7723e1bb2',
+    venue: Venue('5817739f6d568ac7723e1bb2'),
   },
   {
     _id: '5819d35c432c548620b9093a',
@@ -99,7 +128,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-02-03T05:27:25.527Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '5819d357432c548620b90939',
@@ -110,7 +139,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-04-24T04:24:24.527Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '5826210e6740058d9be74889',
@@ -121,7 +150,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-07-12T01:37:25.527Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '582621076740058d9be74888',
@@ -132,7 +161,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-11-05T08:20:20.507Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '582621026740058d9be74887',
@@ -143,7 +172,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-12-30T05:20:12.527Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '582620f96740058d9be74886',
@@ -152,9 +181,21 @@ module.exports = [
       userId: users[2]._id,
       username: users[2].username,
     },
-    answers: [],
+    answers: [
+      {
+        _id: '589f51eac5add0a4f0ea5ec2',
+        answer: 'Answer 1',
+        postedBy: {
+          userId: users[0]._id,
+          username: users[0].username,
+        },
+        date: '2016-10-29T03:27:25.527Z',
+        rating: 0,
+        ratingList: [],
+      },
+    ],
     date: '2016-09-09T01:00:00.527Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '582620f46740058d9be74885',
@@ -165,7 +206,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-17T07:02:08.527Z',
-    venue: '5817745c6d568ac7723e1bb9',
+    venue: Venue('5817738f6d568ac7723e1baf'),
   },
   {
     _id: '582620ed6740058d9be74884',
@@ -176,7 +217,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-12-20T01:07:06.527Z',
-    venue: '58261faf6740058d9be74883',
+    venue: Venue('58261faf6740058d9be74883'),
   },
   {
     _id: '5851396a9291023db21e5804',
@@ -187,7 +228,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:54.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '5851556ad7a242a6d57bb017',
@@ -198,7 +239,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:55.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '58515571d7a242a6d57bb018',
@@ -209,7 +250,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:56.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '58515578d7a242a6d57bb019',
@@ -220,7 +261,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:57.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '58515582d7a242a6d57bb01a',
@@ -231,7 +272,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:58.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '58515588d7a242a6d57bb01b',
@@ -242,7 +283,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:59.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '58515588d7a242a6d57bb01c',
@@ -253,7 +294,7 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:50.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
   {
     _id: '58515588d7a242a6d57bb01d',
@@ -264,6 +305,14 @@ module.exports = [
     },
     answers: [],
     date: '2016-10-24T01:05:51.527Z',
-    venue: '5851328c0c894f08a7d2d38d',
+    venue: Venue('5851328c0c894f08a7d2d38d'),
   },
 ];
+
+module.exports = {
+  resolve: () => {
+    const venues = require('./venueData').data;
+    return data.map(task => Object.assign({}, task, {venue: task.venue(venues)}));
+  },
+  data,
+};

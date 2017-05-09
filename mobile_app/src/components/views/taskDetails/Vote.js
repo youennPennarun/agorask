@@ -1,14 +1,30 @@
 /* @flow */
 import React, { PropTypes} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 type VotePropsType = {
   score: number,
+  userRating: ?number,
+  onVote: ?Function,
+}
+
+function renderVoteButton(text: string, isSelected: boolean, value: number, onVote: ?Function): React.Component {
+  if (!onVote) return <View style={styles.arrow} />;
+  const iconStyle = (isSelected) ? [styles.icon, styles.selected] : styles.icon;
+  return (
+    <TouchableOpacity style={styles.arrow}
+      onPress={() => {
+        if (onVote) {
+          onVote(value);
+        }
+      }} >
+      <Text style={iconStyle} >{text}</Text>
+    </TouchableOpacity>
+  );
 }
 
 export default function Vote(props: VotePropsType): React.Element<Vote> {
-  const {score} = props;
-
+  const {score, userRating, onVote} = props;
   let scoreStatusStyle = {};
   if (score > 1) {
     scoreStatusStyle = styles.good;
@@ -17,9 +33,9 @@ export default function Vote(props: VotePropsType): React.Element<Vote> {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.arrow}>+</Text>
+      { renderVoteButton('+1', (userRating && userRating.rating > 0), 'POSITIVE', onVote) }
       <Text style={[styles.score, scoreStatusStyle]}>{score}</Text>
-      <Text style={styles.arrow}>-</Text>
+      { renderVoteButton('-1', (userRating && userRating.rating < 0), 'NEGATIVE', onVote) }
     </View>
   );
 }
@@ -27,7 +43,7 @@ export default function Vote(props: VotePropsType): React.Element<Vote> {
 const styles = StyleSheet.create({
   container: {
     width: 55,
-    height: 80,
+    height: 90,
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingTop: 5,
@@ -35,17 +51,22 @@ const styles = StyleSheet.create({
   },
   arrow: {
     flex: 1.1,
-    fontSize: 19,
+  },
+  icon: {
+    fontSize: 20,
   },
   score: {
-    fontSize: 17,
-    flex: 0.8,
+    fontSize: 18,
+    flex: 1.1,
   },
   good: {
     color: 'green',
   },
   bad: {
     color: 'red',
+  },
+  selected: {
+    color: 'green',
   },
 });
 

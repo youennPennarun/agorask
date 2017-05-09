@@ -22,7 +22,6 @@ const getVenueFromExternalSource = function* (id, source, fields) {
 
       console.log('storing it');
       venue = yield storeVenue(venueData);
-      console.log(venue);
     }
   } else {
     throw new Error(`Unknow source ${source}`);
@@ -30,7 +29,7 @@ const getVenueFromExternalSource = function* (id, source, fields) {
   return venue;
 };
 
-const getVenue = function* (id, source, fields) {
+const getVenue = async function (id, source, fields) {
   let venue;
   let query;
   if (!source) {
@@ -38,14 +37,14 @@ const getVenue = function* (id, source, fields) {
     if (fields) {
       query.select(fields);
     }
-    venue = yield query.exec();
+    venue = await query.exec();
   } else {
-    venue = yield getVenueFromExternalSource(id, source, fields);
+    venue = await getVenueFromExternalSource(id, source, fields);
   }
   return venue;
 };
 
-const getVenuesWithinRadiusWithTasks = function* (center, radius, fields) {
+const getVenuesWithinRadiusWithTasks = function* (center, radius, fields, options = {}) {
   const radiusInRad = (radius / 1000) / 6378.1;
   if (!Array.isArray(center)) {
     if ((center.lat && center.lng) || (center.latitude && center.longitude)) {
@@ -97,13 +96,12 @@ const getVenuePicture = function(venue, size) {
   return `${venue.pictures.prefix}${sizeParam}${venue.pictures.suffix}`;
 };
 
-const getVenuePictureUrlFromVenueId = function* (venueId, size) {
-  const venue = yield getVenue(venueId);
+const getVenuePictureUrlFromVenueId = async function (venueId, size) {
+  const venue = await getVenue(venueId);
   return getVenuePicture(venue, size);
 };
 
 const getNbOpenTask = function* (venue) {
-  console.log(venue);
   if (venue.tasks &&
     venue.tasks.length === venue.tasks.filter(t => (t.nbAnswers !== undefined)).length) {
     return venue.tasks.filter(task => !task.nbAnswers).length;

@@ -10,35 +10,58 @@ Array [
       "username": "summer"
     },
     "title": "Is there food?",
-    "venue": "5817745c6d568ac7723e1bb9"
+    "venue": Object {
+      "_id": "5817738f6d568ac7723e1baf",
+      "location": Array [
+        -5.929163411658459,
+        54.59263519737411
+      ]
+    }
   },
   Object {
     "__v": 0,
     "_id": "581411784d79072f3b799aca",
     "answers": Array [
       Object {
+        "_id": "589f51c2c5add0a4f0ea5ebf",
         "answer": "Yes, there is regularly lives show",
         "date": 2016-10-29T03:27:25.527Z,
         "postedBy": Object {
           "userId": "581407deb0fce75c59f74d66",
           "username": "jessica"
-        }
+        },
+        "rating": 0,
+        "ratingList": Array []
       },
       Object {
+        "_id": "589f51d4c5add0a4f0ea5ec0",
         "answer": "Yeah! There is sometimes live music in Limelight 1 and 2. Limelight 1 hosted live shows from THE BREEDERS, DISCLOSURE and STEVE EARLE & PRIMAL SCREAM, and in Limelight 2 had shows with THE STROKES, MANIC STREET PREACHERS, JOE STRUMMER, BLUR",
         "date": 2016-10-29T03:27:25.527Z,
         "postedBy": Object {
           "userId": "581407d8b0fce75c59f74d65",
           "username": "jerry"
-        }
+        },
+        "rating": 1,
+        "ratingList": Array [
+          Object {
+            "rating": 1,
+            "user": Object {
+              "_id": "581407deb0fce75c59f74d66",
+              "username": "jessica"
+            }
+          }
+        ]
       },
       Object {
+        "_id": "58aadf7b26722092e3c8bd66",
         "answer": "No sux so lame grumble grumble!",
         "date": 2016-10-29T03:27:25.527Z,
         "postedBy": Object {
           "userId": "581407fab0fce75c59f74d6b",
           "username": "unity"
-        }
+        },
+        "rating": 0,
+        "ratingList": Array []
       }
     ],
     "date": 2016-10-29T03:27:25.527Z,
@@ -47,7 +70,13 @@ Array [
       "username": "squanchy"
     },
     "title": "Do they have live music?",
-    "venue": "581773476d568ac7723e1bae"
+    "venue": Object {
+      "_id": "581773476d568ac7723e1bae",
+      "location": Array [
+        -5.928990840911865,
+        54.592803881688155
+      ]
+    }
   }
 ]
 `;
@@ -64,7 +93,13 @@ Array [
       "username": "summer"
     },
     "title": "Are the people nice?",
-    "venue": "5817745c6d568ac7723e1bb9"
+    "venue": Object {
+      "_id": "5817738f6d568ac7723e1baf",
+      "location": Array [
+        -5.929163411658459,
+        54.59263519737411
+      ]
+    }
   },
   Object {
     "__v": 0,
@@ -76,7 +111,13 @@ Array [
       "username": "jerry"
     },
     "title": "Question 4",
-    "venue": "5817738f6d568ac7723e1baf"
+    "venue": Object {
+      "_id": "5817738f6d568ac7723e1baf",
+      "location": Array [
+        -5.929163411658459,
+        54.59263519737411
+      ]
+    }
   },
   Object {
     "__v": 0,
@@ -88,7 +129,13 @@ Array [
       "username": "beth"
     },
     "title": "Is the food good?",
-    "venue": "58261faf6740058d9be74883"
+    "venue": Object {
+      "_id": "58261faf6740058d9be74883",
+      "location": Array [
+        -5.928296569207635,
+        54.592778369687416
+      ]
+    }
   }
 ]
 `;

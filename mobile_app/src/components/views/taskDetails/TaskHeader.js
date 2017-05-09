@@ -6,10 +6,9 @@ import {
   Animated,
   Text,
   StyleSheet,
-  InteractionManager,
-  Image,
 } from 'react-native';
 import gql from 'graphql-tag';
+import ProfilePic from '../../commons/ProfilePic';
 
 import moment from 'moment';
 
@@ -107,7 +106,7 @@ class TaskHeader extends React.Component {
     }
   }
   render(): React.Element<*> {
-    const {title, date, postedBy} = this.props;
+    const {title, date, postedBy, nbAnswers = 0} = this.props;
     return (
       <Animated.View style={[
         styles.questionContainer,
@@ -116,8 +115,7 @@ class TaskHeader extends React.Component {
           marginHorizontal: this.state.marginHorizontal,
           borderRadius: this.state.radius,
         }]} >
-        <Image style={styles.pic}
-          source={require('../../../assets/user.png')} />
+        <ProfilePic style={styles.pic} size={50} username={this.props.postedBy.username} />
         <View style={styles.leftColumn}>
           <Text style={styles.question} numberOfLines={2} ellipsizeMode='tail' >{title}</Text>
           <Text style={styles.postedBy} >
@@ -132,7 +130,7 @@ class TaskHeader extends React.Component {
             <Text>{moment(date).format('DD/MM/YY')}</Text>
           </View>
           <View style={styles.blockNbAnswers} >
-            <Text>28 answers</Text>
+            <Text>{nbAnswers} answers</Text>
           </View>
         </View>
       </Animated.View>
@@ -151,9 +149,6 @@ const styles = StyleSheet.create({
   },
   pic: {
     alignSelf: 'center',
-    height: 50,
-    width: 50,
-    borderRadius: 25,
   },
   leftColumn: {
     flex: 0.70,

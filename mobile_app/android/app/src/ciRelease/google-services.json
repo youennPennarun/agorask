@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "145115972793",
+    "firebase_url": "https://agorask-1478863365064.firebaseio.com",
+    "project_id": "agorask-1478863365064",
+    "storage_bucket": "agorask-1478863365064.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145115972793:android:00d2cb4351f0227c",
+        "android_client_info": {
+          "package_name": "com.agorask.ci"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145115972793-5ja3q0ajr9gupicosdhkkus9hlpar07h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Mi-HlPnP5MXU0-nN6SJ8hROFNHCMAtw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

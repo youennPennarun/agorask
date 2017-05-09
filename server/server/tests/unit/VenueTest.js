@@ -4,7 +4,7 @@
 const expect = require('chai').expect;
 const co = require('co');
 const Venue = require('../../services/Venue');
-const venuesData = require('../data/venueData');
+const venuesData = require('../data').Venue;
 const haversine = require('haversine');
 const cleanMongooseObject = require('../cleanMongooseObject');
 
