@@ -1,11 +1,13 @@
 import FCM, {
   FCMEvent,
-  RemoteNotificationResult,
-  WillPresentNotificationResult,
-  NotificationType,
 } from 'react-native-fcm';
 
 import Config from 'react-native-config';
+import { pushRoute } from '../redux/actions/router';
+
+export function goToTask(store, taskId, title) {
+  store.dispatch(pushRoute({ key: 'taskDetails', id: taskId, task: {title}, position: 0}));
+}
 
 export function setDeviceToken(userToken: string, deviceToken: ?string) {
   return fetch(`${Config.API_URL}/users/setDeviceToken?token=${userToken}`, {
@@ -20,7 +22,7 @@ export function setDeviceToken(userToken: string, deviceToken: ?string) {
   });
 }
 
-export function configure(onRegister: Function) {
+export function configure(store, onRegister: Function) {
   FCM.requestPermissions(); // for iOS
   FCM.getFCMToken().then(token => {
     onRegister(token);
@@ -38,11 +40,15 @@ export function configure(onRegister: Function) {
     }
     if (notif.opened_from_tray) {
       console.log('from tray');
+      console.log(notif);
+      if (notif.taskId) {
+        goToTask(store, notif.taskId, notif.taskTitle);
+      }
       // app is open/resumed because user clicked banner
-    }
-    if (notif.fcm) {
-      const {title, body} = notif.fcm;
-      console.log('presentLocalNotification!!!!!!!');
+    } else if (notif.fcm) {
+      const {fcm, ...customData} = notif;
+      const {title, body} = fcm;
+      console.log('presentLocalNotification!!!!!!!', notif);
 
       FCM.presentLocalNotification({
         title: title, // as FCM payload
@@ -53,6 +59,7 @@ export function configure(onRegister: Function) {
         vibrate: 300, // Android only default: 300, no vibration if you pass null
         lights: false, // Android only, LED blinking (default false)
         show_in_foreground: true, // show notification when app is in foreground (local & remote)
+        ...customData,
         local: true,
       });
     }

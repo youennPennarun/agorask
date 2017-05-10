@@ -77,8 +77,8 @@ class App extends Component {
         if (!store.getState().user.token) {
           store.dispatch(pushRoute({ key: 'login' }));
         } else {
-          configureFirebase(token => setDeviceToken(store.getState().user.token, token));
           if (store.getState().settings.notifications) {
+            configureFirebase(store, token => setDeviceToken(store.getState().user.token, token));
             TaskChecker.start();
           }
         }

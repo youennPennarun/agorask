@@ -127,7 +127,7 @@ export class Router extends Component {
   }
 
   _renderScene(props, key): Object {
-    const routeConfig = Router.routes[props.scene.route.key];
+    const routeConfig = Router.routes[props.scene.route.routeKey];
     const style = [
       {
         flex: 1,

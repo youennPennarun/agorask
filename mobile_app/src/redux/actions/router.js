@@ -10,9 +10,13 @@ export function login() {
 }
 
 export function pushRoute(route: Object = {}) {
+  const routeConfig = {
+    ...route,
+    routeKey: route.key
+  };
   return {
     type: PUSH,
-    route,
+    route: routeConfig,
   };
 }
 

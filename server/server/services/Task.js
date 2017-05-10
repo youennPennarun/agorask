@@ -189,24 +189,32 @@ const addAnswer = async function (taskId, answer, fields) {
     taskId,
     {$push: {answers: answer}}
   );
-  if (fields) {
-    fields.postedBy = 1;
-    fields.title = 1;
-    query.select(fields);
-  }
   const response = await query.exec();
-  response.title = response.title || '';
-
-  Firebase.sendMessage(response.postedBy.userId, {
-    notification: {
-      title: 'Agorask',
-      body: `An answer have been posted on your task: ${response.title}`,
-      sound: 'default',
+  await Venue.update(
+    {
+      _id: response.venue._id,
+      'tasks._id': taskId,
     },
-    data: {
-      taskId: taskId,
-    },
+    {
+      $inc: {
+        'tasks.$.nbAnswers': 1,
+      },
   });
+  response.title = response.title || '';
+  if (response.postedBy.userId.toString() !== answer.postedBy.userId) {
+    console.log('notify');
+    Firebase.sendMessage(response.postedBy.userId, {
+      notification: {
+        title: 'Agorask',
+        body: `An answer have been posted on your task: ${response.title}`,
+        sound: 'default',
+      },
+      data: {
+        taskId: taskId,
+        taskTitle: response.title,
+      },
+    });
+  }
   if (response) {
     return answer;
   }
