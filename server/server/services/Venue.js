@@ -1,31 +1,32 @@
 const {Venue} = require('../utils/mongo/models');
 const Foursquare = require('./foursquare/Foursquare');
 
-const storeVenue = function* (venueData) {
+const storeVenue = async function (venueData) {
   const venue = new Venue(venueData);
   if (!venue.tasks) venue.tasks = [];
-  yield venue.save();
+  await venue.save();
   return venue;
 };
 
-const getVenueFromExternalSource = function* (id, source, fields) {
+const getVenueFromExternalSource = async function (id, source, fields) {
   let venue;
   let query;
   if (source === 'foursquare') {
-    console.log('GET venue from foursquareID with fields ', fields);
     query = Venue.findOne({foursquareId: id});
     if (fields) query.select(fields);
-    venue = yield query.exec();
+    venue = await query.exec();
     if (!venue) {
       console.log('venue from foursquare');
-      const venueData = yield Foursquare.getVenueById(id);
+      const venueData = await Foursquare.getVenueById(id);
 
       console.log('storing it');
-      venue = yield storeVenue(venueData);
+      venue = await storeVenue(venueData);
+      console.log(venue);
     }
   } else {
     throw new Error(`Unknow source ${source}`);
   }
+  console.log('venue from external ', venue);
   return venue;
 };
 
@@ -33,14 +34,17 @@ const getVenue = async function (id, source, fields) {
   let venue;
   let query;
   if (!source) {
+    console.log('from db');
     query = Venue.findOne({_id: id});
     if (fields) {
       query.select(fields);
     }
     venue = await query.exec();
   } else {
+    console.log('from getVenueFromExternalSource');
     venue = await getVenueFromExternalSource(id, source, fields);
   }
+  console.log('return venue ', venue);
   return venue;
 };
 
@@ -81,9 +85,12 @@ const getVenuesWithinRadiusWithTasks = function* (center, radius, fields, option
   return venues;
 };
 
-const searchVenue = function* ({lat, lng}, query, radius) {
-  const venues = yield Foursquare.searchVenue({lat, lng}, query, radius);
-  return venues;
+const searchVenue = async function ({lat, lng}, query, radius) {
+  const vs =  await Foursquare.searchVenue({lat, lng}, query, radius);
+  console.log('#############################################')
+  console.log(JSON.stringify(vs, null, 2));
+  console.log('#############################################')
+  return vs;
 };
 
 const getVenuePicture = function(venue, size) {

@@ -123,12 +123,12 @@ const SearchVenuesQuery = gql`
   }
   ${MapView.fragments.venues}
 `;
-SearchVenuesQuery.offline = ({query}) => ({query});
 
 /* istanbul ignore next */
 const mapStateToProps = (state: Object): Object => ({
   userLocation: state.userLocation,
   query: state.search.query,
+  searchResults: state.search.venues,
 });
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: Function): Object => ({
@@ -167,21 +167,39 @@ export default compose(
       venues: venuesWithinRadius,
     }),
   }),
+  /*
   graphql(SearchVenuesQuery, {
     skip: ({userLocation, query}): boolean => (!query || !userLocation || !userLocation.coords),
-    options: ({ userLocation: {coords}, query }): Object => ({
+    options: ({ userLocation: {coords}, query }): Object => {
+      console.log({
+        lat: coords.lat,
+        lng: coords.lng,
+        radius: 4000,
+        query,
+      })
+      return ({
       variables: {
         lat: coords.lat,
         lng: coords.lng,
         radius: 4000,
         query,
       },
-    }),
-    props: ({ ownProps, data: { loading, error, searchVenues } }) => ({
+    })
+  },
+    props: ({ ownProps, data: { loading, error, searchVenues } }) => {
+    console.log("==============================>", ({
       ...ownProps,
       loading,
       searchError: error,
       searchResults: searchVenues,
-    }),
-  }),
+    }));
+    return ({
+      ...ownProps,
+      loading,
+      searchError: error,
+      searchResults: searchVenues,
+    })
+  },
+}),
+*/
 )(MapView);

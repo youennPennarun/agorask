@@ -45,7 +45,7 @@ export class VenueDetails extends Component {
   addTask(task): Promise<*> {
     const { _id, foursquareId, name, address, tasks = [] } = this.props.venue;
 
-    this.props.pushVenueToMap({ _id, foursquareId, name, address, nbTasks: tasks.length + 1 });
+    // this.props.pushVenueToMap({ _id, foursquareId, name, address, nbTasks: tasks.length + 1 });
     return this.props.addTask(this.props.venue._id, task, this.props.token);
   }
 
@@ -222,10 +222,10 @@ const VenueDetailsQuery = gql`
 const AddTaskMutation = gql`
   mutation addTask($venueId: ID!, $task: TaskInput!, $token: String!) {
     task(venueId: $venueId, task: $task, token: $token) {
-      title
-      nbAnswers
+        ...Tasks
     }
   }
+  ${Tasks.fragments.tasks}
 `;
 
 function mapStateToProps(state) {
@@ -253,6 +253,7 @@ export default compose(
         variables.id = sourceId;
         variables.source = source;
       }
+      console.log('VARIABLES => ', variables);
       return { variables };
     },
     props: ({ ownProps, data: { loading, error, venue } }) => {
@@ -283,6 +284,7 @@ export default compose(
             },
           },
           updateQueries: {
+            /*
             VenuesNearUser: (prev, { mutationResult }) => {
               if (mutationResult.errors) {
                 // TODO error handling
@@ -309,6 +311,7 @@ export default compose(
               });
               return updated;
             },
+            */
             Venue: (prev, { mutationResult }) => {
               if (mutationResult.errors) {
                 // TODO error handling

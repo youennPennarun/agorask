@@ -15,13 +15,13 @@ const middlewares = [thunkMiddleware];
 
 let _createStore = createStore;
 if (__DEV__) {
-  // middlewares.push(loggerMiddleware);
+  middlewares.push(loggerMiddleware);
   _createStore = Reactotron.createStore;
 }
 
 const queue = {};
 let clientQL = null;
-
+/*
 const mutationStorage = store => next => action => {
   if (action.type === 'APOLLO_MUTATION_INIT') {
     if (!queue[action.mutationId]) {
@@ -53,9 +53,9 @@ const mutationStorage = store => next => action => {
     }
   }
   return next(action);
-};
+};*/
 
-middlewares.push(offline);
+// middlewares.push(offline);
 
 function configureStore(apolloClient) {
   clientQL = apolloClient;

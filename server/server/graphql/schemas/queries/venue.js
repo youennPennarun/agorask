@@ -54,6 +54,7 @@ const searchVenues = {
     },
   },
   resolve: function (root, {lat, lng, radius, query}, options) {
+    console.log({loc: {lat, lng}, query, radius})
     return co(VenueService.searchVenue({lat, lng}, query, radius));
   },
 };
