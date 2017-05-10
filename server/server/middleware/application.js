@@ -13,16 +13,16 @@ function checkFile (fieldname, file, filename) {
   }
 }
 
-function* newRelease () {
-  const parts = parse(this, {
+function* newRelease (ctx) {
+  const parts = parse(ctx, {
     checkFile,
     autoFields: true,
   });
-  if (!this.params.releaseDate || !this.query.type) return this.throw('BadRequest', 400);
-  const version = this.query.version || this.params.releaseDate;
+  if (!ctx.params.releaseDate || !ctx.query.type) return ctx.throw('BadRequest', 400);
+  const version = ctx.query.version || ctx.params.releaseDate;
   const dest = path.join(
     __dirname,
-    `../../tmp/${Application.getApplicationFullName(this.params.release)}`
+    `../../tmp/${Application.getApplicationFullName(ctx.params.release)}`
   );
   let part;
   // eslint-disable-next-line no-cond-assign
@@ -31,36 +31,36 @@ function* newRelease () {
     part.pipe(stream);
     console.log('uploading %s -> %s', part.filename, stream.path);
   }
-  const app = yield Application.newRelease(this.request.tokenPayload, this.params.releaseDate, version, this.query.type, dest);
-  this.body = {app};
+  const app = yield Application.newRelease(ctx.request.tokenPayload, ctx.params.releaseDate, version, ctx.query.type, dest);
+  ctx.body = {app};
 }
 
-function* getApplicationVersion () {
-  const version = yield Application.getApplicationVersion(this.params.version);
-  this.body = {version};
+async function getApplicationVersion (ctx) {
+  const version = await Application.getApplicationVersion(ctx.params.version);
+  ctx.body = {version};
 }
 
-function* download () {
-  const version = this.query.version;
-  const type = this.params.type || 'release';
-  const downloadLink = yield Application.getDownloadLink(type, version);
-  if (!downloadLink) return this.throw('Not Found', 404);
+async function download (ctx) {
+  const version = ctx.query.version;
+  const type = ctx.params.type || 'release';
+  const downloadLink = await Application.getDownloadLink(type, version);
+  if (!downloadLink) return ctx.throw('Not Found', 404);
   console.log('link ', downloadLink);
-  this.response.redirect(downloadLink);
+  ctx.response.redirect(downloadLink);
 }
 
-function* getAvailableVersions () {
-  const versions = yield Application.getAvailableVersions();
-  this.body = versions;
+async function getAvailableVersions () {
+  const versions = await Application.getAvailableVersions();
+  ctx.body = versions;
 }
 
-function* checkForUpdates() {
-  const releaseDate = this.params.releaseDate;
-  const type = this.query.type || 'release';
-  if (!releaseDate || isNaN(releaseDate)) return this.throw('BadRequest', 400, {errorData: {error: 'Invalid release date parameter'}});
-  if (!type) return this.throw('BadRequest', 400, {errorData: {error: 'Invalid query parameter "type"'}});
-  const version = yield Application.checkForUpdates(parseInt(releaseDate), type);
-  this.body = version || {uptodate: true};
+async function checkForUpdates(ctx) {
+  const releaseDate = ctx.params.releaseDate;
+  const type = ctx.query.type || 'release';
+  if (!releaseDate || isNaN(releaseDate)) return ctx.throw('BadRequest', 400, {errorData: {error: 'Invalid release date parameter'}});
+  if (!type) return ctx.throw('BadRequest', 400, {errorData: {error: 'Invalid query parameter "type"'}});
+  const version = await Application.checkForUpdates(parseInt(releaseDate), type);
+  ctx.body = version || {uptodate: true};
 }
 
 module.exports = {

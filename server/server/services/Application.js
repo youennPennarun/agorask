@@ -11,13 +11,13 @@ function versionExists() {
   throw new Error('Not implemented yet');
 }
 
-function* newRelease (user, releaseDate, version, type, tmpPath) {
-  const tokens = yield Box.getUserToken(user.id);
+async function newRelease (user, releaseDate, version, type, tmpPath) {
+  const tokens = await Box.getUserToken(user.id);
   if (!tokens) {
     throw new Error('No Box tokens for this user');
   }
   const fileName = `agorask_${version}_${type}.apk`;
-  const boxData = yield Box.upload(tokens, tmpPath, fileName);
+  const boxData = await Box.upload(tokens, tmpPath, fileName);
 
   const app = new Application({
     releaseDate: new Date(parseInt(releaseDate)),
@@ -27,18 +27,18 @@ function* newRelease (user, releaseDate, version, type, tmpPath) {
     fileName: boxData.name,
     downloadUrl: boxData.downloadUrl,
   });
-  yield app.save();
+  await app.save();
   return app;
 }
 
-function* getApplicationVersion () {
-  const app = yield Application.findOne({})
+async function getApplicationVersion () {
+  const app = await Application.findOne({})
                 .sort({ releaseDate: -1 });
   if (!app) return null;
   return app.version;
 }
 
-function* getDownloadLink(type, version) {
+async function getDownloadLink(type, version) {
   const query = {};
   if (type) {
     query.type = type;
@@ -46,7 +46,7 @@ function* getDownloadLink(type, version) {
   if (version) {
     query.version = version;
   }
-  const app = yield Application.findOne(query)
+  const app = await Application.findOne(query)
                 .sort({releaseDate: -1})
                 .select('downloadUrl')
                 .exec();
@@ -54,14 +54,14 @@ function* getDownloadLink(type, version) {
   return app.downloadUrl;
 }
 
-function* getAvailableVersions() {
-  const versions = yield Application.find({})
+async function getAvailableVersions() {
+  const versions = await Application.find({})
                       .select({ releaseDate: 1, version: 1 });
   return versions;
 }
 
-function* checkForUpdates(releaseDate, type) {
-  const version = yield Application.findOne({
+async function checkForUpdates(releaseDate, type) {
+  const version = await Application.findOne({
                   releaseDate: {$gt: new Date(releaseDate)},
                   type: type,
                 })
