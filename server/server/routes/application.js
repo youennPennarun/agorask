@@ -1,5 +1,5 @@
 const {isLoggedIn, isAdmin} = require('../middleware/users');
-import co from 'co';
+const co = require('co');
 const {
   newRelease,
   download,
@@ -14,5 +14,5 @@ module.exports = function(router) {
 
   router.get('/application/check/:releaseDate', checkForUpdates);
 
-  router.post('/application/:releaseDate', isLoggedIn, isAdmin, co(newRelease));
+  router.post('/application/:releaseDate', isLoggedIn, isAdmin, ctx => co(function* () { return yield newRelease(ctx)}));
 };

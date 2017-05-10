@@ -10,10 +10,10 @@ const redirectUri = process.env.BOX_REDIRECT_URL;
 
 const FOLDER_ID = 0;
 
-function* storeToken(userId, {accessToken, refreshToken}) {
+async function storeToken(userId, {accessToken, refreshToken}) {
   const expireThe = new Date();
   expireThe.setMinutes(expireThe.getMinutes() + 50);
-  const user = yield User.update(
+  const user = await User.update(
                 {_id: userId},
                 {$set: {
                   'externals.box.accessToken': accessToken,
@@ -24,24 +24,24 @@ function* storeToken(userId, {accessToken, refreshToken}) {
   return user;
 }
 
-function* getUserToken(userId) {
-  const user = yield User.findOne({_id: userId})
+async function getUserToken(userId) {
+  const user = await User.findOne({_id: userId})
                 .exec();
   if (!user || !user.externals || !user.externals.box || !user.externals.box.accessToken) {
     return null;
   }
   let {accessToken, refreshToken} = user.externals.box;
   if (!user.externals.box.expireThe || user.externals.box.expireThe < (new Date())) {
-    const newTokens = yield refreshTokens(user.externals.box);
+    const newTokens = await refreshTokens(user.externals.box);
     accessToken = newTokens.accessToken;
     refreshToken = newTokens.refreshToken;
-    yield storeToken(userId, {accessToken, refreshToken});
+    await storeToken(userId, {accessToken, refreshToken});
   }
   return {accessToken, refreshToken};
 }
 
-function* getTokens(code) {
-  const response = yield fetch('https://api.box.com/oauth2/token', {
+async function getTokens(code) {
+  const response = await fetch('https://api.box.com/oauth2/token', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -49,7 +49,7 @@ function* getTokens(code) {
     },
     body: `grant_type=authorization_code&code=${code}&client_id=${clientId}&client_secret=${clientSecret}`,
   });
-  const data = yield response.json();
+  const data = await response.json();
   if (response.status !== 200) return null;
   return {
     accessToken: data.access_token,
@@ -58,13 +58,13 @@ function* getTokens(code) {
   };
 }
 
-function* refreshTokens(userTokens) {
+async function refreshTokens(userTokens) {
   console.log('refreshing token');
-  const response = yield fetch('https://api.box.com/oauth2/token', {
+  const response = await fetch('https://api.box.com/oauth2/token', {
     method: 'POST',
     body: `grant_type=refresh_token&refresh_token=${userTokens.refreshToken}&client_id=${clientId}&client_secret=${clientSecret}`,
   });
-  const data = yield response.json();
+  const data = await response.json();
   if (data.error) throw new Error(data.error);
   const {access_token, refresh_token, expires_in} = data;
   return {accessToken: access_token, refreshToken: refresh_token, expiresIn: expires_in};
@@ -98,7 +98,7 @@ function upload(userTokens, filePath, fileName) {
   });
 }
 
-function* share(fileId, accessToken) {
+async function share(fileId, accessToken) {
   const body = {
     shared_link: {
       access: 'open',
@@ -107,36 +107,36 @@ function* share(fileId, accessToken) {
       },
     },
   };
-  const response = yield fetch(`https://api.box.com/2.0/files/${fileId}`, {
+  const response = await fetch(`https://api.box.com/2.0/files/${fileId}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(body),
   });
-  const data = yield response.json();
+  const data = await response.json();
   return data.shared_link.url;
 }
 
-function* fileExists(fileName, accessToken, limit = 1000, offset = 0) {
-  const response = yield fetch(`https://api.box.com/2.0/folders/${FOLDER_ID}/items?limit=${limit}&offset=${offset}`, {
+async function fileExists(fileName, accessToken, limit = 1000, offset = 0) {
+  const response = await fetch(`https://api.box.com/2.0/folders/${FOLDER_ID}/items?limit=${limit}&offset=${offset}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
 
-  const data = yield response.json();
+  const data = await response.json();
   if (data.error) throw new Error(data.error);
   let file = data.entries.find(f => f.name === fileName);
   if (!file && data.total_count > limit + offset) {
-    file = yield fileExists(fileName, accessToken, limit, offset + limit);
+    file = await fileExists(fileName, accessToken, limit, offset + limit);
   }
   return file || false;
 }
 
-function* deleteFile(fileId, accessToken) {
-  const response = yield fetch(`https://api.box.com/2.0/files/${fileId}`, {
+async function deleteFile(fileId, accessToken) {
+  const response = await fetch(`https://api.box.com/2.0/files/${fileId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -145,14 +145,14 @@ function* deleteFile(fileId, accessToken) {
   return;
 }
 
-function* deleteFileIfExists(fileName, accessToken) {
-    const file = yield fileExists(fileName, accessToken);
+async function deleteFileIfExists(fileName, accessToken) {
+    const file = await fileExists(fileName, accessToken);
     if (file) {
-      yield deleteFile(file.id, accessToken);
+      await deleteFile(file.id, accessToken);
     }
 }
 
-function* getDownloadLink(type, version) {
+async function getDownloadLink(type, version) {
   const query = {};
   if (type) {
     query.type = type;
@@ -160,7 +160,7 @@ function* getDownloadLink(type, version) {
   if (version) {
     query.version = version;
   }
-  const app = yield Application.findOne(query)
+  const app = await Application.findOne(query)
                 .sort({releaseDate: -1})
                 .select('downloadUrl')
                 .exec();
