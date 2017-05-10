@@ -114,7 +114,8 @@ class TaskHeader extends React.Component {
           elevation: (date) ? 3 : 1,
           marginHorizontal: this.state.marginHorizontal,
           borderRadius: this.state.radius,
-        }]} >
+        }]} 
+        onLayout={this.props.onLayout || (() => {})}>
         <ProfilePic style={styles.pic} size={50} username={this.props.postedBy.username} />
         <View style={styles.leftColumn}>
           <Text style={styles.question} numberOfLines={2} ellipsizeMode='tail' >{title}</Text>
@@ -141,7 +142,7 @@ class TaskHeader extends React.Component {
 const styles = StyleSheet.create({
   questionContainer: {
     flexDirection: 'row',
-    height: 80,
+    minHeight: 80,
     backgroundColor: 'white',
     elevation: 1,
     marginBottom: 0,

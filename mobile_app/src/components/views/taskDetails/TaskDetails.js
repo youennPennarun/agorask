@@ -8,6 +8,7 @@ import {
   Dimensions,
   ScrollView,
   BackAndroid,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { MKProgress, MKSpinner } from 'react-native-material-kit';
 import { connect } from 'react-redux';
@@ -66,11 +67,6 @@ export class TaskDetails extends Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', this.onBack);
-    Animated.timing(this.state.bodyHeight, {
-        toValue: height,
-        duration: 200,
-      })
-      .start();
   }
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.onBack);
@@ -79,10 +75,9 @@ export class TaskDetails extends Component {
   onBack = (): boolean => {
     this.setState({ isHiding: true });
     Animated.timing(this.state.bodyHeight, {
-        toValue: 0,
-        duration: 200,
-      })
-      .start();
+      toValue: 0,
+      duration: 200,
+    }).start();
     return false;
   };
 
@@ -90,9 +85,20 @@ export class TaskDetails extends Component {
     return this.props.addAnswer(this.props.task._id, answer, this.props.token);
   }
 
-  _renderAnswer({ _id, answer, postedBy: { username }, date, rating = 0, userRating }, key): any {
+  openBody(headerHeight) {
+    if (this.isBodyOpen) return;
+    this.isBodyOpen = true;
+    Animated.timing(this.state.bodyHeight, {
+      toValue: height - (headerHeight + 20),
+      duration: 200,
+    }).start();
+  }
+
+  _renderAnswer(
+    { _id, answer, postedBy: { username }, date, rating = 0, userRating },
+    key,
+  ): any {
     const { token, rateAnswer, task } = this.props;
-    console.log(userRating);
     const onVoteCallback = token
       ? value => {
           rateAnswer(task._id, _id, value, token);
@@ -101,7 +107,10 @@ export class TaskDetails extends Component {
     return (
       <View key={key} style={styles.answerContainer}>
         <View style={styles.row}>
-          <Vote score={rating} userRating={userRating} onVote={onVoteCallback} />
+          <Vote
+            score={rating}
+            userRating={userRating}
+            onVote={onVoteCallback} />
           <View style={styles.answer}>
             <Text style={styles.answerText}>{answer}</Text>
             <View style={styles.answerFooter}>
@@ -127,42 +136,52 @@ export class TaskDetails extends Component {
     return <MKSpinner style={styles.spinner} />;
   }
   render(): React.Element {
-    const { title, date, answers = [], postedBy = { username: '' } } = this.props.task;
+    const {
+      title,
+      date,
+      answers = [],
+      postedBy = { username: '' },
+    } = this.props.task;
     return (
       <View style={styles.container}>
         {this._renderProgressBar()}
-        <ScrollView style={styles.sv}>
-          <TaskHeader
-            title={title}
-            full={!this.state.isHiding}
-            postedBy={postedBy}
-            date={date}
-            nbAnswers={answers.length} />
-          <Animated.View
-            style={{
-              backgroundColor: 'white',
-              height: this.state.bodyHeight,
-            }}>
-            {this._renderSpinner()}
-            <View style={[styles.answersContainer]}>
-              {
-                answers.filter(({rating = 0}) => rating > -5)
-                .sort(({rating: ratingA = 0}, {rating: ratingB = 0}) => {
-                  if (ratingA < ratingB) return -1;
-                  if (ratingA > ratingB) return 1;
-                  return 0;
-                })
-                .map((answer: Object, key: number): any => this._renderAnswer(answer, key))
-              }
-            </View>
-          <AddAnswer
-            login={() => {
-              this.props.login();
-            }}
-            token={this.props.token}
-            addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
-          </Animated.View>
-        </ScrollView>
+        <TaskHeader
+          onLayout={({nativeEvent}) => {
+            this.openBody(nativeEvent.layout.height);
+          }}
+          title={title}
+          full={!this.state.isHiding}
+          postedBy={postedBy}
+          date={date}
+          nbAnswers={answers.length} />
+        <Animated.View
+          style={{
+            backgroundColor: 'white',
+            height: this.state.bodyHeight,
+          }}>
+          <ScrollView >
+            <KeyboardAvoidingView contentContainerStyle={{ backgroundColor: 'white' }}
+              behavior='position'>
+              {this._renderSpinner()}
+                {answers
+                  .filter(({ rating = 0 }) => rating > -5)
+                  .sort(({ rating: ratingA = 0 }, { rating: ratingB = 0 }) => {
+                    if (ratingA < ratingB) return 1;
+                    if (ratingA > ratingB) return -1;
+                    return 0;
+                  })
+                  .map((answer: Object, key: number): any =>
+                    this._renderAnswer(answer, key),
+                  )}
+              <AddAnswer
+                login={() => {
+                  this.props.login();
+                }}
+                token={this.props.token}
+                addAnswer={(answer): Promise<Object> => this.addAnswer(answer)} />
+            </KeyboardAvoidingView>
+          </ScrollView>
+        </Animated.View>
       </View>
     );
   }
@@ -173,13 +192,9 @@ const styles = StyleSheet.create({
     flex: 1,
     height,
   },
-  sv: {
-  },
+  sv: {},
   answersContainer: {
-    backgroundColor: 'white',
-    marginBottom: 20,
   },
-  answerContainer: {},
   row: {
     flexDirection: 'row',
   },
@@ -301,63 +316,65 @@ export default compose(
   graphql(AddAnswerMutation, {
     props: ({ ownProps, mutate }): any => {
       return {
-        addAnswer: (taskId, answer, token) => mutate({
-          variables: { taskId, answer, token },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            answer: {
-              __typename: 'Answer',
-              _id: null,
-              answer: answer.answer,
-              date: (new Date()).toISOString(),
-              postedBy: {
-                username: '',
-              __typename: 'User',
+        addAnswer: (taskId, answer, token) =>
+          mutate({
+            variables: { taskId, answer, token },
+            optimisticResponse: {
+              __typename: 'Mutation',
+              answer: {
+                __typename: 'Answer',
+                _id: null,
+                answer: answer.answer,
+                date: new Date().toISOString(),
+                postedBy: {
+                  username: '',
+                  __typename: 'User',
+                },
+                userRating: null,
+                rating: 0,
               },
-              userRating: null,
-              rating: 0,
             },
-          },
-          updateQueries: {
-            TaskDetails: (prev, { mutationResult }) => {
-              const newAnswer = mutationResult.data.answer;
-              const next = {
-                ...prev,
-                task: {
-                  ...prev.task,
-                  answers: [
-                    ...prev.task.answers,
-                    {
-                      ...newAnswer,
-                    },
-                  ],
-                },
-              };
-              return next;
+            updateQueries: {
+              TaskDetails: (prev, { mutationResult }) => {
+                const newAnswer = mutationResult.data.answer;
+                const next = {
+                  ...prev,
+                  task: {
+                    ...prev.task,
+                    answers: [
+                      ...prev.task.answers,
+                      {
+                        ...newAnswer,
+                      },
+                    ],
+                  },
+                };
+                return next;
+              },
+              Venue: (prev, { mutationResult }) => {
+                const newAnswer = mutationResult.data.answer;
+                const taskInVenueIndex = prev.venue.tasks.findIndex(
+                  ({ _id }): boolean => _id === ownProps.task._id,
+                );
+                if (taskInVenueIndex <= -1) return prev;
+                return {
+                  ...prev,
+                  venue: {
+                    ...prev.venue,
+                    tasks: [
+                      ...prev.venue.tasks.slice(0, taskInVenueIndex),
+                      {
+                        ...prev.venue.tasks[taskInVenueIndex],
+                        nbAnswers: prev.venue.tasks[taskInVenueIndex]
+                          .nbAnswers + 1,
+                      },
+                      ...prev.venue.tasks.slice(taskInVenueIndex + 1),
+                    ],
+                  },
+                };
+              },
             },
-            Venue: (prev, { mutationResult }) => {
-              const newAnswer = mutationResult.data.answer;
-              const taskInVenueIndex = prev.venue.tasks.findIndex(
-                ({ _id }): boolean => _id === ownProps.task._id,
-              );
-              if (taskInVenueIndex <= -1) return prev;
-              return {
-                ...prev,
-                venue: {
-                  ...prev.venue,
-                  tasks: [
-                    ...prev.venue.tasks.slice(0, taskInVenueIndex),
-                    {
-                      ...prev.venue.tasks[taskInVenueIndex],
-                      nbAnswers: prev.venue.tasks[taskInVenueIndex].nbAnswers + 1,
-                    },
-                    ...prev.venue.tasks.slice(taskInVenueIndex + 1),
-                  ],
-                },
-              };
-            },
-          },
-        }),
+          }),
       };
     },
   }),
@@ -378,37 +395,41 @@ export default compose(
   graphql(RateMutation, {
     props: ({ mutate }) => {
       return {
-        rateAnswer: (taskId, answerId, ratingValue, token) => mutate({
-          variables: { taskId, answerId, ratingValue, token },
-          updateQueries: {
-            TaskDetails: (prev, { mutationResult }) => {
-              if (mutationResult.error) return prev;
-              const answerIndex = prev.task.answers.findIndex(answer => answer._id === answerId);
-              const newUserRating = ratingValue === 'POSITIVE' ? 1 : -1;
-              if (answerIndex === -1) return prev;
+        rateAnswer: (taskId, answerId, ratingValue, token) =>
+          mutate({
+            variables: { taskId, answerId, ratingValue, token },
+            updateQueries: {
+              TaskDetails: (prev, { mutationResult }) => {
+                if (mutationResult.error) return prev;
+                const answerIndex = prev.task.answers.findIndex(
+                  answer => answer._id === answerId,
+                );
+                const newUserRating = ratingValue === 'POSITIVE' ? 1 : -1;
+                if (answerIndex === -1) return prev;
 
-              const next = {
-                ...prev,
-                task: {
-                  ...prev.task,
-                  answers: [
-                    ...prev.task.answers.slice(0, answerIndex),
-                    {
-                      ...prev.task.answers[answerIndex],
-                      rating: mutationResult.data.rating.rating,
-                      userRating: {
-                        ...prev.task.answers[answerIndex].userRating,
-                        rating: newUserRating,
+                const next = {
+                  ...prev,
+                  task: {
+                    ...prev.task,
+                    answers: [
+                      ...prev.task.answers.slice(0, answerIndex),
+                      {
+                        ...prev.task.answers[answerIndex],
+                        rating: mutationResult.data.rating.rating,
+                        userRating: {
+                          ...prev.task.answers[answerIndex].userRating,
+                          rating: newUserRating,
+                          __typename: 'AnswerRatingUser',
+                        },
                       },
-                    },
-                    ...prev.task.answers.slice(answerIndex + 1),
-                  ],
-                },
-              };
-              return next;
+                      ...prev.task.answers.slice(answerIndex + 1),
+                    ],
+                  },
+                };
+                return next;
+              },
             },
-          },
-        }),
+          }),
       };
     },
   }),

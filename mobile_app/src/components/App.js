@@ -63,6 +63,7 @@ class App extends Component {
         showUpdateModal(downloadUrl);
       }
     });
+    console.log('!!!!=> INIT');
     this.init();
   }
   init() {

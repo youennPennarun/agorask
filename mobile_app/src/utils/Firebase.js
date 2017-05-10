@@ -29,17 +29,9 @@ export function configure(store, onRegister: Function) {
   });
   this.notificationListener = FCM.on(FCMEvent.Notification, async notif => {
     // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
-    console.log('##############################################');
-    console.log('##############################################');
-    console.log('##############################################');
-    console.log('##############################################');
-    console.log('##############################################');
-    console.log(notif);
     if (notif.local_notification) {
-      console.log('local notif');
     }
     if (notif.opened_from_tray) {
-      console.log('from tray');
       console.log(notif);
       if (notif.taskId) {
         goToTask(store, notif.taskId, notif.taskTitle);
@@ -48,7 +40,6 @@ export function configure(store, onRegister: Function) {
     } else if (notif.fcm) {
       const {fcm, ...customData} = notif;
       const {title, body} = fcm;
-      console.log('presentLocalNotification!!!!!!!', notif);
 
       FCM.presentLocalNotification({
         title: title, // as FCM payload

@@ -253,7 +253,6 @@ export default compose(
         variables.id = sourceId;
         variables.source = source;
       }
-      console.log('VARIABLES => ', variables);
       return { variables };
     },
     props: ({ ownProps, data: { loading, error, venue } }) => {
