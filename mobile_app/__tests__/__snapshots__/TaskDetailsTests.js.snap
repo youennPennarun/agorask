@@ -8,36 +8,34 @@ exports[`test fetching renders correctly 1`] = `
   }>
   <IndeterminateProgress
     style={Object {}} />
-  <ScrollView
-    style={Object {}}>
-    <TaskHeader
-      date={2016-11-23T00:36:54.000Z}
-      full={true}
-      nbAnswers={1}
-      postedBy={
-        Object {
-          "username": "Duck",
-        }
+  <TaskHeader
+    date={2016-11-23T00:36:54.000Z}
+    full={true}
+    nbAnswers={1}
+    onLayout={[Function]}
+    postedBy={
+      Object {
+        "username": "Duck",
       }
-      title="Help me!" />
-    <AnimatedComponent
-      style={
-        Object {
-          "backgroundColor": "white",
-          "height": 0,
+    }
+    title="Help me!" />
+  <AnimatedComponent
+    style={
+      Object {
+        "backgroundColor": "white",
+        "height": 0,
+      }
+    }>
+    <ScrollView>
+      <KeyboardAvoidingView
+        behavior="position"
+        contentContainerStyle={
+          Object {
+            "backgroundColor": "white",
+          }
         }
-      }>
-      <View
-        style={
-          Array [
-            Object {
-              "backgroundColor": "white",
-              "marginBottom": 20,
-            },
-          ]
-        }>
-        <View
-          style={Object {}}>
+        keyboardVerticalOffset={0}>
+        <View>
           <View
             style={
               Object {
@@ -112,12 +110,12 @@ exports[`test fetching renders correctly 1`] = `
               }
             } />
         </View>
-      </View>
-      <AddAnswer
-        addAnswer={[Function]}
-        login={[Function]} />
-    </AnimatedComponent>
-  </ScrollView>
+        <AddAnswer
+          addAnswer={[Function]}
+          login={[Function]} />
+      </KeyboardAvoidingView>
+    </ScrollView>
+  </AnimatedComponent>
 </View>
 `;
 
@@ -129,49 +127,49 @@ exports[`test fetching renders correctly if there is no answers 1`] = `
       "height": 1334,
     }
   }>
-  <ScrollView
-    style={Object {}}>
-    <TaskHeader
-      date={2016-11-23T00:36:54.000Z}
-      full={true}
-      nbAnswers={0}
-      postedBy={
-        Object {
-          "username": "Duck",
-        }
+  <TaskHeader
+    date={2016-11-23T00:36:54.000Z}
+    full={true}
+    nbAnswers={0}
+    onLayout={[Function]}
+    postedBy={
+      Object {
+        "username": "Duck",
       }
-      title="Help me!" />
-    <AnimatedComponent
-      style={
-        Object {
-          "backgroundColor": "white",
-          "height": 0,
-        }
-      }>
-      <Spinner
-        spinnerAniDuration={1333}
-        strokeWidth={3}
-        style={
+    }
+    title="Help me!" />
+  <AnimatedComponent
+    style={
+      Object {
+        "backgroundColor": "white",
+        "height": 0,
+      }
+    }>
+    <ScrollView>
+      <KeyboardAvoidingView
+        behavior="position"
+        contentContainerStyle={
           Object {
-            "alignSelf": "center",
-            "marginBottom": 25,
-            "marginTop": 50,
+            "backgroundColor": "white",
           }
-        } />
-      <View
-        style={
-          Array [
+        }
+        keyboardVerticalOffset={0}>
+        <Spinner
+          spinnerAniDuration={1333}
+          strokeWidth={3}
+          style={
             Object {
-              "backgroundColor": "white",
-              "marginBottom": 20,
-            },
-          ]
-        } />
-      <AddAnswer
-        addAnswer={[Function]}
-        login={[Function]} />
-    </AnimatedComponent>
-  </ScrollView>
+              "alignSelf": "center",
+              "marginBottom": 25,
+              "marginTop": 50,
+            }
+          } />
+        <AddAnswer
+          addAnswer={[Function]}
+          login={[Function]} />
+      </KeyboardAvoidingView>
+    </ScrollView>
+  </AnimatedComponent>
 </View>
 `;
 
@@ -183,36 +181,34 @@ exports[`test renders correctly 1`] = `
       "height": 1334,
     }
   }>
-  <ScrollView
-    style={Object {}}>
-    <TaskHeader
-      date={2016-11-23T00:36:54.000Z}
-      full={true}
-      nbAnswers={1}
-      postedBy={
-        Object {
-          "username": "Duck",
-        }
+  <TaskHeader
+    date={2016-11-23T00:36:54.000Z}
+    full={true}
+    nbAnswers={1}
+    onLayout={[Function]}
+    postedBy={
+      Object {
+        "username": "Duck",
       }
-      title="Help me!" />
-    <AnimatedComponent
-      style={
-        Object {
-          "backgroundColor": "white",
-          "height": 0,
+    }
+    title="Help me!" />
+  <AnimatedComponent
+    style={
+      Object {
+        "backgroundColor": "white",
+        "height": 0,
+      }
+    }>
+    <ScrollView>
+      <KeyboardAvoidingView
+        behavior="position"
+        contentContainerStyle={
+          Object {
+            "backgroundColor": "white",
+          }
         }
-      }>
-      <View
-        style={
-          Array [
-            Object {
-              "backgroundColor": "white",
-              "marginBottom": 20,
-            },
-          ]
-        }>
-        <View
-          style={Object {}}>
+        keyboardVerticalOffset={0}>
+        <View>
           <View
             style={
               Object {
@@ -287,11 +283,11 @@ exports[`test renders correctly 1`] = `
               }
             } />
         </View>
-      </View>
-      <AddAnswer
-        addAnswer={[Function]}
-        login={[Function]} />
-    </AnimatedComponent>
-  </ScrollView>
+        <AddAnswer
+          addAnswer={[Function]}
+          login={[Function]} />
+      </KeyboardAvoidingView>
+    </ScrollView>
+  </AnimatedComponent>
 </View>
 `;
