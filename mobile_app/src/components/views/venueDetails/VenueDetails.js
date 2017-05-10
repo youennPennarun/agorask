@@ -283,7 +283,6 @@ export default compose(
             },
           },
           updateQueries: {
-            /*
             VenuesNearUser: (prev, { mutationResult }) => {
               if (mutationResult.errors) {
                 // TODO error handling
@@ -308,9 +307,9 @@ export default compose(
                   $unshift: [venue],
                 },
               });
+              console.log(prev, updated, mutationResult);
               return updated;
             },
-            */
             Venue: (prev, { mutationResult }) => {
               if (mutationResult.errors) {
                 // TODO error handling

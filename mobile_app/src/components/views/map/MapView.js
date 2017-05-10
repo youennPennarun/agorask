@@ -72,6 +72,7 @@ export class MapView extends React.Component {
   }
   render(): React.Element<*> {
     const {venues, searchResults, venuesError} = this.props;
+    console.log(searchResults, venues, venuesError)
     const venuesToShow = searchResults || venues;
     return (
       <View style={{flex: 1}}>
