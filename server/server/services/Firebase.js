@@ -6,7 +6,7 @@ admin.initializeApp({
     type: 'service_account',
     project_id: 'agorask-1478863365064',
     private_key_id: '55a2543002d9525ea51ae40c9a5c55eafc35fb0d',
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
     client_email: 'firebase-adminsdk-vcz60@agorask-1478863365064.iam.gserviceaccount.com',
     client_id: '100430624612539580314',
     auth_uri: 'https://accounts.google.com/o/oauth2/auth',
